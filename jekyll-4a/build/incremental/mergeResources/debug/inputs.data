@@ -1,0 +1,21 @@
+# incremental data. DO NOT EDIT.
+# format is <lastModified> <length> <SHA-1> <path>
+# Encoding is UTF-8
+1376214204000 1187 d3e6e53fbeb11c74ac21672e18c67d570941d2c8 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/drawable-hdpi/ic_launcher.png
+1376214204000 220 ce5358ff5014a2e66487752e21ad707491010e89 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/menu/login.xml
+1376249248000 238 40e87fe13e66b9b17ba46fc840f4373535b7aeb3 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/menu/action.xml
+1376214204000 2503 619d1c180e95e22b76d89e663d54355e40439180 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/drawable-xxhdpi/ic_launcher.png
+1376214991000 181 84de2797380184d8b39af6f829afb092fb956173 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/values-sw600dp/dimens.xml
+1376214204000 324 aa1f5f1723de9aee2669dc44a26fbc0ce776d35f /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/values-v11/styles.xml
+1376257329000 2725 de4f6691b80280b6c2580b9e41981a110f1435e0 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/layout/activity_login.xml
+1376214204000 945 3c2c10a966ee76155eef9ac952944f6cd8ef5ec2 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/values/styles.xml
+1376214991000 254 25b6404e44acb50c82590049639d4fb5fefbac8e /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/values-sw720dp-land/dimens.xml
+1376214798000 698 38040d716e3fa5fd4ed0a0dfe9657ccd360a3437 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/values/strings_activity_login.xml
+1376214204000 1593 1041ab59ae81e16384d150fd31280c1111e4736a /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/drawable-xhdpi/ic_launcher.png
+1376214204000 303 2f1f847ac0ff13d69ad73ef6aac6e4b981c4c35e /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/values-large/styles.xml
+1376214991000 211 4e1904afba59d31e5cd6133f6a4c360fa9a5913f /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/values/dimens.xml
+1376249680000 241 2d0b12255d56ffeb59c9fd7488261abe46e0a0a7 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/menu/test.xml
+1376258972000 417 5d75774016d7305abc158ef1a73e826513451474 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/values/strings.xml
+1376214204000 855 67dec26d7364d3c0570607fe037965dfbd072653 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/drawable-mdpi/ic_launcher.png
+1376248817000 827 2ce24f0a55f72659fb143724c403342d6d6ffa96 /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/layout/activity_action.xml
+1376259496000 3883 cdde4bfa6b6be290489a1728ca471a2ac429e27f /Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/layout/activity_test.xml

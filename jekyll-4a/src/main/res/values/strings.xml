@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Jekyll for Android</string>
+    <string name="title_activity_test">New Post</string>
+    <string name="action_login">Login</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_action">Jekyll for Android</string>
+
+    <string name="newpost_progress">Publishing post&#8230;</string>
+
+</resources>

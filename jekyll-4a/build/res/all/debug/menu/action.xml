@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_login"
+        android:title="@string/action_login"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+</menu>
+<!-- From: file:/Users/tsagi/Development/jekyll-4aProject/jekyll-4a/src/main/res/menu/action.xml -->

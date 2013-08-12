@@ -16,13 +16,13 @@ The application uses the [GitHub API](https://developer.github.com/).
 	- Tags
 	- Content (of course)
 - If not published the post stays as a draft
+- Create a decent icon
 
 
 ##To be done:
 
 - View posts
 - Delete posts
-- Create a decent icon
 
 ==========
 

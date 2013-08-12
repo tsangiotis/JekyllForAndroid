@@ -21,6 +21,7 @@ The application uses the [GitHub API](https://developer.github.com/).
 
 ##To be done:
 
+- Markdown Preview (using [bypass](https://github.com/tsagi/bypass))
 - View posts
 - Delete posts
 

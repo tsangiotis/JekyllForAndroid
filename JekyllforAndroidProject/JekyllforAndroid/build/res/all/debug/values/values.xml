@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/dimens.xml -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/strings_activity_login.xml -->
+    <string name="action_forgot_password">Recover lost password</string>
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/strings.xml -->
+    <string name="action_login">Login</string>
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/strings_activity_login.xml -->
+    <string name="action_sign_in_short">Sign in</string>
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/strings.xml -->
+    <string name="app_name">Jekyll for Android</string>
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/strings_activity_login.xml -->
+    <string name="error_field_required">This field is required</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_username">This email address is invalid</string>
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/strings.xml -->
+    <string name="hello_world">Hello world!</string>
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/strings_activity_login.xml -->
+    <string name="login_progress_signing_in">Signing in…</string>
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/strings.xml -->
+    <string name="newpost_progress">Publishing post…</string>
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/strings_activity_login.xml -->
+    <string name="prompt_password">Password</string>
+    <string name="prompt_username">Github Username</string>
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/strings.xml -->
+    <string name="title_activity_action">Jekyll for Android</string>
+    <string name="title_activity_test">New Post</string>
+    <!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/values/styles.xml -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="LoginFormContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+</resources>

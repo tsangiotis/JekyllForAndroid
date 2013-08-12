@@ -2,10 +2,6 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
-    <excludeFromCompile>
-      <directory url="file://$PROJECT_DIR$/jekyll-client-for-android/src/main/gen" includeSubdirectories="true" />
-      <directory url="file://$PROJECT_DIR$/jekyll-client-for-android/build/manifests/debug/gen" includeSubdirectories="true" />
-    </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>
       <entry name="!?*.java" />
@@ -21,7 +17,16 @@
       <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bypass" target="1.6" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 

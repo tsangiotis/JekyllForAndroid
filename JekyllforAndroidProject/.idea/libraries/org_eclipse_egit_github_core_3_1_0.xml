@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org.eclipse.egit.github.core-3.1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/JekyllforAndroid/libs/org.eclipse.egit.github.core-3.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

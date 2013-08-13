@@ -23,12 +23,16 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/newpost_progress" />
     </LinearLayout>
+    
+    <RelativeLayout        
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/newpost_form"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -36,7 +40,7 @@
 
         <EditText
             android:id="@+id/editTextTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
@@ -45,7 +49,7 @@
 
         <EditText
             android:id="@+id/editTextCategory"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextTitle"
             android:layout_alignRight="@+id/buttonUpdateGit"
@@ -54,40 +58,41 @@
 
         <EditText
             android:id="@+id/editTextTags"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextCategory"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/editTextCategory"
             android:hint="Tags" />
 
-        <!--
-             <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTextContent"
-                android:layout_below="@+id/textView"
-                android:layout_alignLeft="@+id/textView"
-                android:layout_alignRight="@+id/buttonUpdateGit"/>
-        -->
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/buttonUpdateGit"
-            android:text="Post Content:" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post Content:"
+                android:id="@+id/textView"
+                android:layout_below="@+id/buttonUpdateGit"
+                android:layout_alignParentLeft="true"/>
 
-        <ScrollView
-            android:id="@+id/scrollView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/buttonPreviewMarkdown"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/textView" >
-        </ScrollView>
+
+
+                
+                <EditText
+                    android:id="@+id/editTextContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="ifContentScrolls"
+                    android:scrollbarAlwaysDrawVerticalTrack="true">
+                </EditText>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonsLinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/buttonPreviewMarkdown"
@@ -96,37 +101,21 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/buttonUpdateGit"
+            android:layout_weight="0.5"
             android:background="@drawable/button_background_selector"
             android:text="Preview" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_above="@+id/buttonPreviewMarkdown"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/editTextTags"
-            android:orientation="vertical" >
-
-            <EditText
-                android:id="@+id/editTextContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="ifContentScrolls"
-                android:scrollbarAlwaysDrawVerticalTrack="true" >
-
-                <requestFocus />
-            </EditText>
-        </LinearLayout>
 
         <Button
             android:id="@+id/buttonUpdateGit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/linearLayout1"
+            android:layout_weight="0.5"
             android:background="@drawable/publishbutton_background_selector"
             android:text="Publish" />
+    </LinearLayout>
+
     </RelativeLayout>
 
     </merge>

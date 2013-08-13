@@ -79,7 +79,7 @@ public class NewPostActivity extends Activity {
             content.setBackground(null);
         }
         final Button previewButton = (Button)findViewById(R.id.buttonPreviewMarkdown);
-        final View activityRootView = findViewById(R.id.scrollView1);
+        final View activityRootView = findViewById(R.id.buttonsLinear);
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
@@ -89,8 +89,8 @@ public class NewPostActivity extends Activity {
             
             int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
             if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
-                previewButton.setVisibility(View.INVISIBLE);
-                publishButton.setVisibility(View.INVISIBLE);
+                previewButton.setVisibility(View.GONE);
+                publishButton.setVisibility(View.GONE);
             }
             else{
             	previewButton.setVisibility(View.VISIBLE);

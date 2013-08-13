@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Jekyll for Android</string>
+    <string name="title_activity_post">New Post</string>
+    <string name="title_activity_markdown">Markdown Preview</string>
+    <string name="action_login">Login</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_action">Jekyll for Android</string>
+
+    <string name="newpost_progress">Publishing post&#8230;</string>
+    
+        <!--Color-->
+
+    <color name="mgreen">#ff00ff0d</color>
+    <color name="mlightblue">#ff00beff</color>
+    <color name="mred">#ff00ff0d</color>
+
+</resources>

@@ -15,13 +15,11 @@ The application uses the [GitHub API](https://developer.github.com/).
 	- Category
 	- Tags
 	- Content (of course)
+- Markdown Preview (using [bypass](http://uncodin.github.io/bypass/))
 - If not published the post stays as a draft
-- Create a decent icon
-
 
 ##To be done:
 
-- Markdown Preview (using [bypass](http://uncodin.github.io/bypass/))
 - View posts
 - Delete posts
 

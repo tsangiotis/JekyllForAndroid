@@ -1,6 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_forgot_password"
-        android:title="@string/action_forgot_password"
-        android:showAsAction="never" />
-</menu>
-<!-- From: file:/Users/tsagi/Development/JekyllforAndroidProject/JekyllforAndroid/src/main/res/menu/login.xml -->

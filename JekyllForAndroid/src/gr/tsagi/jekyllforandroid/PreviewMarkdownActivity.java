@@ -2,9 +2,7 @@ package gr.tsagi.jekyllforandroid;
 
 import in.uncod.android.bypass.Bypass;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;

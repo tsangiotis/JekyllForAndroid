@@ -5,17 +5,19 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -42,10 +44,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+@SuppressLint({ "DefaultLocale", "SimpleDateFormat" })
 public class NewPostActivity extends Activity {
     String mUsername;
     String mToken;
-    String mDate;
+    String mDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     String mTitle;
     String mCategory;
     String mTags;
@@ -53,25 +56,31 @@ public class NewPostActivity extends Activity {
 
     private View mNewPostFormView;
     private View mNewPostStatusView;
-    private TextView mNewPostStatusMessageView;
+    @SuppressWarnings("unused")
+	private TextView mNewPostStatusMessageView;
 
     private SharedPreferences settings;
 
-    @SuppressLint("NewApi")
+    @SuppressWarnings("deprecation")
+	@SuppressLint("NewApi")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        
+        final EditText content = (EditText)findViewById(R.id.editTextContent);
         final Button publishButton = (Button)findViewById(R.id.buttonUpdateGit);
         publishButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                new UpdateFile().execute();
+            	if(content.getText().toString().isEmpty())
+            		publishPost();
+            	else
+            		Toast.makeText(getApplicationContext(), R.string.newpost_empty, Toast.LENGTH_LONG).show();
             }
         });
         
-        EditText content = (EditText)findViewById(R.id.editTextContent);
         int sdk = android.os.Build.VERSION.SDK_INT;
         if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
             content.setBackgroundDrawable(null);
@@ -80,6 +89,10 @@ public class NewPostActivity extends Activity {
         }
         final Button previewButton = (Button)findViewById(R.id.buttonPreviewMarkdown);
         final View activityRootView = findViewById(R.id.buttonsLinear);
+        
+        /**
+         * Publish and Preview Buttons disappear when Typing to give screen space
+         */
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
@@ -111,11 +124,10 @@ public class NewPostActivity extends Activity {
         mNewPostStatusView = findViewById(R.id.newpost_status);
         mNewPostStatusMessageView = (TextView) findViewById(R.id.newpost_status_message);
 
-        mDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
         /**
          * Restore draft if any is available
          */
+        
         restorePreferences();
         setStrings();
 
@@ -124,17 +136,21 @@ public class NewPostActivity extends Activity {
         }
     }
     
- // from the link above
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.post, menu);
+        return true;
+    }
 
-
-        // Checks whether a hardware keyboard is available
-        if (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_NO) {
-            Toast.makeText(this, "keyboard visible", Toast.LENGTH_LONG).show();
-        } else if (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_YES) {
-            Toast.makeText(this, "keyboard hidden", Toast.LENGTH_LONG).show();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_clear_draft:
+                clearDraft();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -162,6 +178,31 @@ public class NewPostActivity extends Activity {
         mCategory = settings.getString("draft_category", "");
         mTags = settings.getString("draft_tags", "");
         mContent = settings.getString("draft_content", "");
+    }
+    
+    private void publishPost(){
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        
+        savePreferences();
+        
+    	// Add the buttons
+    	builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	        	   /**
+    	        	    * Publish post
+    	        	    */
+    	        	   new UpdateFile().execute();
+    	           }
+    	       });
+    	builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	               // User cancelled the dialog
+    	           }
+    	       });
+
+    	// Create the AlertDialog
+    	AlertDialog dialog = builder.create();
+    	dialog.show();
     }
 
     private  void savePreferences(){

@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -75,13 +76,12 @@ public class LoginActivity extends Activity {
         mLoginFormView = findViewById(R.id.login_form);
         mLoginStatusView = findViewById(R.id.login_status);
         mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-
+        
+        // Hide the keyboard on login attempt
+         
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /**
-                 * Hide the keyboard on login attempt
-                 */
                 hideSoftKeyboard(LoginActivity.this);
                 attemptLogin();
             }
@@ -100,6 +100,16 @@ public class LoginActivity extends Activity {
         getMenuInflater().inflate(R.menu.login, menu);
         return true;
     }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.login_forgot_password:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -111,24 +121,20 @@ public class LoginActivity extends Activity {
             return;
         }
 
-        /**
-         * Reset errors.
-         */
+        // Reset errors.
+        
         mUsernameView.setError(null);
         mPasswordView.setError(null);
 
-        /**
-         * Store values at the time of the login attempt.
-         */
+        // Store values at the time of the login attempt.
+         
         mUsername = mUsernameView.getText().toString();
         mPassword = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        /**
-         * Check for a valid password.
-         */
+        // Check for a valid password.
         if (TextUtils.isEmpty(mPassword)) {
             mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
@@ -216,11 +222,6 @@ public class LoginActivity extends Activity {
          */
         private boolean isAuthError;
         /**
-         * The exception msg.
-         */
-        private String mExceptionMsg;
-
-        /**
          * Instantiates a new load repository list task.
          *
          * @param activity the activity
@@ -285,13 +286,13 @@ public class LoginActivity extends Activity {
                             "Received authentication challenge is null")) {
                         isAuthError = true;
                     }
+                    // Get exception message
                     mException = true;
-                    mExceptionMsg = e.getMessage();
+                    e.getMessage();
                     if (e.getCause() != null) {
-                        mExceptionMsg += ", " + e.getCause().getMessage();
+                        e.getCause().getMessage();
                     }
                 }
-
                 return null;
             } else {
                 return null;

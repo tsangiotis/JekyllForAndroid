@@ -1,16 +1,15 @@
 package gr.tsagi.jekyllforandroid;
 
-import in.uncod.android.bypass.Bypass;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 public class ActionActivity extends Activity {
     
@@ -21,7 +20,7 @@ public class ActionActivity extends Activity {
         SharedPreferences settings = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
         if(settings.getString("user_status","") == ""){
-            login();
+            logout();
         }
     }
 
@@ -29,28 +28,71 @@ public class ActionActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.action, menu);
+        // Just for the logout
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_login:
-                login();
+            case R.id.action_logout:
+                logout();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    
+    /**
+     * Start new post or continue working on your draft
+     * @param view
+     */
     public void newPost(View view){
         Intent myIntent = new Intent(view.getContext(), NewPostActivity.class);
         startActivity(myIntent);
     }
+    
+    /**
+     * Logout and clear settings
+     */
+    public void logout(){
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	
+    	// Shared preferences and Intent settings
+    	// before logout ask user and remind him any draft posts
+    	
+    	final SharedPreferences sharedPreferences = getSharedPreferences(
+                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        final Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
+        
+        if (sharedPreferences.getString("draft_content", "").equals(""))
+        	builder.setMessage(R.string.dialog_logout_nodraft);
+        else
+        	builder.setMessage(R.string.dialog_logout_draft);
+        
+    	// Add the buttons
+    	builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	               // User clicked OK button
+    	        	   // Clear credentials and Drafts
+    	               editor.clear();
+    	               editor.commit();    	              
+    	               startActivity(myIntent);
+    	           }
+    	       });
+    	builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	               // User cancelled the dialog
+    	           }
+    	       });
 
-    public void login(){
-        Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(myIntent);
+    	// Create the AlertDialog
+    	AlertDialog dialog = builder.create();
+    	
+    	// Show it
+    	dialog.show();
+    	
     }
     
 }

@@ -4,14 +4,19 @@
     <string name="app_name">Jekyll for Android</string>
     <string name="title_activity_post">New Post</string>
     <string name="title_activity_markdown">Markdown Preview</string>
-    <string name="action_login">Login</string>
+    <string name="action_logout">Logout</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_action">Jekyll for Android</string>
 
     <string name="newpost_progress">Publishing post&#8230;</string>
+    <string name="newpost_empty">Chances are you don\'t want to publish an empty post.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_logout_nodraft">Sure you want to logout?</string>
+    <string name="dialog_logout_draft">Sure you want to logout?\nYou have a draft post.</string>
+    <string name="dialog_confirm_update">Sure you want to publish this post?</string>
     
         <!--Color-->
-
     <color name="mgreen">#ff00ff0d</color>
     <color name="mlightblue">#ff00beff</color>
     <color name="mred">#ff00ff0d</color>

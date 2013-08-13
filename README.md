@@ -27,7 +27,7 @@ The application uses the [GitHub API](https://developer.github.com/).
 
 ##To compile
 
-Download [Android Studio](http://developer.android.com/sdk/installing/studio.html) and Import the Project.
+Download [ADT Bundle](http://developer.android.com/sdk/index.html) and [NDK Plugin](http://developer.android.com/tools/sdk/ndk/index.html) and Import the Project.
 
 ==========
 

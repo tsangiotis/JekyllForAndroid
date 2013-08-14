@@ -38,6 +38,9 @@ public class ActionActivity extends Activity {
             case R.id.action_logout:
                 logout();
                 return true;
+            case R.id.action_new:
+                newPost();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -47,8 +50,8 @@ public class ActionActivity extends Activity {
      * Start new post or continue working on your draft
      * @param view
      */
-    public void newPost(View view){
-        Intent myIntent = new Intent(view.getContext(), NewPostActivity.class);
+    public void newPost(){
+        Intent myIntent = new Intent(getApplicationContext(), NewPostActivity.class);
         startActivity(myIntent);
     }
     

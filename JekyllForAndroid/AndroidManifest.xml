@@ -32,7 +32,6 @@
         <activity
                 android:name=".ActionActivity"
                 android:label="@string/title_activity_action" >
-                android:theme="@android:style/Theme.Holo.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

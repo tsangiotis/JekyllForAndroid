@@ -5,7 +5,6 @@
     <string name="title_activity_post">New Post</string>
     <string name="title_activity_markdown">Markdown Preview</string>
     <string name="action_logout">Logout</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_action">Jekyll for Android</string>
 
     <string name="newpost_progress">Publishing post&#8230;</string>

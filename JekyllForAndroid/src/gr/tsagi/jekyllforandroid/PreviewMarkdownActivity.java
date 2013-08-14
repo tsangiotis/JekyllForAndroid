@@ -14,8 +14,9 @@ public class PreviewMarkdownActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
         
+        getActionBar().setSubtitle("Alpha feature");
+        
         Intent myIntent = getIntent();
-
         String mContent = myIntent.getStringExtra("content");
         
         TextView text = (TextView) findViewById(R.id.previewTextView);

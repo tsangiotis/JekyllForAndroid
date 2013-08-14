@@ -16,24 +16,10 @@
         android:id="@+id/imageView"
         android:layout_width="226dp"
         android:layout_height="349dp"
-        android:layout_above="@+id/btnNewPost"
-        android:layout_alignLeft="@+id/btnNewPost"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/btnNewPost"
-        android:layout_gravity="center"
-        android:src="@drawable/logo_web" />
-
-    <Button
-        android:id="@+id/btnNewPost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-    	android:layout_marginRight="0dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:background="#007fff"
-        android:onClick="newPost"
-        android:text="New Post" />
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:src="@drawable/logo_web" />
 
 </RelativeLayout>

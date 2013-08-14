@@ -1,4 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_preview"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Preview"
+        android:showAsAction="ifRoom" />
+    <item android:id="@+id/action_publish"
+        android:icon="@android:drawable/ic_menu_send"
+        android:title="Publish"
+        android:showAsAction="always" />
     <item android:id="@+id/action_clear_draft"
         android:title="Clear"
         android:showAsAction="never" />

@@ -23,101 +23,53 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/newpost_progress" />
     </LinearLayout>
-    
-    <RelativeLayout
-        android:id="@+id/newpost_form"       
+
+    <ScrollView
+        android:id="@+id/newpost_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" >
 
-    <LinearLayout        
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin" >
-
-        <EditText
-            android:id="@+id/editTextTitle"
+        <LinearLayout
+            android:id="@+id/newpost_form_iner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/buttonUpdateGit"
-            android:hint="Title" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin" >
 
-        <EditText
-            android:id="@+id/editTextCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editTextTitle"
-            android:layout_alignRight="@+id/buttonUpdateGit"
-            android:layout_below="@+id/editTextTitle"
-            android:hint="Category" />
+            <EditText
+                android:id="@+id/editTextTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title" />
 
-        <EditText
-            android:id="@+id/editTextTags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editTextCategory"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/editTextCategory"
-            android:hint="Tags" />
+            <EditText
+                android:id="@+id/editTextCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Category" />
 
+            <EditText
+                android:id="@+id/editTextTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tags" />
 
-        <TextView
+            <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Post Content:"
-                android:id="@+id/textView"
-                android:layout_below="@+id/buttonUpdateGit"
-                android:layout_alignParentLeft="true"/>
+                android:text="Post Content:" />
 
-
-
-                
-                <EditText
-                    android:id="@+id/editTextContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:overScrollMode="ifContentScrolls"
-                    android:scrollbarAlwaysDrawVerticalTrack="true">
-                </EditText>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/buttonsLinear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/buttonPreviewMarkdown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/buttonUpdateGit"
-            android:layout_weight="0.5"
-            android:background="@drawable/button_background_selector"
-            android:text="Preview" />
-
-        <Button
-            android:id="@+id/buttonUpdateGit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_weight="0.5"
-            android:background="@drawable/publishbutton_background_selector"
-            android:text="Publish" />
-    </LinearLayout>
-
-    </RelativeLayout>
+            <EditText
+                android:id="@+id/editTextContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="ifContentScrolls"
+                android:text="" />
+        </LinearLayout>
+    </ScrollView>
 
     </merge>

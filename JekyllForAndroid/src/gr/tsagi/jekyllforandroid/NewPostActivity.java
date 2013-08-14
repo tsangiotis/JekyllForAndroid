@@ -68,57 +68,9 @@ public class NewPostActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         
-        final EditText content = (EditText)findViewById(R.id.editTextContent);
-        final Button publishButton = (Button)findViewById(R.id.buttonUpdateGit);
-        publishButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-            	if(!content.getText().toString().isEmpty())
-            		publishPost();
-            	else
-            		Toast.makeText(getApplicationContext(), R.string.newpost_empty, Toast.LENGTH_LONG).show();
-            }
-        });
-        
-        int sdk = android.os.Build.VERSION.SDK_INT;
-        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            content.setBackgroundDrawable(null);
-        } else {
-            content.setBackground(null);
-        }
-        final Button previewButton = (Button)findViewById(R.id.buttonPreviewMarkdown);
-        final View activityRootView = findViewById(R.id.buttonsLinear);
-        
         /**
          * Publish and Preview Buttons disappear when Typing to give screen space
          */
-        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-            Rect r = new Rect();
-            //r will be populated with the coordinates of your view that area still visible.
-            activityRootView.getWindowVisibleDisplayFrame(r);
-            
-            int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
-            if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
-                previewButton.setVisibility(View.GONE);
-                publishButton.setVisibility(View.GONE);
-            }
-            else{
-            	previewButton.setVisibility(View.VISIBLE);
-            	publishButton.setVisibility(View.VISIBLE);
-            }
-         }
-        }); 
-        
-        previewButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-            	previewMarkdown(mContent);
-            }
-        });
 
         mNewPostFormView = findViewById(R.id.newpost_form);
         mNewPostStatusView = findViewById(R.id.newpost_status);
@@ -149,6 +101,12 @@ public class NewPostActivity extends Activity {
             case R.id.action_clear_draft:
                 clearDraft();
                 return true;
+            case R.id.action_publish:
+            	publishPost();
+            	return true;
+            case R.id.action_preview:
+            	previewMarkdown();
+            	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -181,12 +139,20 @@ public class NewPostActivity extends Activity {
     }
     
     private void publishPost(){
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	
+    	final EditText content = (EditText)findViewById(R.id.editTextContent);
+    	
+    	if(content.getText().toString().isEmpty())
+    		Toast.makeText(getApplicationContext(), R.string.newpost_empty, Toast.LENGTH_LONG).show();
+    	else {
+    	
+    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
         
-        savePreferences();
+    		savePreferences();
+    		builder.setMessage(R.string.dialog_confirm_update);
         
-    	// Add the buttons
-    	builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+    		// Add the buttons
+    		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
     	        	   /**
     	        	    * Publish post
@@ -194,15 +160,16 @@ public class NewPostActivity extends Activity {
     	        	   new UpdateFile().execute();
     	           }
     	       });
-    	builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+    		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
     	               // User cancelled the dialog
     	           }
     	       });
 
-    	// Create the AlertDialog
-    	AlertDialog dialog = builder.create();
-    	dialog.show();
+    		// Create the AlertDialog
+    		AlertDialog dialog = builder.create();
+    		dialog.show();
+    	}
     }
 
     private  void savePreferences(){
@@ -304,6 +271,7 @@ public class NewPostActivity extends Activity {
             hideSoftKeyboard(NewPostActivity.this);
             showProgress(true);
         }
+        
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -336,14 +304,16 @@ public class NewPostActivity extends Activity {
                 RepositoryCommit baseCommit = commitService.getCommit(repository, baseCommitSha);
                 String treeSha = baseCommit.getSha();
                 
+                //FIXME before uploading page->post
+                
                 String completeContent = "---\n" +
-                        "layout: post\n" +
+                        "layout: page\n" +
                         "title: " + '"' + mTitle + '"' + "\n" +
                         "description: "+ '"' + '"'+" \n" +
                         "category: " + mCategory + "\n" +
                         "tags: [" + mTags + "]"+ "\n" +
                         "---\n" +
-                        "{% include JB/setup %}\n\n" +
+                        "{% include JB/setup %}\n" +
                          mContent;
 
                 // create new blob with data
@@ -358,7 +328,12 @@ public class NewPostActivity extends Activity {
 
                 // create new tree entry
                 TreeEntry treeEntry = new TreeEntry();
-                treeEntry.setPath("_posts/" + path);
+                
+                // for testing
+                treeEntry.setPath("pages/" + path);
+                
+                // working
+                // treeEntry.setPath("_posts/" + path);
                 treeEntry.setMode(TreeEntry.MODE_BLOB);
                 treeEntry.setType(TreeEntry.TYPE_BLOB);
                 treeEntry.setSha(blob_sha);
@@ -418,11 +393,14 @@ public class NewPostActivity extends Activity {
         }
     }
     
-    public void previewMarkdown(String content){
+    public void previewMarkdown(){
     	savePreferences();
-        Intent myIntent = new Intent(getApplicationContext(), PreviewMarkdownActivity.class);
-        myIntent.putExtra("content", content);
-        startActivity(myIntent);
+    	if (!mContent.isEmpty()){
+    		Intent myIntent = new Intent(getApplicationContext(), PreviewMarkdownActivity.class);
+    		myIntent.putExtra("content", mContent);
+    		startActivity(myIntent);
+    	}else
+    		Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show();
     }
 
 

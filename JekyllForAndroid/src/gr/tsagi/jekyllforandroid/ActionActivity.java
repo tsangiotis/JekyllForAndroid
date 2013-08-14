@@ -20,7 +20,7 @@ public class ActionActivity extends Activity {
         SharedPreferences settings = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
         if(settings.getString("user_status","") == ""){
-            logout();
+            login();
         }
     }
 
@@ -36,7 +36,7 @@ public class ActionActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                logout();
+                logoutDialog();
                 return true;
             case R.id.action_new:
                 newPost();
@@ -58,7 +58,7 @@ public class ActionActivity extends Activity {
     /**
      * Logout and clear settings
      */
-    public void logout(){
+    public void logoutDialog(){
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	
     	// Shared preferences and Intent settings
@@ -66,8 +66,6 @@ public class ActionActivity extends Activity {
     	
     	final SharedPreferences sharedPreferences = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
-        final Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
         
         if (sharedPreferences.getString("draft_content", "").equals(""))
         	builder.setMessage(R.string.dialog_logout_nodraft);
@@ -79,9 +77,7 @@ public class ActionActivity extends Activity {
     	           public void onClick(DialogInterface dialog, int id) {
     	               // User clicked OK button
     	        	   // Clear credentials and Drafts
-    	               editor.clear();
-    	               editor.commit();    	              
-    	               startActivity(myIntent);
+    	               login();
     	           }
     	       });
     	builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -96,6 +92,17 @@ public class ActionActivity extends Activity {
     	// Show it
     	dialog.show();
     	
+    }
+    
+    private void login(){
+    	Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
+    	SharedPreferences sharedPreferences = getSharedPreferences(
+                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        
+    	editor.clear();
+        editor.commit();    	              
+        startActivity(myIntent);
     }
     
 }

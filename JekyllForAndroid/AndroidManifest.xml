@@ -23,7 +23,7 @@
         <activity
                 android:name=".NewPostActivity"
                 android:configChanges="keyboardHidden"
-                android:label="@string/title_activity_post" >
+                android:label="@string/action_newpost" >
         </activity>
         <activity
                 android:name=".PreviewMarkdownActivity"

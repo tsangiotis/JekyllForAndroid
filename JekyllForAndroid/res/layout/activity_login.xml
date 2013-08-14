@@ -1,6 +1,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity" >
 
     <!-- Login progress -->
     <LinearLayout android:id="@+id/login_status"
@@ -62,6 +62,35 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:layout_gravity="right" />
+
+            <LinearLayout
+                android:id="@+id/nojekyll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <TextView
+                    android:id="@+id/jinfotextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wanna_know" />
+
+                <Spinner
+                    android:id="@+id/jinfospinner"
+                    android:layout_width="match_parent"
+                    android:entries="@array/gpresources"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/jinfoButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Go" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

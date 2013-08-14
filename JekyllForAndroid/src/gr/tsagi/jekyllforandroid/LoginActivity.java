@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,13 +19,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.eclipse.egit.github.core.Authorization;
+import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
+import org.eclipse.egit.github.core.client.RequestException;
 import org.eclipse.egit.github.core.service.OAuthService;
+import org.eclipse.egit.github.core.service.RepositoryService;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -35,7 +43,6 @@ import java.util.List;
  * well.
  */
 public class LoginActivity extends Activity {
-
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -44,6 +51,9 @@ public class LoginActivity extends Activity {
     // Values for email and password at the time of the login attempt.
     private String mUsername;
     private String mPassword;
+    
+    // Arrays for Jekyll info
+	private String[] jurls;
 
     // UI references.
     private EditText mUsernameView;
@@ -56,6 +66,8 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        
+        jurls = this.getResources().getStringArray(R.array.gpresourceslinks);
 
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);
@@ -66,6 +78,7 @@ public class LoginActivity extends Activity {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                	hideSoftKeyboard(LoginActivity.this);
                     attemptLogin();
                     return true;
                 }
@@ -78,12 +91,24 @@ public class LoginActivity extends Activity {
         mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
         
         // Hide the keyboard on login attempt
+        final Button loginBtn = (Button)findViewById(R.id.sign_in_button);
          
-        findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
+        loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 hideSoftKeyboard(LoginActivity.this);
                 attemptLogin();
+            }
+        });
+
+        final Button goBtn = (Button)findViewById(R.id.jinfoButton);
+    	final Spinner spinner = (Spinner)findViewById(R.id.jinfospinner);
+        
+        goBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(jurls[spinner.getSelectedItemPosition()]));
+            	startActivity(browserIntent);
             }
         });
     }
@@ -202,6 +227,7 @@ public class LoginActivity extends Activity {
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+   
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -220,6 +246,9 @@ public class LoginActivity extends Activity {
         /**
          * The is auth error.
          */
+        
+        private boolean jException;
+        
         private boolean isAuthError;
         /**
          * Instantiates a new load repository list task.
@@ -251,7 +280,12 @@ public class LoginActivity extends Activity {
                     client.setCredentials(username,
                             password);
                     client.setUserAgent("Jekyll for Android");
-
+                    RepositoryService repositoryService = new RepositoryService();
+                    
+                    
+                    Repository repository =  repositoryService.getRepository(mUsername, mUsername +".github.com");
+                    
+                    
                     /**
                      * Get OAuth if there isn't one
                      */
@@ -280,7 +314,11 @@ public class LoginActivity extends Activity {
                         auth = authService.createAuthorization(auth);
                     }
                     return auth;
-                } catch (IOException e) {
+                } catch (RequestException re){
+                	jException = true;
+                	return null;
+                	
+                }catch (IOException e) {
                     Log.e("EX Tag", e.getMessage(), e);
                     if (e.getMessage().equalsIgnoreCase(
                             "Received authentication challenge is null")) {
@@ -292,7 +330,7 @@ public class LoginActivity extends Activity {
                     if (e.getCause() != null) {
                         e.getCause().getMessage();
                     }
-                }
+                } 
                 return null;
             } else {
                 return null;
@@ -333,6 +371,7 @@ public class LoginActivity extends Activity {
             /**
              * Stop progress view and Toast the result of the login attempt
              */
+        	
             showProgress(false);
             mAuthTask = null;
             if (mTarget.get() != null) {
@@ -341,9 +380,13 @@ public class LoginActivity extends Activity {
                     Toast.makeText(activity,
                             "Invalid Login",
                             Toast.LENGTH_SHORT).show();
-                } else if (mException) {
+                } else if (jException) {
+                	//Toast and set Jekyll info Visible
+                    Toast.makeText(activity, "You don't have a Jekyll blog hosted at Github.com", Toast.LENGTH_LONG).show();
+                    findViewById(R.id.nojekyll).setVisibility(View.VISIBLE);
+                }else if (mException) {
                     Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_LONG).show();
-                } else {
+                }else {
                     SharedPreferences sharedPreferences = getSharedPreferences(
                             "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -357,6 +400,7 @@ public class LoginActivity extends Activity {
 
                 }
             }
+            
         }
     }
 }

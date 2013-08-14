@@ -304,10 +304,8 @@ public class NewPostActivity extends Activity {
                 RepositoryCommit baseCommit = commitService.getCommit(repository, baseCommitSha);
                 String treeSha = baseCommit.getSha();
                 
-                //FIXME before uploading page->post
-                
                 String completeContent = "---\n" +
-                        "layout: page\n" +
+                        "layout: post\n" +
                         "title: " + '"' + mTitle + '"' + "\n" +
                         "description: "+ '"' + '"'+" \n" +
                         "category: " + mCategory + "\n" +
@@ -330,10 +328,10 @@ public class NewPostActivity extends Activity {
                 TreeEntry treeEntry = new TreeEntry();
                 
                 // for testing
-                treeEntry.setPath("pages/" + path);
+//                treeEntry.setPath("pages/" + path);
                 
                 // working
-                // treeEntry.setPath("_posts/" + path);
+                 treeEntry.setPath("_posts/" + path);
                 treeEntry.setMode(TreeEntry.MODE_BLOB);
                 treeEntry.setType(TreeEntry.TYPE_BLOB);
                 treeEntry.setSha(blob_sha);

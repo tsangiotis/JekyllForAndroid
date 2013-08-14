@@ -24,12 +24,12 @@
                 android:text="@string/newpost_progress" />
     </LinearLayout>
     
-    <RelativeLayout        
+    <RelativeLayout
+        android:id="@+id/newpost_form"       
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/newpost_form"
+    <LinearLayout        
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"

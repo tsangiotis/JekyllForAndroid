@@ -74,7 +74,7 @@ public class NewPostActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-            	if(content.getText().toString().isEmpty())
+            	if(!content.getText().toString().isEmpty())
             		publishPost();
             	else
             		Toast.makeText(getApplicationContext(), R.string.newpost_empty, Toast.LENGTH_LONG).show();
@@ -338,12 +338,12 @@ public class NewPostActivity extends Activity {
                 
                 String completeContent = "---\n" +
                         "layout: post\n" +
-                        "title: " + mTitle + "\n" +
+                        "title: " + '"' + mTitle + '"' + "\n" +
                         "description: "+ '"' + '"'+" \n" +
                         "category: " + mCategory + "\n" +
-                        "tags: [" + mTags + "]"+
+                        "tags: [" + mTags + "]"+ "\n" +
                         "---\n" +
-                        "{% include JB/setup %}\n" +
+                        "{% include JB/setup %}\n\n" +
                          mContent;
 
                 // create new blob with data

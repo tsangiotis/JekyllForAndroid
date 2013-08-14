@@ -23,13 +23,15 @@ The application uses the [GitHub API](https://developer.github.com/).
 - View posts
 - Delete posts
 
-==========
-
-##To compile
+#To compile
 
 Download [ADT Bundle](http://developer.android.com/sdk/index.html) and [NDK Plugin](http://developer.android.com/tools/sdk/ndk/index.html) and Import the Project.
 
 ==========
+
+#Download:
+
+Download the `.apk` file [here](http://cl.ly/2b1W2W343z3B).
 
 The client is in __Alpha__ stage.
 

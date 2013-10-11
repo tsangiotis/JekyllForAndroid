@@ -41,6 +41,9 @@ public class ActionActivity extends Activity {
             case R.id.action_new:
                 newPost();
                 return true;
+            case R.id.action_list:
+                listPosts();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -52,6 +55,11 @@ public class ActionActivity extends Activity {
      */
     public void newPost(){
         Intent myIntent = new Intent(getApplicationContext(), NewPostActivity.class);
+        startActivity(myIntent);
+    }
+    
+    public void listPosts(){
+        Intent myIntent = new Intent(getApplicationContext(), PostsListActivity.class);
         startActivity(myIntent);
     }
     

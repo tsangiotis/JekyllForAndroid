@@ -32,7 +32,7 @@
         <LinearLayout
             android:id="@+id/newpost_form_iner"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -43,25 +43,25 @@
                 android:id="@+id/editTextTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Title" />
+                android:hint="@string/hint_title" />
 
             <EditText
                 android:id="@+id/editTextCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Category" />
+                android:hint="@string/hint_category" />
 
             <EditText
                 android:id="@+id/editTextTags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Tags" />
+                android:hint="@string/hint_tags" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Post Content:" />
+                android:text="@string/hint_content" />
 
             <EditText
                 android:id="@+id/editTextContent"

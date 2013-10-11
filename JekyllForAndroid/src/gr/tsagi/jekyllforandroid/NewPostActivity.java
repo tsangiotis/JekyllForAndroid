@@ -66,7 +66,7 @@ public class NewPostActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
+        setContentView(R.layout.activity_posts_list);
         
         /**
          * Publish and Preview Buttons disappear when Typing to give screen space
@@ -328,10 +328,10 @@ public class NewPostActivity extends Activity {
                 TreeEntry treeEntry = new TreeEntry();
                 
                 // for testing
-//                treeEntry.setPath("pages/" + path);
+                //treeEntry.setPath("pages/" + path);
                 
                 // working
-                 treeEntry.setPath("_posts/" + path);
+                treeEntry.setPath("_posts/" + path);
                 treeEntry.setMode(TreeEntry.MODE_BLOB);
                 treeEntry.setType(TreeEntry.TYPE_BLOB);
                 treeEntry.setSha(blob_sha);

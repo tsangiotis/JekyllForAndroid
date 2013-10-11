@@ -66,7 +66,7 @@ public class NewPostActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_posts_list);
+        setContentView(R.layout.activity_post);
         
         /**
          * Publish and Preview Buttons disappear when Typing to give screen space

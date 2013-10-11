@@ -41,7 +41,7 @@ Download [ADT Bundle](http://developer.android.com/sdk/index.html) and [NDK Plug
 
 #Download:
 
-Download the `.apk` file [here](http://cl.ly/0E46040m1m2U).
+Download the `.apk` file [here](http://cl.ly/3w151Z47100R).
 
 The client is in __Alpha__ stage.
 

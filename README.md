@@ -7,6 +7,16 @@ It commits a `yyyy-mm-dd-title.md` file to the `_posts/` directory of your Jekyl
 
 The application uses the [GitHub API](https://developer.github.com/).
 
+##News *11/10/2013* :
+Today I added the feature to **view posts**.
+It is a very alpha feature but this does not affect any other features of the app.
+
+To get it to work just **push** [this](https://raw.github.com/tsagi/tsagi.github.com/master/json/index.html) file in your `username.github.com/json/` directory and you will get a list of your posts in the app. The items on the list just open the selected post in the browser for now but I will add editing features later on.
+
+In the future the app will get that, or probably a modified version of this file automatically on the user's repository (not without asking first of course). But for now you have to do it manually or it will crash.
+
+You can get the latest version to directly install it on your smartphone from the link at the end of the README.
+
 ##Features:
 
 - One time GitHub Login
@@ -17,11 +27,11 @@ The application uses the [GitHub API](https://developer.github.com/).
 	- Content (of course)
 - Markdown Preview (using [bypass](http://uncodin.github.io/bypass/))
 - If not published the post stays as a draft
+- View posts
 
 ##To be done:
 
-- View posts
-- Delete posts
+- Edit/Delete posts
 
 #To compile
 

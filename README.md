@@ -7,13 +7,11 @@ It commits a `yyyy-mm-dd-title.md` file to the `_posts/` directory of your Jekyl
 
 The application uses the [GitHub API](https://developer.github.com/).
 
-##News *11/10/2013* :
-Today I added the feature to **view posts**.
-It is a very alpha feature but this does not affect any other features of the app.
+To view the posts we turn to JSON.
 
-To get it to work just **push** [this](https://raw.github.com/tsagi/tsagi.github.com/master/json/index.html) file in your `username.github.com/json/` directory and you will get a list of your posts in the app. The items on the list just open the selected post in the browser for now but I will add editing features later on.
+To get it to work we just **push** [this](https://raw.github.com/tsagi/tsagi.github.com/master/json/index.html) file in our `username.github.com/json/` directory and we get a list of your posts in the app.
 
-In the future the app will get that, or probably a modified version of this file automatically on the user's repository (not without asking first of course). But for now you have to do it manually or it will crash.
+The app asks you to do it for you automatically but you can do it manually yourself!
 
 You can get the latest version to directly install it on your smartphone from the link at the end of the README.
 
@@ -28,9 +26,6 @@ You can get the latest version to directly install it on your smartphone from th
 - Markdown Preview (using [bypass](http://uncodin.github.io/bypass/))
 - If not published the post stays as a draft
 - View posts
-
-##To be done:
-
 - Edit/Delete posts
 
 #To compile
@@ -41,8 +36,8 @@ Download [ADT Bundle](http://developer.android.com/sdk/index.html) and [NDK Plug
 
 #Download:
 
-Download the `.apk` file [here](http://cl.ly/3w151Z47100R).
+Download the `.apk` file [here](http://cl.ly/2T2R2i3J2M0b).
 
-The client is in __Alpha__ stage.
+The client is in __Beta__ stage.
 
 Please fork it, test it and come back with issues :)

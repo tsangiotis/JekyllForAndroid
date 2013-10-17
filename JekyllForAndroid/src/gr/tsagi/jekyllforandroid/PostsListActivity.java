@@ -3,26 +3,23 @@ package gr.tsagi.jekyllforandroid;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -44,8 +41,6 @@ import org.eclipse.egit.github.core.service.RepositoryService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import gr.tsagi.jekyllforandroid.EditPostActivity.UpdateFile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -90,10 +85,10 @@ public class PostsListActivity extends Activity {
     String j_url;
     
     List<String> urls = new ArrayList<String>();
+    List<String> dates = new ArrayList<String>();
 
     // JSON Node names
     private static final String TAG_TITLE = "title";
-    private static final String TAG_URL = "url";
     private static final String TAG_ID = "id";
     private static final String TAG_DATE = "published_on";
     private static final String TAG_POSTS = "posts";
@@ -109,6 +104,9 @@ public class PostsListActivity extends Activity {
         getActionBar().setSubtitle("Alpha feature");
         restorePreferences();
         
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        
         mListView = findViewById(R.id.posts_list);
         mListStatusView = findViewById(R.id.postslist_status);
         
@@ -119,6 +117,13 @@ public class PostsListActivity extends Activity {
         else
         	new ParsePostsData().execute(old_json);
         	new HtmlToJson().execute(j_url);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {       
+        startActivity(new Intent(PostsListActivity.this,ActionActivity.class)); 
+        return true;
     }
     
     private void restorePreferences(){
@@ -187,12 +192,8 @@ public class PostsListActivity extends Activity {
             
             // Hashmap for ListView
             postList = new ArrayList<HashMap<String, String>>();
-
-            // Creating JSON Parser instance
-            JSONParser jParser = new JSONParser();
-
             // getting JSON string from URL
-//            JSONObject json = new JSONObject();
+            //JSONObject json = new JSONObject();
 
 
             try {
@@ -214,7 +215,7 @@ public class PostsListActivity extends Activity {
                     	if(separatedId[j].startsWith("20")){
                     		String url = "https://raw.github.com/"+ mUsername + "/"+ mUsername+".github.com/master/_posts/"
                     	+separatedId[j] +"-"+ separatedId[j+1] +"-"+ separatedId[j+2] + "-"+separatedId[j+3]+".md";
-                    		Log.d("url", url);
+                    		dates.add(separatedId[j] +"-"+ separatedId[j+1] +"-"+ separatedId[j+2]);
                     		urls.add(url);
                     		break;
                     	}
@@ -265,10 +266,10 @@ public class PostsListActivity extends Activity {
             postsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
     			public void onItemClick(AdapterView<?> parent, View view,
     					int position, long id) {
-    			    // When clicked, show a toast with the TextView text
-    				Log.d("browser", "works");
-    		    	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urls.get(position)));
-    		    	startActivity(browserIntent);
+    		    	Intent editIntent = new Intent(PostsListActivity.this, EditPostActivity.class);
+    		    	editIntent.putExtra("post", urls.get(position));
+    		    	editIntent.putExtra("postdate", dates.get(position));
+    		    	startActivity(editIntent);
     			}
     		});
         	}

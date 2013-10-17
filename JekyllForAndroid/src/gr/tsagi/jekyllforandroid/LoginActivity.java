@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -27,11 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.eclipse.egit.github.core.Authorization;
-import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.client.RequestException;
 import org.eclipse.egit.github.core.service.OAuthService;
-import org.eclipse.egit.github.core.service.RepositoryService;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -280,11 +277,6 @@ public class LoginActivity extends Activity {
                     client.setCredentials(username,
                             password);
                     client.setUserAgent("Jekyll for Android");
-                    RepositoryService repositoryService = new RepositoryService();
-                    
-                    
-                    Repository repository =  repositoryService.getRepository(mUsername, mUsername +".github.com");
-                    
                     
                     /**
                      * Get OAuth if there isn't one

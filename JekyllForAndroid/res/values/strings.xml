@@ -12,6 +12,7 @@
     <string name="hint_tags">Tags</string>
     <string name="hint_content">Post Content:</string>
     <string name="newpost_progress">Publishing post&#8230;</string>
+    <string name="postslist_progress">Updating list&#8230;</string>
     <string name="newpost_empty">Chances are you don\'t want to publish an empty post.</string>
     <string name="ok">OK</string>
     <string name="info">Info</string>

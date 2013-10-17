@@ -4,27 +4,28 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.eclipse.egit.github.core.Blob;
 import org.eclipse.egit.github.core.Commit;
 import org.eclipse.egit.github.core.Reference;
@@ -38,10 +39,15 @@ import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.DataService;
 import org.eclipse.egit.github.core.service.RepositoryService;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @SuppressLint({ "DefaultLocale", "SimpleDateFormat" })
@@ -53,27 +59,36 @@ public class EditPostActivity extends Activity {
     String mCategory;
     String mTags;
     String mContent;
+    
+    String message;
+    String yamlcontent;
 
     private View mNewPostFormView;
     private View mNewPostStatusView;
-	private TextView mNewPostStatusMessageView;
 
     private SharedPreferences settings;
 
-    @SuppressWarnings("deprecation")
-	@SuppressLint("NewApi")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         
-        /**
-         * Publish and Preview Buttons disappear when Typing to give screen space
-         */
-
         mNewPostFormView = findViewById(R.id.newpost_form);
         mNewPostStatusView = findViewById(R.id.newpost_status);
-        mNewPostStatusMessageView = (TextView) findViewById(R.id.newpost_status_message);
+        
+        Intent intent = getIntent();
+        if(intent.getStringExtra("post") != null){
+        	message = intent.getStringExtra("post");
+        	clearDraft();
+            setStrings();
+        	new getPost().execute(message);
+        }
+        if(intent.getStringExtra("postdate") != null){
+        	mDate = intent.getStringExtra("postdate");
+        }
+        
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         /**
          * Restore draft if any is available
@@ -103,6 +118,12 @@ public class EditPostActivity extends Activity {
             case R.id.action_publish:
             	publishPost();
             	return true;
+            case android.R.id.home:
+            	if(message!=null)
+            		startActivity(new Intent(EditPostActivity.this,PostsListActivity.class));
+            	else
+            		startActivity(new Intent(EditPostActivity.this,ActionActivity.class));
+            	return true;
             case R.id.action_preview:
             	previewMarkdown();
             	return true;
@@ -114,6 +135,72 @@ public class EditPostActivity extends Activity {
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
+    
+    private class getPost extends AsyncTask<String, Void, Void> {
+    	
+    	@Override
+        protected void onPreExecute() {
+            showProgress(true);
+        }
+
+        protected Void doInBackground(String... params) {
+
+            String url = params[0];
+            
+            try{
+            	HttpClient client = new DefaultHttpClient();
+            	HttpGet request = new HttpGet(url);
+            	HttpResponse response = client.execute(request);
+
+            	InputStream in = response.getEntity().getContent();
+            	BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            	StringBuilder str = new StringBuilder();
+            	String line = null;
+            	int yaml_dash=0;
+            	String[] yaml =null;
+            	HashMap<String, String> map = new HashMap<String, String>();
+            	while((line = reader.readLine()) != null)
+            	{
+            		if(line.equals("---")){
+            			yaml_dash++;
+            		}
+            		if (yaml_dash!=2)
+            			if(!line.equals("---")){
+            			yaml = line.trim().split(":");
+            			if(yaml.length==2)
+            				map.put(yaml[0],yaml[1]);
+            			}
+            		if (yaml_dash==2){
+            			if(!line.equals("---") && !line.equals("{% include JB/setup %}"))
+            				if(line.isEmpty())
+            					str.append("\n");
+            				else
+            					str.append(line);
+            		}
+            	}
+            	in.close();
+            	mContent = str.toString().replaceAll("\n","\n\n");
+            	mTitle = map.get("title").replace("\"", "").replaceFirst(" ", "");
+            	mCategory = map.get("category").replaceFirst(" ", "");
+            	mTags = map.get("tags").replace("[", "").replace("]", "").replaceFirst(" ", "");
+            } catch (ClientProtocolException e) {
+            	//no network
+            	e.printStackTrace();
+            } catch (IOException e) {
+            	//http problem
+            	e.printStackTrace();
+            } catch (IllegalStateException e) {
+            	e.printStackTrace();
+            }
+            return null;
+        }
+        
+        @Override
+        protected void onPostExecute(Void aVoid) {
+        	showProgress(false);
+            setStrings();
+        }
     }
 
     private void clearDraft(){
@@ -341,7 +428,7 @@ public class EditPostActivity extends Activity {
 
                 // create commit
                 Commit commit = new Commit();
-                commit.setMessage("Post from Android at " + mDate);
+                commit.setMessage("Update/new Post from Jekyll for Android app");
                 commit.setTree(newTree);
                 List<Commit> listOfCommits = new ArrayList<Commit>();
                 listOfCommits.add(new Commit().setSha(baseCommitSha));

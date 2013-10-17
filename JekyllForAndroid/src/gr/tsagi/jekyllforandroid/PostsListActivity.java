@@ -343,7 +343,7 @@ public class PostsListActivity extends Activity {
                         "{\"homepage\":\"{{ site.production_url }}\",\"name\":\"{{ site.title }}\",\"description\":\"{{ site.tagline }}\""+
                         ",\"author\":\"{{ site.author.name }}\",\"posts\":[{% for post in site.posts %}"+
                         "{\"url\":\"{{ site.production_url }}{{ post.url }}\",\"title\""+
-                        ":\"{{ post.title }}\",\"published_on\":\"{{ post.date | date: \"%-d %B %Y\" }}\"}"+
+                        ":\"{{ post.title }}\",\"id\": \"{{ post.id }}\",\"published_on\":\"{{ post.date | date: \"%-d %B %Y\" }}\"}"+
                         "{% if forloop.rindex0 > 0 %},{% endif %}{% endfor %}]}";
 
                 // create new blob with data

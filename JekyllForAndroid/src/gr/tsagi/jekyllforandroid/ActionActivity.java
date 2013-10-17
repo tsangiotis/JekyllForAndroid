@@ -54,7 +54,7 @@ public class ActionActivity extends Activity {
      * @param view
      */
     public void newPost(){
-        Intent myIntent = new Intent(getApplicationContext(), NewPostActivity.class);
+        Intent myIntent = new Intent(getApplicationContext(), EditPostActivity.class);
         startActivity(myIntent);
     }
     

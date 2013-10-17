@@ -45,7 +45,7 @@ import java.util.Date;
 import java.util.List;
 
 @SuppressLint({ "DefaultLocale", "SimpleDateFormat" })
-public class NewPostActivity extends Activity {
+public class EditPostActivity extends Activity {
     String mUsername;
     String mToken;
     String mDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -56,7 +56,6 @@ public class NewPostActivity extends Activity {
 
     private View mNewPostFormView;
     private View mNewPostStatusView;
-    @SuppressWarnings("unused")
 	private TextView mNewPostStatusMessageView;
 
     private SharedPreferences settings;
@@ -84,7 +83,7 @@ public class NewPostActivity extends Activity {
         setStrings();
 
         if(mToken == ""){
-            Toast.makeText(NewPostActivity.this, "Please login", Toast.LENGTH_LONG ).show();
+            Toast.makeText(EditPostActivity.this, "Please login", Toast.LENGTH_LONG ).show();
         }
     }
     
@@ -268,7 +267,7 @@ public class NewPostActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-            hideSoftKeyboard(NewPostActivity.this);
+            hideSoftKeyboard(EditPostActivity.this);
             showProgress(true);
         }
         
@@ -379,7 +378,7 @@ public class NewPostActivity extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             showProgress(false);
-            Toast.makeText(NewPostActivity.this, "Post published!", Toast.LENGTH_LONG ).show();
+            Toast.makeText(EditPostActivity.this, "Post published!", Toast.LENGTH_LONG ).show();
 
             /**
              * Clear fields for the next post

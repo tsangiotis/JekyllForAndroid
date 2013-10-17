@@ -21,7 +21,7 @@
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
-            android:name="gr.tsagi.jekyllforandroid.NewPostActivity"
+            android:name="gr.tsagi.jekyllforandroid.EditPostActivity"
             android:configChanges="keyboardHidden"
             android:label="@string/action_newpost" >
         </activity>

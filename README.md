@@ -36,7 +36,7 @@ Download [ADT Bundle](http://developer.android.com/sdk/index.html) and [NDK Plug
 
 #Download:
 
-Download the `.apk` file [here](http://cl.ly/180h0N331C2t).
+Download from the [Play Store](https://play.google.com/store/apps/details?id=gr.tsagi.jekyllforandroid)!
 
 The client is in __Beta__ stage.
 

@@ -1,0 +1,2 @@
+include ':bypass:platform:android:library'
+include ':JekyllForAndroid'

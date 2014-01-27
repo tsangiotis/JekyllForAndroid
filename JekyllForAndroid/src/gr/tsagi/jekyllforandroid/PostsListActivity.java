@@ -213,7 +213,7 @@ public class PostsListActivity extends Activity {
                     String[] separatedId = postid.split("\\/");
                     for(int j=0; j < separatedId.length; j++){
                     	if(separatedId[j].startsWith("20")){
-                    		String url = "https://raw.github.com/"+ mUsername + "/"+ mUsername+".github.com/master/_posts/"
+                    		String url = "https://raw.github.com/"+ mUsername + "/"+ mUsername +".github.com/master/_posts/"
                     	+separatedId[j] +"-"+ separatedId[j+1] +"-"+ separatedId[j+2] + "-"+separatedId[j+3]+".md";
                     		dates.add(separatedId[j] +"-"+ separatedId[j+1] +"-"+ separatedId[j+2]);
                     		urls.add(url);
@@ -401,7 +401,7 @@ public class PostsListActivity extends Activity {
     }
     
     /**
-     * Shows the progress UI and hides the login form.
+     * Shows the progress UI and hides the form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {

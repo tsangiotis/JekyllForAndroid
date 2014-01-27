@@ -11,14 +11,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -63,10 +67,14 @@ public class EditPostActivity extends Activity {
     String message;
     String yamlcontent;
 
+    private String selectedImagePath;
+
     private View mNewPostFormView;
     private View mNewPostStatusView;
 
     private SharedPreferences settings;
+    private static final int GALLERY_INTENT_CALLED = 1;
+    private static final int GALLERY_KITKAT_INTENT_CALLED = 2;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,6 +123,9 @@ public class EditPostActivity extends Activity {
             case R.id.action_clear_draft:
                 clearDraft();
                 return true;
+            case R.id.action_add_image:
+                addImage();
+                return true;
             case R.id.action_publish:
             	publishPost();
             	return true;
@@ -141,7 +152,7 @@ public class EditPostActivity extends Activity {
     	
     	@Override
         protected void onPreExecute() {
-            showProgress(true);
+            showProgress(true, getString(R.string.getpost_progress));
         }
 
         protected Void doInBackground(String... params) {
@@ -198,9 +209,64 @@ public class EditPostActivity extends Activity {
         
         @Override
         protected void onPostExecute(Void aVoid) {
-        	showProgress(false);
+        	showProgress(false, "...");
             setStrings();
         }
+    }
+
+    public void addImage (){
+        if (Build.VERSION.SDK_INT <19){
+            Intent intent = new Intent();
+            intent.setType("image/jpeg");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"),GALLERY_INTENT_CALLED);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("image/jpeg");
+            startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
+        }
+        }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) return;
+        if (null == data) return;
+        Uri originalUri = null;
+        if (requestCode == GALLERY_INTENT_CALLED) {
+            originalUri = data.getData();
+        } else if (requestCode == GALLERY_KITKAT_INTENT_CALLED) {
+            originalUri = data.getData();
+            final int takeFlags = data.getFlags()
+                    & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            // Check for the freshest data.
+            getContentResolver().takePersistableUriPermission(originalUri, takeFlags);
+        }
+
+        Toast.makeText(getApplicationContext(),originalUri+"end",Toast.LENGTH_LONG).show();
+
+        EditText content = (EditText)findViewById(R.id.editTextContent);
+        content.setText("![]("+originalUri+")");
+    }
+
+    /**
+     * helper to retrieve the path of an image URI
+     */
+    public String getPath(Uri uri) {
+        if( uri == null ) {
+            return null;
+        }
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if( cursor != null ){
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        return uri.getPath();
     }
 
     private void clearDraft(){
@@ -314,12 +380,18 @@ public class EditPostActivity extends Activity {
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
+    private void showProgress(final boolean show, String message) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+            TextView loadingText = (TextView) findViewById(R.id.newpost_status_message);
+
+            if(!message.isEmpty())
+                loadingText.setText(message);
+            else
+                loadingText.setText("None");
 
             mNewPostStatusView.setVisibility(View.VISIBLE);
             mNewPostStatusView.animate()
@@ -355,7 +427,7 @@ public class EditPostActivity extends Activity {
         @Override
         protected void onPreExecute() {
             hideSoftKeyboard(EditPostActivity.this);
-            showProgress(true);
+            showProgress(true, getString(R.string.newpost_progress));
         }
         
 
@@ -459,12 +531,12 @@ public class EditPostActivity extends Activity {
 
         @Override
         protected void onCancelled() {
-            showProgress(false);
+            showProgress(false, "...");
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            showProgress(false);
+            showProgress(false, "...");
             Toast.makeText(EditPostActivity.this, "Post published!", Toast.LENGTH_LONG ).show();
 
             /**

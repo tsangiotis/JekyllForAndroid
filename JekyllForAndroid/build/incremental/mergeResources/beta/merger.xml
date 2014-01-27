@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="main" >
+        <source path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res" >
+            <file
+                name="button_background_selector"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/drawable/button_background_selector.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="logo_web"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/drawable/logo_web.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="publishbutton_background_selector"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/drawable/publishbutton_background_selector.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/drawable-hdpi/ic_launcher.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/drawable-mdpi/ic_launcher.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/drawable-xhdpi/ic_launcher.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/drawable-xxhdpi/ic_launcher.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="activity_action"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/layout/activity_action.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_login"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/layout/activity_login.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_post"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/layout/activity_post.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_posts_list"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/layout/activity_posts_list.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_preview"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/layout/activity_preview.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="list_view"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/layout/list_view.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="action"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/menu/action.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="login"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/menu/login.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="post"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/menu/post.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="posts_list"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/menu/posts_list.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="test"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/menu/test.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/values/dimens.xml"
+                qualifiers="" >
+                <dimen name="activity_horizontal_margin" >16dp
+                </dimen>
+                <dimen name="activity_vertical_margin" >16dp
+                </dimen>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/values/strings.xml"
+                qualifiers="" >
+                <string name="action_settings" >Settings
+                </string>
+                <string name="dialog_logout_nodraft" >Sure you want to logout?
+                </string>
+
+                <color name="mred" >#ff00ff0d
+                </color>
+
+                <string name="action_list" >List Posts
+                </string>
+                <string name="hint_content" >Post Content:
+                </string>
+                <string name="info" >Info
+                </string>
+                <string name="action_logout" >Logout
+                </string>
+                <string name="cancel" >Cancel
+                </string>
+                <string name="hint_tags" >Tags
+                </string>
+                <string name="action_newpost" >New Post
+                </string>
+                <string name="getpost_progress" >Getting post…
+                </string>
+                <string name="newpost_empty" >Chances are you don\'t want to publish an empty post.
+                </string>
+                <string name="ok" >OK
+                </string>
+
+                <color name="mlightblue" >#ff00beff
+                </color>
+
+                <string name="hello_world" >Hello world!
+                </string>
+                <string name="postslist_progress" >Updating list…
+                </string>
+                <string name="hint_category" >Category
+                </string>
+                <string name="dialog_confirm_update" >Sure you want to publish this post?
+                </string>
+                <string name="title_activity_posts_list" >Posts
+                </string>
+                <string name="dialog_push_json" >To get your posts a file should be added to your repository. 
+	    For more information on that and the contents of the file check jekyll-for-android on Github!
+                </string>
+                <string name="hint_title" >Title
+                </string>
+                <string name="title_activity_markdown" >Markdown Preview
+                </string>
+                <string name="title_activity_action" >Jekyll for Android
+                </string>
+                <string name="app_name" >Jekyll for Android
+                </string>
+                <string name="newpost_progress" >Publishing post…
+                </string>
+
+                <color name="mgreen" >#ff00ff0d
+                </color>
+
+                <string name="dialog_logout_draft" >Sure you want to logout?\nYou have a draft post.
+                </string>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/values/strings_activity_login.xml"
+                qualifiers="" >
+                <string name="error_field_required" >This field is required
+                </string>
+                <string name="prompt_username" >Github Username
+                </string>
+
+                <string-array name="gpresourceslinks" >
+                    <item>
+http://pages.github.com
+                    </item>
+                    <item>
+http://jekyllrb.com
+                    </item>
+                    <item>
+http://jekyllbootstrap.com/
+                    </item>
+                    <item>
+http://octopress.org
+                    </item>
+                </string-array>
+
+                <string name="wanna_know" >About Jekyll and Github Pages:
+                </string>
+                <string name="login_progress_signing_in" >Signing in…
+                </string>
+
+                <string-array name="gpresources" >
+                    <item>
+Github Pages
+                    </item>
+                    <item>
+Jekyll
+                    </item>
+                    <item>
+Jekyll Bootstrap
+                    </item>
+                    <item>
+Octopress
+                    </item>
+                </string-array>
+
+                <string name="error_invalid_username" >This email address is invalid
+                </string>
+                <string name="action_sign_in_short" >Sign in
+                </string>
+                <string name="prompt_password" >Password
+                </string>
+                <string name="error_incorrect_password" >This password is incorrect
+                </string>
+                <string name="action_forgot_password" >Recover lost password
+                </string>
+                <string name="error_invalid_password" >This password is too short
+                </string>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/values/styles.xml"
+                qualifiers="" >
+
+                <style
+                    name="AppBaseTheme"
+                    parent="android:Theme.Light" >
+
+                    <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+                    -->
+                </style>
+
+                <style name="LoginFormContainer" >
+                    <item name="android:layout_width">
+match_parent
+                    </item>
+                    <item name="android:layout_height">
+wrap_content
+                    </item>
+                    <item name="android:padding">
+16dp
+                    </item>
+                </style>
+
+                <style
+                    name="AppTheme"
+                    parent="AppBaseTheme" >
+
+                    <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+                </style>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/values-large/styles.xml"
+                qualifiers="large" >
+
+                <style name="LoginFormContainer" >
+                    <item name="android:layout_width">
+400dp
+                    </item>
+                    <item name="android:layout_height">
+wrap_content
+                    </item>
+                    <item name="android:layout_gravity">
+center
+                    </item>
+                    <item name="android:padding">
+16dp
+                    </item>
+                </style>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/values-sw720dp-land/dimens.xml"
+                qualifiers="sw720dp-land" >
+                <dimen name="activity_horizontal_margin" >128dp
+                </dimen>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/values-v11/styles.xml"
+                qualifiers="v11" >
+
+                <style
+                    name="AppBaseTheme"
+                    parent="android:Theme.Holo.Light" >
+
+                    <!-- API 11 theme customizations can go here. -->
+                </style>
+            </file>
+        </source>
+        <source path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/res/rs/beta" />
+    </dataSet>
+    <dataSet config="beta" >
+        <source path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/beta/res" />
+    </dataSet>
+
+</merger>

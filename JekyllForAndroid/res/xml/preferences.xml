@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Parameters">
+
+        <EditTextPreference
+            android:key="yaml_values"
+            android:title="Status Url"
+            android:defaultValue="http://p-space.gr/setme"
+            android:summary="Specify status.php url"
+            android:inputType="textUri"
+            android:dialogTitle="Set Status Url" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

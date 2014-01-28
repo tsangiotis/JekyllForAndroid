@@ -16,7 +16,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +44,7 @@ import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.DataService;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -67,6 +70,10 @@ public class EditPostActivity extends Activity {
     String message;
     String yamlcontent;
 
+    private String extraYAML;
+    private String extra;
+    private String subdir;
+
     private String selectedImagePath;
 
     private View mNewPostFormView;
@@ -89,6 +96,7 @@ public class EditPostActivity extends Activity {
         	message = intent.getStringExtra("post");
         	clearDraft();
             setStrings();
+            Log.d("link", message);
         	new getPost().execute(message);
         }
         if(intent.getStringExtra("postdate") != null){
@@ -138,6 +146,11 @@ public class EditPostActivity extends Activity {
             case R.id.action_preview:
             	previewMarkdown();
             	return true;
+            case R.id.settings:
+                Intent intent = new Intent();
+                intent.setClass(EditPostActivity.this, SetPreferenceActivity.class);
+                startActivityForResult(intent, 0);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -169,32 +182,28 @@ public class EditPostActivity extends Activity {
             	StringBuilder str = new StringBuilder();
             	String line = null;
             	int yaml_dash=0;
-            	String[] yaml =null;
-            	HashMap<String, String> map = new HashMap<String, String>();
+            	String yaml =null;
+            	HashMap<String, String[]> map;
             	while((line = reader.readLine()) != null)
             	{
             		if(line.equals("---")){
             			yaml_dash++;
             		}
             		if (yaml_dash!=2)
-            			if(!line.equals("---")){
-            			yaml = line.trim().split(":");
-            			if(yaml.length==2)
-            				map.put(yaml[0],yaml[1]);
-            			}
+            			if(!line.equals("---"))
+                            yaml = yaml + line + "\n";
+
             		if (yaml_dash==2){
-            			if(!line.equals("---") && !line.equals("{% include JB/setup %}"))
+            			if(!line.equals("---"))
             				if(line.isEmpty())
             					str.append("\n");
             				else
             					str.append(line);
             		}
             	}
-            	in.close();
-            	mContent = str.toString().replaceAll("\n","\n\n");
-            	mTitle = map.get("title").replace("\"", "").replaceFirst(" ", "");
-            	mCategory = map.get("category").replaceFirst(" ", "");
-            	mTags = map.get("tags").replace("[", "").replace("]", "").replaceFirst(" ", "");
+                in.close();
+                yamlFromString(yaml);
+                mContent = str.toString().replaceAll("\n","\n\n");
             } catch (ClientProtocolException e) {
             	//no network
             	e.printStackTrace();
@@ -206,12 +215,22 @@ public class EditPostActivity extends Activity {
             }
             return null;
         }
-        
+
+
         @Override
         protected void onPostExecute(Void aVoid) {
         	showProgress(false, "...");
             setStrings();
         }
+    }
+
+    public void yamlFromString(String yamlStr) {
+        Yaml yaml = new Yaml();
+        HashMap<String, String[]> map = (HashMap<String, String[]>) yaml.load(yamlStr);
+
+        mTitle = String.valueOf(map.get("title"));
+        mCategory = String.valueOf(map.get("category"));
+        mTags = String.valueOf(map.get("tags")).replace("[", "").replace("]", "");
     }
 
     public void addImage (){
@@ -443,6 +462,7 @@ public class EditPostActivity extends Activity {
                 EditText categoryT = (EditText)findViewById(R.id.editTextCategory);
                 EditText tagsT = (EditText)findViewById(R.id.editTextTags);
 
+                loadPref();
 
                 mTitle = titleT.getText().toString();
                 mCategory = categoryT.getText().toString();
@@ -468,9 +488,10 @@ public class EditPostActivity extends Activity {
                         "description: "+ '"' + '"'+" \n" +
                         "category: " + mCategory + "\n" +
                         "tags: [" + mTags + "]"+ "\n" +
+                        extraYAML + "\n" +
                         "---\n" +
-                        "{% include JB/setup %}\n" +
-                         mContent;
+                        extra + "\n" +
+                        mContent;
 
                 // create new blob with data
                 Blob blob = new Blob();
@@ -485,11 +506,11 @@ public class EditPostActivity extends Activity {
                 // create new tree entry
                 TreeEntry treeEntry = new TreeEntry();
                 
-                // for testing
-                //treeEntry.setPath("pages/" + path);
-                
                 // working
-                treeEntry.setPath("_posts/" + path);
+                if(subdir!=null)
+                    treeEntry.setPath("_posts/" + subdir + "/" + path);
+                else
+                    treeEntry.setPath("_posts/" + path);
                 treeEntry.setMode(TreeEntry.MODE_BLOB);
                 treeEntry.setType(TreeEntry.TYPE_BLOB);
                 treeEntry.setSha(blob_sha);
@@ -547,6 +568,13 @@ public class EditPostActivity extends Activity {
 
             finish();
         }
+    }
+
+    private void loadPref(){
+        SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        extraYAML = mySharedPreferences.getString("yaml_values", "") + "\n";
+        extra = mySharedPreferences.getString("other_values", "") + "\n";
+        subdir = mySharedPreferences.getString("posts_subdir", "");
     }
     
     public void previewMarkdown(){

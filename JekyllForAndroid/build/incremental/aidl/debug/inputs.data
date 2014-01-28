@@ -1,8 +1,0 @@
-# incremental data. DO NOT EDIT.
-# format is <lastModified> <length> <SHA-1> <path>
-# Encoding is UTF-8
-1382022936000 3695 c8a4ebcb66c3632c7bb8aa3d30db92b457deef63 /Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/gr/tsagi/jekyllforandroid/ActionActivity.java
-1384956035000 18319 fe6f29805e2a6f5e25c80aa04233211d0084a67f /Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/gr/tsagi/jekyllforandroid/EditPostActivity.java
-1376494924000 925 a2b1843d0339da63eef963fc44e2fb03bba14b5e /Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/gr/tsagi/jekyllforandroid/PreviewMarkdownActivity.java
-1384955905000 16497 438d1106784e45c386e42e38e6c033d38269faad /Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/gr/tsagi/jekyllforandroid/PostsListActivity.java
-1382022920000 14256 94b720849e78f2765a850803e4a2d12830d9fedb /Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/gr/tsagi/jekyllforandroid/LoginActivity.java

@@ -7,6 +7,10 @@
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/action_newpost"
         android:showAsAction="always" />
+    <item android:id="@+id/settings"
+        android:title="@string/menu_settings"
+        android:orderInCategory="99"
+        android:showAsAction="never" />
     <item android:id="@+id/action_logout"
         android:title="@string/action_logout"
         android:orderInCategory="100"

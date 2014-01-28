@@ -1,5 +1,4 @@
 apply plugin: 'android'
-
 buildscript {
     repositories {
         mavenCentral()
@@ -8,11 +7,9 @@ buildscript {
         classpath 'com.android.tools.build:gradle:0.7.+'
     }
 }
-
 repositories {
     mavenCentral()
 }
-
 android {
     compileSdkVersion 19
     buildToolsVersion "19"
@@ -97,6 +94,8 @@ android {
     }
 
     dependencies {
+        compile group: 'org.yaml', name: 'snakeyaml', version: '1.13'
+//        compile group: 'in.uncod.android.bypass', name: 'bypass', version: '1.1'
         compile fileTree(dir: 'libs', include: '*.jar')
         compile files("$buildDir/native-libs/native-libs.jar")
     }
@@ -113,21 +112,17 @@ android {
         compileTask -> compileTask.dependsOn(nativeLibsToJar)
     }
 }
-
 assembleDebug.doFirst {
     incrementVersionCode()
 }
-
 def versionCodeFromFile() {
     def versionCodeFile = file("version_code")
     return Integer.parseInt(versionCodeFile.getText().trim())
 }
-
 def versionFromFile() {
     def versionFile = file("version")
     return versionFile.getText().trim()
 }
-
 def incrementVersionCode() {
     def versionCodeFile = file("version_code")
     def versionCode = Integer.parseInt(versionCodeFile.getText().trim())

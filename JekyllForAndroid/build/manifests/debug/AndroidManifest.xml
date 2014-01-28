@@ -1,5 +1,5 @@
 <!-- From: file:/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/AndroidManifest.xml -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="21" android:versionName="1.1-dev" package="gr.tsagi.jekyllforandroid.dev">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="43" android:versionName="1.1-dev" package="gr.tsagi.jekyllforandroid.dev">
 
     <uses-sdk android:minSdkVersion="12" android:targetSdkVersion="18"/>
 
@@ -24,6 +24,8 @@
         </activity>
         <activity android:label="@string/title_activity_posts_list" android:name="gr.tsagi.jekyllforandroid.PostsListActivity">
         </activity>
+        <activity android:name="gr.tsagi.jekyllforandroid.SetPreferenceActivity"/>
+        <activity android:name="gr.tsagi.jekyllforandroid.SettingsActivity"/>
     </application>
 
 </manifest>

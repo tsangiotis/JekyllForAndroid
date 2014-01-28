@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="main" >
+        <source path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/assets" />
+    </dataSet>
+    <dataSet config="nightly" >
+        <source path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/nightly/assets" />
+    </dataSet>
+
+</merger>

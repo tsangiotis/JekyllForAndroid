@@ -43,6 +43,11 @@ public class ActionActivity extends Activity {
             case R.id.action_list:
                 listPosts();
                 return true;
+            case R.id.settings:
+                Intent intent = new Intent();
+                intent.setClass(ActionActivity.this, SetPreferenceActivity.class);
+                startActivityForResult(intent, 0);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

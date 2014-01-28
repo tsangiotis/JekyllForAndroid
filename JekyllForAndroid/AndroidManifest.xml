@@ -46,6 +46,8 @@
             android:name="gr.tsagi.jekyllforandroid.PostsListActivity"
             android:label="@string/title_activity_posts_list" >
         </activity>
+        <activity android:name=".SetPreferenceActivity" />
+        <activity android:name=".SettingsActivity" />
     </application>
 
 </manifest>

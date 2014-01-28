@@ -140,6 +140,8 @@
                 </string>
                 <string name="postslist_progress" >Updating list…
                 </string>
+                <string name="menu_settings" >Settings
+                </string>
                 <string name="hint_category" >Category
                 </string>
                 <string name="dialog_confirm_update" >Sure you want to publish this post?
@@ -292,6 +294,11 @@ center
                     <!-- API 11 theme customizations can go here. -->
                 </style>
             </file>
+            <file
+                name="preferences"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/xml/preferences.xml"
+                qualifiers=""
+                type="xml" />
         </source>
         <source path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/res/rs/beta" />
     </dataSet>

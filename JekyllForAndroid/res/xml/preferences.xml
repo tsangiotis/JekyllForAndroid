@@ -7,11 +7,31 @@
 
         <EditTextPreference
             android:key="yaml_values"
-            android:title="Status Url"
-            android:defaultValue="http://p-space.gr/setme"
-            android:summary="Specify status.php url"
+            android:title="Extra YAML Parameters"
+            android:defaultValue="description: "
+            android:summary="Any extra Parameters you want to include in every post"
             android:inputType="textUri"
-            android:dialogTitle="Set Status Url" />
+            android:dialogTitle="Extra YAML Parameters" />
+
+        <EditTextPreference
+            android:key="other_values"
+            android:title="Other Parameters"
+            android:defaultValue=""
+            android:summary="Something you want to have at the beggining of your content"
+            android:inputType="textUri"
+            android:dialogTitle="Extra Parameters" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Unusual setups">
+
+        <EditTextPreference
+            android:key="posts_subdir"
+            android:title="Subdirs in your _posts dir"
+            android:defaultValue=""
+            android:summary="If you have a weird setup with subdirectories in your _posts directory state it here"
+            android:inputType="textUri"
+            android:dialogTitle="Subdirectories" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -13,7 +13,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -72,6 +72,7 @@ public class PostsListActivity extends Activity {
     String old_json;
 
     private SharedPreferences settings;
+    private String subdir;
     
     private View mListView;
     private View mListStatusView;
@@ -109,8 +110,8 @@ public class PostsListActivity extends Activity {
         
         mListView = findViewById(R.id.posts_list);
         mListStatusView = findViewById(R.id.postslist_status);
-        
-        j_url = "http://" + mUsername +".github.com" + "/json/";
+
+        j_url = "http://" + mUsername +".github.io" + "/json/";
         
         if(old_json.equals(""))
         	new HtmlToJson().execute(j_url);
@@ -132,6 +133,9 @@ public class PostsListActivity extends Activity {
         mUsername = settings.getString("user_login", "");
         mToken = settings.getString("user_status", "");
         old_json = settings.getString("json_html", "");
+
+        SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        subdir = mySharedPreferences.getString("posts_subdir", "");
         
     }
     
@@ -173,7 +177,7 @@ public class PostsListActivity extends Activity {
         protected void onPostExecute(Void aVoid) {
             if(!json_html.equals(old_json))
             	new ParsePostsData().execute(json_html);
-            Log.d("works", json_html);
+//            Log.d("works", json_html);
         }
     }
 
@@ -213,8 +217,17 @@ public class PostsListActivity extends Activity {
                     String[] separatedId = postid.split("\\/");
                     for(int j=0; j < separatedId.length; j++){
                     	if(separatedId[j].startsWith("20")){
-                    		String url = "https://raw.github.com/"+ mUsername + "/"+ mUsername +".github.com/master/_posts/"
-                    	+separatedId[j] +"-"+ separatedId[j+1] +"-"+ separatedId[j+2] + "-"+separatedId[j+3]+".md";
+                            String url;
+                            if(subdir!="")
+                    		    url = "https://raw.github.com/"+ mUsername + "/"+ mUsername +
+                                        ".github.com/master/_posts/" + subdir + "/" +
+                                        separatedId[j] +"-"+ separatedId[j+1] +"-"
+                                        + separatedId[j+2] + "-"+separatedId[j+3]+".md";
+                            else
+                                url = "https://raw.github.com/"+ mUsername + "/"+ mUsername +
+                                        ".github.com/master/_posts/" +
+                                        separatedId[j] +"-"+ separatedId[j+1] +"-"
+                                        + separatedId[j+2] + "-"+separatedId[j+3]+".md";
                     		dates.add(separatedId[j] +"-"+ separatedId[j+1] +"-"+ separatedId[j+2]);
                     		urls.add(url);
                     		break;

@@ -30,11 +30,4 @@
 
     <string name="title_activity_posts_list">Posts</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-
-    <array name="repo_end">
-        <item name="com">com</item>
-        <item name="io">io</item>
-    </array>
-    <string name="repo_end_default">com</string>
 </resources>

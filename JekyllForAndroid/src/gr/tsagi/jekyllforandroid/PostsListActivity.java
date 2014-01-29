@@ -56,10 +56,6 @@ import java.util.List;
  */
 public class PostsListActivity extends Activity {
 
-//    public static UberdustParserFragment newInstance() {
-//        return new UberdustParserFragment();
-//    }
-
     String date;
     String title;
     String content;
@@ -99,7 +95,6 @@ public class PostsListActivity extends Activity {
     ListAdapter adapter;
 
     private String repo;
-    private String repoEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +107,6 @@ public class PostsListActivity extends Activity {
         
         mListView = findViewById(R.id.posts_list);
         mListStatusView = findViewById(R.id.postslist_status);
-
-        repo = mUsername + ".github." + repoEnd;
 
         j_url = "http://" + repo + "/json/";
         
@@ -137,10 +130,17 @@ public class PostsListActivity extends Activity {
         mUsername = settings.getString("user_login", "");
         mToken = settings.getString("user_status", "");
         old_json = settings.getString("json_html", "");
+        repo =  settings.getString("user_repo", "");
+
+        if(repo==""){
+            repo = new JekyllRepo().getName(mUsername);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("user_repo", repo);
+            editor.commit();
+        }
 
         SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         subdir = mySharedPreferences.getString("posts_subdir", "");
-        repoEnd =  mySharedPreferences.getString("repo_end", "io");
         if(subdir!="")
             subdir = subdir +"/";
         

@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import de.cketti.library.changelog.ChangeLog;
+
 public class ActionActivity extends Activity {
     
     @Override
@@ -20,6 +22,12 @@ public class ActionActivity extends Activity {
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
         if(settings.getString("user_status","") == ""){
             login();
+        }
+
+        //Show Changelog
+        ChangeLog cl = new ChangeLog(this);
+        if (cl.isFirstRun()) {
+            cl.getLogDialog().show();
         }
     }
 
@@ -52,7 +60,7 @@ public class ActionActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    
+
     /**
      * Start new post or continue working on your draft
      * @param view

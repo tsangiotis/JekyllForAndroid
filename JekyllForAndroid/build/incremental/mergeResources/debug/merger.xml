@@ -1,6 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger>
+<merger xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2" >
 
+    <dataSet config="DeCkettiLibraryChangelogCkchangelog120.aar" >
+        <source path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/exploded-bundles/DeCkettiLibraryChangelogCkchangelog120.aar/res" >
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/exploded-bundles/DeCkettiLibraryChangelogCkchangelog120.aar/res/values/values.xml"
+                qualifiers="" >
+                <string name="changelog_ok_button" >OK
+                </string>
+                <string name="changelog_show_full" >More…
+                </string>
+                <string name="changelog_full_title" >Change Log
+                </string>
+                <string name="changelog_title" >What\'s New
+                </string>
+                <string name="changelog_version_format" >Version 
+<ns1:g id="version_name" >
+%s
+                    </ns1:g></string>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/exploded-bundles/DeCkettiLibraryChangelogCkchangelog120.aar/res/values-de/values.xml"
+                qualifiers="de" >
+                <string name="changelog_title" >Das ist neu
+                </string>
+                <string name="changelog_full_title" >Alle Änderungen
+                </string>
+                <string name="changelog_version_format" >Version 
+<ns1:g id="version_name" >
+%s
+                    </ns1:g></string>
+                <string name="changelog_ok_button" >OK
+                </string>
+                <string name="changelog_show_full" >Mehr…
+                </string>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/exploded-bundles/DeCkettiLibraryChangelogCkchangelog120.aar/res/values-el/values.xml"
+                qualifiers="el" >
+                <string name="changelog_version_format" >Έκδοση 
+<ns1:g id="version_name" >
+%s
+                    </ns1:g></string>
+                <string name="changelog_show_full" >Περισσότερα…
+                </string>
+                <string name="changelog_full_title" >Αλλαγές
+                </string>
+                <string name="changelog_title" >Τι Είναι Καινούργιο
+                </string>
+                <string name="changelog_ok_button" >Εντάξει
+                </string>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/exploded-bundles/DeCkettiLibraryChangelogCkchangelog120.aar/res/values-es/values.xml"
+                qualifiers="es" >
+                <string name="changelog_version_format" >Versión 
+<ns1:g id="version_name" >
+%s
+                    </ns1:g></string>
+                <string name="changelog_ok_button" >Aceptar
+                </string>
+                <string name="changelog_full_title" >Registro de cambios
+                </string>
+                <string name="changelog_show_full" >Más…
+                </string>
+                <string name="changelog_title" >Qué hay de nuevo
+                </string>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/exploded-bundles/DeCkettiLibraryChangelogCkchangelog120.aar/res/values-pl/values.xml"
+                qualifiers="pl" >
+                <string name="changelog_full_title" >Lista zmian
+                </string>
+                <string name="changelog_version_format" >Wersja 
+<ns1:g id="version_name" >
+%s
+                    </ns1:g></string>
+                <string name="changelog_show_full" >Więcej…
+                </string>
+                <string name="changelog_title" >Co nowego
+                </string>
+                <string name="changelog_ok_button" >OK
+                </string>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/exploded-bundles/DeCkettiLibraryChangelogCkchangelog120.aar/res/values-ru/values.xml"
+                qualifiers="ru" >
+                <string name="changelog_title" >Что нового
+                </string>
+                <string name="changelog_show_full" >Подробнее…
+                </string>
+                <string name="changelog_full_title" >Изменения
+                </string>
+                <string name="changelog_ok_button" >OK
+                </string>
+                <string name="changelog_version_format" >Версия 
+<ns1:g id="version_name" >
+%s
+                    </ns1:g></string>
+            </file>
+            <file
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/exploded-bundles/DeCkettiLibraryChangelogCkchangelog120.aar/res/values-sk/values.xml"
+                qualifiers="sk" >
+                <string name="changelog_show_full" >Viac…
+                </string>
+                <string name="changelog_title" >Čo je nové
+                </string>
+                <string name="changelog_ok_button" >OK
+                </string>
+                <string name="changelog_full_title" >Zoznam zmien
+                </string>
+                <string name="changelog_version_format" >Verzia 
+<ns1:g id="version_name" >
+%s
+                    </ns1:g></string>
+            </file>
+            <file
+                name="changelog"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/exploded-bundles/DeCkettiLibraryChangelogCkchangelog120.aar/res/xml/changelog.xml"
+                qualifiers=""
+                type="xml" />
+            <file
+                name="changelog_master"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/exploded-bundles/DeCkettiLibraryChangelogCkchangelog120.aar/res/xml/changelog_master.xml"
+                qualifiers=""
+                type="xml" />
+        </source>
+    </dataSet>
     <dataSet config="ComCommonswareCwacAnddown020.aar" >
         <source path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/build/exploded-bundles/ComCommonswareCwacAnddown020.aar/res" />
     </dataSet>
@@ -134,8 +260,6 @@
                 <color name="mlightblue" >#ff00beff
                 </color>
 
-                <string name="hello_world" >Hello world!
-                </string>
                 <string name="postslist_progress" >Updating list…
                 </string>
                 <string name="menu_settings" >Settings
@@ -143,8 +267,6 @@
                 <string name="hint_category" >Category
                 </string>
                 <string name="dialog_confirm_update" >Sure you want to publish this post?
-                </string>
-                <string name="repo_end_default" >com
                 </string>
                 <string name="title_activity_posts_list" >Posts
                 </string>
@@ -164,15 +286,6 @@
 
                 <color name="mgreen" >#ff00ff0d
                 </color>
-
-                <array name="repo_end" >
-                    <item name="com">
-com
-                    </item>
-                    <item name="io">
-io
-                    </item>
-                </array>
 
                 <string name="dialog_logout_draft" >Sure you want to logout?\nYou have a draft post.
                 </string>
@@ -303,6 +416,11 @@ center
                     <!-- API 11 theme customizations can go here. -->
                 </style>
             </file>
+            <file
+                name="changelog_master"
+                path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/xml/changelog_master.xml"
+                qualifiers=""
+                type="xml" />
             <file
                 name="preferences"
                 path="/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/xml/preferences.xml"

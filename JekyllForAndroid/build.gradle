@@ -1,3 +1,5 @@
+import groovy.transform.Field
+
 apply plugin: 'android'
 buildscript {
     repositories {
@@ -9,10 +11,11 @@ buildscript {
 }
 repositories {
     mavenCentral()
-    maven {
-        url "https://repo.commonsware.com.s3.amazonaws.com"
-    }
+
+    maven {url "https://repo.eclipse.org/content/groups/releases/"}
+    maven {url "https://repo.commonsware.com.s3.amazonaws.com"}
 }
+
 android {
     compileSdkVersion 19
     buildToolsVersion "19"
@@ -39,6 +42,7 @@ android {
         // by a similar customization.
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
+        nightly.setRoot('build-types/nightly')
 
     }
 
@@ -51,23 +55,25 @@ android {
 
     signingConfigs {
         def console = System.console()
-        def pass = ""
+        def storePass = ""
+        def keyPass = ""
         if (console != null) {
-            pass = console.readLine('> Enter keystore password: ')
+            storePass = console.readLine('> Enter keystore password: ')
+            keyPass = console.readLine('> Enter key password: ')
         }
 
         release {
             storeFile file("/Users/tsagi/Development/AndroidStudioProjects/KeyStore/jekyllforandroid.keystore")
-            storePassword pass
-            keyAlias "cbm instrument"
-            keyPassword pass
+            storePassword storePass
+            keyAlias "jekyllforandroid"
+            keyPassword keyPass
         }
 
         nightly {
-            storeFile file("../jekyllforandroid.keystore")
-            storePassword pass
-            keyAlias "cbm instrument nightly"
-            keyPassword pass
+            storeFile file("/Users/tsagi/Development/AndroidStudioProjects/KeyStore/jekyllforandroid.keystore")
+            storePassword storePass
+            keyAlias "jekyllforandroid-nightly"
+            keyPassword keyPass
         }
     }
 
@@ -97,8 +103,15 @@ android {
     }
 
     dependencies {
+
+        // Needed for egit-github
+        compile group: 'com.google.code.gson', name: 'gson', version: '2.2.4'
+
+        compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '3.2.0.201312181205-r'
         compile group: 'org.yaml', name: 'snakeyaml', version: '1.13'
         compile 'com.commonsware.cwac:anddown:0.2.0'
+
+        compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
         compile fileTree(dir: 'libs', include: '*.jar')
     }
 

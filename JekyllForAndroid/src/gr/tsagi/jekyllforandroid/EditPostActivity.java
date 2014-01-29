@@ -69,9 +69,7 @@ public class EditPostActivity extends Activity {
     
     String message;
 
-    String repo;
-
-    private String repoEnd;
+    private String repo;
 
     private String extraYAML;
     private String extra;
@@ -117,7 +115,6 @@ public class EditPostActivity extends Activity {
         
         restorePreferences();
 
-        repo = mUsername + ".github." + repoEnd;
         setStrings();
 
         if(mToken == ""){
@@ -314,13 +311,19 @@ public class EditPostActivity extends Activity {
         mCategory = settings.getString("draft_category", "");
         mTags = settings.getString("draft_tags", "");
         mContent = settings.getString("draft_content", "");
+        repo =  settings.getString("user_repo", "");
+
+        if(repo==""){
+            repo = new JekyllRepo().getName(mUsername);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("user_repo", repo);
+            editor.commit();
+        }
 
         SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         extraYAML = mySharedPreferences.getString("yaml_values", "") + "\n";
         extra = mySharedPreferences.getString("other_values", "") + "\n";
         subdir = mySharedPreferences.getString("posts_subdir", "");
-        repoEnd = mySharedPreferences.getString("repo_end", "");
-
 
     }
     
@@ -490,6 +493,7 @@ public class EditPostActivity extends Activity {
                 DataService dataService = new DataService(client);
 
                 // get some sha's from current state in git
+
                 Repository repository =  repositoryService.getRepository(mUsername, repo);
                 String baseCommitSha = repositoryService.getBranches(repository).get(0).getCommit().getSha();
                 RepositoryCommit baseCommit = commitService.getCommit(repository, baseCommitSha);

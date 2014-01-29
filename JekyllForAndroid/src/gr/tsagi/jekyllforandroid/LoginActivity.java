@@ -379,11 +379,14 @@ public class LoginActivity extends Activity {
                 }else if (mException) {
                     Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_LONG).show();
                 }else {
+                    JekyllRepo uRepo = new JekyllRepo();
+                    String repo = uRepo.getName(mUsername);
                     SharedPreferences sharedPreferences = getSharedPreferences(
                             "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("user_status", result.getToken());
                     editor.putString("user_login", mTarget.get().mUsernameView.getText().toString());
+                    editor.putString("user_repo", repo);
                     editor.commit();
                     Toast.makeText(activity,
                             "Login succesfull!",

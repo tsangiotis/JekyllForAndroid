@@ -23,19 +23,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Github">
-
-        <ListPreference
-            android:key="repo_end"
-            android:title="Repository name"
-            android:dialogTitle="Repository end"
-            android:entries="@array/repo_end"
-            android:entryValues="@array/repo_end"
-            android:defaultValue="@string/repo_end_default" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="Unusual setups">
 
         <EditTextPreference

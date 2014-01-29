@@ -2,7 +2,11 @@
     <item android:id="@+id/action_preview"
         android:icon="@android:drawable/ic_menu_view"
         android:title="Preview"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="always" />
+    <!--<item android:id="@+id/action_add_image"-->
+        <!--android:title="Add Image"-->
+        <!--android:icon="@android:drawable/ic_menu_gallery"-->
+        <!--android:showAsAction="ifRoom" />-->
     <item android:id="@+id/action_delete"
         android:icon="@android:drawable/ic_menu_delete"
         android:title="Delete"
@@ -11,6 +15,10 @@
         android:icon="@android:drawable/ic_menu_send"
         android:title="Publish"
         android:showAsAction="always" />
+    <item android:id="@+id/settings"
+        android:title="@string/menu_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
     <item android:id="@+id/action_clear_draft"
         android:title="Clear"
         android:showAsAction="never" />

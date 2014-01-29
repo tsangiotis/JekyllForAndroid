@@ -11,14 +11,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -38,6 +44,7 @@ import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.DataService;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,12 +68,25 @@ public class EditPostActivity extends Activity {
     String mContent;
     
     String message;
-    String yamlcontent;
+
+    String repo;
+
+    private String repoEnd;
+
+    private String extraYAML;
+    private String extra;
+    private String subdir;
+
+    private String selectedImagePath;
 
     private View mNewPostFormView;
     private View mNewPostStatusView;
 
     private SharedPreferences settings;
+
+
+    private static final int GALLERY_INTENT_CALLED = 1;
+    private static final int GALLERY_KITKAT_INTENT_CALLED = 2;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +101,7 @@ public class EditPostActivity extends Activity {
         	message = intent.getStringExtra("post");
         	clearDraft();
             setStrings();
+            Log.d("link", message);
         	new getPost().execute(message);
         }
         if(intent.getStringExtra("postdate") != null){
@@ -95,6 +116,8 @@ public class EditPostActivity extends Activity {
          */
         
         restorePreferences();
+
+        repo = mUsername + ".github." + repoEnd;
         setStrings();
 
         if(mToken == ""){
@@ -115,6 +138,9 @@ public class EditPostActivity extends Activity {
             case R.id.action_clear_draft:
                 clearDraft();
                 return true;
+//            case R.id.action_add_image:
+//                addImage();
+//                return true;
             case R.id.action_publish:
             	publishPost();
             	return true;
@@ -127,6 +153,11 @@ public class EditPostActivity extends Activity {
             case R.id.action_preview:
             	previewMarkdown();
             	return true;
+            case R.id.settings:
+                Intent intent = new Intent();
+                intent.setClass(EditPostActivity.this, SetPreferenceActivity.class);
+                startActivityForResult(intent, 0);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -141,7 +172,7 @@ public class EditPostActivity extends Activity {
     	
     	@Override
         protected void onPreExecute() {
-            showProgress(true);
+            showProgress(true, getString(R.string.getpost_progress));
         }
 
         protected Void doInBackground(String... params) {
@@ -158,32 +189,28 @@ public class EditPostActivity extends Activity {
             	StringBuilder str = new StringBuilder();
             	String line = null;
             	int yaml_dash=0;
-            	String[] yaml =null;
-            	HashMap<String, String> map = new HashMap<String, String>();
+            	String yaml =null;
+            	HashMap<String, String[]> map;
             	while((line = reader.readLine()) != null)
             	{
             		if(line.equals("---")){
             			yaml_dash++;
             		}
             		if (yaml_dash!=2)
-            			if(!line.equals("---")){
-            			yaml = line.trim().split(":");
-            			if(yaml.length==2)
-            				map.put(yaml[0],yaml[1]);
-            			}
+            			if(!line.equals("---"))
+                            yaml = yaml + line + "\n";
+
             		if (yaml_dash==2){
-            			if(!line.equals("---") && !line.equals("{% include JB/setup %}"))
+            			if(!line.equals("---"))
             				if(line.isEmpty())
             					str.append("\n");
             				else
             					str.append(line);
             		}
             	}
-            	in.close();
-            	mContent = str.toString().replaceAll("\n","\n\n");
-            	mTitle = map.get("title").replace("\"", "").replaceFirst(" ", "");
-            	mCategory = map.get("category").replaceFirst(" ", "");
-            	mTags = map.get("tags").replace("[", "").replace("]", "").replaceFirst(" ", "");
+                in.close();
+                yamlFromString(yaml);
+                mContent = str.toString().replaceAll("\n","\n\n");
             } catch (ClientProtocolException e) {
             	//no network
             	e.printStackTrace();
@@ -195,12 +222,77 @@ public class EditPostActivity extends Activity {
             }
             return null;
         }
-        
+
+
         @Override
         protected void onPostExecute(Void aVoid) {
-        	showProgress(false);
+        	showProgress(false, "...");
             setStrings();
         }
+    }
+
+    public void yamlFromString(String yamlStr) {
+        Yaml yaml = new Yaml();
+        HashMap<String, String[]> map = (HashMap<String, String[]>) yaml.load(yamlStr);
+
+        mTitle = String.valueOf(map.get("title"));
+        mCategory = String.valueOf(map.get("category"));
+        mTags = String.valueOf(map.get("tags")).replace("[", "").replace("]", "");
+    }
+
+    public void addImage (){
+        if (Build.VERSION.SDK_INT <19){
+            Intent intent = new Intent();
+            intent.setType("image/jpeg");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"),GALLERY_INTENT_CALLED);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("image/jpeg");
+            startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
+        }
+        }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) return;
+        if (null == data) return;
+        Uri originalUri = null;
+        if (requestCode == GALLERY_INTENT_CALLED) {
+            originalUri = data.getData();
+        } else if (requestCode == GALLERY_KITKAT_INTENT_CALLED) {
+            originalUri = data.getData();
+            final int takeFlags = data.getFlags()
+                    & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            // Check for the freshest data.
+            getContentResolver().takePersistableUriPermission(originalUri, takeFlags);
+        }
+
+        Toast.makeText(getApplicationContext(),originalUri+"end",Toast.LENGTH_LONG).show();
+
+        EditText content = (EditText)findViewById(R.id.editTextContent);
+        content.setText("![]("+originalUri+")");
+    }
+
+    /**
+     * helper to retrieve the path of an image URI
+     */
+    public String getPath(Uri uri) {
+        if( uri == null ) {
+            return null;
+        }
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if( cursor != null ){
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        return uri.getPath();
     }
 
     private void clearDraft(){
@@ -222,6 +314,14 @@ public class EditPostActivity extends Activity {
         mCategory = settings.getString("draft_category", "");
         mTags = settings.getString("draft_tags", "");
         mContent = settings.getString("draft_content", "");
+
+        SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        extraYAML = mySharedPreferences.getString("yaml_values", "") + "\n";
+        extra = mySharedPreferences.getString("other_values", "") + "\n";
+        subdir = mySharedPreferences.getString("posts_subdir", "");
+        repoEnd = mySharedPreferences.getString("repo_end", "");
+
+
     }
     
     private void publishPost(){
@@ -314,12 +414,18 @@ public class EditPostActivity extends Activity {
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
+    private void showProgress(final boolean show, String message) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+            TextView loadingText = (TextView) findViewById(R.id.newpost_status_message);
+
+            if(!message.isEmpty())
+                loadingText.setText(message);
+            else
+                loadingText.setText("None");
 
             mNewPostStatusView.setVisibility(View.VISIBLE);
             mNewPostStatusView.animate()
@@ -355,7 +461,7 @@ public class EditPostActivity extends Activity {
         @Override
         protected void onPreExecute() {
             hideSoftKeyboard(EditPostActivity.this);
-            showProgress(true);
+            showProgress(true, getString(R.string.newpost_progress));
         }
         
 
@@ -371,7 +477,6 @@ public class EditPostActivity extends Activity {
                 EditText categoryT = (EditText)findViewById(R.id.editTextCategory);
                 EditText tagsT = (EditText)findViewById(R.id.editTextTags);
 
-
                 mTitle = titleT.getText().toString();
                 mCategory = categoryT.getText().toString();
                 mTags = tagsT.getText().toString();
@@ -385,7 +490,7 @@ public class EditPostActivity extends Activity {
                 DataService dataService = new DataService(client);
 
                 // get some sha's from current state in git
-                Repository repository =  repositoryService.getRepository(mUsername, mUsername+".github.com");
+                Repository repository =  repositoryService.getRepository(mUsername, repo);
                 String baseCommitSha = repositoryService.getBranches(repository).get(0).getCommit().getSha();
                 RepositoryCommit baseCommit = commitService.getCommit(repository, baseCommitSha);
                 String treeSha = baseCommit.getSha();
@@ -396,9 +501,10 @@ public class EditPostActivity extends Activity {
                         "description: "+ '"' + '"'+" \n" +
                         "category: " + mCategory + "\n" +
                         "tags: [" + mTags + "]"+ "\n" +
+                        extraYAML + "\n" +
                         "---\n" +
-                        "{% include JB/setup %}\n" +
-                         mContent;
+                        extra + "\n" +
+                        mContent;
 
                 // create new blob with data
                 Blob blob = new Blob();
@@ -413,11 +519,11 @@ public class EditPostActivity extends Activity {
                 // create new tree entry
                 TreeEntry treeEntry = new TreeEntry();
                 
-                // for testing
-                //treeEntry.setPath("pages/" + path);
-                
                 // working
-                treeEntry.setPath("_posts/" + path);
+                if(subdir!=null)
+                    treeEntry.setPath("_posts/" + subdir + "/" + path);
+                else
+                    treeEntry.setPath("_posts/" + path);
                 treeEntry.setMode(TreeEntry.MODE_BLOB);
                 treeEntry.setType(TreeEntry.TYPE_BLOB);
                 treeEntry.setSha(blob_sha);
@@ -459,12 +565,12 @@ public class EditPostActivity extends Activity {
 
         @Override
         protected void onCancelled() {
-            showProgress(false);
+            showProgress(false, "...");
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            showProgress(false);
+            showProgress(false, "...");
             Toast.makeText(EditPostActivity.this, "Post published!", Toast.LENGTH_LONG ).show();
 
             /**
@@ -482,6 +588,7 @@ public class EditPostActivity extends Activity {
     	if (!mContent.isEmpty()){
     		Intent myIntent = new Intent(getApplicationContext(), PreviewMarkdownActivity.class);
     		myIntent.putExtra("content", mContent);
+            myIntent.putExtra("repo", repo);
     		startActivity(myIntent);
     	}else
     		Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show();

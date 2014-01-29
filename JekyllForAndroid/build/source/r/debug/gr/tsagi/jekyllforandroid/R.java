@@ -11,6 +11,7 @@ public final class R {
     public static final class array {
         public static final int gpresources=0x7f050000;
         public static final int gpresourceslinks=0x7f050001;
+        public static final int repo_end=0x7f050002;
     }
     public static final class attr {
     }
@@ -31,15 +32,14 @@ public final class R {
     }
     public static final class id {
         public static final int RelativeLayout1=0x7f0b0000;
-        public static final int action_add_image=0x7f0b0022;
-        public static final int action_clear_draft=0x7f0b0025;
-        public static final int action_delete=0x7f0b0023;
-        public static final int action_list=0x7f0b001c;
-        public static final int action_logout=0x7f0b001f;
-        public static final int action_new=0x7f0b001d;
-        public static final int action_preview=0x7f0b0021;
-        public static final int action_publish=0x7f0b0024;
-        public static final int action_settings=0x7f0b0026;
+        public static final int action_clear_draft=0x7f0b0022;
+        public static final int action_delete=0x7f0b0020;
+        public static final int action_list=0x7f0b001a;
+        public static final int action_logout=0x7f0b001d;
+        public static final int action_new=0x7f0b001b;
+        public static final int action_preview=0x7f0b001f;
+        public static final int action_publish=0x7f0b0021;
+        public static final int action_settings=0x7f0b0023;
         public static final int editTextCategory=0x7f0b0012;
         public static final int editTextContent=0x7f0b0015;
         public static final int editTextTags=0x7f0b0013;
@@ -49,7 +49,7 @@ public final class R {
         public static final int jinfospinner=0x7f0b000b;
         public static final int jinfotextView=0x7f0b000a;
         public static final int login=0x7f0b0007;
-        public static final int login_forgot_password=0x7f0b0020;
+        public static final int login_forgot_password=0x7f0b001e;
         public static final int login_form=0x7f0b0004;
         public static final int login_status=0x7f0b0002;
         public static final int login_status_message=0x7f0b0003;
@@ -59,13 +59,11 @@ public final class R {
         public static final int newpost_status_message=0x7f0b000e;
         public static final int nojekyll=0x7f0b0009;
         public static final int password=0x7f0b0006;
-        public static final int pdate=0x7f0b001a;
+        public static final int pdate=0x7f0b0018;
         public static final int posts_list=0x7f0b0017;
         public static final int postslist_status=0x7f0b0016;
-        public static final int previewTextView=0x7f0b0019;
-        public static final int ptitle=0x7f0b001b;
-        public static final int scrollView1=0x7f0b0018;
-        public static final int settings=0x7f0b001e;
+        public static final int ptitle=0x7f0b0019;
+        public static final int settings=0x7f0b001c;
         public static final int sign_in_button=0x7f0b0008;
         public static final int textView=0x7f0b0014;
         public static final int username=0x7f0b0005;
@@ -75,8 +73,7 @@ public final class R {
         public static final int activity_login=0x7f030001;
         public static final int activity_post=0x7f030002;
         public static final int activity_posts_list=0x7f030003;
-        public static final int activity_preview=0x7f030004;
-        public static final int list_view=0x7f030005;
+        public static final int list_view=0x7f030004;
     }
     public static final class menu {
         public static final int action=0x7f0a0000;
@@ -117,10 +114,11 @@ public final class R {
         public static final int postslist_progress=0x7f08001c;
         public static final int prompt_password=0x7f08001d;
         public static final int prompt_username=0x7f08001e;
-        public static final int title_activity_action=0x7f08001f;
-        public static final int title_activity_markdown=0x7f080020;
-        public static final int title_activity_posts_list=0x7f080021;
-        public static final int wanna_know=0x7f080022;
+        public static final int repo_end_default=0x7f08001f;
+        public static final int title_activity_action=0x7f080020;
+        public static final int title_activity_markdown=0x7f080021;
+        public static final int title_activity_posts_list=0x7f080022;
+        public static final int wanna_know=0x7f080023;
     }
     public static final class style {
         /** 

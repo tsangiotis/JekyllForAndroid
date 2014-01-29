@@ -98,11 +98,13 @@ public class PostsListActivity extends Activity {
     JSONArray posts = null;
     ListAdapter adapter;
 
+    private String repo;
+    private String repoEnd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_list);
-        getActionBar().setSubtitle("Alpha feature");
         restorePreferences();
         
         ActionBar actionBar = getActionBar();
@@ -111,7 +113,9 @@ public class PostsListActivity extends Activity {
         mListView = findViewById(R.id.posts_list);
         mListStatusView = findViewById(R.id.postslist_status);
 
-        j_url = "http://" + mUsername +".github.io" + "/json/";
+        repo = mUsername + ".github." + repoEnd;
+
+        j_url = "http://" + repo + "/json/";
         
         if(old_json.equals(""))
         	new HtmlToJson().execute(j_url);
@@ -136,6 +140,9 @@ public class PostsListActivity extends Activity {
 
         SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         subdir = mySharedPreferences.getString("posts_subdir", "");
+        repoEnd =  mySharedPreferences.getString("repo_end", "io");
+        if(subdir!="")
+            subdir = subdir +"/";
         
     }
     
@@ -218,14 +225,8 @@ public class PostsListActivity extends Activity {
                     for(int j=0; j < separatedId.length; j++){
                     	if(separatedId[j].startsWith("20")){
                             String url;
-                            if(subdir!="")
-                    		    url = "https://raw.github.com/"+ mUsername + "/"+ mUsername +
-                                        ".github.com/master/_posts/" + subdir + "/" +
-                                        separatedId[j] +"-"+ separatedId[j+1] +"-"
-                                        + separatedId[j+2] + "-"+separatedId[j+3]+".md";
-                            else
-                                url = "https://raw.github.com/"+ mUsername + "/"+ mUsername +
-                                        ".github.com/master/_posts/" +
+                            url = "https://raw.github.com/"+ mUsername + "/"+ repo +
+                                        "/master/_posts/" + subdir +
                                         separatedId[j] +"-"+ separatedId[j+1] +"-"
                                         + separatedId[j+2] + "-"+separatedId[j+3]+".md";
                     		dates.add(separatedId[j] +"-"+ separatedId[j+1] +"-"+ separatedId[j+2]);

@@ -25,8 +25,6 @@
             android:name="gr.tsagi.jekyllforandroid.EditPostActivity"
             android:configChanges="keyboardHidden"
             android:label="@string/action_newpost" >
-            <meta-data android:name="android.support.UI_OPTIONS"
-                android:value="splitActionBarWhenNarrow" />
 
         </activity>
         <activity
@@ -38,7 +36,6 @@
             android:label="@string/title_activity_action" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

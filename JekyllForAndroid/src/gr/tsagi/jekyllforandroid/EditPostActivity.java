@@ -68,7 +68,10 @@ public class EditPostActivity extends Activity {
     String mContent;
     
     String message;
-    String yamlcontent;
+
+    String repo;
+
+    private String repoEnd;
 
     private String extraYAML;
     private String extra;
@@ -80,6 +83,8 @@ public class EditPostActivity extends Activity {
     private View mNewPostStatusView;
 
     private SharedPreferences settings;
+
+
     private static final int GALLERY_INTENT_CALLED = 1;
     private static final int GALLERY_KITKAT_INTENT_CALLED = 2;
 
@@ -111,6 +116,8 @@ public class EditPostActivity extends Activity {
          */
         
         restorePreferences();
+
+        repo = mUsername + ".github." + repoEnd;
         setStrings();
 
         if(mToken == ""){
@@ -131,9 +138,9 @@ public class EditPostActivity extends Activity {
             case R.id.action_clear_draft:
                 clearDraft();
                 return true;
-            case R.id.action_add_image:
-                addImage();
-                return true;
+//            case R.id.action_add_image:
+//                addImage();
+//                return true;
             case R.id.action_publish:
             	publishPost();
             	return true;
@@ -307,6 +314,14 @@ public class EditPostActivity extends Activity {
         mCategory = settings.getString("draft_category", "");
         mTags = settings.getString("draft_tags", "");
         mContent = settings.getString("draft_content", "");
+
+        SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        extraYAML = mySharedPreferences.getString("yaml_values", "") + "\n";
+        extra = mySharedPreferences.getString("other_values", "") + "\n";
+        subdir = mySharedPreferences.getString("posts_subdir", "");
+        repoEnd = mySharedPreferences.getString("repo_end", "");
+
+
     }
     
     private void publishPost(){
@@ -462,8 +477,6 @@ public class EditPostActivity extends Activity {
                 EditText categoryT = (EditText)findViewById(R.id.editTextCategory);
                 EditText tagsT = (EditText)findViewById(R.id.editTextTags);
 
-                loadPref();
-
                 mTitle = titleT.getText().toString();
                 mCategory = categoryT.getText().toString();
                 mTags = tagsT.getText().toString();
@@ -477,7 +490,7 @@ public class EditPostActivity extends Activity {
                 DataService dataService = new DataService(client);
 
                 // get some sha's from current state in git
-                Repository repository =  repositoryService.getRepository(mUsername, mUsername+".github.com");
+                Repository repository =  repositoryService.getRepository(mUsername, repo);
                 String baseCommitSha = repositoryService.getBranches(repository).get(0).getCommit().getSha();
                 RepositoryCommit baseCommit = commitService.getCommit(repository, baseCommitSha);
                 String treeSha = baseCommit.getSha();
@@ -569,19 +582,13 @@ public class EditPostActivity extends Activity {
             finish();
         }
     }
-
-    private void loadPref(){
-        SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        extraYAML = mySharedPreferences.getString("yaml_values", "") + "\n";
-        extra = mySharedPreferences.getString("other_values", "") + "\n";
-        subdir = mySharedPreferences.getString("posts_subdir", "");
-    }
     
     public void previewMarkdown(){
     	savePreferences();
     	if (!mContent.isEmpty()){
     		Intent myIntent = new Intent(getApplicationContext(), PreviewMarkdownActivity.class);
     		myIntent.putExtra("content", mContent);
+            myIntent.putExtra("repo", repo);
     		startActivity(myIntent);
     	}else
     		Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show();

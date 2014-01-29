@@ -19,6 +19,11 @@
     <!-- From: file:/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/values/strings.xml -->
     <eat-comment />
 
+    <array name="repo_end">
+        <item name="com">com</item>
+        <item name="io">io</item>
+    </array>
+
     <color name="mgreen">#ff00ff0d</color>
     <color name="mlightblue">#ff00beff</color>
     <color name="mred">#ff00ff0d</color>
@@ -89,6 +94,7 @@
     <!-- From: file:/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/res/values/strings.xml -->
     <eat-comment />
 
+    <string name="repo_end_default">com</string>
     <string name="title_activity_action">Jekyll for Android</string>
     <string name="title_activity_markdown">Markdown Preview</string>
     <string name="title_activity_posts_list">Posts</string>

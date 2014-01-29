@@ -1,7 +1,7 @@
 <!-- From: file:/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/AndroidManifest.xml -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="43" android:versionName="1.1-dev" package="gr.tsagi.jekyllforandroid.dev">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="92" android:versionName="1.1-dev" package="gr.tsagi.jekyllforandroid.dev">
 
-    <uses-sdk android:minSdkVersion="12" android:targetSdkVersion="18"/>
+    <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="19"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -10,7 +10,6 @@
         <activity android:label="@string/app_name" android:name="gr.tsagi.jekyllforandroid.LoginActivity" android:windowSoftInputMode="adjustResize|stateVisible">
         </activity>
         <activity android:configChanges="keyboardHidden" android:label="@string/action_newpost" android:name="gr.tsagi.jekyllforandroid.EditPostActivity">
-            <meta-data android:name="android.support.UI_OPTIONS" android:value="splitActionBarWhenNarrow"/>
 
         </activity>
         <activity android:label="@string/title_activity_markdown" android:name="gr.tsagi.jekyllforandroid.PreviewMarkdownActivity">
@@ -18,7 +17,6 @@
         <activity android:label="@string/title_activity_action" android:name="gr.tsagi.jekyllforandroid.ActionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

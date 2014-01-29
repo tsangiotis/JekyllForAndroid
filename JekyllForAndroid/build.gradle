@@ -9,6 +9,9 @@ buildscript {
 }
 repositories {
     mavenCentral()
+    maven {
+        url "https://repo.commonsware.com.s3.amazonaws.com"
+    }
 }
 android {
     compileSdkVersion 19
@@ -40,8 +43,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 12
-        targetSdkVersion 18
+        minSdkVersion 11
+        targetSdkVersion 19
         versionCode versionCodeFromFile()
         versionName versionFromFile()
     }
@@ -95,22 +98,10 @@ android {
 
     dependencies {
         compile group: 'org.yaml', name: 'snakeyaml', version: '1.13'
-//        compile group: 'in.uncod.android.bypass', name: 'bypass', version: '1.1'
+        compile 'com.commonsware.cwac:anddown:0.2.0'
         compile fileTree(dir: 'libs', include: '*.jar')
-        compile files("$buildDir/native-libs/native-libs.jar")
     }
 
-    task nativeLibsToJar(type: Zip) {
-        destinationDir file("$buildDir/native-libs")
-        baseName 'native-libs'
-        extension 'jar'
-        from fileTree(dir: 'libs', include: '**/*.so')
-        into 'lib/'
-    }
-
-    tasks.withType(Compile) {
-        compileTask -> compileTask.dependsOn(nativeLibsToJar)
-    }
 }
 assembleDebug.doFirst {
     incrementVersionCode()

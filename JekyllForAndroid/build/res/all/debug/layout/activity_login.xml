@@ -1,0 +1,102 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".LoginActivity" >
+
+    <!-- Login progress -->
+    <LinearLayout android:id="@+id/login_status"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <ProgressBar style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"/>
+        <TextView
+            android:id="@+id/login_status_message"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:fontFamily="sans-serif-light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/login_progress_signing_in" />
+    </LinearLayout>
+
+    <!-- Login form -->
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout style="@style/LoginFormContainer"
+            android:id="@+id/login_form_main"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/username"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="@string/prompt_username" />
+            <!--<EditText-->
+                <!--android:id="@+id/password"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+
+            <EditText
+                android:id="@+id/password"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_password"
+                android:inputType="textPassword"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeActionId="1234"
+                android:imeOptions="actionUnspecified" />
+
+            <Button android:id="@+id/sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_sign_in_short"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:layout_gravity="right" />
+
+            <LinearLayout
+                android:id="@+id/nojekyll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <TextView
+                    android:id="@+id/jinfotextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wanna_know" />
+
+                <Spinner
+                    android:id="@+id/jinfospinner"
+                    android:layout_width="match_parent"
+                    android:entries="@array/gpresources"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/jinfoButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Go" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</merge>
+<!-- From: file:/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/main/res/layout/activity_login.xml -->

@@ -1,135 +1,56 @@
-import groovy.transform.Field
-
-apply plugin: 'android'
 buildscript {
     repositories {
         mavenCentral()
+
+        maven {url "https://repo.eclipse.org/content/groups/releases/"}
+        maven {url "https://repo.commonsware.com.s3.amazonaws.com"}
+        maven {url "https://oss.sonatype.org/content/repositories/snapshots/"}
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.android.tools.build:gradle:0.8.+'
+        classpath 'com.squareup.gradle:gradle-android-test-plugin:0.9.1-SNAPSHOT'
     }
 }
+apply plugin: 'android'
+apply plugin: 'android-test'
+
 repositories {
     mavenCentral()
 
     maven {url "https://repo.eclipse.org/content/groups/releases/"}
     maven {url "https://repo.commonsware.com.s3.amazonaws.com"}
+    maven {url "https://oss.sonatype.org/content/repositories/snapshots/"}
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19"
-
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-        }
-
-        // Move the tests to tests/java, tests/res, etc...
-        instrumentTest.setRoot('tests')
-
-        // Move the build types to build-types/<type>
-        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
-        // This moves them out of them default location under src/<type>/... which would
-        // conflict with src/ being used by the main source set.
-        // Adding new build types or product flavors should be accompanied
-        // by a similar customization.
-        debug.setRoot('build-types/debug')
-        release.setRoot('build-types/release')
-        nightly.setRoot('build-types/nightly')
-
-    }
+    compileSdkVersion 18
+    buildToolsVersion "19.0.0"
 
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 19
-        versionCode versionCodeFromFile()
-        versionName versionFromFile()
+        targetSdkVersion 18
     }
 
-    signingConfigs {
-        def console = System.console()
-        def storePass = ""
-        def keyPass = ""
-        if (console != null) {
-            storePass = console.readLine('> Enter keystore password: ')
-            keyPass = console.readLine('> Enter key password: ')
-        }
-
-        release {
-            storeFile file("/Users/tsagi/Development/AndroidStudioProjects/KeyStore/jekyllforandroid.keystore")
-            storePassword storePass
-            keyAlias "jekyllforandroid"
-            keyPassword keyPass
-        }
-
-        nightly {
-            storeFile file("/Users/tsagi/Development/AndroidStudioProjects/KeyStore/jekyllforandroid.keystore")
-            storePassword storePass
-            keyAlias "jekyllforandroid-nightly"
-            keyPassword keyPass
-        }
+    sourceSets {
+        instrumentTest.setRoot('src/test')
     }
-
-    buildTypes {
-
-        release {
-            signingConfig signingConfigs.release
-        }
-
-        beta.initWith(buildTypes.release)
-        beta {
-            versionNameSuffix "-beta"
-        }
-
-        nightly.initWith(buildTypes.release)
-        nightly {
-            packageNameSuffix ".nightly"
-            versionNameSuffix "-nightly"
-            signingConfig signingConfigs.nightly
-            debuggable true
-        }
-
-        debug {
-            packageNameSuffix ".dev"
-            versionNameSuffix "-dev"
-        }
-    }
-
-    dependencies {
-
-        // Needed for egit-github
-        compile group: 'com.google.code.gson', name: 'gson', version: '2.2.4'
-
-        compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '3.2.0.201312181205-r'
-        compile group: 'org.yaml', name: 'snakeyaml', version: '1.13'
-        compile 'com.commonsware.cwac:anddown:0.2.0'
-
-        compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
-        compile fileTree(dir: 'libs', include: '*.jar')
-    }
-
 }
-assembleDebug.doFirst {
-    incrementVersionCode()
-}
-def versionCodeFromFile() {
-    def versionCodeFile = file("version_code")
-    return Integer.parseInt(versionCodeFile.getText().trim())
-}
-def versionFromFile() {
-    def versionFile = file("version")
-    return versionFile.getText().trim()
-}
-def incrementVersionCode() {
-    def versionCodeFile = file("version_code")
-    def versionCode = Integer.parseInt(versionCodeFile.getText().trim())
-    versionCode = versionCode + 1
-    versionCodeFile.write(versionCode.toString())
+
+
+dependencies {
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.2.4'
+    compile 'com.github.castorflex.smoothprogressbar:library:0.3.3'
+    compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '3.2.0.201312181205-r'
+    compile group: 'org.yaml', name: 'snakeyaml', version: '1.13'
+    compile 'com.commonsware.cwac:anddown:0.2.0'
+    compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
+    compile 'com.android.support:appcompat-v7:+'
+
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
+    testCompile 'com.squareup:fest-android:1.0.+'
+    instrumentTestCompile 'junit:junit:4.10'
+    instrumentTestCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
+    instrumentTestCompile 'com.squareup:fest-android:1.0.+'
+
 }

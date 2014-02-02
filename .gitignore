@@ -25,6 +25,7 @@ proguard-project.txt
 project.properties
 
 .gradle
+gradle
 gradle.xml
 
 

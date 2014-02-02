@@ -27,5 +27,6 @@ project.properties
 .gradle
 gradle
 gradle.xml
+bypass
 
 *.keystore

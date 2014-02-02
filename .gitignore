@@ -20,7 +20,12 @@ local.properties
 .project
 *.iml
 build
+
+proguard-project.txt
+project.properties
+
 .gradle
 gradle.xml
+
 
 .keystore

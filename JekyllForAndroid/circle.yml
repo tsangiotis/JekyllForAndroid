@@ -5,7 +5,7 @@ test:
   pre:
     - echo "sdk.dir=/usr/local/android-sdk-linux" > /home/ubuntu/jekyll-client-for-android/local.properties
   override:
-    - ./home/ubuntu/jekyll-client-for-android/gradlew test  # use gradle testing
+    - gradle test  # use gradle testing
 machine:
   environment:
     ANDROID_HOME: /usr/local/android-sdk-linux

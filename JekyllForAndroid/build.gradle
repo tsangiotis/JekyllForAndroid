@@ -82,7 +82,7 @@ android {
             {
                 debug
                         {
-                            packageNameSuffix ".debug"
+//                            packageNameSuffix ".debug"
                             versionNameSuffix " debug " + getBuildName()
                         }
 

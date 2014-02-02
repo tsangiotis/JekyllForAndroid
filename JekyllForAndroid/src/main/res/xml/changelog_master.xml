@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="1.2.2" versioncode="102">
+        <change>Bugfixes</change>
+    </release>
+    <release version="1.2.1" versioncode="97">
+        <change>Autodetect repository.</change>
+    </release>
+    <release version="1.2" versioncode="93" >
+        <change>New Markdown Preview.</change>
+        <change>Settings now contain more options.</change>
+        <change>Load images from remote links.</change>
+        <change>Load images from published posts.</change>
+        <change>Bug-fixes.</change>
+    </release>
+</changelog>

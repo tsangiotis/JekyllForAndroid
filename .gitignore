@@ -19,4 +19,14 @@ local.properties
 .classpath
 .project
 *.iml
+build
+
+proguard-project.txt
+project.properties
+
+.gradle
+gradle
 gradle.xml
+
+
+.keystore

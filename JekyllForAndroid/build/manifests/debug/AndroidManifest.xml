@@ -1,5 +1,5 @@
 <!-- From: file:/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/main/AndroidManifest.xml -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="3" android:versionName="1.2" package="gr.tsagi.jekyllforandroid">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="3" android:versionName="1.2 debug 140202-1232" package="gr.tsagi.jekyllforandroid.debug">
 
     <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="18"/>
 

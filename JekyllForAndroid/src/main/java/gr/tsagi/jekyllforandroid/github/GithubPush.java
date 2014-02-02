@@ -1,8 +1,10 @@
-package gr.tsagi.jekyllforandroid.utils;
+package gr.tsagi.jekyllforandroid.github;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.eclipse.egit.github.core.Blob;
 import org.eclipse.egit.github.core.Commit;
@@ -20,8 +22,11 @@ import org.eclipse.egit.github.core.service.RepositoryService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.activities.EditPostActivity;
+import gr.tsagi.jekyllforandroid.activities.PostsListActivity;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -35,23 +40,25 @@ public class GithubPush {
     private String dir;
     private String json;
     private String jsonPath;
+    PostsListActivity postsListActivity;
+    EditPostActivity editPostActivity;
 
     public GithubPush(Context context){
         SharedPreferences settings = context
                 .getSharedPreferences("gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
         user = settings.getString("user_login", "");
         token = settings.getString("user_status", "");
-        dir = settings.getString("posts_subdir", "");
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        dir = sharedPref.getString("posts_subdir", "");
         if(!dir.equals(""))
             dir = dir +"/";
-        user = settings.getString("user_repo", "");
+        repo = settings.getString("user_repo", "");
         jsonPath = context.getResources()
                 .getString(R.string.json_path);
-//        json = context.getResources()
-//                .getString(R.string.jekyll_json);
     }
 
-    public void pushJson(){
+    public void pushJson(PostsListActivity act) throws ExecutionException, InterruptedException {
+        postsListActivity = act;
         json ="---\n" +
                 "title: json" + "\n" +
                 "---\n" +
@@ -61,22 +68,26 @@ public class GithubPush {
                 ":\"{{ post.title }}\",\"id\": \"{{ post.id }}\",\"published_on\":\"{{ post.date | date: \"%-d %B %Y\" }}\"}"+
                 "{% if forloop.rindex0 > 0 %},{% endif %}{% endfor %}]}";
         String commitMessage = "Json generator by Jekyll for Android";
-        new PushFile().execute(json, jsonPath, commitMessage);
+        String result = new PushFile().execute(json, jsonPath, commitMessage).get();
+        act.pushResult(result);
     }
 
-    public void pushContent(String title, String date, String content){
+    public void pushContent(EditPostActivity act, String title, String date, String content) throws ExecutionException, InterruptedException {
+        editPostActivity = act;
         // set path
         String path = date + "-" + title.toLowerCase().replace(' ', '-')
                 .replace(",","").replace("!","").replace(".","") + ".md";
-        path = "_posts/" + dir + "/" + path;
+        path = "_posts/" + dir + path;
         String commitMessage = "Update/new Post from Jekyll for Android";
-        new PushFile().execute(content, path, commitMessage);
+        String result = new PushFile().execute(content, path, commitMessage).get();
+        act.pushResult(result);
+
     }
 
-    class PushFile extends AsyncTask<String,Void,Void> {
+    class PushFile extends AsyncTask<String,Void,String> {
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected String doInBackground(String... params) {
             try {
 
                 String blobContent = params[0];
@@ -94,6 +105,7 @@ public class GithubPush {
                 DataService dataService = new DataService(client);
 
                 // get some sha's from current state in git
+                Log.d("repository", user + "  " + repo);
                 Repository repository =  repositoryService.getRepository(user, repo);
                 String baseCommitSha = repositoryService.getBranches(repository).get(0).getCommit().getSha();
                 RepositoryCommit baseCommit = commitService.getCommit(repository, baseCommitSha);
@@ -108,6 +120,8 @@ public class GithubPush {
 
                 // create new tree entry
                 TreeEntry treeEntry = new TreeEntry();
+
+                Log.d("RepoPath", path);
 
                 // working
                 treeEntry.setPath(path);
@@ -144,8 +158,15 @@ public class GithubPush {
             } catch (Exception e) {
                 // error
                 e.printStackTrace();
+                return "error";
             }
-            return null;
+            return "OK";
+        }
+
+        @Override
+        protected void onPostExecute(String res) {
+            super.onPostExecute(res);
+
         }
     }
 }

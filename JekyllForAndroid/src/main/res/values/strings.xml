@@ -10,10 +10,14 @@
     <string name="hint_category">Category</string>
     <string name="hint_tags">Tags</string>
     <string name="hint_content">Post Content:</string>
-    <string name="newpost_progress">Publishing post&#8230;</string>
+    <string name="editpost_progress">Publishing post&#8230;</string>
     <string name="getpost_progress">Getting post&#8230;</string>
     <string name="postslist_progress">Updating list&#8230;</string>
-    <string name="newpost_empty">Chances are you don\'t want to publish an empty post.</string>
+    <string name="editpost_empty">Chances are you don\'t want to publish an empty post.</string>
+    <string name="editpost_publish">Post Published!</string>
+    <string name="editpost_fail">Somethig has gone wrong. Failed to publish post…</string>
+    <string name="success">Success!</string>
+    <string name="fail">Something got wrong…</string>
     <string name="ok">OK</string>
     <string name="menu_settings">Settings</string>
     <string name="info">Info</string>

@@ -1,5 +1,7 @@
 package gr.tsagi.jekyllforandroid.utils;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +36,7 @@ public  class HtmlToJson {
             posts = json.getJSONArray("posts");
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
         }
         return posts;
     }
@@ -41,29 +44,27 @@ public  class HtmlToJson {
     public List<String> getDates(JSONArray posts) throws JSONException {
 
         List<String> dates = new ArrayList<String>();
-        for(int j=0; j < posts.length(); j++){
-            for(int i = 0; i < posts.length(); i++){
-                JSONObject r = posts.getJSONObject(i);
+        for(int i = 0; i < posts.length(); i++){
+            JSONObject r = posts.getJSONObject(i);
 
-                String separatedId[] = r.getString("id").split("/");
-
+            String separatedId[] = r.getString("id").split("/");
+            for(int j=0; j < separatedId.length; j++){
                 if(separatedId[j].startsWith("20")){
                     dates.add(separatedId[j] + "-" + separatedId[j + 1] + "-" + separatedId[j + 2]);
                     break;
                 }
             }
         }
-        return null;
+        return dates;
     }
 
     public List<String> getUrls(JSONArray posts) throws JSONException{
         List<String> urls = new ArrayList<String>();
         for(int i = 0; i < posts.length(); i++){
             JSONObject r = posts.getJSONObject(i);
-            for(int j=0; j < posts.length(); j++){
 
-                String separatedId[] = r.getString("id").split("/");
-
+            String separatedId[] = r.getString("id").split("/");
+            for(int j=0; j < separatedId.length; j++){
                 if(separatedId[j].startsWith("20")){
                     String url = "https://raw.github.com/" + user + "/" + repo +
                             "/master/_posts/" + dir +
@@ -81,7 +82,7 @@ public  class HtmlToJson {
 
     public ArrayList<HashMap<String, String>> getPostsArray(JSONArray posts){
 
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map;
 
         ArrayList<HashMap<String, String>> postList = new ArrayList<HashMap<String, String>>();
 
@@ -89,13 +90,14 @@ public  class HtmlToJson {
             for(int i = 0; i < posts.length(); i++){
                 JSONObject r = posts.getJSONObject(i);
 
+                map = new HashMap<String, String>();
                 // adding each child node to HashMap key => value
                 map.put("published_on", r.getString("published_on"));
                 map.put("title", r.getString("title"));
+                Log.d("jsonising", r.getString("title"));
 
                 // adding HashList to ArrayList
                 postList.add(map);
-
             }
         }catch (JSONException e) {
             e.printStackTrace();

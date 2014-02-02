@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 buildscript {
     repositories {
         mavenCentral()
@@ -22,8 +24,33 @@ repositories {
     maven {url "https://oss.sonatype.org/content/repositories/snapshots/"}
 }
 
+dependencies {
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.2.4'
+    compile 'com.github.castorflex.smoothprogressbar:library:0.3.3'
+    compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '3.2.0.201312181205-r'
+    compile group: 'org.yaml', name: 'snakeyaml', version: '1.13'
+    compile 'com.commonsware.cwac:anddown:0.2.0'
+    compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
+    compile 'com.squareup.okhttp:okhttp:1.2.1'
+    compile 'com.squareup.retrofit:retrofit:1.2.2'
+    compile 'com.android.support:appcompat-v7:+'
+
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
+    testCompile 'com.squareup:fest-android:1.0.+'
+    instrumentTestCompile 'junit:junit:4.10'
+    instrumentTestCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
+    instrumentTestCompile 'com.squareup:fest-android:1.0.+'
+
+}
+
+def getBuildName()
+{
+    return new SimpleDateFormat("yyMMdd-HHmm").format(new Date());
+}
+
 android {
-    compileSdkVersion 18
+    compileSdkVersion 19
     buildToolsVersion "19.0.0"
 
     defaultConfig {
@@ -34,23 +61,34 @@ android {
     sourceSets {
         instrumentTest.setRoot('src/test')
     }
-}
 
+    signingConfigs
+            {
+                debug
+                        {
+                            storeFile file("debug.keystore")
+                        }
 
-dependencies {
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.2.4'
-    compile 'com.github.castorflex.smoothprogressbar:library:0.3.3'
-    compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '3.2.0.201312181205-r'
-    compile group: 'org.yaml', name: 'snakeyaml', version: '1.13'
-    compile 'com.commonsware.cwac:anddown:0.2.0'
-    compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
-    compile 'com.android.support:appcompat-v7:+'
+                release
+                        {
+                            storeFile file("release.keystore")
+                            storePassword "xxx"
+                            keyAlias "jekyllforandroid"
+                            keyPassword "xxx"
+                        }
+            }
 
-    testCompile 'junit:junit:4.10'
-    testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
-    testCompile 'com.squareup:fest-android:1.0.+'
-    instrumentTestCompile 'junit:junit:4.10'
-    instrumentTestCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
-    instrumentTestCompile 'com.squareup:fest-android:1.0.+'
+    buildTypes
+            {
+                debug
+                        {
+                            packageNameSuffix ".debug"
+                            versionNameSuffix " debug " + getBuildName()
+                        }
 
+                release
+                        {
+                            signingConfig signingConfigs.release
+                        }
+            }
 }

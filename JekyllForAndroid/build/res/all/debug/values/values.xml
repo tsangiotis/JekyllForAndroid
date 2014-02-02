@@ -617,6 +617,10 @@
     <string name="dialog_logout_nodraft">Sure you want to logout?</string>
     <string name="dialog_push_json">To get your posts a file should be added to your repository. 
 	    For more information on that and the contents of the file check jekyll-for-android on Github!</string>
+    <string name="editpost_empty">Chances are you don\'t want to publish an empty post.</string>
+    <string name="editpost_fail">Somethig has gone wrong. Failed to publish post…</string>
+    <string name="editpost_progress">Publishing post…</string>
+    <string name="editpost_publish">Post Published!</string>
     <!-- From: file:/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/main/res/values/strings_activity_login.xml -->
     <eat-comment />
 
@@ -627,6 +631,7 @@
     <!-- From: file:/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/main/res/values/strings.xml -->
     <eat-comment />
 
+    <string name="fail">Something got wrong…</string>
     <string name="getpost_progress">Getting post…</string>
     <string name="hint_category">Category</string>
     <string name="hint_content">Post Content:</string>
@@ -642,8 +647,6 @@
     <eat-comment />
 
     <string name="menu_settings">Settings</string>
-    <string name="newpost_empty">Chances are you don\'t want to publish an empty post.</string>
-    <string name="newpost_progress">Publishing post…</string>
     <string name="ok">OK</string>
     <string name="postslist_progress">Updating list…</string>
     <!-- From: file:/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/main/res/values/strings_activity_login.xml -->
@@ -658,6 +661,7 @@
     <!-- From: file:/Users/tsagi/Development/jekyll-client-for-android/JekyllForAndroid/src/main/res/values/strings.xml -->
     <eat-comment />
 
+    <string name="success">Success!</string>
     <string name="title_activity_action">Jekyll for Android</string>
     <string name="title_activity_markdown">Markdown Preview</string>
     <string name="title_activity_posts_list">Posts</string>

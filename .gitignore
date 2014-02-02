@@ -19,4 +19,8 @@ local.properties
 .classpath
 .project
 *.iml
+build
+.gradle
 gradle.xml
+
+.keystore

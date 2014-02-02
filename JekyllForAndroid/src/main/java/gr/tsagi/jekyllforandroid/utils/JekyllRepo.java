@@ -1,7 +1,6 @@
 package gr.tsagi.jekyllforandroid.utils;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.service.RepositoryService;
@@ -46,7 +45,6 @@ public class JekyllRepo {
             e.printStackTrace();
         }
         for (Repository repository1 : repositories) {
-            Log.d("repos", repository1.getName());
             if(repository1.getName().contains(user + ".github."))
                 return repository1.getName();
         }

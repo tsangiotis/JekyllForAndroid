@@ -3,7 +3,7 @@
        tools:context=".TestActivity">
 
     <!-- Loading progress -->
-    <LinearLayout android:id="@+id/newpost_status"
+    <LinearLayout android:id="@+id/editpost_status"
                   android:visibility="gone"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -15,22 +15,22 @@
                      android:layout_height="wrap_content"
                      android:layout_marginBottom="8dp"/>
         <TextView
-                android:id="@+id/newpost_status_message"
+                android:id="@+id/editpost_status_message"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:fontFamily="sans-serif-light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="@string/newpost_progress" />
+                android:text="@string/editpost_progress" />
     </LinearLayout>
 
     <ScrollView
-        android:id="@+id/newpost_form"
+        android:id="@+id/editpost_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
         <LinearLayout
-            android:id="@+id/newpost_form_iner"
+            android:id="@+id/editpost_form_iner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

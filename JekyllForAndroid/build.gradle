@@ -72,9 +72,9 @@ android {
                 release
                         {
                             storeFile file("release.keystore")
-                            storePassword "xxx"
+                            storePassword ""
                             keyAlias "jekyllforandroid"
-                            keyPassword "xxx"
+                            keyPassword ""
                         }
             }
 

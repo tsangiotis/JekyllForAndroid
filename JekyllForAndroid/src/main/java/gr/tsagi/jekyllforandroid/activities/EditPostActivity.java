@@ -232,6 +232,8 @@ public class EditPostActivity extends Activity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Map<String, Object> data = new HashMap<String, Object>();
 
+
+
         loadAnim = new ShowLoading(mNewPostFormView, mNewPostStatusView);
         loadAnim.showProgress(EditPostActivity.this,true);
 
@@ -249,8 +251,9 @@ public class EditPostActivity extends Activity {
         String output = "---\n" + yaml.dump(data) + "---\n";
 
         GithubPush pusher = new GithubPush(EditPostActivity.this);
+
         try {
-            pusher.pushContent(EditPostActivity.this, mTitle, mDate, output + mContent);
+            pusher.pushContent(this, mTitle, mDate, output + mContent);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

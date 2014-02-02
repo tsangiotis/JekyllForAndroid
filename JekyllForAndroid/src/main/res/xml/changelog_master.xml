@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="1.2.2" versioncode="102">
-        <change>Small bug for current users.</change>
+        <change>Bugfixes</change>
     </release>
     <release version="1.2.1" versioncode="97">
         <change>Autodetect repository.</change>

@@ -23,14 +23,14 @@ You can get the latest version to directly install it on your smartphone from th
 	- Category
 	- Tags
 	- Content (of course)
-- Markdown Preview (using [bypass](http://uncodin.github.io/bypass/))
+- Markdown Preview
 - If not published the post stays as a draft
 - View posts
 - Edit/Delete posts
 
 #To compile
 
-Download [ADT Bundle](http://developer.android.com/sdk/index.html) and [NDK Plugin](http://developer.android.com/tools/sdk/ndk/index.html) and Import the Project.
+Download [ADT Bundle](http://developer.android.com/sdk/index.html) and Import the Project.
 
 ==========
 

@@ -18,7 +18,7 @@ local.properties
 # Eclipse project files
 .classpath
 .project
-*.iml
+.iml
 build
 
 proguard-project.txt
@@ -28,4 +28,4 @@ project.properties
 gradle
 gradle.xml
 
-.keystore
+*.keystore

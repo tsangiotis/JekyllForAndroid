@@ -1,3 +1,0 @@
-dependencies:
-  pre:
-    - echo y | android update sdk --no-ui --filter "android-18"

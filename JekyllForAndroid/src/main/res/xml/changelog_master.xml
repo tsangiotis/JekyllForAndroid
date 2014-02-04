@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="1.3" versioncode="102">
+    <release version="1.3" versioncode="103">
         <change>Stability improvements</change>
         <change>Bugfixes</change>
     </release>

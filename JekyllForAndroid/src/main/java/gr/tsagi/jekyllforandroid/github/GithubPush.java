@@ -21,12 +21,13 @@ import org.eclipse.egit.github.core.service.RepositoryService;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import gr.tsagi.jekyllforandroid.R;
-import gr.tsagi.jekyllforandroid.activities.EditPostActivity;
-import gr.tsagi.jekyllforandroid.activities.PostsListActivity;
+import gr.tsagi.jekyllforandroid.utils.BusProvider;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -40,8 +41,6 @@ public class GithubPush {
     private String dir;
     private String json;
     private String jsonPath;
-    PostsListActivity postsListActivity;
-    EditPostActivity editPostActivity;
 
     public GithubPush(Context context){
         SharedPreferences settings = context
@@ -57,8 +56,7 @@ public class GithubPush {
                 .getString(R.string.json_path);
     }
 
-    public void pushJson(PostsListActivity act) throws ExecutionException, InterruptedException {
-        postsListActivity = act;
+    public void pushJson() throws ExecutionException, InterruptedException {
         json ="---\n" +
                 "title: json" + "\n" +
                 "---\n" +
@@ -68,19 +66,16 @@ public class GithubPush {
                 ":\"{{ post.title }}\",\"id\": \"{{ post.id }}\",\"published_on\":\"{{ post.date | date: \"%-d %B %Y\" }}\"}"+
                 "{% if forloop.rindex0 > 0 %},{% endif %}{% endfor %}]}";
         String commitMessage = "Json generator by Jekyll for Android";
-        String result = new PushFile().execute(json, jsonPath, commitMessage).get();
-        act.pushResult(result);
+        new PushFile().execute(json, jsonPath, commitMessage);
     }
 
-    public void pushContent(EditPostActivity act, String title, String date, String content) throws ExecutionException, InterruptedException {
-        editPostActivity = act;
+    public void pushContent(String title, String date, String content) throws ExecutionException, InterruptedException {
         // set path
         String path = date + "-" + title.toLowerCase().replace(' ', '-')
                 .replace(",","").replace("!","").replace(".","") + ".md";
         path = "_posts/" + dir + path;
         String commitMessage = "Update/new Post from Jekyll for Android";
-        String result = new PushFile().execute(content, path, commitMessage).get();
-        act.pushResult(result);
+        new PushFile().execute(content, path, commitMessage);
 
     }
 
@@ -165,8 +160,11 @@ public class GithubPush {
 
         @Override
         protected void onPostExecute(String res) {
-            super.onPostExecute(res);
-
+            Map<String, Object> result = new HashMap<String, Object>();
+            result.put("result", res);
+            BusProvider.getInstance().register(this);
+            BusProvider.getInstance().post(result);
+            BusProvider.getInstance().unregister(this);
         }
     }
 }

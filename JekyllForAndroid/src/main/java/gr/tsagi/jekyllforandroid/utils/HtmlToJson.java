@@ -102,7 +102,6 @@ public  class HtmlToJson {
         }catch (JSONException e) {
             e.printStackTrace();
         }
-
         return postList;
     }
 }

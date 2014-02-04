@@ -20,7 +20,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.otto.Subscribe;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -33,6 +36,7 @@ import java.util.concurrent.ExecutionException;
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.github.GithubPush;
 import gr.tsagi.jekyllforandroid.github.GithubRaw;
+import gr.tsagi.jekyllforandroid.utils.BusProvider;
 import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
 import gr.tsagi.jekyllforandroid.utils.ShowLoading;
 
@@ -87,6 +91,8 @@ public class EditPostActivity extends Activity {
         	    mDate = intent.getStringExtra("postdate");
             }
         }
+
+        BusProvider.getInstance().register(this);
 
         ActionBar actionBar = getActionBar();
         if(actionBar != null)
@@ -204,6 +210,7 @@ public class EditPostActivity extends Activity {
         mTags     = "";
         mContent  = "";
 
+        setStrings();
     }
 
     private void restorePreferences(){
@@ -218,12 +225,32 @@ public class EditPostActivity extends Activity {
         mContent = settings.getString("draft_content", "");
         repo =  settings.getString("user_repo", "");
 
+        TextView title = (TextView) findViewById(R.id.editTextTitle);
+        TextView category = (TextView) findViewById(R.id.editTextCategory);
+        TextView tags = (TextView) findViewById(R.id.editTextTags);
+        TextView content = (TextView) findViewById(R.id.editTextContent);
+
+        setStrings();
+
         if(repo.equals("") && !mUsername.equals("")){
             repo = new JekyllRepo().getName(mUsername);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("user_repo", repo);
             editor.commit();
         }
+
+    }
+
+    private void setStrings(){
+        EditText titleT = (EditText)findViewById(R.id.editTextTitle);
+        EditText contentT = (EditText)findViewById(R.id.editTextContent);
+        EditText categoryT = (EditText)findViewById(R.id.editTextCategory);
+        EditText tagsT = (EditText)findViewById(R.id.editTextTags);
+
+        titleT.setText(mTitle);
+        categoryT.setText(mCategory);
+        tagsT.setText(mTags);
+        contentT.setText(mContent);
 
     }
 
@@ -253,7 +280,7 @@ public class EditPostActivity extends Activity {
         GithubPush pusher = new GithubPush(EditPostActivity.this);
 
         try {
-            pusher.pushContent(this, mTitle, mDate, output + mContent);
+            pusher.pushContent(mTitle, mDate, output + mContent);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -262,7 +289,7 @@ public class EditPostActivity extends Activity {
     }
 
     public void pushResult(String result){
-        loadAnim.showProgress(EditPostActivity.this, false);
+        loadAnim.showProgress(this, false);
         String message;
         if(result.equals("OK")){
             message = getString(R.string.editpost_publish);
@@ -369,5 +396,9 @@ public class EditPostActivity extends Activity {
     		Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show();
     }
 
-
+    @Subscribe
+    public void dumpOutput(HashMap<String, Object> output) {
+        if (output.get("error") != null || output.get("result") != null)
+            pushResult((String) output.get("result"));
+    }
 }

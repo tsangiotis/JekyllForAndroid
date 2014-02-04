@@ -62,7 +62,7 @@ public class EditPostActivityTest {
         assertThat(settings).isNotNull();
 
         // Loading Status
-        TextView statusText = (TextView) activity.findViewById(R.id.newpost_status_message);
+        TextView statusText = (TextView) activity.findViewById(R.id.editpost_status_message);
         assertThat(statusText).isNotNull();
     }
 }

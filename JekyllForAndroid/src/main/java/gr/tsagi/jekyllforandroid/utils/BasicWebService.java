@@ -7,29 +7,28 @@ import com.squareup.okhttp.OkHttpClient;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by tsagi on 1/31/14.
  */
 
-public class BasicWebService{
+public class BasicWebService {
 
-    DefaultHttpClient httpClient;
+    OkHttpClient client;
     String returnedValue;
 
     HttpResponse response = null;
     HttpGet httpGet = null;
     String webServiceUrl;
-    OkHttpClient client;
 
     public BasicWebService(String serviceName){
-        httpClient = new DefaultHttpClient();
         webServiceUrl = serviceName;
         client = new OkHttpClient();
 
@@ -37,17 +36,20 @@ public class BasicWebService{
 
     public String[] webGetPost() {
         String results[] = new String[0];
+        HttpURLConnection connection;
         try {
-            httpGet = new HttpGet(webServiceUrl);
-            Log.e("WebGetURL",webServiceUrl);
-            response = httpClient.execute(httpGet);
-            InputStream in = response.getEntity().getContent();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            Log.d("okhttp", "With ok");
+            connection = client.open(new URL(webServiceUrl));
+            InputStream in = connection.getInputStream();
+            InputStreamReader isr = new InputStreamReader(in);
+
+            // from StackOverflow: http://stackoverflow.com/a/2549222
+            BufferedReader r = new BufferedReader(isr);
             StringBuilder str = new StringBuilder();
             String line;
             int yaml_dash =0;
             String yaml = null;
-            while((line = reader.readLine()) != null)
+            while((line = r.readLine()) != null)
             {
                 if(line.equals("---")){
                     yaml_dash++;
@@ -78,16 +80,22 @@ public class BasicWebService{
     }
 
     public String webGetJson() {
+        HttpURLConnection connection;
         try {
-            httpGet = new HttpGet(webServiceUrl);
-            Log.e("WebGetURL",webServiceUrl);
-            response = httpClient.execute(httpGet);
-            InputStream in = response.getEntity().getContent();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            connection = client.open(new URL(webServiceUrl));
+            int response = connection.getResponseCode();
+            if(response == 404)
+                return "404";
+
+            InputStream in = connection.getInputStream();
+            InputStreamReader isr = new InputStreamReader(in);
+
+            // from StackOverflow: http://stackoverflow.com/a/2549222
+            BufferedReader r = new BufferedReader(isr);
             StringBuilder str = new StringBuilder();
             String line;
 
-            while((line = reader.readLine()) != null)
+            while((line = r.readLine()) != null)
             {
                 str.append(line);
             }

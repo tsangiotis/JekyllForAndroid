@@ -1,0 +1,11 @@
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --filter "android-18"
+test:
+  pre:
+    - echo "sdk.dir=/usr/local/android-sdk-linux" > /home/ubuntu/jekyll-client-for-android/local.properties
+  override:
+    - gradle test  # use gradle testing
+machine:
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux

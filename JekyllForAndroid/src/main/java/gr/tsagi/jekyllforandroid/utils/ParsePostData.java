@@ -34,6 +34,10 @@ public class ParsePostData extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
 
+        BusProvider.getInstance().register(this);
+        BusProvider.getInstance().post(response);
+        BusProvider.getInstance().unregister(this);
+
         SharedPreferences settings = postsListActivity.getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
 
@@ -76,12 +80,7 @@ public class ParsePostData extends AsyncTask<Object, Boolean, String> {
         {
             Log.d("Error: ", " " + e.getMessage());
         }
-        super.onPostExecute(response);
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
 }
 

@@ -83,6 +83,10 @@ public class BasicWebService {
         HttpURLConnection connection;
         try {
             connection = client.open(new URL(webServiceUrl));
+            int response = connection.getResponseCode();
+            if(response == 404)
+                return "404";
+
             InputStream in = connection.getInputStream();
             InputStreamReader isr = new InputStreamReader(in);
 
@@ -90,8 +94,6 @@ public class BasicWebService {
             BufferedReader r = new BufferedReader(isr);
             StringBuilder str = new StringBuilder();
             String line;
-            int yaml_dash =0;
-            String yaml = null;
 
             while((line = r.readLine()) != null)
             {

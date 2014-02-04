@@ -22,6 +22,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.squareup.otto.Subscribe;
+
 import org.yaml.snakeyaml.Yaml;
 
 import java.text.SimpleDateFormat;
@@ -33,6 +35,7 @@ import java.util.concurrent.ExecutionException;
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.github.GithubPush;
 import gr.tsagi.jekyllforandroid.github.GithubRaw;
+import gr.tsagi.jekyllforandroid.utils.BusProvider;
 import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
 import gr.tsagi.jekyllforandroid.utils.ShowLoading;
 
@@ -87,6 +90,8 @@ public class EditPostActivity extends Activity {
         	    mDate = intent.getStringExtra("postdate");
             }
         }
+
+        BusProvider.getInstance().register(this);
 
         ActionBar actionBar = getActionBar();
         if(actionBar != null)
@@ -253,7 +258,7 @@ public class EditPostActivity extends Activity {
         GithubPush pusher = new GithubPush(EditPostActivity.this);
 
         try {
-            pusher.pushContent(this, mTitle, mDate, output + mContent);
+            pusher.pushContent(mTitle, mDate, output + mContent);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -367,6 +372,12 @@ public class EditPostActivity extends Activity {
     		startActivity(myIntent);
     	}else
     		Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe
+    public void dumpOutput(HashMap<String, Object> output) {
+        if (output.get("error") != null || output.get("result") != null)
+            pushResult((String) output.get("result"));
     }
 
 

@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.concurrent.ExecutionException;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.github.GithubPush;
+import gr.tsagi.jekyllforandroid.utils.BusProvider;
 import gr.tsagi.jekyllforandroid.utils.ParsePostData;
 import gr.tsagi.jekyllforandroid.utils.ShowLoading;
 
@@ -51,6 +54,8 @@ public class PostsListActivity extends Activity {
         ActionBar actionBar = getActionBar();
         if(actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
+
+        BusProvider.getInstance().register(this);
 
         if(repo.isEmpty()){
             Toast.makeText(PostsListActivity.this,
@@ -85,11 +90,9 @@ public class PostsListActivity extends Activity {
     }
 
     public void uploadJsonTool(){
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setMessage(R.string.dialog_push_json);
-
         // Add the buttons
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -110,26 +113,18 @@ public class PostsListActivity extends Activity {
         dialog.show();
     }
 
-    private Runnable uploadJson = new Runnable() {
-        @Override
-        public void run() {
-            loadAnim.showProgress(PostsListActivity.this, true);
-            GithubPush gitAgent = new GithubPush(PostsListActivity.this);
+    private void uploadJson() {
+            loadAnim.showProgress(this, true);
+            GithubPush gitAgent = new GithubPush(this);
             try {
-                gitAgent.pushJson(PostsListActivity.this);
+                gitAgent.pushJson();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-        }
-    };
-
-    private void uploadJson() {
-        runOnUiThread(uploadJson);
     }
-
 
     public void pushResult(String result){
         loadAnim.showProgress(PostsListActivity.this, false);
@@ -163,5 +158,18 @@ public class PostsListActivity extends Activity {
                 }
             }
         });
+    }
+
+    @Subscribe
+    public void dumpOutput(HashMap<String, Object> output) {
+        if (output.get("error") != null)
+            uploadJsonTool();
+        if(output.get("result") != null)
+            pushResult((String) output.get("result"));
+        if(output.get("postsList") != null)
+            updateList((ArrayList<HashMap<String,String>>)output.get("postsList"),
+                    (List<String>)output.get("dates"),
+                    (List<String>)output.get("urls"));
+
     }
 }

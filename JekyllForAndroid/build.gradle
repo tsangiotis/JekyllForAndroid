@@ -31,9 +31,10 @@ dependencies {
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.13'
     compile 'com.commonsware.cwac:anddown:0.2.0'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
+    compile 'com.squareup:otto:1.3.4'
     compile 'com.squareup.okhttp:okhttp:1.2.1'
     compile 'com.squareup.retrofit:retrofit:1.2.2'
-    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:appcompat-v7:+'
 
     testCompile 'junit:junit:4.10'
     testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
@@ -82,7 +83,7 @@ android {
             {
                 debug
                         {
-//                            packageNameSuffix ".debug"
+                            packageNameSuffix ".debug"
                             versionNameSuffix " debug " + getBuildName()
                         }
 

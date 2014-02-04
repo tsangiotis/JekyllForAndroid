@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import de.cketti.library.changelog.ChangeLog;
 import gr.tsagi.jekyllforandroid.R;
 
 public class ActionActivity extends Activity {
@@ -24,11 +25,11 @@ public class ActionActivity extends Activity {
             login();
         }
 
-        //Show Changelog
-//        ChangeLog cl = new ChangeLog(this);
-//        if (cl.isFirstRun()) {
-//            cl.getLogDialog().show();
-//        }
+//        Show Changelog
+        ChangeLog cl = new ChangeLog(this);
+        if (cl.isFirstRun()) {
+            cl.getLogDialog().show();
+        }
     }
 
     @Override

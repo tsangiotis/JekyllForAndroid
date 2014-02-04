@@ -307,6 +307,7 @@ public class LoginActivity extends Activity {
                          * Create OAuth
                          */
                         auth = authService.createAuthorization(auth);
+
                     }
                     return auth;
                 } catch (RequestException re){

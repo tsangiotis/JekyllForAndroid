@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
@@ -209,6 +210,7 @@ public class EditPostActivity extends Activity {
         mTags     = "";
         mContent  = "";
 
+        setStrings();
     }
 
     private void restorePreferences(){
@@ -223,12 +225,32 @@ public class EditPostActivity extends Activity {
         mContent = settings.getString("draft_content", "");
         repo =  settings.getString("user_repo", "");
 
+        TextView title = (TextView) findViewById(R.id.editTextTitle);
+        TextView category = (TextView) findViewById(R.id.editTextCategory);
+        TextView tags = (TextView) findViewById(R.id.editTextTags);
+        TextView content = (TextView) findViewById(R.id.editTextContent);
+
+        setStrings();
+
         if(repo.equals("") && !mUsername.equals("")){
             repo = new JekyllRepo().getName(mUsername);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("user_repo", repo);
             editor.commit();
         }
+
+    }
+
+    private void setStrings(){
+        EditText titleT = (EditText)findViewById(R.id.editTextTitle);
+        EditText contentT = (EditText)findViewById(R.id.editTextContent);
+        EditText categoryT = (EditText)findViewById(R.id.editTextCategory);
+        EditText tagsT = (EditText)findViewById(R.id.editTextTags);
+
+        titleT.setText(mTitle);
+        categoryT.setText(mCategory);
+        tagsT.setText(mTags);
+        contentT.setText(mContent);
 
     }
 
@@ -267,7 +289,7 @@ public class EditPostActivity extends Activity {
     }
 
     public void pushResult(String result){
-        loadAnim.showProgress(EditPostActivity.this, false);
+        loadAnim.showProgress(this, false);
         String message;
         if(result.equals("OK")){
             message = getString(R.string.editpost_publish);
@@ -379,6 +401,4 @@ public class EditPostActivity extends Activity {
         if (output.get("error") != null || output.get("result") != null)
             pushResult((String) output.get("result"));
     }
-
-
 }

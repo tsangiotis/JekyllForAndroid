@@ -8,7 +8,7 @@
     <string name="title_activity_action">Jekyll for Android</string>
     <string name="hint_title">Title</string>
     <string name="hint_category">Category</string>
-    <string name="hint_tags">Tags</string>
+    <string name="hint_tags">Tags (tag1, tag2, …)</string>
     <string name="hint_content">Post Content:</string>
     <string name="editpost_progress">Publishing post&#8230;</string>
     <string name="getpost_progress">Getting post&#8230;</string>

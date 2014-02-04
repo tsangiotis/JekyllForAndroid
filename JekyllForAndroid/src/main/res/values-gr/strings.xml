@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jekyll for Android</string>
+    <string name="action_newpost">Νέα Ανάρτηση</string>
+    <string name="title_activity_markdown">Προβολή Markdown</string>
+    <string name="action_logout">Αποσύνδεση</string>
+    <string name="action_list">Αναρτήσεις</string>
+    <string name="title_activity_action">Jekyll for Android</string>
+    <string name="hint_title">Τίτλος</string>
+    <string name="hint_category">Κατηγορία</string>
+    <string name="hint_tags">Ετικέτες (ετικ1, ετικ2, …)</string>
+    <string name="hint_content">Περιεγχόμενο Ανάρτησης:</string>
+    <string name="editpost_progress">Δημοσιοποίηση Ανάρτησης&#8230;</string>
+    <string name="getpost_progress">Λήψη Ανάρτησης&#8230;</string>
+    <string name="postslist_progress">Ενημέρωση Λίστας Αναρτήσεων&#8230;</string>
+    <string name="editpost_empty">Πιθανότατα δε θέλετε να δημοσιοποιήσετε μία άδεια ανάρτηση…</string>
+    <string name="editpost_publish">Η Ανάρτηση Δημοσιοποιήθηκε</string>
+    <string name="editpost_fail">Κάτι δεν πήγε καλά. Η δημοσιοποίηση της ανάρτησης απέτυχε…</string>
+    <string name="success">Η Ανάρτηση Δημοσιοποιήθηκε!</string>
+    <string name="fail">Κάτι πήγε στραβά…</string>
+    <string name="ok">OK</string>
+    <string name="action_settings">Settings</string>
+    <string name="info">Πληροφορίες</string>
+    <string name="cancel">Ακύρωση</string>
+    <string name="dialog_logout_nodraft">Σίγουρα θέλετε να αποσυνδεθείτε;</string>
+    <string name="dialog_logout_draft">Σίγουρα θέλετε να αποσυνδεθείτε;\nΈχετε μία πρόχειρη ανάρτηση</string>
+    <string name="dialog_confirm_update">Σίγουρα θέλετε να δημοσιοποιήσετε αυτή την αράρτηση;</string>
+	<string name="dialog_push_json">Για να λαμάνουμε τις αναρτήσεις σας πρέπει να προστεθεί ένα αρχείο στο αποθετήριό σας.
+	    Για περισσότερες πληροφορίες για τα περιεγχόμενα του αρχείου απευθυνθείτε στο jekyll-for-android στο Github!</string>
+
+</resources>

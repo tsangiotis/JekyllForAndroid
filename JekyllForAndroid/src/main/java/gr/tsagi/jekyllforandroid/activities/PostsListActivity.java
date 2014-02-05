@@ -28,6 +28,7 @@ import gr.tsagi.jekyllforandroid.github.GithubPush;
 import gr.tsagi.jekyllforandroid.utils.BusProvider;
 import gr.tsagi.jekyllforandroid.utils.ParsePostData;
 import gr.tsagi.jekyllforandroid.utils.ShowLoading;
+import gr.tsagi.jekyllforandroid.utils.TranslucentBars;
 
 /**
  * Created by tsagi on 9/9/13.
@@ -49,6 +50,9 @@ public class PostsListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_list);
+
+        new TranslucentBars(this).tint(true);
+
         restorePreferences();
 
         ActionBar actionBar = getActionBar();

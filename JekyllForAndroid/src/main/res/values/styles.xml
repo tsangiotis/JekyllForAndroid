@@ -18,6 +18,14 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="TransTheme" parent="android:Theme.Holo.Light.NoActionBar">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="ActionBarTheme" parent="android:Theme.Light">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
     <style name="LoginFormContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

@@ -35,8 +35,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
 import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
+import gr.tsagi.jekyllforandroid.utils.TranslucentBars;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -66,6 +67,8 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        new TranslucentBars(this).tint(true);
 
         jurls = this.getResources().getStringArray(R.array.gpresourceslinks);
 

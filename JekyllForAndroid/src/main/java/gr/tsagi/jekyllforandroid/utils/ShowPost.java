@@ -13,7 +13,9 @@ import java.util.HashMap;
 public class ShowPost{
 
     public HashMap<String, String> yamlFromString(String yamlStr, String content) {
+
         Yaml yaml = new Yaml();
+
         Log.d("yaml", yamlStr);
         HashMap<String, String[]> map = (HashMap<String, String[]>) yaml.load(yamlStr);
         HashMap<String, String> postmap = new HashMap<String, String>();

@@ -3,10 +3,9 @@ import java.text.SimpleDateFormat
 buildscript {
     repositories {
         mavenCentral()
-
-        maven {url "https://repo.eclipse.org/content/groups/releases/"}
-        maven {url "https://repo.commonsware.com.s3.amazonaws.com"}
-        maven {url "https://oss.sonatype.org/content/repositories/snapshots/"}
+        maven { url 'https://repo.eclipse.org/content/groups/releases/' }
+        maven { url 'https://repo.commonsware.com.s3.amazonaws.com' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.8.+'
@@ -18,31 +17,28 @@ apply plugin: 'android-test'
 
 repositories {
     mavenCentral()
-
-    maven {url "https://repo.eclipse.org/content/groups/releases/"}
-    maven {url "https://repo.commonsware.com.s3.amazonaws.com"}
-    maven {url "https://oss.sonatype.org/content/repositories/snapshots/"}
+    maven { url 'https://repo.eclipse.org/content/groups/releases/' }
+    maven { url 'https://repo.commonsware.com.s3.amazonaws.com' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
 dependencies {
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.2.4'
+    compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.github.castorflex.smoothprogressbar:library:0.3.3'
-    compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '3.2.0.201312181205-r'
-    compile group: 'org.yaml', name: 'snakeyaml', version: '1.13'
+    compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:3.2.0.201312181205-r'
     compile 'com.commonsware.cwac:anddown:0.2.0'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
     compile 'com.squareup:otto:1.3.4'
     compile 'com.squareup.okhttp:okhttp:1.2.1'
-    compile 'com.squareup.retrofit:retrofit:1.2.2'
     compile 'com.android.support:appcompat-v7:+'
-
+    compile 'com.readystatesoftware.systembartint:systembartint:+'
     testCompile 'junit:junit:4.10'
     testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
     testCompile 'com.squareup:fest-android:1.0.+'
     instrumentTestCompile 'junit:junit:4.10'
     instrumentTestCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
     instrumentTestCompile 'com.squareup:fest-android:1.0.+'
-
+    compile files('libs/snakeyaml-1.14-SNAPSHOT-android.jar')
 }
 
 def getBuildName()
@@ -52,7 +48,7 @@ def getBuildName()
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.0"
+    buildToolsVersion '19.0.0'
 
     defaultConfig {
         minSdkVersion 11
@@ -92,4 +88,8 @@ android {
                             signingConfig signingConfigs.release
                         }
             }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }

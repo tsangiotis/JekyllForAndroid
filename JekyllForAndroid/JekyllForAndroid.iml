@@ -83,13 +83,13 @@
     <orderEntry type="library" exported="" name="org.eclipse.egit.github.core-3.2.0.201312181205-r" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="wagon-file-1.0-beta-6" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.10" level="project" />
-    <orderEntry type="library" exported="" name="snakeyaml-1.13" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="maven-artifact-2.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="fest-assert-core-2.0M10" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="maven-profile-2.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-util-4.1" level="project" />
     <orderEntry type="library" exported="" name="otto-1.3.4" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="ant-launcher-1.8.0" level="project" />
+    <orderEntry type="library" exported="" name="snakeyaml-1.14-SNAPSHOT-android" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="plexus-interpolation-1.11" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="maven-project-2.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="maven-artifact-manager-2.2.1" level="project" />
@@ -107,11 +107,11 @@
     <orderEntry type="library" exported="" scope="TEST" name="robolectric-2.3-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="maven-error-diagnostics-2.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="wagon-http-lightweight-1.0-beta-6" level="project" />
-    <orderEntry type="library" exported="" name="retrofit-1.2.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="backport-util-concurrent-3.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="plexus-container-default-1.0-alpha-9-stable-1" level="project" />
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="maven-plugin-registry-2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="systembartint-1.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="maven-settings-2.2.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.0.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="vtd-xml-2.11" level="project" />

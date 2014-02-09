@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.3.1" versioncode="104">
+        <change>Added Translucent Status bar</change>
+        <change>Added Immersive Mode in the Preview to use all Screen</change>
+        <change>Fixed major bug with Davlik</change>
+    </release>
     <release version="1.3" versioncode="103">
         <change>Stability improvements</change>
         <change>Bugfixes</change>

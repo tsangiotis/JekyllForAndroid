@@ -28,7 +28,7 @@ public class TranslucentBars{
 
         SystemBarTintManager tintManager = new SystemBarTintManager(context);
         // enable status bar tint
-        tintManager.setStatusBarTintEnabled(on);
+//        tintManager.setStatusBarTintEnabled(on);
     }
 
     @TargetApi(19)

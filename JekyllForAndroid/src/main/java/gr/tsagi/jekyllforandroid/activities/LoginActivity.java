@@ -47,6 +47,9 @@ public class LoginActivity extends Activity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
+
+    private static final String API_URL = "https://api.github.com";
+
     private LoginTask mAuthTask = null;
 
     // Values for email and password at the time of the login attempt.
@@ -300,7 +303,7 @@ public class LoginActivity extends Activity {
                     if (auth == null) {
                         auth = new Authorization();
                         auth.setNote("Jekyll for Android");
-                        auth.setUrl("http://tsagi.me");
+                        auth.setUrl("http://tsagi.me/jekyll-client-for-android/");
                         List<String> scopes = new ArrayList<String>();
                         scopes.add("user");
                         scopes.add("repo");

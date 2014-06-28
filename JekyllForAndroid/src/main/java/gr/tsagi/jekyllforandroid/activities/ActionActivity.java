@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import de.cketti.library.changelog.ChangeLog;
 import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.utils.TranslucentBars;
 
 public class ActionActivity extends Activity {
     
@@ -19,6 +20,9 @@ public class ActionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action);
+
+        new TranslucentBars(this).tint(true);
+
         SharedPreferences settings = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
         if(settings.getString("user_status","").equals("")){

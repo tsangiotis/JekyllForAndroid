@@ -35,8 +35,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
 import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
+import gr.tsagi.jekyllforandroid.utils.TranslucentBars;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -46,6 +47,9 @@ public class LoginActivity extends Activity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
+
+    private static final String API_URL = "https://api.github.com";
+
     private LoginTask mAuthTask = null;
 
     // Values for email and password at the time of the login attempt.
@@ -66,6 +70,8 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        new TranslucentBars(this).tint(true);
 
         jurls = this.getResources().getStringArray(R.array.gpresourceslinks);
 
@@ -297,7 +303,7 @@ public class LoginActivity extends Activity {
                     if (auth == null) {
                         auth = new Authorization();
                         auth.setNote("Jekyll for Android");
-                        auth.setUrl("http://tsagi.me");
+                        auth.setUrl("http://tsagi.me/jekyll-client-for-android/");
                         List<String> scopes = new ArrayList<String>();
                         scopes.add("user");
                         scopes.add("repo");

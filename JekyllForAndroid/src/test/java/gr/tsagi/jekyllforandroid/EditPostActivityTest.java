@@ -65,4 +65,6 @@ public class EditPostActivityTest {
         TextView statusText = (TextView) activity.findViewById(R.id.editpost_status_message);
         assertThat(statusText).isNotNull();
     }
+
+
 }

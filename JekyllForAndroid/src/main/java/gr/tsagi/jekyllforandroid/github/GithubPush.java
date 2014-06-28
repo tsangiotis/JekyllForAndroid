@@ -63,7 +63,7 @@ public class GithubPush {
                 "{\"homepage\":\"{{ site.production_url }}\",\"name\":\"{{ site.title }}\",\"description\":\"{{ site.tagline }}\""+
                 ",\"author\":\"{{ site.author.name }}\",\"posts\":[{% for post in site.posts %}"+
                 "{\"url\":\"{{ site.production_url }}{{ post.url }}\",\"title\""+
-                ":\"{{ post.title }}\",\"id\": \"{{ post.id }}\",\"published_on\":\"{{ post.date | date: \"%-d %B %Y\" }}\"}"+
+                ":\"{{ post.title | replace: '\"', '\\\"' }}\",\"id\": \"{{ post.id }}\",\"published_on\":\"{{ post.date | date: \"%-d %B %Y\" }}\"}"+
                 "{% if forloop.rindex0 > 0 %},{% endif %}{% endfor %}]}";
         String commitMessage = "Json generator by Jekyll for Android";
         new PushFile().execute(json, jsonPath, commitMessage);

@@ -39,6 +39,7 @@ import gr.tsagi.jekyllforandroid.github.GithubRaw;
 import gr.tsagi.jekyllforandroid.utils.BusProvider;
 import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
 import gr.tsagi.jekyllforandroid.utils.ShowLoading;
+import gr.tsagi.jekyllforandroid.utils.TranslucentBars;
 
 @SuppressLint({ "DefaultLocale", "SimpleDateFormat" })
 public class EditPostActivity extends Activity {
@@ -71,6 +72,8 @@ public class EditPostActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+
+        new TranslucentBars(this).tint(true);
 
         mNewPostFormView = findViewById(R.id.editpost_form);
         mNewPostStatusView = findViewById(R.id.editpost_status);

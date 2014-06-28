@@ -2,11 +2,12 @@ package gr.tsagi.jekyllforandroid.utils;
 
 import android.util.Log;
 
-import com.squareup.okhttp.OkHttpClient;
-
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,16 +22,14 @@ import java.net.URL;
 
 public class BasicWebService {
 
-    OkHttpClient client;
+    HttpClient client;
     String returnedValue;
 
-    HttpResponse response = null;
-    HttpGet httpGet = null;
     String webServiceUrl;
 
     public BasicWebService(String serviceName){
         webServiceUrl = serviceName;
-        client = new OkHttpClient();
+        client = new DefaultHttpClient();
 
     }
 
@@ -38,9 +37,10 @@ public class BasicWebService {
         String results[] = new String[0];
         HttpURLConnection connection;
         try {
-            Log.d("okhttp", "With ok");
-            connection = client.open(new URL(webServiceUrl));
-            InputStream in = connection.getInputStream();
+            HttpGet httpget = new HttpGet(webServiceUrl); // Set the action you want to do
+            HttpResponse response = client.execute(httpget); // Executeit
+            HttpEntity entity = response.getEntity();
+            InputStream in = entity.getContent();
             InputStreamReader isr = new InputStreamReader(in);
 
             // from StackOverflow: http://stackoverflow.com/a/2549222
@@ -82,12 +82,14 @@ public class BasicWebService {
     public String webGetJson() {
         HttpURLConnection connection;
         try {
-            connection = client.open(new URL(webServiceUrl));
-            int response = connection.getResponseCode();
+            HttpGet httpget = new HttpGet(webServiceUrl); // Set the action you want to do
+            HttpResponse httpResp = client.execute(httpget);
+            int response = httpResp.getStatusLine().getStatusCode();
             if(response == 404)
                 return "404";
 
-            InputStream in = connection.getInputStream();
+            HttpEntity entity = httpResp.getEntity();
+            InputStream in = entity.getContent();
             InputStreamReader isr = new InputStreamReader(in);
 
             // from StackOverflow: http://stackoverflow.com/a/2549222

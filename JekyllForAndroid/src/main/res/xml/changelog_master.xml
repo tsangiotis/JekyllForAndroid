@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.3.3" versioncode="106">
+        <change>Fixed problem with snakeyaml library</change>
+    </release>
+    <release version="1.3.2" versioncode="105">
+        <change>Double quotes in Posts titles get ignored if you delete your json/undex.html</change>
+    </release>
     <release version="1.3.1" versioncode="104">
         <change>Added Translucent Status bar</change>
         <change>Added Immersive Mode in the Preview to use all Screen</change>

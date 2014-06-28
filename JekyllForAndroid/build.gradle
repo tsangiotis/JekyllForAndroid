@@ -28,7 +28,6 @@ dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '2.2.4'
     compile 'com.github.castorflex.smoothprogressbar:library:0.3.3'
     compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '3.2.0.201312181205-r'
-    compile group: 'org.yaml', name: 'snakeyaml', version: '1.13'
     compile 'com.commonsware.cwac:anddown:0.2.0'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
@@ -44,6 +43,11 @@ dependencies {
     androidTestCompile 'com.squareup:fest-android:1.0.+'
 
 }
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
+
 
 def getBuildName()
 {

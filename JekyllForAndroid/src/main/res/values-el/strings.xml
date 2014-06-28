@@ -19,7 +19,8 @@
     <string name="success">Η Ανάρτηση Δημοσιοποιήθηκε!</string>
     <string name="fail">Κάτι πήγε στραβά…</string>
     <string name="ok">OK</string>
-    <string name="action_settings">Settings</string>
+    <string name="menu_settings">Ρυθμίσεις</string>
+    <string name="action_settings">Ρυθμίσεις</string>
     <string name="info">Πληροφορίες</string>
     <string name="cancel">Ακύρωση</string>
     <string name="dialog_logout_nodraft">Σίγουρα θέλετε να αποσυνδεθείτε;</string>
@@ -27,5 +28,7 @@
     <string name="dialog_confirm_update">Σίγουρα θέλετε να δημοσιοποιήσετε αυτή την αράρτηση;</string>
 	<string name="dialog_push_json">Για να λαμάνουμε τις αναρτήσεις σας πρέπει να προστεθεί ένα αρχείο στο αποθετήριό σας.
 	    Για περισσότερες πληροφορίες για τα περιεγχόμενα του αρχείου απευθυνθείτε στο jekyll-for-android στο Github!</string>
+    <string name="json_path">json/index.html</string>
+    <string name="title_activity_posts_list">Αναρτήσεις</string>
 
 </resources>

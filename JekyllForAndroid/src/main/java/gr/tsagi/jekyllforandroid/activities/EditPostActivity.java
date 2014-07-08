@@ -133,10 +133,7 @@ public class EditPostActivity extends Activity {
             	publishPost();
             	return true;
             case android.R.id.home:
-            	if(message!=null)
-            		startActivity(new Intent(EditPostActivity.this,PostsListActivity.class));
-            	else
-            		startActivity(new Intent(EditPostActivity.this,ActionActivity.class));
+            	startActivity(new Intent(EditPostActivity.this,PostsListActivity.class));
             	return true;
             case R.id.action_preview:
             	previewMarkdown();

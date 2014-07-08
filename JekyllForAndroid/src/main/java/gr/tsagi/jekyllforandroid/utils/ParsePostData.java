@@ -48,7 +48,7 @@ public class ParsePostData extends AsyncTask<Object, Boolean, String> {
             source = response;
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("old_json", response);
-            editor.commit();
+            editor.apply();
         }
         if(!response.equals("404")){
             try{

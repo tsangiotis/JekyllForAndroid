@@ -1,411 +1,193 @@
 package gr.tsagi.jekyllforandroid.activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
+
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.util.Log;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+import org.eclipse.egit.github.core.User;
+import org.eclipse.egit.github.core.client.GitHubClient;
+import org.eclipse.egit.github.core.service.UserService;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.eclipse.egit.github.core.Authorization;
-import org.eclipse.egit.github.core.client.GitHubClient;
-import org.eclipse.egit.github.core.client.RequestException;
-import org.eclipse.egit.github.core.service.OAuthService;
-
 import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.utils.GetAccessToken;
 import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
-import gr.tsagi.jekyllforandroid.utils.TranslucentBars;
 
-/**
- * Activity which displays a login screen to the user, offering registration as
- * well.
- */
 public class LoginActivity extends Activity {
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-
-    private static final String API_URL = "https://api.github.com";
-
-    private LoginTask mAuthTask = null;
-
-    // Values for email and password at the time of the login attempt.
-    private String mUsername;
-    private String mPassword;
-    
-    // Arrays for Jekyll info
-	private String[] jurls;
-
-    // UI references.
-    private EditText mUsernameView;
-    private EditText mPasswordView;
-    private View mLoginFormView;
-    private View mLoginStatusView;
-    private TextView mLoginStatusMessageView;
+    private static String CLIENT_ID = "c93bd14e3c9671bd7dbf";
+    //Use your own client id
+    private static String CLIENT_SECRET = "e1566daf8025707db0d5fefa146b965f3ad38086";
+    //Use your own client secret
+    private static String REDIRECT_URI = "http://localhost";
+    private static String GRANT_TYPE = "auth_code";
+    private static String TOKEN_URL = "https://github.com/login/oauth/access_token";
+    private static String OAUTH_URL = "https://github.com/login/oauth/authorize";
+    private static String OAUTH_SCOPE = "user%2Cgist";
+    //Change the Scope as you need
+    WebView web;
+    Button auth;
+    SharedPreferences settings;
+    TextView Access;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        settings = getSharedPreferences(
+                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
+        Access = (TextView) findViewById(R.id.Access);
+        auth = (Button) findViewById(R.id.auth);
+        auth.setOnClickListener(new View.OnClickListener() {
+            Dialog auth_dialog;
 
-        new TranslucentBars(this).tint(true);
-
-        jurls = this.getResources().getStringArray(R.array.gpresourceslinks);
-
-        // Set up the login form.
-        mUsernameView = (EditText) findViewById(R.id.username);
-        mUsernameView.setText(mUsername);
-
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == mPasswordView.getImeActionId() || id == EditorInfo.IME_NULL) {
-                	hideSoftKeyboard(LoginActivity.this);
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                auth_dialog = new Dialog(LoginActivity.this);
+                auth_dialog.setContentView(R.layout.auth_dialog);
+                web = (WebView) auth_dialog.findViewById(R.id.webv);
+                web.getSettings().setJavaScriptEnabled(true);
+                web.loadUrl(OAUTH_URL + "?redirect_uri=" + REDIRECT_URI + "&response_type=code&client_id=" + CLIENT_ID + "&scope=" + OAUTH_SCOPE);
+                web.setWebViewClient(new WebViewClient() {
+                    boolean authComplete = false;
+                    Intent resultIntent = new Intent();
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mLoginStatusView = findViewById(R.id.login_status);
-        mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-        
-        // Hide the keyboard on login attempt
-        final Button loginBtn = (Button)findViewById(R.id.sign_in_button);
-         
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hideSoftKeyboard(LoginActivity.this);
-                attemptLogin();
-            }
-        });
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                    }
 
-        final Button goBtn = (Button)findViewById(R.id.jinfoButton);
-    	final Spinner spinner = (Spinner)findViewById(R.id.jinfospinner);
-        
-        goBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(jurls[spinner.getSelectedItemPosition()]));
-            	startActivity(browserIntent);
-            }
-        });
-    }
+                    String authCode;
 
-    public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.login, menu);
-        return true;
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.login_forgot_password:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    public void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
-        // Reset errors.
-        
-        mUsernameView.setError(null);
-        mPasswordView.setError(null);
-
-        // Store values at the time of the login attempt.
-         
-        mUsername = mUsernameView.getText().toString();
-        mPassword = mPasswordView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password.
-        if (TextUtils.isEmpty(mPassword)) {
-            mPasswordView.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
-            cancel = true;
-        } else if (mPassword.length() < 4) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid username.
-        if (TextUtils.isEmpty(mUsername)) {
-            mUsernameView.setError(getString(R.string.error_field_required));
-            focusView = mUsernameView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // perform the user login attempt.
-            mAuthTask = new LoginTask(LoginActivity.this);
-            mAuthTask.execute();
-        }
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginStatusView.setVisibility(View.VISIBLE);
-            mLoginStatusView.animate()
-                    .setDuration(shortAnimTime)
-                    .alpha(show ? 1 : 0)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-                        }
-                    });
-
-            mLoginFormView.setVisibility(View.VISIBLE);
-            mLoginFormView.animate()
-                    .setDuration(shortAnimTime)
-                    .alpha(show ? 0 : 1)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                        }
-                    });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-   
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    private class LoginTask extends AsyncTask<Void, Void, Authorization> {
-
-        /**
-         * The target.
-         */
-        private WeakReference<LoginActivity> mTarget;
-        /**
-         * The exception.
-         */
-        private boolean mException;
-        /**
-         * The is auth error.
-         */
-        
-        private boolean jException;
-        
-        private boolean isAuthError;
-        /**
-         * Instantiates a new load repository list task.
-         *
-         * @param activity the activity
-         */
-        public LoginTask(LoginActivity activity) {
-            mTarget = new WeakReference<LoginActivity>(activity);
-        }
-
-        /*
-         * (non-Javadoc)
-         * @see android.os.AsyncTask#doInBackground(Params[])
-         */
-        @Override
-        protected Authorization doInBackground(Void... params) {
-            if (mTarget.get() != null) {
-                try {
-                    /**
-                     * Get username and password from TextEdits
-                     */
-                    String username = mTarget.get().mUsernameView.getText().toString();
-                    String password = mTarget.get().mPasswordView.getText().toString();
-
-                    /**
-                     * Initiate GitHub client
-                     */
-                    GitHubClient client = new GitHubClient();
-                    client.setCredentials(username,
-                            password);
-                    client.setUserAgent("Jekyll for Android");
-                    
-                    /**
-                     * Get OAuth if there isn't one
-                     */
-                    Authorization auth = null;
-                    OAuthService authService = new OAuthService(client);
-                    List<Authorization> auths = authService.getAuthorizations();
-                    for (Authorization authorization : auths) {
-                        if ("Jekyll for Android".equals(authorization.getNote())) {
-                            auth = authorization;
-                            break;
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        if (url.contains("?code=") && authComplete != true) {
+                            Uri uri = Uri.parse(url);
+                            authCode = uri.getQueryParameter("code");
+                            Log.i("", "CODE : " + authCode);
+                            authComplete = true;
+                            resultIntent.putExtra("code", authCode);
+                            LoginActivity.this.setResult(Activity.RESULT_OK, resultIntent);
+                            setResult(Activity.RESULT_CANCELED, resultIntent);
+                            SharedPreferences.Editor edit = settings.edit();
+                            edit.putString("Code", authCode);
+                            edit.commit();
+                            auth_dialog.dismiss();
+                            new TokenGet().execute();
+                            Toast.makeText(getApplicationContext(), "Authorization Code is: " + authCode, Toast.LENGTH_SHORT).show();
+                        } else if (url.contains("error=access_denied")) {
+                            Log.i("", "ACCESS_DENIED_HERE");
+                            resultIntent.putExtra("code", authCode);
+                            authComplete = true;
+                            setResult(Activity.RESULT_CANCELED, resultIntent);
+                            Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
+                            auth_dialog.dismiss();
                         }
                     }
-
-                    if (auth == null) {
-                        auth = new Authorization();
-                        auth.setNote("Jekyll for Android");
-                        auth.setUrl("http://tsagi.me/jekyll-client-for-android/");
-                        List<String> scopes = new ArrayList<String>();
-                        scopes.add("user");
-                        scopes.add("repo");
-                        auth.setScopes(scopes);
-
-                        /**
-                         * Create OAuth
-                         */
-                        auth = authService.createAuthorization(auth);
-
-                    }
-                    return auth;
-                } catch (RequestException re){
-                	jException = true;
-                	return null;
-                	
-                }catch (IOException e) {
-                    Log.e("EX Tag", e.getMessage(), e);
-                    if (e.getMessage().equalsIgnoreCase(
-                            "Received authentication challenge is null")) {
-                        isAuthError = true;
-                    }
-                    // Get exception message
-                    mException = true;
-                    e.getMessage();
-                    if (e.getCause() != null) {
-                        e.getCause().getMessage();
-                    }
-                } 
-                return null;
-            } else {
-                return null;
+                });
+                auth_dialog.show();
+                auth_dialog.setTitle("Authorize Jekyll for Android");
+                auth_dialog.setCancelable(true);
             }
-        }
+        });
+    }
 
-        /*
-         * (non-Javadoc)
-         * @see android.os.AsyncTask#onPreExecute()
-         */
+    private class TokenGet extends AsyncTask<String, String, JSONObject> {
+        private ProgressDialog pDialog;
+        String Code;
+
         @Override
         protected void onPreExecute() {
-            /**
-             * Start progress view
-             */
-            if (mTarget.get() != null) {
-                mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
-                showProgress(true);
-            }
-        }
-
-        /*
-         * (non-Javadoc)
-         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-         */
-
-        @Override
-        protected void onCancelled() {
-            /**
-             * Stop progress view
-             */
-            mAuthTask = null;
-            showProgress(false);
+            super.onPreExecute();
+            pDialog = new ProgressDialog(LoginActivity.this);
+            pDialog.setMessage("Contacting Github ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            Code = settings.getString("Code", "");
+            pDialog.show();
         }
 
         @Override
-        protected void onPostExecute(Authorization result) {
-            /**
-             * Stop progress view and Toast the result of the login attempt
-             */
-        	
-            showProgress(false);
-            mAuthTask = null;
-            if (mTarget.get() != null) {
-                LoginActivity activity = mTarget.get();
-                if (mException && isAuthError) {
-                    Toast.makeText(activity,
-                            "Invalid Login",
-                            Toast.LENGTH_SHORT).show();
-                } else if (jException) {
-                	//Toast and set Jekyll info Visible
-                    Toast.makeText(activity, "You don't have a Jekyll blog hosted at Github.com", Toast.LENGTH_LONG).show();
-                    findViewById(R.id.nojekyll).setVisibility(View.VISIBLE);
-                }else if (mException) {
-                    Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_LONG).show();
-                }else {
-                    JekyllRepo uRepo = new JekyllRepo();
-                    String repo = uRepo.getName(mUsername);
-                    SharedPreferences sharedPreferences = getSharedPreferences(
-                            "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("user_status", result.getToken());
-                    editor.putString("user_login", mTarget.get().mUsernameView.getText().toString());
-                    editor.putString("user_repo", repo);
-                    editor.commit();
-                    Toast.makeText(activity,
-                            "Login succesfull!",
-                            Toast.LENGTH_SHORT).show();
-                    activity.finish();
+        protected JSONObject doInBackground(String... args) {
+            GetAccessToken jParser = new GetAccessToken();
+            JSONObject json = jParser.gettoken(TOKEN_URL, Code, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, GRANT_TYPE);
+            return json;
+        }
 
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            pDialog.dismiss();
+            if (json != null) {
+                try {
+                    String tok = json.getString("access_token");
+                    Log.d("Token Access", tok);
+                    auth.setText("Authenticated");
+                    Access.setText("Access Token:" + tok);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("user_status", tok);
+                    editor.apply();
+                    new UserGet().execute();
+                    finish();
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
+            } else {
+                Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT).show();
+                pDialog.dismiss();
             }
-            
+        }
+    }
+
+    private class UserGet extends AsyncTask<Void, Void, Void> {
+
+        String Token = "";
+        String user = "";
+
+        @Override
+        protected Void doInBackground(Void... args) {
+            GitHubClient client = new GitHubClient();
+            client.setOAuth2Token(settings.getString("user_status", ""));
+            UserService uService = new UserService(client);
+            try {
+                User us = uService.getUser();
+                user = us.getLogin();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Log.d("LoginUser", settings.getString("user_status", ""));
+            JekyllRepo uRepo = new JekyllRepo();
+            String repo = uRepo.getName(user);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("user_login", user);
+            editor.putString("user_repo", repo);
+            editor.commit();
         }
     }
 }

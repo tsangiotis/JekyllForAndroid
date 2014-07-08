@@ -28,7 +28,13 @@
 	<string name="dialog_push_json">To get your posts a file should be added to your repository. 
 	    For more information on that and the contents of the file check jekyll-for-android on Github!</string>
 
-
+    <string-array name="nav_array">
+        <item>Posts</item>
+        <item>Drafts</item>
+        <item>Settings</item>
+    </string-array>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
     <string name="json_path">json/index.html</string>
 

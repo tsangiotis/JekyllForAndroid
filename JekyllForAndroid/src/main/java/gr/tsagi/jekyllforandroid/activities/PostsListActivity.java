@@ -82,19 +82,13 @@ public class PostsListActivity extends FragmentActivity {
         setContentView(R.layout.activity_posts_list);
 
 //        new TranslucentBars(this).tint(true);
-        settings = getSharedPreferences(
-                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("user_login", "");
-        editor.apply();
-
-        if(settings.getString("user_status","").equals("")){
-            login();
-        }
+        restorePreferences();
 
         DrawerSetup();
 
-        restorePreferences();
+        if(mToken.equals("")){
+            login();
+        }
 
         BusProvider.getInstance().register(PostsListActivity.this);
 
@@ -113,25 +107,21 @@ public class PostsListActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        BusProvider.getInstance().unregister(PostsListActivity.this);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         restorePreferences();
         Log.d("Resuming", "Restarted");
+        Log.d("Resuming", mUsername);
+        Log.d("Resuming", repo);
         DrawerSetup();
-        Fragment frg = null;
-        frg = new EntryListFragment();
-        frg = getSupportFragmentManager().findFragmentByTag("ListFragment");
-        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.detach(frg);
-        ft.attach(frg);
-        ft.commit();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();  // Always call the superclass method first
-
-        // Activity being restarted from stopped state
+        BusProvider.getInstance().register(PostsListActivity.this);
+        selectItem(0);
     }
 
     @Override

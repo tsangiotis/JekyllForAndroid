@@ -94,7 +94,6 @@ public class LoginActivity extends Activity {
                             edit.commit();
                             auth_dialog.dismiss();
                             new TokenGet().execute();
-                            Toast.makeText(getApplicationContext(), "Authorization Code is: " + authCode, Toast.LENGTH_SHORT).show();
                         } else if (url.contains("error=access_denied")) {
                             Log.i("", "ACCESS_DENIED_HERE");
                             resultIntent.putExtra("code", authCode);
@@ -145,9 +144,8 @@ public class LoginActivity extends Activity {
                     Access.setText("Access Token:" + tok);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("user_status", tok);
-                    editor.apply();
+                    editor.commit();
                     new UserGet().execute();
-                    finish();
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -188,6 +186,7 @@ public class LoginActivity extends Activity {
             editor.putString("user_login", user);
             editor.putString("user_repo", repo);
             editor.commit();
+            finish();
         }
     }
 }

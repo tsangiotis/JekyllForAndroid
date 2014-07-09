@@ -1,13 +1,8 @@
 package gr.tsagi.jekyllforandroid.fragments;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
-
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +23,7 @@ import gr.tsagi.jekyllforandroid.utils.ShowLoading;
 /**
  * Created by tsagi on 7/5/14.
  */
-public  class EntryListFragment extends Fragment {
+public  class DraftsListFragment extends Fragment {
     public static final String ARG_PDSTATUS = "post_or_draft";
     public static final String ARG_REPO = "user_repo";
 
@@ -39,7 +31,7 @@ public  class EntryListFragment extends Fragment {
 
     ShowLoading loadAnim;
 
-    public EntryListFragment() {
+    public DraftsListFragment() {
         // Empty constructor required for fragment subclasses
     }
 

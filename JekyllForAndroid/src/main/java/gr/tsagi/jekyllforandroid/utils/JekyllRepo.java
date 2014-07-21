@@ -45,7 +45,7 @@ public class JekyllRepo {
             e.printStackTrace();
         }
         for (Repository repository1 : repositories) {
-            if(repository1.getName().contains(user + ".github."))
+            if(repository1.getName().toLowerCase().contains(user.toLowerCase() + ".github."))
                 return repository1.getName();
         }
         return null;

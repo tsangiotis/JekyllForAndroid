@@ -25,6 +25,8 @@
     <string name="dialog_logout_nodraft">Sure you want to logout?</string>
     <string name="dialog_logout_draft">Sure you want to logout?\nYou have a draft post.</string>
     <string name="dialog_confirm_update">Sure you want to publish this post?</string>
+    <string name="dialog_confirm_draft">Sure you want to push this
+        draft?</string>
 	<string name="dialog_push_json">To get your posts a file should be added to your repository. 
 	    For more information on that and the contents of the file check jekyll-for-android on Github!</string>
 

@@ -1,16 +1,17 @@
 package gr.tsagi.jekyllforandroid.activities;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -27,6 +28,7 @@ import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.adapters.NavDrawerListAdapter;
 import gr.tsagi.jekyllforandroid.fragments.DraftsListFragment;
 import gr.tsagi.jekyllforandroid.fragments.PostsListFragment;
+import gr.tsagi.jekyllforandroid.fragments.PrefsFragment;
 import gr.tsagi.jekyllforandroid.utils.NavDrawerItem;
 
 /**
@@ -95,7 +97,7 @@ public class PostsListActivity extends FragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar
         // if it is present.
-        getMenuInflater().inflate(R.menu.action, menu);
+        getMenuInflater().inflate(R.menu.posts_list, menu);
         // Just for the logout
         return true;
     }
@@ -110,12 +112,6 @@ public class PostsListActivity extends FragmentActivity {
                 return true;
             case R.id.action_new:
                 newPost();
-                return true;
-            case R.id.settings:
-                Intent intent = new Intent();
-                intent.setClass(PostsListActivity.this,
-                        SetPreferenceActivity.class);
-                startActivityForResult(intent, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -211,6 +207,7 @@ public class PostsListActivity extends FragmentActivity {
         // position
 
         Fragment fragment = null;
+        PreferenceFragment prefsFragment = null;
 
         switch (position) {
 
@@ -242,24 +239,25 @@ public class PostsListActivity extends FragmentActivity {
                 }
                 break;
             case 2:
-                Intent intent = new Intent();
-                intent.setClass(PostsListActivity.this,
-                        SetPreferenceActivity.class);
-                startActivityForResult(intent, 0);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new PrefsFragment()).commit();
                 break;
         }
 
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
+        FragmentManager fragmentManager = getFragmentManager();
+        if (position != 2) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+        }
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mNavTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
-    }
+
+}
 
     @Override
     public void setTitle(CharSequence title) {
@@ -296,18 +294,20 @@ public class PostsListActivity extends FragmentActivity {
         // Add the buttons
         builder.setPositiveButton(R.string.ok,
                 new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User clicked OK button
-                // Clear credentials and Drafts
-                login();
-            }
-        });
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        // Clear credentials and Drafts
+                        login();
+                    }
+                }
+        );
         builder.setNegativeButton(R.string.cancel,
                 new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-            }
-        });
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                }
+        );
 
         // Create the AlertDialog
         AlertDialog dialog = builder.create();

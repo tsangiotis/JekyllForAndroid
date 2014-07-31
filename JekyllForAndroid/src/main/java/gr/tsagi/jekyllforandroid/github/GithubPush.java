@@ -44,10 +44,12 @@ public class GithubPush {
 
     public GithubPush(Context context){
         SharedPreferences settings = context
-                .getSharedPreferences("gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
+                .getSharedPreferences("gr.tsagi.jekyllforandroid",
+                        Context.MODE_PRIVATE);
         user = settings.getString("user_login", "");
         token = settings.getString("user_status", "");
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences sharedPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
         dir = sharedPref.getString("posts_subdir", "");
         if(!dir.equals(""))
             dir = dir +"/";
@@ -69,12 +71,24 @@ public class GithubPush {
         new PushFile().execute(json, jsonPath, commitMessage);
     }
 
-    public void pushContent(String title, String date, String content) throws ExecutionException, InterruptedException {
+    public void pushContent(String title, String date, String content) throws
+            ExecutionException, InterruptedException {
         // set path
         String path = date + "-" + title.toLowerCase().replace(' ', '-')
                 .replace(",","").replace("!","").replace(".","") + ".md";
         path = "_posts/" + dir + path;
         String commitMessage = "Update/new Post from Jekyll for Android";
+        new PushFile().execute(content, path, commitMessage);
+
+    }
+
+    public void pushDraft(String title, String content) throws
+            ExecutionException, InterruptedException {
+        // set path
+        String path = title.toLowerCase().replace(' ', '-')
+                .replace(",","").replace("!","").replace(".","") + ".md";
+        path = "_drafts/" + dir + path;
+        String commitMessage = "Update/new Draft from Jekyll for Android";
         new PushFile().execute(content, path, commitMessage);
 
     }
@@ -101,15 +115,19 @@ public class GithubPush {
 
                 // get some sha's from current state in git
                 Log.d("repository", user + "  " + repo);
-                Repository repository =  repositoryService.getRepository(user, repo);
-                String baseCommitSha = repositoryService.getBranches(repository).get(0).getCommit().getSha();
-                RepositoryCommit baseCommit = commitService.getCommit(repository, baseCommitSha);
+                Repository repository =  repositoryService
+                        .getRepository(user, repo);
+                String baseCommitSha = repositoryService
+                        .getBranches(repository).get(0).getCommit().getSha();
+                RepositoryCommit baseCommit = commitService
+                        .getCommit(repository, baseCommitSha);
                 String treeSha = baseCommit.getSha();
 
 
                 // create new blob with data
                 Blob blob = new Blob();
                 blob.setContent(blobContent).setEncoding(Blob.ENCODING_UTF8);
+                dataService.createBlob(repository, blob);
                 String blob_sha = dataService.createBlob(repository, blob);
                 Tree baseTree = dataService.getTree(repository, treeSha);
 
@@ -126,7 +144,8 @@ public class GithubPush {
                 treeEntry.setSize(blob.getContent().length());
                 Collection<TreeEntry> entries = new ArrayList<TreeEntry>();
                 entries.add(treeEntry);
-                Tree newTree = dataService.createTree(repository, entries, baseTree.getSha());
+                Tree newTree = dataService.createTree(repository,
+                        entries, baseTree.getSha());
 
                 // create commit
                 Commit commit = new Commit();

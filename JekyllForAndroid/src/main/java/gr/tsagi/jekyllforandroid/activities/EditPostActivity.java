@@ -40,7 +40,7 @@ import gr.tsagi.jekyllforandroid.utils.BusProvider;
 import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
 import gr.tsagi.jekyllforandroid.utils.ShowLoading;
 
-@SuppressLint({ "DefaultLocale", "SimpleDateFormat" })
+@SuppressLint({"DefaultLocale", "SimpleDateFormat"})
 public class EditPostActivity extends Activity {
     String mUsername;
     String mToken;
@@ -67,7 +67,7 @@ public class EditPostActivity extends Activity {
     private static final int GALLERY_INTENT_CALLED = 1;
     private static final int GALLERY_KITKAT_INTENT_CALLED = 2;
 
-	@Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
@@ -78,26 +78,26 @@ public class EditPostActivity extends Activity {
         mNewPostStatusView = findViewById(R.id.editpost_status);
         Intent intent;
 
-        if(getIntent() != null){
+        if (getIntent() != null) {
             intent = getIntent();
 
-            if(intent.getStringExtra("post") != null){
-        	    message = intent.getStringExtra("post");
-        	    clearDraft();
+            if (intent.getStringExtra("post") != null) {
+                message = intent.getStringExtra("post");
+                clearDraft();
                 Log.d("link", message);
                 loadAnim = new ShowLoading(mNewPostFormView, mNewPostStatusView);
-                loadAnim.showProgress(EditPostActivity.this,true);
-        	    new GithubRaw().execute(message, EditPostActivity.this);
+                loadAnim.showProgress(EditPostActivity.this, true);
+                new GithubRaw().execute(message, EditPostActivity.this);
             }
-            if(intent.getStringExtra("postdate") != null){
-        	    mDate = intent.getStringExtra("postdate");
+            if (intent.getStringExtra("postdate") != null) {
+                mDate = intent.getStringExtra("postdate");
             }
         }
 
         BusProvider.getInstance().register(this);
 
         ActionBar actionBar = getActionBar();
-        if(actionBar != null)
+        if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
 
         /**
@@ -106,8 +106,8 @@ public class EditPostActivity extends Activity {
 
         restorePreferences();
 
-        if(mToken == ""){
-            Toast.makeText(EditPostActivity.this, "Please login", Toast.LENGTH_LONG ).show();
+        if (mToken == "") {
+            Toast.makeText(EditPostActivity.this, "Please login", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -129,14 +129,17 @@ public class EditPostActivity extends Activity {
 //                addImage();
 //                return true;
             case R.id.action_publish:
-            	publishPost();
-            	return true;
+                publishPost();
+                return true;
+            case R.id.action_draft:
+                uploadDraft();
+                return true;
             case android.R.id.home:
-            	startActivity(new Intent(EditPostActivity.this,PostsListActivity.class));
-            	return true;
+                startActivity(new Intent(EditPostActivity.this, PostsListActivity.class));
+                return true;
             case R.id.action_preview:
-            	previewMarkdown();
-            	return true;
+                previewMarkdown();
+                return true;
             case R.id.settings:
                 Intent intent = new Intent();
                 intent.setClass(EditPostActivity.this, SetPreferenceActivity.class);
@@ -147,20 +150,49 @@ public class EditPostActivity extends Activity {
         }
     }
 
-    public void addImage (){
+    private void uploadDraft() {
+
+        final EditText content = (EditText) findViewById(R.id.editTextContent);
+
+        if (content.getText().toString().isEmpty())
+            Toast.makeText(EditPostActivity.this, R.string.editpost_empty, Toast.LENGTH_LONG).show();
+        else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            savePreferences();
+            builder.setMessage(R.string.dialog_confirm_draft);
+            // Add the buttons
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    pushAction();
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                }
+            });
+
+            // Create the AlertDialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
+    }
+
+    public void addImage() {
         //TODO not implemented yet
-        if (Build.VERSION.SDK_INT <19){
+        if (Build.VERSION.SDK_INT < 19) {
             Intent intent = new Intent();
             intent.setType("image/jpeg");
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"),GALLERY_INTENT_CALLED);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_INTENT_CALLED);
         } else {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/jpeg");
             startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
         }
-        }
+    }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -179,22 +211,22 @@ public class EditPostActivity extends Activity {
             getContentResolver().takePersistableUriPermission(originalUri, takeFlags);
         }
 
-        Toast.makeText(EditPostActivity.this,originalUri+"end",Toast.LENGTH_LONG).show();
+        Toast.makeText(EditPostActivity.this, originalUri + "end", Toast.LENGTH_LONG).show();
 
-        EditText content = (EditText)findViewById(R.id.editTextContent);
-        content.setText("![]("+originalUri+")");
+        EditText content = (EditText) findViewById(R.id.editTextContent);
+        content.setText("![](" + originalUri + ")");
     }
 
     /**
      * helper to retrieve the path of an image URI
      */
     public String getPath(Uri uri) {
-        if( uri == null ) {
+        if (uri == null) {
             return null;
         }
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
+        if (cursor != null) {
             int column_index = cursor
                     .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
@@ -203,16 +235,16 @@ public class EditPostActivity extends Activity {
         return uri.getPath();
     }
 
-    private void clearDraft(){
-        mTitle    = "";
+    private void clearDraft() {
+        mTitle = "";
         mCategory = "";
-        mTags     = "";
-        mContent  = "";
+        mTags = "";
+        mContent = "";
 
         setStrings();
     }
 
-    private void restorePreferences(){
+    private void restorePreferences() {
         settings = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
         mUsername = settings.getString("user_login", "");
@@ -222,7 +254,7 @@ public class EditPostActivity extends Activity {
         mCategory = settings.getString("draft_category", "");
         mTags = settings.getString("draft_tags", "");
         mContent = settings.getString("draft_content", "");
-        repo =  settings.getString("user_repo", "");
+        repo = settings.getString("user_repo", "");
 
         TextView title = (TextView) findViewById(R.id.editTextTitle);
         TextView category = (TextView) findViewById(R.id.editTextCategory);
@@ -231,7 +263,7 @@ public class EditPostActivity extends Activity {
 
         setStrings();
 
-        if(repo.equals("") && !mUsername.equals("")){
+        if (repo.equals("") && !mUsername.equals("")) {
             repo = new JekyllRepo().getName(mUsername);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("user_repo", repo);
@@ -240,11 +272,11 @@ public class EditPostActivity extends Activity {
 
     }
 
-    private void setStrings(){
-        EditText titleT = (EditText)findViewById(R.id.editTextTitle);
-        EditText contentT = (EditText)findViewById(R.id.editTextContent);
-        EditText categoryT = (EditText)findViewById(R.id.editTextCategory);
-        EditText tagsT = (EditText)findViewById(R.id.editTextTags);
+    private void setStrings() {
+        EditText titleT = (EditText) findViewById(R.id.editTextTitle);
+        EditText contentT = (EditText) findViewById(R.id.editTextContent);
+        EditText categoryT = (EditText) findViewById(R.id.editTextCategory);
+        EditText tagsT = (EditText) findViewById(R.id.editTextTags);
 
         titleT.setText(mTitle);
         categoryT.setText(mCategory);
@@ -258,11 +290,6 @@ public class EditPostActivity extends Activity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Map<String, Object> data = new HashMap<String, Object>();
 
-
-
-        loadAnim = new ShowLoading(mNewPostFormView, mNewPostStatusView);
-        loadAnim.showProgress(EditPostActivity.this,true);
-
         Yaml yaml = new Yaml();
         String customYaml = prefs.getString("yaml_values", "");
         Log.d("yaml", customYaml);
@@ -271,7 +298,7 @@ public class EditPostActivity extends Activity {
         data.put("category", mCategory);
         data.put("title", mTitle);
         data.put("layout", "post");
-        if(map != null)
+        if (map != null)
             data.putAll(map);
 
         String output = "---\n" + yaml.dump(data) + "---\n";
@@ -279,7 +306,7 @@ public class EditPostActivity extends Activity {
         GithubPush pusher = new GithubPush(EditPostActivity.this);
 
         try {
-            pusher.pushContent(mTitle, mDate, output + mContent);
+            pusher.pushDraft(mTitle, output + mContent);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -287,51 +314,49 @@ public class EditPostActivity extends Activity {
         }
     }
 
-    public void pushResult(String result){
-        loadAnim.showProgress(this, false);
+    public void pushResult(String result) {
         String message;
-        if(result.equals("OK")){
+        if (result.equals("OK")) {
             message = getString(R.string.editpost_publish);
-        }
-        else
+        } else
             message = getString(R.string.editpost_fail);
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         finish();
     }
 
-    private void publishPost(){
+    private void publishPost() {
 
-    	final EditText content = (EditText)findViewById(R.id.editTextContent);
+        final EditText content = (EditText) findViewById(R.id.editTextContent);
 
-    	if(content.getText().toString().isEmpty())
-    		Toast.makeText(EditPostActivity.this, R.string.editpost_empty, Toast.LENGTH_LONG).show();
-    	else {
-    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    		savePreferences();
-    		builder.setMessage(R.string.dialog_confirm_update);
-    		// Add the buttons
-    		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-    	           public void onClick(DialogInterface dialog, int id) {
-                       pushAction();
-                   }
-    	       });
-    		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-    	           public void onClick(DialogInterface dialog, int id) {
-    	               // User cancelled the dialog
-    	           }
-    	       });
+        if (content.getText().toString().isEmpty())
+            Toast.makeText(EditPostActivity.this, R.string.editpost_empty, Toast.LENGTH_LONG).show();
+        else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            savePreferences();
+            builder.setMessage(R.string.dialog_confirm_update);
+            // Add the buttons
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    pushAction();
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                }
+            });
 
-    		// Create the AlertDialog
-    		AlertDialog dialog = builder.create();
-    		dialog.show();
-    	}
+            // Create the AlertDialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 
-    private  void savePreferences(){
-        EditText titleT = (EditText)findViewById(R.id.editTextTitle);
-        EditText contentT = (EditText)findViewById(R.id.editTextContent);
-        EditText categoryT = (EditText)findViewById(R.id.editTextCategory);
-        EditText tagsT = (EditText)findViewById(R.id.editTextTags);
+    private void savePreferences() {
+        EditText titleT = (EditText) findViewById(R.id.editTextTitle);
+        EditText contentT = (EditText) findViewById(R.id.editTextContent);
+        EditText categoryT = (EditText) findViewById(R.id.editTextCategory);
+        EditText tagsT = (EditText) findViewById(R.id.editTextTags);
 
         mTitle = titleT.getText().toString();
         mCategory = categoryT.getText().toString();
@@ -346,12 +371,12 @@ public class EditPostActivity extends Activity {
         editor.commit();
     }
 
-    public void getThePost(HashMap<String,String> map){
+    public void getThePost(HashMap<String, String> map) {
         loadAnim.showProgress(EditPostActivity.this, false);
-        EditText titleT = (EditText)findViewById(R.id.editTextTitle);
-        EditText contentT = (EditText)findViewById(R.id.editTextContent);
-        EditText categoryT = (EditText)findViewById(R.id.editTextCategory);
-        EditText tagsT = (EditText)findViewById(R.id.editTextTags);
+        EditText titleT = (EditText) findViewById(R.id.editTextTitle);
+        EditText contentT = (EditText) findViewById(R.id.editTextContent);
+        EditText categoryT = (EditText) findViewById(R.id.editTextCategory);
+        EditText tagsT = (EditText) findViewById(R.id.editTextTags);
 
         mTitle = map.get("title");
         mCategory = map.get("category");
@@ -384,15 +409,15 @@ public class EditPostActivity extends Activity {
         super.onStart();
     }
 
-    public void previewMarkdown(){
-    	savePreferences();
-    	if (!mContent.isEmpty()){
-    		Intent myIntent = new Intent(EditPostActivity.this, PreviewMarkdownActivity.class);
-    		myIntent.putExtra("content", mContent);
+    public void previewMarkdown() {
+        savePreferences();
+        if (!mContent.isEmpty()) {
+            Intent myIntent = new Intent(EditPostActivity.this, PreviewMarkdownActivity.class);
+            myIntent.putExtra("content", mContent);
             myIntent.putExtra("repo", repo);
-    		startActivity(myIntent);
-    	}else
-    		Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show();
+            startActivity(myIntent);
+        } else
+            Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe

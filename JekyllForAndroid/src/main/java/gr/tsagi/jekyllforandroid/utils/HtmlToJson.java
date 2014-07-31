@@ -1,7 +1,5 @@
 package gr.tsagi.jekyllforandroid.utils;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -94,7 +92,7 @@ public  class HtmlToJson {
                 // adding each child node to HashMap key => value
                 map.put("published_on", r.getString("published_on"));
                 map.put("title", r.getString("title"));
-                Log.d("jsonising", r.getString("title"));
+//                Log.d("jsonising", r.getString("title"));
 
                 // adding HashList to ArrayList
                 postList.add(map);

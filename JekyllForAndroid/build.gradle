@@ -37,8 +37,8 @@ android {
         applicationId 'gr.tsagi.jekyllforandroid'
         minSdkVersion 11
         targetSdkVersion 19
-        versionCode 106
-        versionName "1.3.3"
+        versionCode 107
+        versionName "1.4.1"
     }
 
     compileOptions {

@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import de.cketti.library.changelog.ChangeLog;
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.adapters.NavDrawerListAdapter;
 import gr.tsagi.jekyllforandroid.fragments.DraftsListFragment;
@@ -58,10 +59,16 @@ public class PostsListActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_list);
 
-//        new TranslucentBars(this).tint(true);
         restorePreferences();
 
         DrawerSetup();
+
+        ChangeLog cl = new ChangeLog(this);
+        if (cl.isFirstRun() && !mToken.equals("")) {
+            logoutPropositionDialog();
+        }
+
+//        new TranslucentBars(this).tint(true);
 
         if (mToken.equals("")) {
             login();
@@ -298,6 +305,43 @@ public class PostsListActivity extends FragmentActivity {
                         // User clicked OK button
                         // Clear credentials and Drafts
                         login();
+                    }
+                }
+        );
+        builder.setNegativeButton(R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                }
+        );
+
+        // Create the AlertDialog
+        AlertDialog dialog = builder.create();
+
+        // Show it
+        dialog.show();
+
+    }
+
+    public void logoutPropositionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Shared preferences and Intent settings
+        // before logout ask user and remind him any draft posts
+
+        final SharedPreferences sharedPreferences = getSharedPreferences(
+                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
+
+
+        builder.setMessage("If you have problems posting, please logout and login again.");
+
+        // Add the buttons
+        builder.setPositiveButton("Logout",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        logoutDialog();
                     }
                 }
         );

@@ -2,29 +2,28 @@ package gr.tsagi.jekyllforandroid.activities;
 
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.eclipse.egit.github.core.User;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.UserService;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -41,7 +40,7 @@ public class LoginActivity extends Activity {
     private static String GRANT_TYPE = "auth_code";
     private static String TOKEN_URL = "https://github.com/login/oauth/access_token";
     private static String OAUTH_URL = "https://github.com/login/oauth/authorize";
-    private static String OAUTH_SCOPE = "user%2Cgist";
+    private static String OAUTH_SCOPE = "user%2Crepo";
     //Change the Scope as you need
     WebView web;
     Button auth;

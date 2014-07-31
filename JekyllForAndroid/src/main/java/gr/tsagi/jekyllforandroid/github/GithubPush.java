@@ -105,8 +105,7 @@ public class GithubPush {
 
                 // based on http://swanson.github.com/blog/2011/07/23/digging-around-the-github-api-take-2.html
                 // initialize github client
-                GitHubClient client = new GitHubClient();
-                client.setOAuth2Token(token);
+                GitHubClient client = new GitHubClient().setOAuth2Token(token);
 
                 // create needed services
                 RepositoryService repositoryService = new RepositoryService();
@@ -127,7 +126,6 @@ public class GithubPush {
                 // create new blob with data
                 Blob blob = new Blob();
                 blob.setContent(blobContent).setEncoding(Blob.ENCODING_UTF8);
-                dataService.createBlob(repository, blob);
                 String blob_sha = dataService.createBlob(repository, blob);
                 Tree baseTree = dataService.getTree(repository, treeSha);
 

@@ -163,7 +163,7 @@ public class EditPostActivity extends Activity {
             // Add the buttons
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    pushAction();
+                    pushDraft();
                 }
             });
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -285,7 +285,36 @@ public class EditPostActivity extends Activity {
 
     }
 
-    public void pushAction() {
+    public void pushPost() {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Map<String, Object> data = new HashMap<String, Object>();
+
+        Yaml yaml = new Yaml();
+        String customYaml = prefs.getString("yaml_values", "");
+        Log.d("yaml", customYaml);
+        Map<String, Object> map = (HashMap<String, Object>) yaml.load(customYaml);
+        data.put("tags", mTags.split(","));
+        data.put("category", mCategory);
+        data.put("title", mTitle);
+        data.put("layout", "post");
+        if (map != null)
+            data.putAll(map);
+
+        String output = "---\n" + yaml.dump(data) + "---\n";
+
+        GithubPush pusher = new GithubPush(EditPostActivity.this);
+
+        try {
+            pusher.pushContent(mTitle, mDate, output + mContent);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void pushDraft() {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Map<String, Object> data = new HashMap<String, Object>();
@@ -337,7 +366,7 @@ public class EditPostActivity extends Activity {
             // Add the buttons
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    pushAction();
+                    pushPost();
                 }
             });
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

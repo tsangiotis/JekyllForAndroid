@@ -25,6 +25,8 @@
     <string name="dialog_logout_nodraft">Sure you want to logout?</string>
     <string name="dialog_logout_draft">Sure you want to logout?\nYou have a draft post.</string>
     <string name="dialog_confirm_update">Sure you want to publish this post?</string>
+    <string name="dialog_confirm_draft">Sure you want to push this
+        draft?</string>
 	<string name="dialog_push_json">To get your posts a file should be added to your repository. 
 	    For more information on that and the contents of the file check jekyll-for-android on Github!</string>
 
@@ -35,6 +37,18 @@
     </string-array>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_action_edit</item>
+        <item>@drawable/ic_action_attachment</item>
+        <item>@drawable/ic_action_settings</item>
+    </array>
+
+    <array name="nav_drawer_icons_dark">
+        <item>@drawable/ic_action_edit_dark</item>
+        <item>@drawable/ic_action_attachment_dark</item>
+        <item>@drawable/ic_action_settings_dark</item>
+    </array>
 
     <string name="json_path">json/index.html</string>
 

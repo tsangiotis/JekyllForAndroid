@@ -11,6 +11,10 @@
         android:icon="@android:drawable/ic_menu_delete"
         android:title="Delete"
         android:showAsAction="ifRoom" />
+    <item android:id="@+id/action_draft"
+          android:icon="@android:drawable/ic_menu_save"
+          android:title="Upload Draft"
+          android:showAsAction="always" />
     <item android:id="@+id/action_publish"
         android:icon="@android:drawable/ic_menu_send"
         android:title="Publish"

@@ -35,8 +35,9 @@ Simply download [ADT Bundle](http://developer.android.com/sdk/index.html) and Im
 
 #Download:
 
-Download from the [Play Store](https://play.google.com/store/apps/details?id=gr.tsagi.jekyllforandroid)!
-
-The client is in stage.
+<a href="https://play.google.com/store/apps/details?id=gr.tsagi.jekyllforandroid">
+  <img alt="Get it on Google Play"
+       src="/images/brand/en_generic_rgb_wo_60.png" />
+</a>
 
 Please fork it, test it and come back with [issues](https://github.com/tsagi/jekyll-client-for-android/issues) :)

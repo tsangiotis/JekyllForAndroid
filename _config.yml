@@ -17,8 +17,8 @@ description: Stylish Jekyll Theme
 author:
   name: Jekyll for Android
   email: tsagiotis@gmail.com
-  github: tsagi
-  twitter: tsagi
+  github: tsagi/jekyll-client-for-android
+  twitter:
   pinterest:
   linkedin:
   bio: A Jekyll client for Android.

@@ -10,7 +10,7 @@ It commits a `yyyy-mm-dd-title.md` file to the `_posts/` directory of your Jekyl
 The application uses the [GitHub API](https://developer.github.com/) and supports [GitHub 2fa](https://help.github.com/articles/about-two-factor-authentication).
 
 
-##Features:
+## Features:
 
 - One time GitHub Login
 - Create posts
@@ -24,12 +24,13 @@ The application uses the [GitHub API](https://developer.github.com/) and support
 https://github.com/tsagi/jekyll-client-for-android/releases/download/v1.4.1/JekyllForAndroid.apk
 
 ## Get the latest version:
-<div class="col-md-6 col-md-offset-2">
+<div class="col-md-6">
     <a class="btn btn-default" href="https://github.com/tsagi/jekyll-client-for-android/zipball/master">Source zip</a>
-    <a class="btn btn-default" href="https://github.com/tsagi/jekyll-client-for-android/releases/latest">Latest release</a>
+    <a class="btn btn-info" href="https://github.com/tsagi/jekyll-client-for-android/releases/latest">Latest release</a>
 </div>
 
-#To compile
+
+# To compile
 
 Download [ADT Bundle](http://developer.android.com/sdk/index.html) and Import the Project.
 

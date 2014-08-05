@@ -21,8 +21,6 @@ The application uses the [GitHub API](https://developer.github.com/) and support
 - View old posts
 - Edit/Delete posts
 
-https://github.com/tsagi/jekyll-client-for-android/releases/download/v1.4.1/JekyllForAndroid.apk
-
 ## Get the latest version:
 
 <div class="control-group">

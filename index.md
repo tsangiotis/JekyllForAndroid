@@ -25,13 +25,10 @@ https://github.com/tsagi/jekyll-client-for-android/releases/download/v1.4.1/Jeky
 
 ## Get the latest version:
 
-<div class="col-md-2">
+<div class="control-group">
     <a class="btn btn-default" href="https://github.com/tsagi/jekyll-client-for-android/zipball/master">Source zip</a>
     <a class="btn btn-info" href="https://github.com/tsagi/jekyll-client-for-android/releases/latest">Latest release</a>
 </div>
-
-
-<br><br>
 
 # To compile
 

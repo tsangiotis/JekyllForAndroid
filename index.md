@@ -24,6 +24,7 @@ The application uses the [GitHub API](https://developer.github.com/) and support
 https://github.com/tsagi/jekyll-client-for-android/releases/download/v1.4.1/JekyllForAndroid.apk
 
 ## Get the latest version:
+
 <div class="col-md-2">
     <a class="btn btn-default" href="https://github.com/tsagi/jekyll-client-for-android/zipball/master">Source zip</a>
     <a class="btn btn-info" href="https://github.com/tsagi/jekyll-client-for-android/releases/latest">Latest release</a>

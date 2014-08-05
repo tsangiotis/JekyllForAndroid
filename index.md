@@ -29,6 +29,9 @@ https://github.com/tsagi/jekyll-client-for-android/releases/download/v1.4.1/Jeky
     <a class="btn btn-info" href="https://github.com/tsagi/jekyll-client-for-android/releases/latest">Latest release</a>
 </div>
 
+
+
+
 # To compile
 
 Simply download [ADT Bundle](http://developer.android.com/sdk/index.html) and Import the Project.

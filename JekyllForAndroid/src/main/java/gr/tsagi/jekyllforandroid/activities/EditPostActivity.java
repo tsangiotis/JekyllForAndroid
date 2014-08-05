@@ -140,11 +140,6 @@ public class EditPostActivity extends Activity {
             case R.id.action_preview:
                 previewMarkdown();
                 return true;
-            case R.id.settings:
-                Intent intent = new Intent();
-                intent.setClass(EditPostActivity.this, SetPreferenceActivity.class);
-                startActivityForResult(intent, 0);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

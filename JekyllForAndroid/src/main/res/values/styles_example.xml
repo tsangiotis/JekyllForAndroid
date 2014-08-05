@@ -29,8 +29,8 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_example</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_example</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Example</item>
-
-
+        
+        
     </style>
 
     <style name="ActionBar.Solid.Example" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
@@ -46,7 +46,7 @@
     </style>
 
     <style name="PopupMenu.Example" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>	
     </style>
 
     <style name="DropDownListView.Example" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
@@ -62,11 +62,11 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_example</item>
     </style>
-
+    
     <style name="ProgressBar.Example" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_example</item>
     </style>
-
+    
     <style name="ActionButton.CloseMode.Example" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_example</item>
     </style>

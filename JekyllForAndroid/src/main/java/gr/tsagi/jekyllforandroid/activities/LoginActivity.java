@@ -16,7 +16,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.eclipse.egit.github.core.User;
@@ -45,7 +44,6 @@ public class LoginActivity extends Activity {
     WebView web;
     Button auth;
     SharedPreferences settings;
-    TextView Access;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +51,6 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         settings = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
-        Access = (TextView) findViewById(R.id.Access);
         auth = (Button) findViewById(R.id.auth);
         auth.setOnClickListener(new View.OnClickListener() {
             Dialog auth_dialog;
@@ -140,7 +137,6 @@ public class LoginActivity extends Activity {
                     String tok = json.getString("access_token");
                     Log.d("Token Access", tok);
                     auth.setText("Authenticated");
-                    Access.setText("Access Token:" + tok);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("user_status", tok);
                     editor.commit();

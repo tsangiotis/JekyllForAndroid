@@ -27,7 +27,7 @@ import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.activities.EditPostActivity;
 import gr.tsagi.jekyllforandroid.github.GithubPush;
 import gr.tsagi.jekyllforandroid.utils.BusProvider;
-import gr.tsagi.jekyllforandroid.utils.ParsePostData;
+import gr.tsagi.jekyllforandroid.utils.FetchPostsTask;
 import gr.tsagi.jekyllforandroid.utils.ShowLoading;
 
 /**
@@ -62,8 +62,7 @@ public  class PostsListFragment extends Fragment {
 
         getActivity().setTitle(type);
         if(i==0)
-            new ParsePostData().execute("http://"+ repo + "/json",
-                    getActivity());
+            new FetchPostsTask(getActivity()).execute("http://"+ repo + "/json");
         return rootView;
     }
 

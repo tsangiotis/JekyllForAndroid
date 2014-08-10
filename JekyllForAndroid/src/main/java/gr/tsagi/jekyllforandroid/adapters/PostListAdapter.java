@@ -59,9 +59,9 @@ public class PostListAdapter extends CursorAdapter {
         int viewType = getItemViewType(cursor.getPosition());
 
         // Read weather forecast from cursor
-        String description = cursor.getString(PostsListFragment.COL_POST_TITLE);
+        String title = cursor.getString(PostsListFragment.COL_POST_TITLE);
         // Find TextView and set weather forecast on it
-        viewHolder.descriptionView.setText(description);
+        viewHolder.titleView.setText(title);
 
         // Read date from cursor
         String dateString = cursor.getString(PostsListFragment.COL_POST_DATE);

@@ -39,6 +39,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SetPreferenceActivity" />
+
+        <provider
+            android:authorities="@string/content_authority"
+            android:name=".data.PostsProvider"
+            android:exported="false"
+            android:syncable="true" />
     </application>
 
 </manifest>

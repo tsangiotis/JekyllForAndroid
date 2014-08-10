@@ -42,14 +42,15 @@ public class PostsDbHelper extends SQLiteOpenHelper {
                 TagEntry._ID + " INTEGER PRIMARY KEY, " +
                 TagEntry.COLUMN_NAME + " TEXT NOT NULL);";
 
-        final String SQL_CREATE_CATEGORIES_TABLE = "CREATE TABLE " + CategoryEntry.TABLE_NAME + "" +
+        final String SQL_CREATE_CATEGORIES_TABLE = "CREATE TABLE " + CategoryEntry.TABLE_NAME +
                 " (" +
                 CategoryEntry._ID + " INTEGER PRIMARY KEY, " +
                 CategoryEntry.COLUMN_NAME + " TEXT NOT NULL, " +
+                CategoryEntry.COLUMN_POST_KEY + " INTEGER NOT NULL," +
 
                 // Set up the post column as a foreign key to location table.
                 " FOREIGN KEY (" + CategoryEntry.COLUMN_POST_KEY + ") REFERENCES " +
-                PostEntry.TABLE_NAME + " (" + PostEntry._ID + ");";
+                PostEntry.TABLE_NAME + " (" + PostEntry._ID + ") );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_POSTS_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_TAGS_RELATIONS_TABLE);

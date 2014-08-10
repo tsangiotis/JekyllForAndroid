@@ -1,8 +1,8 @@
 package gr.tsagi.jekyllforandroid.activities;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -223,8 +223,6 @@ public class PostsListActivity extends FragmentActivity {
                 try {
                     fragment = new PostsListFragment();
                     Bundle args = new Bundle();
-                    args.putInt(PostsListFragment.ARG_PDSTATUS, position);
-                    args.putString(PostsListFragment.ARG_REPO, mRepo);
                     if (args.size() != 0) {
                         fragment.setArguments(args);
                     }
@@ -236,8 +234,8 @@ public class PostsListActivity extends FragmentActivity {
                 try {
                     fragment = new DraftsListFragment();
                     Bundle args = new Bundle();
-                    args.putInt(PostsListFragment.ARG_PDSTATUS, position);
-                    args.putString(PostsListFragment.ARG_REPO, mRepo);
+                    args.putInt(DraftsListFragment.ARG_PDSTATUS, position);
+                    args.putString(DraftsListFragment.ARG_REPO, mRepo);
                     if (args.size() != 0) {
                         fragment.setArguments(args);
                     }
@@ -252,7 +250,7 @@ public class PostsListActivity extends FragmentActivity {
         }
 
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         if (position != 2) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragment)

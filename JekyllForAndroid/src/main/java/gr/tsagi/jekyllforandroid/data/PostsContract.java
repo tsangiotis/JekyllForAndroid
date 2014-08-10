@@ -90,6 +90,10 @@ public class PostsContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
+        public static Uri buildPosts() {
+            return CONTENT_URI.buildUpon().build();
+        }
+
         public static String getDateFromUri(Uri uri) {
             return uri.getQueryParameter(COLUMN_DATETEXT);
         }

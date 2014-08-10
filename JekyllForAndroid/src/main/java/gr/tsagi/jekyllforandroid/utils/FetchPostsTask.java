@@ -158,7 +158,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             String content;
 
             String filename = post.getPath();
-            Log.d("TreeSub", filename);
+            Log.d(LOG_TAG, "TreeSub" + filename);
             String postSha = post.getSha();
             Blob postBlob = null;
             try {
@@ -230,6 +230,8 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
     @Override
     protected Void doInBackground(String... params) {
+
+        Log.d(LOG_TAG, "Background started");
 
         // TODO: Support subdirectories
         final String user = Utility.getUser(mContext);

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
 import org.eclipse.egit.github.core.Blob;
@@ -18,14 +19,15 @@ import org.eclipse.egit.github.core.service.RepositoryService;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
-import gr.tsagi.jekyllforandroid.data.PostsContract.TagsRelationsEntry;
-import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
+import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
+import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
+import gr.tsagi.jekyllforandroid.data.PostsContract.TagsRelationsEntry;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -62,7 +64,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
      *
      * @param tags the String array of tags for this post.
      */
-    private void addTags(String[] tags, String title) {
+    private void addTags(String tags, String title) {
 
         long id;
 
@@ -153,22 +155,34 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
             long date;
             String title;
-            String[] tags;
+            String tags;
             String category;
             String content;
 
             String filename = post.getPath();
-            Log.d(LOG_TAG, "TreeSub" + filename);
+            Log.d(LOG_TAG, "TreeSub: " + filename);
             String postSha = post.getSha();
             Blob postBlob = null;
             try {
-                postBlob = dataService.getBlob(repository, postSha);
+                postBlob = dataService.getBlob(repository, postSha).setEncoding(Blob.ENCODING_UTF8);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             assert postBlob != null;
-            String postContent = postBlob.getContent();
+            String blobBytes = postBlob.getContent();
+
+            String postContent = null;
+
+            // Blobs return with Base64 encoding so we have to UTF-8 them.
+            byte[] bytes = Base64.decode(blobBytes, Base64.DEFAULT);
+            try {
+                postContent = new String(bytes, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            Log.d(LOG_TAG, "postContent: " + postContent);
 
             String[] lines = postContent.split(System.getProperty("line.separator"));
             StringBuilder stringBuilder = new StringBuilder();
@@ -196,11 +210,24 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
             Yaml yaml = new Yaml();
 
-            HashMap<String, String[]> map = (HashMap<String, String[]>) yaml.load(yamlStr);
+//            Log.d(LOG_TAG, "yaml: " + yamlStr);
 
-            title = String.valueOf(map.get(JK_TITLE));
-            tags = map.get(JK_TAGS);
-            category = String.valueOf(map.get(JK_CATEGORY));
+            HashMap<String, String[]> map = (HashMap<String, String[]>) yaml.load(yamlStr);
+            HashMap<String, String> postmap = new HashMap<String, String>();
+
+            postmap.put("title", String.valueOf(map.get("title")));
+            postmap.put("category", String.valueOf(map.get("category")));
+            postmap.put("tags", String.valueOf(map.get("tags")).replace("[", "").replace("]", ""));
+            postmap.put("content", content);
+
+
+            title = postmap.get(JK_TITLE);
+            tags = postmap.get(JK_TAGS);
+            category = postmap.get(JK_CATEGORY);
+
+            Log.d(LOG_TAG, "Title: " + title);
+            Log.d(LOG_TAG, "Tags: " + tags);
+            Log.d(LOG_TAG, "Category: " + category);
 
             // Insert the location into the database.
             long locationID = addCategory(category);

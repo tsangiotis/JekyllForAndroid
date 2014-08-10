@@ -66,7 +66,8 @@ public class Utility {
      * @return repo
      */
     public static String getRepo(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences prefs = context.getSharedPreferences("gr.tsagi.jekyllforandroid",
+                Context.MODE_PRIVATE);
         // TODO: Change "user_repo" to "repo" without affecting current users
         return prefs.getString("user_repo", "");
     }

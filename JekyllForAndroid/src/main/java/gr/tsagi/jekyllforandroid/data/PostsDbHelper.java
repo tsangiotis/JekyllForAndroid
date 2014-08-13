@@ -33,10 +33,10 @@ public class PostsDbHelper extends SQLiteOpenHelper {
                 PostEntry.COLUMN_DATETEXT + " TEXT NOT NULL, " +
                 PostEntry.COLUMN_CONTENT + " TEXT);";
 
-        final String SQL_CREATE_TAGS_RELATIONS_TABLE = "CREATE TABLE " +
-                TagsRelationsEntry.TABLE_NAME + " (" +
-                TagsRelationsEntry.COLUMN_POST_TITLE + " TEXT NOT NULL, " +
-                TagsRelationsEntry.COLUMN_TAG_KEY + " INTEGER NOT NULL);";
+//        final String SQL_CREATE_TAGS_RELATIONS_TABLE = "CREATE TABLE " +
+//                TagsRelationsEntry.TABLE_NAME + " (" +
+//                TagsRelationsEntry.COLUMN_POST_TITLE + " TEXT NOT NULL, " +
+//                TagsRelationsEntry.COLUMN_TAG_KEY + " INTEGER NOT NULL);";
 
         final String SQL_CREATE_TAGS_TABLE = "CREATE TABLE " + TagEntry.TABLE_NAME + " (" +
                 TagEntry._ID + " INTEGER PRIMARY KEY, " +

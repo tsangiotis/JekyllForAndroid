@@ -3,10 +3,10 @@ package gr.tsagi.jekyllforandroid.fragments;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import android.app.Fragment;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +57,7 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
     public static final int COL_POST_TITLE = 1;
     public static final int COL_POST_DATE = 2;
 
-    FetchPostsTask fetchPostsTask = new FetchPostsTask(getActivity());
+    FetchPostsTask fetchPostsTask;
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -74,10 +74,13 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
     public PostsListFragment() {
         // Empty constructor required for fragment subclasses
     }
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        fetchPostsTask = new FetchPostsTask(getActivity());
 
         updatePosts();
         // The ArrayAdapter will take data from a source and

@@ -47,7 +47,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
         mContext = context;
 
-        final String token = Utility.getToken(mContext);
+        final String token = Utility.getToken(context);
 
         // Start the client
         GitHubClient client = new GitHubClient();
@@ -196,10 +196,10 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                 if (line.equals("---")) {
                     yaml_dash++;
                 }
-                if (yaml_dash != 2)
+                if (yaml_dash != 2) {
                     if (!line.equals("---"))
                         yamlStr = yamlStr + line + "\n";
-
+                }
                 if (yaml_dash == 2) {
                     if (!line.equals("---"))
                         if (line.equals(""))
@@ -213,7 +213,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
             Yaml yaml = new Yaml();
 
-//            Log.d(LOG_TAG, "yaml: " + yamlStr);
+            Log.d(LOG_TAG, "yaml: " + yamlStr);
 
             HashMap<String, String[]> map = (HashMap<String, String[]>) yaml.load(yamlStr);
             HashMap<String, String> postmap = new HashMap<String, String>();

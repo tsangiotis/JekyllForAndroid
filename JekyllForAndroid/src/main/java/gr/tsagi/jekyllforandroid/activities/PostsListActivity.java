@@ -1,17 +1,16 @@
 package gr.tsagi.jekyllforandroid.activities;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -206,18 +205,11 @@ public class PostsListActivity extends FragmentActivity {
         // position
 
         Fragment fragment = null;
-        PreferenceFragment prefsFragment = null;
 
         switch (position) {
-
-
             case 0:
                 try {
                     fragment = new PostsListFragment();
-                    Bundle args = new Bundle();
-                    if (args.size() != 0) {
-                        fragment.setArguments(args);
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -225,12 +217,6 @@ public class PostsListActivity extends FragmentActivity {
             case 1:
                 try {
                     fragment = new DraftsListFragment();
-                    Bundle args = new Bundle();
-                    args.putInt(DraftsListFragment.ARG_PDSTATUS, position);
-                    args.putString(DraftsListFragment.ARG_REPO, mRepo);
-                    if (args.size() != 0) {
-                        fragment.setArguments(args);
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -242,7 +228,7 @@ public class PostsListActivity extends FragmentActivity {
         }
 
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         if (position != 2) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragment)
@@ -254,7 +240,7 @@ public class PostsListActivity extends FragmentActivity {
         setTitle(mNavTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
 
-}
+    }
 
     @Override
     public void setTitle(CharSequence title) {

@@ -18,7 +18,11 @@ import org.eclipse.egit.github.core.service.DataService;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
@@ -138,11 +142,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
     }
 
     /**
-     * Take the String representing the complete forecast in JSON Format and
-     * pull out the data we need to construct the Strings needed for the wireframes.
-     * <p/>
-     * Fortunately parsing is easy:  constructor takes the JSON string and converts it
-     * into an Object hierarchy for us.
+     * Take the List with the posts and parse the posts for data
      */
     private void getPostDataFromList(Repository repository, List<TreeEntry> postslist) {
 
@@ -187,27 +187,41 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
             Log.d(LOG_TAG, "postContent: " + postContent);
 
-            String[] lines = postContent.split(System.getProperty("line.separator"));
             StringBuilder stringBuilder = new StringBuilder();
+
+            InputStream is;
+            BufferedReader r;
+
+            is = new ByteArrayInputStream(postContent.getBytes());
+            // read it with BufferedReader
+            r = new BufferedReader(new InputStreamReader(is));
+            String line;
 
             int yaml_dash = 0;
             String yamlStr = null;
-            for (String line : lines) {
-                if (line.equals("---")) {
-                    yaml_dash++;
+            try {
+                while((line = r.readLine()) != null) {
+                    if (line.equals("---")) {
+                        Log.d(LOG_TAG, "Now! Line: " + line);
+                        yaml_dash++;
+                    }
+                    if (yaml_dash < 2) {
+                        if (!line.equals("---"))
+                            yamlStr = yamlStr + line + "\n";
+                    }
+                    if (yaml_dash >= 2) {
+                        if (!line.equals("---"))
+                            if (line.equals(""))
+                                stringBuilder.append("\n\n");
+                            else
+                                stringBuilder.append(line);
+                    }
                 }
-                if (yaml_dash != 2) {
-                    if (!line.equals("---"))
-                        yamlStr = yamlStr + line + "\n";
-                }
-                if (yaml_dash == 2) {
-                    if (!line.equals("---"))
-                        if (line.equals(""))
-                            stringBuilder.append("\n");
-                        else
-                            stringBuilder.append(line);
-                }
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
 
             content = stringBuilder.toString().replaceAll("\n", "\n\n");
 

@@ -45,6 +45,8 @@ public  class PostsListFragment extends Fragment {
     ListAdapter adapter;
     ShowLoading loadAnim;
 
+    ParsePostData parsePostData = new ParsePostData();
+
     View rootView;
 
     public PostsListFragment() {
@@ -62,7 +64,7 @@ public  class PostsListFragment extends Fragment {
 
         getActivity().setTitle(type);
         if(i==0)
-            new ParsePostData().execute("http://"+ repo + "/json",
+            parsePostData.execute("http://"+ repo + "/json",
                     getActivity());
         return rootView;
     }
@@ -80,6 +82,12 @@ public  class PostsListFragment extends Fragment {
         BusProvider.getInstance().unregister(PostsListFragment.this);
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        parsePostData.cancel(true);
+    }
+
     public void updateList(ArrayList<HashMap<String, String>> postList,
                            final List<String> dates,
                            final List<String> urls) {
@@ -94,7 +102,7 @@ public  class PostsListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent editIntent = new Intent(getActivity(), EditPostActivity.class);
-                if (!urls.isEmpty()){
+                if (!urls.isEmpty()) {
                     editIntent.putExtra("post", urls.get(position));
                     editIntent.putExtra("postdate", dates.get(position));
                     startActivity(editIntent);
@@ -170,8 +178,8 @@ public  class PostsListFragment extends Fragment {
             pushResult((String) output.get("result"));
         if (output.get("postsList") != null) {
             updateList((ArrayList<HashMap<String, String>>) output.get("postsList"),
-                        (List<String>) output.get("dates"),
-                        (List<String>) output.get("urls"));
+                    (List<String>) output.get("dates"),
+                    (List<String>) output.get("urls"));
         }
     }
 }

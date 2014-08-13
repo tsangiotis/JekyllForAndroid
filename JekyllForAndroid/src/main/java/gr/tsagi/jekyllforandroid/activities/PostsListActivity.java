@@ -225,7 +225,7 @@ public class PostsListActivity extends FragmentActivity {
                     Bundle args = new Bundle();
                     args.putInt(PostsListFragment.ARG_PDSTATUS, position);
                     args.putString(PostsListFragment.ARG_REPO, mRepo);
-                    if (args != null) {
+                    if (args.size() != 0) {
                         fragment.setArguments(args);
                     }
                 } catch (Exception e) {
@@ -238,7 +238,7 @@ public class PostsListActivity extends FragmentActivity {
                     Bundle args = new Bundle();
                     args.putInt(PostsListFragment.ARG_PDSTATUS, position);
                     args.putString(PostsListFragment.ARG_REPO, mRepo);
-                    if (args != null) {
+                    if (args.size() != 0) {
                         fragment.setArguments(args);
                     }
                 } catch (Exception e) {

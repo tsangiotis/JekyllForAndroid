@@ -15,7 +15,7 @@ import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 public class PostsDbHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static final String DATABASE_NAME = "posts.db";
 
@@ -30,6 +30,7 @@ public class PostsDbHelper extends SQLiteOpenHelper {
                 PostEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 PostEntry.COLUMN_DRAFT + " INTEGER NOT NULL, " +
                 PostEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
+                PostEntry.COLUMN_POST_ID + " TEXT NOT NULL, " +
                 PostEntry.COLUMN_DATETEXT + " TEXT NOT NULL, " +
                 PostEntry.COLUMN_CONTENT + " TEXT);";
 
@@ -68,9 +69,6 @@ public class PostsDbHelper extends SQLiteOpenHelper {
         // If you want to update the schema without wiping data, commenting out the next 2 lines
         // should be your top priority before modifying this method.
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PostEntry.TABLE_NAME);
-//        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TagsRelationsEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TagEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CategoryEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

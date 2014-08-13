@@ -161,9 +161,12 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             String tags;
             String category;
             String content;
+            String id;
 
             String filename = post.getPath();
-            Log.d(LOG_TAG, "TreeSub: " + filename);
+            String [] filenameParts = filename.split("\\.");
+            id = filenameParts[0];
+            Log.d(LOG_TAG, "TreeSub: " + id);
             String postSha = post.getSha();
             Blob postBlob = null;
             try {
@@ -246,11 +249,8 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             Log.d(LOG_TAG, "Tags: " + tags);
             Log.d(LOG_TAG, "Category: " + category);
 
-            // Insert the location into the database.
-//            long categoryId = addCategory(category);
-
-            int i = filename.indexOf('-', 1 + filename.indexOf('-', 1 + filename.indexOf('-')));
-            date = Long.parseLong(filename.substring(0, i).replace("-", ""));
+            int i = id.indexOf('-', 1 + id.indexOf('-', 1 + id.indexOf('-')));
+            date = Long.parseLong(id.substring(0, i).replace("-", ""));
 
             addTags(tags, title);
 
@@ -260,6 +260,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             postValues.put(PostEntry.COLUMN_DATETEXT, date);
             postValues.put(PostEntry.COLUMN_DRAFT, 0);  // What we add here is not a draft
             postValues.put(PostEntry.COLUMN_CONTENT, content);
+            postValues.put(PostEntry.COLUMN_POST_ID, id);
 
             contentValuesVector.add(postValues);
         }

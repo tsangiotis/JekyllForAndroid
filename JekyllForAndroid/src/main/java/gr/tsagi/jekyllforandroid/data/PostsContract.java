@@ -79,9 +79,10 @@ public class PostsContract {
         public static final String TABLE_NAME = "posts";
 
         public static final String COLUMN_DRAFT = "draft";
-
         public static final String COLUMN_CATEGORY_KEY = "category_id";
+
         public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_POST_ID = "id";
         public static final String COLUMN_DATETEXT = "date";
         public static final String COLUMN_CONTENT = "content";
 

@@ -116,7 +116,7 @@ public class PostsContract {
         public static final String COLUMN_POST_TITLE = "post_title";
         public static final String COLUMN_TAG_KEY = "tag_id";
 
-        public static Uri buildTagsUri(long id) {
+        public static Uri buildTagsRelationsUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }

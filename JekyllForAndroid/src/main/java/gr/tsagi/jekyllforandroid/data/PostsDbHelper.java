@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
-import gr.tsagi.jekyllforandroid.data.PostsContract.TagsRelationsEntry;
+//import gr.tsagi.jekyllforandroid.data.PostsContract.TagsRelationsEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 
@@ -53,7 +53,7 @@ public class PostsDbHelper extends SQLiteOpenHelper {
                 PostEntry.TABLE_NAME + " (" + PostEntry._ID + ") );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_POSTS_TABLE);
-        sqLiteDatabase.execSQL(SQL_CREATE_TAGS_RELATIONS_TABLE);
+//        sqLiteDatabase.execSQL(SQL_CREATE_TAGS_RELATIONS_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_TAGS_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_CATEGORIES_TABLE);
 
@@ -68,7 +68,7 @@ public class PostsDbHelper extends SQLiteOpenHelper {
         // If you want to update the schema without wiping data, commenting out the next 2 lines
         // should be your top priority before modifying this method.
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PostEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TagsRelationsEntry.TABLE_NAME);
+//        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TagsRelationsEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TagEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CategoryEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);

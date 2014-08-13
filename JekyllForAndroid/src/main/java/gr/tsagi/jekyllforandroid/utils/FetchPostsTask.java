@@ -67,8 +67,11 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
     private void addTags(String tags, String title) {
 
         long id;
+        Log.d(LOG_TAG, "All Tags: "+ tags);
+        String [] taglist = tags.replace(" ", "").split(",");
 
-        for (String tag : tags) {
+        for (String tag : taglist) {
+            Log.d(LOG_TAG, "Tags for: "+ tag);
             // First, check if the location with this city name exists in the db
             Cursor cursor = mContext.getContentResolver().query(
                     TagEntry.CONTENT_URI,
@@ -121,8 +124,8 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                 null);
 
         if (cursor.moveToFirst()) {
-            int locationIdIndex = cursor.getColumnIndex(CategoryEntry._ID);
-            return cursor.getLong(locationIdIndex);
+            int categoryIdIndex = cursor.getColumnIndex(CategoryEntry._ID);
+            return cursor.getLong(categoryIdIndex);
         } else {
             ContentValues categoryValues = new ContentValues();
             categoryValues.put(CategoryEntry.COLUMN_NAME, category);
@@ -230,7 +233,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             Log.d(LOG_TAG, "Category: " + category);
 
             // Insert the location into the database.
-            long locationID = addCategory(category);
+//            long categoryId = addCategory(category);
 
             int i = filename.indexOf('-', 1 + filename.indexOf('-', 1 + filename.indexOf('-')));
             date = Long.parseLong(filename.substring(0, i).replace("-", ""));

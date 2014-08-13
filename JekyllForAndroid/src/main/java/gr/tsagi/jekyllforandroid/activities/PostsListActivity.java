@@ -1,8 +1,6 @@
 package gr.tsagi.jekyllforandroid.activities;
 
 import android.app.AlertDialog;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,7 +9,9 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import de.cketti.library.changelog.ChangeLog;
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.adapters.NavDrawerListAdapter;
 import gr.tsagi.jekyllforandroid.fragments.DraftsListFragment;
@@ -62,13 +61,6 @@ public class PostsListActivity extends FragmentActivity {
         restorePreferences();
 
         DrawerSetup();
-
-        ChangeLog cl = new ChangeLog(this);
-        if (cl.isFirstRun() && !mToken.equals("")) {
-            logoutPropositionDialog();
-        }
-
-//        new TranslucentBars(this).tint(true);
 
         if (mToken.equals("")) {
             login();

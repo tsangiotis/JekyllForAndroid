@@ -49,6 +49,8 @@ public  class DraftsListFragment extends Fragment {
     private String dir;
     Tree draftsTree = null;
 
+    TreeGet treeGet = new TreeGet();
+
     List<Map<String, String>> draftsList = new ArrayList<Map<String,String>>();
     List<String> urls = new ArrayList<String>();
     public DraftsListFragment() {
@@ -78,8 +80,14 @@ public  class DraftsListFragment extends Fragment {
 
         getActivity().setTitle(type);
         if(i==1)
-            new TreeGet().execute();
+            treeGet.execute();
         return rootView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        treeGet.cancel(true);
     }
 
     private class TreeGet extends AsyncTask<Void, Void, Void> {
@@ -126,6 +134,7 @@ public  class DraftsListFragment extends Fragment {
                 List<TreeEntry> list = baseTree.getTree();
                 String dPos = null;
                 for(int i =0; i<list.size(); i++) {
+                    if (isCancelled()) break;
                     if (list.get(i).getPath().equals("_drafts"))
                         dPos = list.get(i).getSha();
                 }

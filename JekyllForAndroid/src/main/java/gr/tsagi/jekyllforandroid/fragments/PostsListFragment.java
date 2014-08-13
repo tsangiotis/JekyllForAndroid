@@ -57,6 +57,8 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
     public static final int COL_POST_TITLE = 1;
     public static final int COL_POST_DATE = 2;
 
+    FetchPostsTask fetchPostsTask = new FetchPostsTask(getActivity());
+
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
@@ -122,13 +124,19 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
     }
 
     private void updatePosts() {
-        new FetchPostsTask(getActivity()).execute();
+        fetchPostsTask.execute();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getLoaderManager().restartLoader(LIST_LOADER, null, this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        fetchPostsTask.cancel(true);
     }
 
     @Override

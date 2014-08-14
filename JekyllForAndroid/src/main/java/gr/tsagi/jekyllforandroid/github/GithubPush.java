@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import gr.tsagi.jekyllforandroid.R;
-import gr.tsagi.jekyllforandroid.utils.BusProvider;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -179,9 +178,6 @@ public class GithubPush {
         protected void onPostExecute(String res) {
             Map<String, Object> result = new HashMap<String, Object>();
             result.put("result", res);
-            BusProvider.getInstance().register(this);
-            BusProvider.getInstance().post(result);
-            BusProvider.getInstance().unregister(this);
         }
     }
 }

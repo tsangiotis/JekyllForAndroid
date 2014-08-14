@@ -36,6 +36,8 @@ import gr.tsagi.jekyllforandroid.utils.NavDrawerItem;
 
 public class PostsListActivity extends FragmentActivity {
 
+    private static final String LOG_TAG = PostsListActivity.class.getSimpleName();
+
     String mUsername;
     String mToken;
     String mRepo;
@@ -71,17 +73,10 @@ public class PostsListActivity extends FragmentActivity {
                     Toast.LENGTH_LONG).show();
             login();
         } else {
+            // Select default screen.
             selectItem(0);
         }
-        //Set default screen
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        restorePreferences();
-        DrawerSetup();
-        selectItem(0);
     }
 
     @Override
@@ -95,7 +90,7 @@ public class PostsListActivity extends FragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar
         // if it is present.
-        getMenuInflater().inflate(R.menu.posts_list, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         // Just for the logout
         return true;
     }
@@ -137,8 +132,6 @@ public class PostsListActivity extends FragmentActivity {
                 .obtainTypedArray(R.array.nav_drawer_icons_dark);
         ArrayList<NavDrawerItem> navDrawerItems;
         NavDrawerListAdapter adapter;
-
-        Log.d("Resources", String.valueOf(navMenuIcons.getIndexCount()));
 
         navDrawerItems = new ArrayList<NavDrawerItem>();
 
@@ -192,6 +185,7 @@ public class PostsListActivity extends FragmentActivity {
         @Override
         public void onItemClick(AdapterView parent, View view,
                                 int position, long id) {
+            Log.d(LOG_TAG, "clicked position");
             selectItem(position);
         }
     }
@@ -281,43 +275,6 @@ public class PostsListActivity extends FragmentActivity {
                         // User clicked OK button
                         // Clear credentials and Drafts
                         login();
-                    }
-                }
-        );
-        builder.setNegativeButton(R.string.cancel,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                }
-        );
-
-        // Create the AlertDialog
-        AlertDialog dialog = builder.create();
-
-        // Show it
-        dialog.show();
-
-    }
-
-    public void logoutPropositionDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // Shared preferences and Intent settings
-        // before logout ask user and remind him any draft posts
-
-        final SharedPreferences sharedPreferences = getSharedPreferences(
-                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
-
-
-        builder.setMessage("If you have problems posting, please logout and login again.");
-
-        // Add the buttons
-        builder.setPositiveButton("Logout",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                        logoutDialog();
                     }
                 }
         );

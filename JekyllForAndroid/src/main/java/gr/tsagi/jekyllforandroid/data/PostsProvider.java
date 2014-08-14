@@ -5,10 +5,8 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
-import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
 
 
@@ -30,19 +28,6 @@ public class PostsProvider extends ContentProvider {
     private static final int TAG_RELATIONS = 500;
 
 
-    private static final SQLiteQueryBuilder sPostsByCategoryQueryBuilder;
-
-    static {
-        sPostsByCategoryQueryBuilder = new SQLiteQueryBuilder();
-        sPostsByCategoryQueryBuilder.setTables(
-                PostEntry.TABLE_NAME + " INNER JOIN " +
-                        CategoryEntry.TABLE_NAME +
-                        " ON " + PostEntry.TABLE_NAME +
-                        "." + PostEntry.COLUMN_CATEGORY_KEY +
-                        " = " + CategoryEntry.TABLE_NAME +
-                        "." + CategoryEntry._ID);
-    }
-
     private static UriMatcher buildUriMatcher() {
         // I know what you're thinking.  Why create a UriMatcher when you can use regular
         // expressions instead?  Because you're not crazy, that's why.
@@ -55,11 +40,6 @@ public class PostsProvider extends ContentProvider {
 
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, PostsContract.PATH_POSTS, POST);
-//        matcher.addURI(authority, PostsContract.PATH_TAGS, TAG);
-//        matcher.addURI(authority, PostsContract.PATH_TAGS + "/#", TAG_ID);
-//        matcher.addURI(authority, PostsContract.PATH_CATEGORIES, CATEGORY);
-//        matcher.addURI(authority, PostsContract.PATH_CATEGORIES + "/#", CATEGORY_ID);
-//        matcher.addURI(authority, PostsContract.PATH_TAGS_RELATIONS , TAG_RELATIONS);
 
         return matcher;
     }
@@ -120,7 +100,7 @@ public class PostsProvider extends ContentProvider {
             case POST: {
                 long _id = db.insert(PostEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
-                    returnUri = PostEntry.buildPostsUri(_id);
+                    returnUri = PostEntry.buildPostUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;

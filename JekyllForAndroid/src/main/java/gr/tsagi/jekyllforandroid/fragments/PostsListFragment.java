@@ -1,24 +1,26 @@
 package gr.tsagi.jekyllforandroid.fragments;
 
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.Date;
-
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.adapters.PostListAdapter;
-import gr.tsagi.jekyllforandroid.data.PostsContract;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
+import gr.tsagi.jekyllforandroid.data.PostsDbHelper;
 import gr.tsagi.jekyllforandroid.utils.FetchPostsTask;
 
 
@@ -73,6 +75,7 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
 
     public PostsListFragment() {
         // Empty constructor required for fragment subclasses
+        setHasOptionsMenu(true);
     }
     
 
@@ -80,9 +83,10 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        fetchPostsTask = new FetchPostsTask(getActivity());
+        Log.d("PostsListFragment", "Creating view");
 
-        updatePosts();
+        fetchPostsTask = new FetchPostsTask(getActivity());
+        fetchPostsTask.execute();
         // The ArrayAdapter will take data from a source and
         // use it to populate the ListView it's attached to.
         mPostListAdapter = new PostListAdapter(getActivity(), null, 0);
@@ -104,8 +108,6 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
             }
         });
 
-
-
         // If there's instance state, mine it for useful information.
         // The end-goal here is that the user never knows that turning their device sideways
         // does crazy lifecycle related things.  It should feel like some stuff stretched out,
@@ -124,10 +126,6 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(LIST_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
-    }
-
-    private void updatePosts() {
-        fetchPostsTask.execute();
     }
 
     @Override
@@ -153,6 +151,33 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        // Inflate the menu; this adds items to the action bar
+        // if it is present.
+        inflater.inflate(R.menu.post_list, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.drop_tables:
+                dropTables();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void dropTables () {
+        PostsDbHelper postsDbHelper = new PostsDbHelper(getActivity());
+        postsDbHelper.dropTables();
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -162,18 +187,17 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
         // To only show current and future dates, get the String representation for today,
         // and filter the query to return weather only for dates after or including today.
         // Only return data after today.
-        String startDate = PostsContract.getDbDateString(new Date());
 
-        // Sort order:  Ascending, by date.
+        // Sort order:  Descending, by date.
         String sortOrder = PostEntry.COLUMN_DATETEXT + " DESC";
 
-        Uri weatherForLocationUri = PostEntry.buildPosts();
+        Uri postsUri = PostEntry.buildPublishedPosts();
 
         // Now create and return a CursorLoader that will take care of
         // creating a Cursor for the data being displayed.
         return new CursorLoader(
                 getActivity(),
-                weatherForLocationUri,
+                postsUri,
                 POSTS_COLUMNS,
                 null,
                 null,

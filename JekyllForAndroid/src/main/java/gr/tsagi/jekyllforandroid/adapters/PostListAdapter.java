@@ -39,12 +39,11 @@ public class PostListAdapter extends CursorAdapter {
         super(context, c, flags);
     }
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
         // Choose the layout type
-        int viewType = getItemViewType(cursor.getPosition());
-        int layoutId = R.layout.list_view;
+        int layoutId = R.layout.post_list_item;
 
-        View view = LayoutInflater.from(context).inflate(layoutId, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
         view.setTag(viewHolder);
@@ -55,8 +54,6 @@ public class PostListAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-
-        int viewType = getItemViewType(cursor.getPosition());
 
         // Read weather forecast from cursor
         String title = cursor.getString(PostsListFragment.COL_POST_TITLE);

@@ -87,83 +87,13 @@ public class PostsContract {
         public static final String COLUMN_CONTENT = "content";
 
 
-        public static Uri buildPostsUri(long id) {
+        public static Uri buildPostUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static Uri buildPosts() {
+        public static Uri buildPublishedPosts() {
             return CONTENT_URI.buildUpon().build();
         }
 
-        public static String getDateFromUri(Uri uri) {
-            return uri.getQueryParameter(COLUMN_DATETEXT);
-        }
-    }
-
-    /* Inner class that defines the table contents of the location table */
-    public static final class TagsRelationsEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_TAGS_RELATIONS).build();
-
-        public static final String CONTENT_TYPE =
-                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_TAGS_RELATIONS;
-        public static final String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_TAGS_RELATIONS;
-
-        // Table name
-        public static final String TABLE_NAME = "tags_relations";
-
-        public static final String COLUMN_POST_TITLE = "post_title";
-        public static final String COLUMN_TAG_KEY = "tag_id";
-
-        public static Uri buildTagsRelationsUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-    }
-
-    /* Inner class that defines the table contents of the location table */
-    public static final class TagEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_TAGS).build();
-
-        public static final String CONTENT_TYPE =
-                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_TAGS;
-        public static final String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_TAGS;
-
-        // Table name
-        public static final String TABLE_NAME = "tags";
-
-        public static final String COLUMN_NAME = "name";
-
-        public static Uri buildTagsUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-    }
-
-    /* Inner class that defines the table contents of the location table */
-    public static final class CategoryEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CATEGORIES).build();
-
-        public static final String CONTENT_TYPE =
-                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORIES;
-        public static final String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORIES;
-
-        // Table name
-        public static final String TABLE_NAME = "categories";
-
-        // Columns with the foreign key into the posts & drafts table.
-        public static final String COLUMN_POST_KEY = "posts_id";
-
-        public static final String COLUMN_NAME = "name";
-
-        public static Uri buildCategoryUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
     }
 }

@@ -106,19 +106,8 @@ public class Utility {
                     today,
                     getFormattedMonthDay(context, dateStr)));
         } else {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(todayDate);
-            cal.add(Calendar.DATE, 7);
-            String weekFutureString = PostsContract.getDbDateString(cal.getTime());
-
-            if (dateStr.compareTo(weekFutureString) < 0) {
-                // If the input date is less than a week in the future, just return the day name.
-                return getDayName(context, dateStr);
-            } else {
-                // Otherwise, use the form "Mon Jun 3"
-                SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE MMM dd");
-                return shortenedDateFormat.format(inputDate);
-            }
+            SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+            return shortenedDateFormat.format(inputDate);
         }
     }
 

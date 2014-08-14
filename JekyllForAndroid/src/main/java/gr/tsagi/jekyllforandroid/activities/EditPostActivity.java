@@ -35,10 +35,7 @@ import java.util.concurrent.ExecutionException;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.github.GithubPush;
-import gr.tsagi.jekyllforandroid.github.GithubRaw;
-import gr.tsagi.jekyllforandroid.utils.BusProvider;
 import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
-import gr.tsagi.jekyllforandroid.utils.ShowLoading;
 
 @SuppressLint({"DefaultLocale", "SimpleDateFormat"})
 public class EditPostActivity extends Activity {
@@ -51,8 +48,6 @@ public class EditPostActivity extends Activity {
     String mContent;
 
     String message;
-
-    ShowLoading loadAnim;
 
     private String repo;
 
@@ -85,16 +80,11 @@ public class EditPostActivity extends Activity {
                 message = intent.getStringExtra("post");
                 clearDraft();
                 Log.d("link", message);
-                loadAnim = new ShowLoading(mNewPostFormView, mNewPostStatusView);
-                loadAnim.showProgress(EditPostActivity.this, true);
-                new GithubRaw().execute(message, EditPostActivity.this);
             }
             if (intent.getStringExtra("postdate") != null) {
                 mDate = intent.getStringExtra("postdate");
             }
         }
-
-        BusProvider.getInstance().register(this);
 
         ActionBar actionBar = getActionBar();
         if (actionBar != null)
@@ -396,7 +386,6 @@ public class EditPostActivity extends Activity {
     }
 
     public void getThePost(HashMap<String, String> map) {
-        loadAnim.showProgress(EditPostActivity.this, false);
         EditText titleT = (EditText) findViewById(R.id.editTextTitle);
         EditText contentT = (EditText) findViewById(R.id.editTextContent);
         EditText categoryT = (EditText) findViewById(R.id.editTextCategory);

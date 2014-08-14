@@ -1,10 +1,8 @@
 package gr.tsagi.jekyllforandroid.utils;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
@@ -28,10 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
-import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
-import gr.tsagi.jekyllforandroid.data.PostsContract.TagsRelationsEntry;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -68,48 +63,48 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
      *
      * @param tags the String array of tags for this post.
      */
-    private void addTags(String tags, String title) {
-
-        long id;
-        Log.d(LOG_TAG, "All Tags: "+ tags);
-        String [] taglist = tags.replace(" ", "").split(",");
-
-        for (String tag : taglist) {
-            Log.d(LOG_TAG, "Tags for: "+ tag);
-            // First, check if the location with this city name exists in the db
-            Cursor cursor = mContext.getContentResolver().query(
-                    TagEntry.CONTENT_URI,
-                    new String[]{TagEntry._ID},
-                    TagEntry.COLUMN_NAME + " = ?",
-                    new String[]{tag},
-                    null);
-
-            // If yes get id
-            if (cursor.moveToFirst()) {
-                int locationIdIndex = cursor.getColumnIndex(TagEntry._ID);
-                id = cursor.getLong(locationIdIndex);
-            } else {    // If not create tag and get id
-                ContentValues tagValues = new ContentValues();
-                tagValues.put(TagEntry.COLUMN_NAME, tag);
-
-                Uri locationInsertUri = mContext.getContentResolver()
-                        .insert(TagEntry.CONTENT_URI, tagValues);
-
-                id = ContentUris.parseId(locationInsertUri);
-            }
-
-            // We are going to bulkInsert the posts so we don't have yet ID's to assign.
-            // Instead we use post titles.
-            // TODO: Find a better way.
-            ContentValues tagRelationValues = new ContentValues();
-            tagRelationValues.put(TagsRelationsEntry.COLUMN_TAG_KEY, id);
-            tagRelationValues.put(TagsRelationsEntry.COLUMN_POST_TITLE, title);
-
-            mContext.getContentResolver().insert(TagsRelationsEntry.CONTENT_URI, tagRelationValues);
-
-        }
-
-    }
+//    private void addTags(String tags, String title) {
+//
+//        long id;
+//        Log.d(LOG_TAG, "All Tags: "+ tags);
+//        String [] taglist = tags.replace(" ", "").split(",");
+//
+//        for (String tag : taglist) {
+//            Log.d(LOG_TAG, "Tags for: "+ tag);
+//            // First, check if the location with this city name exists in the db
+//            Cursor cursor = mContext.getContentResolver().query(
+//                    TagEntry.CONTENT_URI,
+//                    new String[]{TagEntry._ID},
+//                    TagEntry.COLUMN_NAME + " = ?",
+//                    new String[]{tag},
+//                    null);
+//
+//            // If yes get id
+//            if (cursor.moveToFirst()) {
+//                int locationIdIndex = cursor.getColumnIndex(TagEntry._ID);
+//                id = cursor.getLong(locationIdIndex);
+//            } else {    // If not create tag and get id
+//                ContentValues tagValues = new ContentValues();
+//                tagValues.put(TagEntry.COLUMN_NAME, tag);
+//
+//                Uri locationInsertUri = mContext.getContentResolver()
+//                        .insert(TagEntry.CONTENT_URI, tagValues);
+//
+//                id = ContentUris.parseId(locationInsertUri);
+//            }
+//
+//            // We are going to bulkInsert the posts so we don't have yet ID's to assign.
+//            // Instead we use post titles.
+//            // TODO: Find a better way.
+//            ContentValues tagRelationValues = new ContentValues();
+//            tagRelationValues.put(TagsRelationsEntry.COLUMN_TAG_KEY, id);
+//            tagRelationValues.put(TagsRelationsEntry.COLUMN_POST_TITLE, title);
+//
+//            mContext.getContentResolver().insert(TagsRelationsEntry.CONTENT_URI, tagRelationValues);
+//
+//        }
+//
+//    }
 
     /**
      * Helper method to handle insertion of a new location in the weather database.
@@ -117,29 +112,29 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
      * @param category The category name.
      * @return the row ID of the added location.
      */
-    private long addCategory(String category) {
-
-        // First, check if the location with this city name exists in the db
-        Cursor cursor = mContext.getContentResolver().query(
-                CategoryEntry.CONTENT_URI,
-                new String[]{CategoryEntry._ID},
-                CategoryEntry.COLUMN_NAME + " = ?",
-                new String[]{category},
-                null);
-
-        if (cursor.moveToFirst()) {
-            int categoryIdIndex = cursor.getColumnIndex(CategoryEntry._ID);
-            return cursor.getLong(categoryIdIndex);
-        } else {
-            ContentValues categoryValues = new ContentValues();
-            categoryValues.put(CategoryEntry.COLUMN_NAME, category);
-
-            Uri categoryInsertUri = mContext.getContentResolver()
-                    .insert(CategoryEntry.CONTENT_URI, categoryValues);
-
-            return ContentUris.parseId(categoryInsertUri);
-        }
-    }
+//    private long addCategory(String category) {
+//
+//        // First, check if the location with this city name exists in the db
+//        Cursor cursor = mContext.getContentResolver().query(
+//                CategoryEntry.CONTENT_URI,
+//                new String[]{CategoryEntry._ID},
+//                CategoryEntry.COLUMN_NAME + " = ?",
+//                new String[]{category},
+//                null);
+//
+//        if (cursor.moveToFirst()) {
+//            int categoryIdIndex = cursor.getColumnIndex(CategoryEntry._ID);
+//            return cursor.getLong(categoryIdIndex);
+//        } else {
+//            ContentValues categoryValues = new ContentValues();
+//            categoryValues.put(CategoryEntry.COLUMN_NAME, category);
+//
+//            Uri categoryInsertUri = mContext.getContentResolver()
+//                    .insert(CategoryEntry.CONTENT_URI, categoryValues);
+//
+//            return ContentUris.parseId(categoryInsertUri);
+//        }
+//    }
 
     /**
      * Take the List with the posts and parse the posts for data
@@ -153,19 +148,21 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
         // Get and insert the new posts information into the database
         Vector<ContentValues> contentValuesVector = new Vector<ContentValues>(postslist.size());
-
+        Log.d(LOG_TAG, "Number of posts: " + String.valueOf(postslist.size()));
         for (TreeEntry post : postslist) {
+
+            String filename = post.getPath();
+            String [] filenameParts = filename.split("\\.");
+            String id = filenameParts[0];
+
+
 
             long date;
             String title;
             String tags;
             String category;
             String content;
-            String id;
 
-            String filename = post.getPath();
-            String [] filenameParts = filename.split("\\.");
-            id = filenameParts[0];
             Log.d(LOG_TAG, "TreeSub: " + id);
             String postSha = post.getSha();
             Blob postBlob = null;
@@ -188,8 +185,6 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                 e.printStackTrace();
             }
 
-            Log.d(LOG_TAG, "postContent: " + postContent);
-
             StringBuilder stringBuilder = new StringBuilder();
 
             InputStream is;
@@ -205,7 +200,6 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             try {
                 while((line = r.readLine()) != null) {
                     if (line.equals("---")) {
-                        Log.d(LOG_TAG, "Now! Line: " + line);
                         yaml_dash++;
                     }
                     if (yaml_dash < 2) {
@@ -215,7 +209,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                     if (yaml_dash >= 2) {
                         if (!line.equals("---"))
                             if (line.equals(""))
-                                stringBuilder.append("\n\n");
+                                stringBuilder.append("\n");
                             else
                                 stringBuilder.append(line);
                     }
@@ -226,11 +220,9 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             }
 
 
-            content = stringBuilder.toString().replaceAll("\n", "\n\n");
+            content = stringBuilder.toString();
 
             Yaml yaml = new Yaml();
-
-            Log.d(LOG_TAG, "yaml: " + yamlStr);
 
             HashMap<String, String[]> map = (HashMap<String, String[]>) yaml.load(yamlStr);
             HashMap<String, String> postmap = new HashMap<String, String>();
@@ -254,21 +246,61 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
             addTags(tags, title);
 
+            // First, check if the location with this city name exists in the db
+            Cursor cursorId = mContext.getContentResolver().query(
+                    PostEntry.CONTENT_URI,
+                    new String[]{PostEntry.COLUMN_POST_ID},
+                    PostEntry.COLUMN_POST_ID + " = ?",
+                    new String[]{id},
+                    null);
+
+            Cursor cursorContent = mContext.getContentResolver().query(
+                    PostEntry.CONTENT_URI,
+                    new String[]{PostEntry.COLUMN_CONTENT},
+                    PostEntry.COLUMN_CONTENT + " = ?",
+                    new String[]{content},
+                    null);
+
             ContentValues postValues = new ContentValues();
 
-            postValues.put(PostEntry.COLUMN_TITLE, title);
-            postValues.put(PostEntry.COLUMN_DATETEXT, date);
-            postValues.put(PostEntry.COLUMN_DRAFT, 0);  // What we add here is not a draft
-            postValues.put(PostEntry.COLUMN_CONTENT, content);
-            postValues.put(PostEntry.COLUMN_POST_ID, id);
+            if (cursorId.moveToFirst()){
+                cursorId.close();
+                if (!cursorContent.moveToFirst()) {
+                    cursorContent.close();
+                    ContentValues updateValues = new ContentValues();
+                    updateValues.put(PostEntry.COLUMN_CONTENT, content);
+                    if (updateValues.size() > 0) {
+                        mContext.getContentResolver().update(PostEntry.CONTENT_URI, updateValues,
+                                PostEntry.COLUMN_POST_ID + " = \"" + id + "\"", null );
+                        Log.d(LOG_TAG, "Updated Value.");
+                    } else {
+                        Log.d(LOG_TAG, "No Values to insert.");
+                    }
 
-            contentValuesVector.add(postValues);
+                }
+            }
+            else {
+                cursorId.close();
+                cursorContent.close();
+
+                postValues.put(PostEntry.COLUMN_TITLE, title);
+                postValues.put(PostEntry.COLUMN_DATETEXT, date);
+                postValues.put(PostEntry.COLUMN_DRAFT, 0);  // What we add here is not a draft
+                postValues.put(PostEntry.COLUMN_CONTENT, content);
+                postValues.put(PostEntry.COLUMN_POST_ID, id);
+
+                contentValuesVector.add(postValues);
+
+            }
         }
 
         if (contentValuesVector.size() > 0) {
             ContentValues[] cvArray = new ContentValues[contentValuesVector.size()];
             contentValuesVector.toArray(cvArray);
             mContext.getContentResolver().bulkInsert(PostEntry.CONTENT_URI, cvArray);
+            Log.d(LOG_TAG, "Inserted Values.");
+        } else {
+            Log.d(LOG_TAG, "No Values to insert.");
         }
 
     }

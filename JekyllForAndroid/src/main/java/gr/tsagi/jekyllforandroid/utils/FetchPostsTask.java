@@ -1,8 +1,10 @@
 package gr.tsagi.jekyllforandroid.utils;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
@@ -27,6 +29,9 @@ import java.util.List;
 import java.util.Vector;
 
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
+import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
+import gr.tsagi.jekyllforandroid.data.PostsContract.TagRelationsEntry;
+import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -63,48 +68,73 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
      *
      * @param tags the String array of tags for this post.
      */
-//    private void addTags(String tags, String title) {
-//
-//        long id;
-//        Log.d(LOG_TAG, "All Tags: "+ tags);
-//        String [] taglist = tags.replace(" ", "").split(",");
-//
-//        for (String tag : taglist) {
-//            Log.d(LOG_TAG, "Tags for: "+ tag);
-//            // First, check if the location with this city name exists in the db
-//            Cursor cursor = mContext.getContentResolver().query(
-//                    TagEntry.CONTENT_URI,
-//                    new String[]{TagEntry._ID},
-//                    TagEntry.COLUMN_NAME + " = ?",
-//                    new String[]{tag},
-//                    null);
-//
-//            // If yes get id
-//            if (cursor.moveToFirst()) {
-//                int locationIdIndex = cursor.getColumnIndex(TagEntry._ID);
-//                id = cursor.getLong(locationIdIndex);
-//            } else {    // If not create tag and get id
-//                ContentValues tagValues = new ContentValues();
-//                tagValues.put(TagEntry.COLUMN_NAME, tag);
-//
-//                Uri locationInsertUri = mContext.getContentResolver()
-//                        .insert(TagEntry.CONTENT_URI, tagValues);
-//
-//                id = ContentUris.parseId(locationInsertUri);
-//            }
-//
-//            // We are going to bulkInsert the posts so we don't have yet ID's to assign.
-//            // Instead we use post titles.
-//            // TODO: Find a better way.
-//            ContentValues tagRelationValues = new ContentValues();
-//            tagRelationValues.put(TagsRelationsEntry.COLUMN_TAG_KEY, id);
-//            tagRelationValues.put(TagsRelationsEntry.COLUMN_POST_TITLE, title);
-//
-//            mContext.getContentResolver().insert(TagsRelationsEntry.CONTENT_URI, tagRelationValues);
-//
-//        }
-//
-//    }
+    private void addTags(String tags, String id) {
+
+        Log.d(LOG_TAG, "All Tags: "+ tags);
+        String [] taglist = tags.replace(" ", "").split(",");
+
+        Vector<ContentValues> tagValuesVector = new Vector<ContentValues>(taglist.length);
+        Vector<ContentValues> tagRelationsValuesVector = new Vector<ContentValues>(taglist.length);
+
+        ContentValues tagValues = new ContentValues();
+        ContentValues tagRelationValues = new ContentValues();
+
+        for (String tag : taglist) {
+            Log.d(LOG_TAG, "Tags for: "+ tag);
+
+            // First, check if the tag name exists in the db
+            Cursor cursorTagName = mContext.getContentResolver().query(
+                    TagEntry.CONTENT_URI,
+                    new String[]{TagEntry.COLUMN_NAME},
+                    TagEntry.COLUMN_NAME + " = ?",
+                    new String[]{tag},
+                    null);
+
+            // If yes, see if it is assigned to post.
+            if (cursorTagName.moveToFirst()) {
+                cursorTagName.close();
+                Cursor cursorTagRelation = mContext.getContentResolver().query(
+                        TagRelationsEntry.CONTENT_URI,
+                        new String[]{TagRelationsEntry.COLUMN_POST_ID, TagRelationsEntry.COLUMN_TAG},
+                        TagRelationsEntry.COLUMN_POST_ID + " = ? AND " + TagRelationsEntry.COLUMN_TAG,
+                        null,
+                        null);
+                if (null == cursorTagRelation)
+                if ( cursorTagRelation.getCount() < 1 ) {
+                    cursorTagRelation.close();
+                    tagRelationValues.put(TagRelationsEntry.COLUMN_POST_ID, id);
+                    tagRelationValues.put(TagRelationsEntry.COLUMN_TAG, tag);
+                    tagRelationsValuesVector.add(tagRelationValues);
+                }
+
+            } else {    // If not create tag and get id
+                cursorTagName.close();
+                tagValues.put(TagEntry.COLUMN_NAME, tag);
+                tagValuesVector.add(tagValues);
+                mContext.getContentResolver().insert(TagEntry.CONTENT_URI, tagValues);
+                tagRelationValues.put(TagRelationsEntry.COLUMN_POST_ID, id);
+                tagRelationValues.put(TagRelationsEntry.COLUMN_TAG, tag);
+                tagRelationsValuesVector.add(tagRelationValues);
+
+            }
+
+        }
+
+        if (tagValuesVector.size() > 0) {
+            ContentValues[] tArray = new ContentValues[tagValuesVector.size()];
+            tagValuesVector.toArray(tArray);
+            mContext.getContentResolver().bulkInsert(TagEntry.CONTENT_URI, tArray);
+            Log.d(LOG_TAG, "Inserted Tag Values.");
+        } if (tagRelationsValuesVector.size() > 0) {
+            ContentValues[] trArray = new ContentValues[tagRelationsValuesVector.size()];
+            tagRelationsValuesVector.toArray(trArray);
+            mContext.getContentResolver().bulkInsert(TagRelationsEntry.CONTENT_URI, trArray);
+            Log.d(LOG_TAG, "Inserted Tag Relations Values.");
+        } else {
+            Log.d(LOG_TAG, "No Tag Relations or Tag Values to insert.");
+        }
+
+    }
 
     /**
      * Helper method to handle insertion of a new location in the weather database.
@@ -112,29 +142,29 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
      * @param category The category name.
      * @return the row ID of the added location.
      */
-//    private long addCategory(String category) {
-//
-//        // First, check if the location with this city name exists in the db
-//        Cursor cursor = mContext.getContentResolver().query(
-//                CategoryEntry.CONTENT_URI,
-//                new String[]{CategoryEntry._ID},
-//                CategoryEntry.COLUMN_NAME + " = ?",
-//                new String[]{category},
-//                null);
-//
-//        if (cursor.moveToFirst()) {
-//            int categoryIdIndex = cursor.getColumnIndex(CategoryEntry._ID);
-//            return cursor.getLong(categoryIdIndex);
-//        } else {
-//            ContentValues categoryValues = new ContentValues();
-//            categoryValues.put(CategoryEntry.COLUMN_NAME, category);
-//
-//            Uri categoryInsertUri = mContext.getContentResolver()
-//                    .insert(CategoryEntry.CONTENT_URI, categoryValues);
-//
-//            return ContentUris.parseId(categoryInsertUri);
-//        }
-//    }
+    private long addCategory(String category) {
+
+        // First, check if the location with this city name exists in the db
+        Cursor cursor = mContext.getContentResolver().query(
+                CategoryEntry.CONTENT_URI,
+                new String[]{CategoryEntry._ID},
+                CategoryEntry.COLUMN_NAME + " = ?",
+                new String[]{category},
+                null);
+
+        if (cursor.moveToFirst()) {
+            int categoryIdIndex = cursor.getColumnIndex(CategoryEntry._ID);
+            return cursor.getLong(categoryIdIndex);
+        } else {
+            ContentValues categoryValues = new ContentValues();
+            categoryValues.put(CategoryEntry.COLUMN_NAME, category);
+
+            Uri categoryInsertUri = mContext.getContentResolver()
+                    .insert(CategoryEntry.CONTENT_URI, categoryValues);
+
+            return ContentUris.parseId(categoryInsertUri);
+        }
+    }
 
     /**
      * Take the List with the posts and parse the posts for data
@@ -154,8 +184,6 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             String filename = post.getPath();
             String [] filenameParts = filename.split("\\.");
             String id = filenameParts[0];
-
-
 
             long date;
             String title;

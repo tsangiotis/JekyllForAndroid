@@ -1,7 +1,6 @@
 package gr.tsagi.jekyllforandroid.activities;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,7 +10,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -34,11 +32,15 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.fragments.EditPostFragment;
 import gr.tsagi.jekyllforandroid.github.GithubPush;
 import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
 
 @SuppressLint({"DefaultLocale", "SimpleDateFormat"})
 public class EditPostActivity extends Activity {
+
+    public static final String POST_ID = "post_id";
+
     String mUsername;
     String mToken;
     String mDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -51,23 +53,31 @@ public class EditPostActivity extends Activity {
 
     private String repo;
 
-    private String selectedImagePath;
-
     private View mNewPostFormView;
     private View mNewPostStatusView;
 
     private SharedPreferences settings;
 
-
-    private static final int GALLERY_INTENT_CALLED = 1;
-    private static final int GALLERY_KITKAT_INTENT_CALLED = 2;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
+        setContentView(R.layout.fragment_edit_post);
 
-//        new TranslucentBars(this).tint(true);
+        if (savedInstanceState == null) {
+            // Create the detail fragment and add it to the activity
+            // using a fragment transaction.
+            String date = getIntent().getStringExtra(POST_ID);
+
+            Bundle arguments = new Bundle();
+            arguments.putString(EditPostActivity.POST_ID, date);
+
+            EditPostFragment fragment = new EditPostFragment();
+            fragment.setArguments(arguments);
+
+            getFragmentManager().beginTransaction()
+                    .add(R.id.edit_post_container, fragment)
+                    .commit();
+        }
 
         mNewPostFormView = findViewById(R.id.editpost_form);
         mNewPostStatusView = findViewById(R.id.editpost_status);
@@ -164,43 +174,6 @@ public class EditPostActivity extends Activity {
 
     }
 
-    public void addImage() {
-        //TODO not implemented yet
-        if (Build.VERSION.SDK_INT < 19) {
-            Intent intent = new Intent();
-            intent.setType("image/jpeg");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_INTENT_CALLED);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("image/jpeg");
-            startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK) return;
-        if (null == data) return;
-        Uri originalUri = null;
-        if (requestCode == GALLERY_INTENT_CALLED) {
-            originalUri = data.getData();
-        } else if (requestCode == GALLERY_KITKAT_INTENT_CALLED) {
-            originalUri = data.getData();
-            final int takeFlags = data.getFlags()
-                    & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            // Check for the freshest data.
-            getContentResolver().takePersistableUriPermission(originalUri, takeFlags);
-        }
-
-        Toast.makeText(EditPostActivity.this, originalUri + "end", Toast.LENGTH_LONG).show();
-
-        EditText content = (EditText) findViewById(R.id.editTextContent);
-        content.setText("![](" + originalUri + ")");
-    }
 
     /**
      * helper to retrieve the path of an image URI

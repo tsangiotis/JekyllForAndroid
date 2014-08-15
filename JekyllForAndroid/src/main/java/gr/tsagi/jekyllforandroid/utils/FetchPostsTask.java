@@ -32,6 +32,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
     RepositoryService repositoryService;
     CommitService commitService;
     DataService dataService;
+    int type;
 
     public FetchPostsTask(Context context) {
 
@@ -76,7 +77,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             String blobBytes = postBlob.getContent();
 
             ContentValues postValues = new ParsePostData(mContext).getDataFromContent(id,
-                    blobBytes);
+                    blobBytes, type);
             contentValuesVector.add(postValues);
 
         }
@@ -95,6 +96,18 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
 
+        String path;
+        String param = params[0];
+
+        if (param.matches("p")) {
+            type = 0;
+            path = "_posts";
+        } else {
+            type = 1;
+            path = "_drafts";
+        }
+
+
         Log.d(LOG_TAG, "Background started");
 
         // TODO: Support subdirectories
@@ -110,13 +123,14 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             final String baseCommitSha = repositoryService.getBranches(repository).get(0)
                     .getCommit()
                     .getSha();
+            // TODO: No sync when the same sha. (Utility class ready for this!)
             final String treeSha = commitService.getCommit(repository, baseCommitSha).getSha();
 
             // TODO: Refactor naming here.
             List<TreeEntry> list = dataService.getTree(repository, treeSha).getTree();
             String dPos = null;
             for (TreeEntry aList : list) {
-                if (aList.getPath().equals("_posts"))
+                if (aList.getPath().equals(path))
                     dPos = aList.getSha();
             }
 

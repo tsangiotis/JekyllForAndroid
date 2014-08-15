@@ -3,6 +3,7 @@ package gr.tsagi.jekyllforandroid.fragments;
 import android.app.Fragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.activities.EditPostActivity;
 import gr.tsagi.jekyllforandroid.adapters.PostListAdapter;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
 import gr.tsagi.jekyllforandroid.data.PostsDbHelper;
@@ -85,8 +87,7 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
 
         Log.d("PostsListFragment", "Creating view");
 
-        fetchPostsTask = new FetchPostsTask(getActivity());
-        fetchPostsTask.execute();
+        updateList();
         // The ArrayAdapter will take data from a source and
         // use it to populate the ListView it's attached to.
         mPostListAdapter = new PostListAdapter(getActivity(), null, 0);
@@ -99,12 +100,13 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                Cursor cursor = mPostListAdapter.getCursor();
-//                if (cursor != null && cursor.moveToPosition(position)) {
-//                    ((Callback)getActivity())
-//                            .onItemSelected(cursor.getString(COL_WEATHER_DATE));
-//                }
-//                mPosition = position;
+                Cursor cursor = mPostListAdapter.getCursor();
+                if (cursor != null && cursor.moveToPosition(position)) {
+                    Intent intent = new Intent(getActivity(), EditPostActivity.class)
+                            .putExtra(EditPostActivity.POST_ID,
+                                    cursor.getString(COL_POST_ID));
+                    startActivity(intent);
+                }
             }
         });
 
@@ -120,6 +122,11 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
         }
 
         return rootView;
+    }
+
+    private void updateList() {
+        fetchPostsTask = new FetchPostsTask(getActivity());
+        fetchPostsTask.execute("p");
     }
 
     @Override

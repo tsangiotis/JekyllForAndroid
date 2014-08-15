@@ -113,14 +113,19 @@ public class ParsePostData {
             mContext.getContentResolver().insert(CategoryEntry.CONTENT_URI, categoryValues);
             Log.d(LOG_TAG, "Inserted Category Values.");
 
+        }else {
+            Log.d(LOG_TAG, "No Category Values to insert.");
         }
-
-        Log.d(LOG_TAG, "No Category Values to insert.");
 
     }
 
 
-    public ContentValues getDataFromContent(String id, String contentBytes) {
+    public ContentValues getDataFromContent(String id, String contentBytes, int type) {
+
+        // If it is not specified if it is draft or not put it to drafts (drafts = 1)
+        if(type > 1) {
+            type = 1;
+        }
 
         // Get and insert the new posts information into the database
         String postContent = null;
@@ -230,7 +235,7 @@ public class ParsePostData {
 
             postValues.put(PostEntry.COLUMN_TITLE, title);
             postValues.put(PostEntry.COLUMN_DATETEXT, date);
-            postValues.put(PostEntry.COLUMN_DRAFT, 0);  // What we add here is not a draft
+            postValues.put(PostEntry.COLUMN_DRAFT, type);
             postValues.put(PostEntry.COLUMN_CONTENT, content);
             postValues.put(PostEntry.COLUMN_POST_ID, id);
 

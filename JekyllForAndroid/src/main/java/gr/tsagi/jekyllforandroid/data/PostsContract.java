@@ -93,6 +93,10 @@ public class PostsContract {
             return CONTENT_URI.buildUpon().build();
         }
 
+        public static Uri buildPostFromId(String id) {
+            return CONTENT_URI.buildUpon().appendPath(id).build();
+        }
+
     }
 
     public static final class TagEntry implements BaseColumns {

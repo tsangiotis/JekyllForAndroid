@@ -50,8 +50,6 @@ public class PostsListActivity extends FragmentActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
-    private TypedArray navMenuIcons;
-
     private ListView mDrawerList;
 
     @Override
@@ -128,7 +126,7 @@ public class PostsListActivity extends FragmentActivity {
 
         mDrawerTitle = getResources().getString(R.string.app_name);
 
-        navMenuIcons = getResources()
+        final TypedArray navMenuIcons = getResources()
                 .obtainTypedArray(R.array.nav_drawer_icons_dark);
         ArrayList<NavDrawerItem> navDrawerItems;
         NavDrawerListAdapter adapter;

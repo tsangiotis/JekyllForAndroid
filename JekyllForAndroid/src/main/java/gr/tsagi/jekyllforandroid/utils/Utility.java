@@ -72,6 +72,34 @@ public class Utility {
         return prefs.getString("user_repo", "");
     }
 
+    /**
+     * Saves the SHA-1 of the currently saved commit.
+     * If it is the same, no need for sync.
+     *
+     * @param context Context to use for resource localization.
+     * @param baseCommitSha SHA on github.
+     */
+    public static void setBaseCommitSha(Context context, String baseCommitSha) {
+        SharedPreferences prefs = context.getSharedPreferences("gr.tsagi.jekyllforandroid",
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("base_commit", baseCommitSha);
+        editor.apply();
+    }
+
+    /**
+     * Saves the SHA-1 of the currently saved commit.
+     * If it is the same, no need for sync.
+     *
+     * @param context Context to use for resource localization.
+     * @return baseCommitSha
+     */
+    public static String getBaseCommitSha(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("gr.tsagi.jekyllforandroid",
+                Context.MODE_PRIVATE);
+        return prefs.getString("base_commit", "");
+    }
+
     // Format used for storing dates in the database.  ALso used for converting those strings
     // back into date objects for comparison/processing.
     public static final String DATE_FORMAT = "yyyyMMdd";

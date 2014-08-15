@@ -104,8 +104,6 @@ public class EditPostActivity extends Activity {
          * Restore draft if any is available
          */
 
-        restorePreferences();
-
         if (mToken == "") {
             Toast.makeText(EditPostActivity.this, "Please login", Toast.LENGTH_LONG).show();
         }

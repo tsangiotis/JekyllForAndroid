@@ -111,18 +111,17 @@ public class ParsePostData {
             categoryValues.put(CategoryEntry.COLUMN_CATEGORY, category);
 
             mContext.getContentResolver().insert(CategoryEntry.CONTENT_URI, categoryValues);
-            Log.d(LOG_TAG, "Inserted Tag Values.");
+            Log.d(LOG_TAG, "Inserted Category Values.");
 
         }
 
-        Log.d(LOG_TAG, "No Tag Values to insert.");
+        Log.d(LOG_TAG, "No Category Values to insert.");
 
     }
 
 
-    public void getDataFromContent(String id, String contentBytes , int nEntries) {
+    public ContentValues getDataFromContent(String id, String contentBytes) {
 
-        Vector<ContentValues> contentValuesVector = new Vector<ContentValues>(nEntries);
         // Get and insert the new posts information into the database
         String postContent = null;
 
@@ -235,19 +234,9 @@ public class ParsePostData {
             postValues.put(PostEntry.COLUMN_CONTENT, content);
             postValues.put(PostEntry.COLUMN_POST_ID, id);
 
-            contentValuesVector.add(postValues);
-
         }
 
-        if (contentValuesVector.size() > 0) {
-            ContentValues[] cvArray = new ContentValues[contentValuesVector.size()];
-            contentValuesVector.toArray(cvArray);
-            mContext.getContentResolver().bulkInsert(PostEntry.CONTENT_URI, cvArray);
-            Log.d(LOG_TAG, "Inserted Values.");
-        } else {
-            Log.d(LOG_TAG, "No Values to insert.");
-        }
-
+        return postValues;
 
     }
 

@@ -108,30 +108,10 @@ public class PostsContract {
         // Table name
         public static final String TABLE_NAME = "tags";
 
-        public static final String COLUMN_NAME = "name";
-
-        public static Uri buildTagUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-    }
-
-    public static final class TagRelationsEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_TAGS_RELATIONS).build();
-
-        public static final String CONTENT_TYPE =
-                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_TAGS_RELATIONS;
-        public static final String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_TAGS_RELATIONS;
-
-        // Table name
-        public static final String TABLE_NAME = "tags_relations";
-
         public static final String COLUMN_TAG = "tag";
         public static final String COLUMN_POST_ID = "post_id";
 
-        public static Uri buildTagRelationsUri(long id) {
+        public static Uri buildTagUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }
@@ -149,10 +129,10 @@ public class PostsContract {
         // Table name
         public static final String TABLE_NAME = "categories";
 
-        public static final String COLUMN_NAME = "category";
+        public static final String COLUMN_CATEGORY = "category";
         public static final String COLUMN_POST_ID = "post_id";
 
-        public static Uri buildTagRelationsUri(long id) {
+        public static Uri buildCategoryUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }

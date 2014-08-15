@@ -9,7 +9,7 @@ import android.net.Uri;
 
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
-import gr.tsagi.jekyllforandroid.data.PostsContract.TagRelationsEntry;
+import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 
 
 /**
@@ -84,9 +84,9 @@ public class PostsProvider extends ContentProvider {
                 );
                 break;
             }
-            case TAG_RELATIONS: {
+            case CATEGORY: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
-                        TagRelationsEntry.TABLE_NAME,
+                        CategoryEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -113,8 +113,8 @@ public class PostsProvider extends ContentProvider {
                 return PostEntry.CONTENT_TYPE;
             case TAG:
                 return TagEntry.CONTENT_TYPE;
-            case TAG_RELATIONS:
-                return TagRelationsEntry.CONTENT_TYPE;
+            case CATEGORY:
+                return CategoryEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -143,10 +143,10 @@ public class PostsProvider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case TAG_RELATIONS: {
-                long _id = db.insert(TagRelationsEntry.TABLE_NAME, null, values);
+            case CATEGORY: {
+                long _id = db.insert(CategoryEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
-                    returnUri = TagRelationsEntry.buildTagRelationsUri(_id);
+                    returnUri = CategoryEntry.buildCategoryUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
@@ -172,9 +172,9 @@ public class PostsProvider extends ContentProvider {
                 rowsDeleted = db.delete(
                         TagEntry.TABLE_NAME, selection, selectionArgs);
                 break;
-            case TAG_RELATIONS:
+            case CATEGORY:
                 rowsDeleted = db.delete(
-                        TagRelationsEntry.TABLE_NAME, selection, selectionArgs);
+                        CategoryEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -202,8 +202,8 @@ public class PostsProvider extends ContentProvider {
                 rowsUpdated = db.update(TagEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
-            case TAG_RELATIONS:
-                rowsUpdated = db.update(TagRelationsEntry.TABLE_NAME, values, selection,
+            case CATEGORY:
+                rowsUpdated = db.update(CategoryEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             default:
@@ -253,12 +253,12 @@ public class PostsProvider extends ContentProvider {
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
                 return returnCount;
-            case TAG_RELATIONS:
+            case CATEGORY:
                 db.beginTransaction();
                 returnCount = 0;
                 try {
                     for (ContentValues value : values) {
-                        long _id = db.insert(TagRelationsEntry.TABLE_NAME, null, value);
+                        long _id = db.insert(CategoryEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;
                         }

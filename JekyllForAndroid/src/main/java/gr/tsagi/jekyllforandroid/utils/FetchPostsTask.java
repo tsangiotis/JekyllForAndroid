@@ -1,10 +1,8 @@
 package gr.tsagi.jekyllforandroid.utils;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
@@ -28,10 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
-import gr.tsagi.jekyllforandroid.data.PostsContract.TagRelationsEntry;
-import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -70,54 +67,32 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
      */
     private void addTags(String tags, String id) {
 
-        Log.d(LOG_TAG, "All Tags: "+ tags);
-        String [] taglist = tags.replace(" ", "").split(",");
+        Log.d(LOG_TAG, "All Tags: " + tags);
+        String[] taglist = tags.replace(" ", "").split(",");
 
         Vector<ContentValues> tagValuesVector = new Vector<ContentValues>(taglist.length);
-        Vector<ContentValues> tagRelationsValuesVector = new Vector<ContentValues>(taglist.length);
 
         ContentValues tagValues = new ContentValues();
-        ContentValues tagRelationValues = new ContentValues();
 
         for (String tag : taglist) {
-            Log.d(LOG_TAG, "Tags for: "+ tag);
+            Log.d(LOG_TAG, "Tags for: " + tag);
 
             // First, check if the tag name exists in the db
-            Cursor cursorTagName = mContext.getContentResolver().query(
+            Cursor cursor = mContext.getContentResolver().query(
                     TagEntry.CONTENT_URI,
-                    new String[]{TagEntry.COLUMN_NAME},
-                    TagEntry.COLUMN_NAME + " = ?",
-                    new String[]{tag},
+                    new String[]{TagEntry.COLUMN_POST_ID, TagEntry.COLUMN_TAG},
+                    TagEntry.COLUMN_POST_ID + " = ? AND " + TagEntry.COLUMN_TAG,
+                    null,
                     null);
 
             // If yes, see if it is assigned to post.
-            if (cursorTagName.moveToFirst()) {
-                cursorTagName.close();
-                Cursor cursorTagRelation = mContext.getContentResolver().query(
-                        TagRelationsEntry.CONTENT_URI,
-                        new String[]{TagRelationsEntry.COLUMN_POST_ID, TagRelationsEntry.COLUMN_TAG},
-                        TagRelationsEntry.COLUMN_POST_ID + " = ? AND " + TagRelationsEntry.COLUMN_TAG,
-                        null,
-                        null);
-                if (null == cursorTagRelation)
-                if ( cursorTagRelation.getCount() < 1 ) {
-                    cursorTagRelation.close();
-                    tagRelationValues.put(TagRelationsEntry.COLUMN_POST_ID, id);
-                    tagRelationValues.put(TagRelationsEntry.COLUMN_TAG, tag);
-                    tagRelationsValuesVector.add(tagRelationValues);
-                }
-
-            } else {    // If not create tag and get id
-                cursorTagName.close();
-                tagValues.put(TagEntry.COLUMN_NAME, tag);
+            if (!cursor.moveToFirst()) {
+                cursor.close();
+                tagValues.put(TagEntry.COLUMN_POST_ID, id);
+                tagValues.put(TagEntry.COLUMN_TAG, tag);
                 tagValuesVector.add(tagValues);
-                mContext.getContentResolver().insert(TagEntry.CONTENT_URI, tagValues);
-                tagRelationValues.put(TagRelationsEntry.COLUMN_POST_ID, id);
-                tagRelationValues.put(TagRelationsEntry.COLUMN_TAG, tag);
-                tagRelationsValuesVector.add(tagRelationValues);
 
             }
-
         }
 
         if (tagValuesVector.size() > 0) {
@@ -125,13 +100,8 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             tagValuesVector.toArray(tArray);
             mContext.getContentResolver().bulkInsert(TagEntry.CONTENT_URI, tArray);
             Log.d(LOG_TAG, "Inserted Tag Values.");
-        } if (tagRelationsValuesVector.size() > 0) {
-            ContentValues[] trArray = new ContentValues[tagRelationsValuesVector.size()];
-            tagRelationsValuesVector.toArray(trArray);
-            mContext.getContentResolver().bulkInsert(TagRelationsEntry.CONTENT_URI, trArray);
-            Log.d(LOG_TAG, "Inserted Tag Relations Values.");
         } else {
-            Log.d(LOG_TAG, "No Tag Relations or Tag Values to insert.");
+            Log.d(LOG_TAG, "No Tag Values to insert.");
         }
 
     }
@@ -142,28 +112,31 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
      * @param category The category name.
      * @return the row ID of the added location.
      */
-    private long addCategory(String category) {
+    private void addCategory(String category, String id) {
 
-        // First, check if the location with this city name exists in the db
+        ContentValues categoryValues = new ContentValues();
+
+        // First, check if the tag name exists in the db
         Cursor cursor = mContext.getContentResolver().query(
                 CategoryEntry.CONTENT_URI,
-                new String[]{CategoryEntry._ID},
-                CategoryEntry.COLUMN_NAME + " = ?",
-                new String[]{category},
+                new String[]{CategoryEntry.COLUMN_POST_ID, CategoryEntry.COLUMN_CATEGORY},
+                CategoryEntry.COLUMN_POST_ID + " = ? AND " + CategoryEntry.COLUMN_CATEGORY,
+                null,
                 null);
 
-        if (cursor.moveToFirst()) {
-            int categoryIdIndex = cursor.getColumnIndex(CategoryEntry._ID);
-            return cursor.getLong(categoryIdIndex);
-        } else {
-            ContentValues categoryValues = new ContentValues();
-            categoryValues.put(CategoryEntry.COLUMN_NAME, category);
+        // If yes, see if it is assigned to post.
+        if (!cursor.moveToFirst()) {
+            cursor.close();
+            categoryValues.put(CategoryEntry.COLUMN_POST_ID, id);
+            categoryValues.put(CategoryEntry.COLUMN_CATEGORY, category);
 
-            Uri categoryInsertUri = mContext.getContentResolver()
-                    .insert(CategoryEntry.CONTENT_URI, categoryValues);
+            mContext.getContentResolver().insert(CategoryEntry.CONTENT_URI, categoryValues);
+            Log.d(LOG_TAG, "Inserted Tag Values.");
 
-            return ContentUris.parseId(categoryInsertUri);
         }
+
+        Log.d(LOG_TAG, "No Tag Values to insert.");
+
     }
 
     /**
@@ -182,7 +155,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         for (TreeEntry post : postslist) {
 
             String filename = post.getPath();
-            String [] filenameParts = filename.split("\\.");
+            String[] filenameParts = filename.split("\\.");
             String id = filenameParts[0];
 
             long date;
@@ -202,6 +175,8 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
             assert postBlob != null;
             String blobBytes = postBlob.getContent();
+
+
 
             String postContent = null;
 
@@ -226,7 +201,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             int yaml_dash = 0;
             String yamlStr = null;
             try {
-                while((line = r.readLine()) != null) {
+                while ((line = r.readLine()) != null) {
                     if (line.equals("---")) {
                         yaml_dash++;
                     }
@@ -272,7 +247,8 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             int i = id.indexOf('-', 1 + id.indexOf('-', 1 + id.indexOf('-')));
             date = Long.parseLong(id.substring(0, i).replace("-", ""));
 
-            addTags(tags, title);
+            addTags(tags, id);
+            addCategory(category, id);
 
             // First, check if the location with this city name exists in the db
             Cursor cursorId = mContext.getContentResolver().query(
@@ -291,7 +267,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
             ContentValues postValues = new ContentValues();
 
-            if (cursorId.moveToFirst()){
+            if (cursorId.moveToFirst()) {
                 cursorId.close();
                 if (!cursorContent.moveToFirst()) {
                     cursorContent.close();
@@ -299,15 +275,14 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                     updateValues.put(PostEntry.COLUMN_CONTENT, content);
                     if (updateValues.size() > 0) {
                         mContext.getContentResolver().update(PostEntry.CONTENT_URI, updateValues,
-                                PostEntry.COLUMN_POST_ID + " = \"" + id + "\"", null );
+                                PostEntry.COLUMN_POST_ID + " = \"" + id + "\"", null);
                         Log.d(LOG_TAG, "Updated Value.");
                     } else {
                         Log.d(LOG_TAG, "No Values to insert.");
                     }
 
                 }
-            }
-            else {
+            } else {
                 cursorId.close();
                 cursorContent.close();
 

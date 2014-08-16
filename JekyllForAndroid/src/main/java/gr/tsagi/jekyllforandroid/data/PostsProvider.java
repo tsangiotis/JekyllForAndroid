@@ -36,19 +36,20 @@ public class PostsProvider extends ContentProvider {
 
     static{
         sParametersQueryBuilder = new SQLiteQueryBuilder();
+        //ursor cur=db.rawQuery("SELECT f.* FROM food f INNER JOIN ingredient i ON f.id = i.food_id INNER JOIN meal m ON i.meal_id = 1 ",new String [] {});
         sParametersQueryBuilder.setTables(
                 PostEntry.TABLE_NAME + " INNER JOIN " +
                         CategoryEntry.TABLE_NAME +
                         " ON " + PostEntry.TABLE_NAME +
                         "." + PostEntry.COLUMN_POST_ID +
                         " = " + CategoryEntry.TABLE_NAME +
-                        "." + CategoryEntry.COLUMN_POST_ID //+", FROM " +
-//                PostEntry.TABLE_NAME + " INNER JOIN " +
-//                        CategoryEntry.TABLE_NAME +
-//                        " ON " + PostEntry.TABLE_NAME +
-//                        "." + PostEntry.COLUMN_POST_ID +
-//                        " = " + CategoryEntry.TABLE_NAME +
-//                        "." + CategoryEntry.COLUMN_POST_ID
+                        "." + CategoryEntry.COLUMN_POST_ID +
+                        " INNER JOIN " +
+                        TagEntry.TABLE_NAME +
+                        " ON " + PostEntry.TABLE_NAME +
+                        "." + PostEntry.COLUMN_POST_ID +
+                        " = " + TagEntry.TABLE_NAME +
+                        "." + TagEntry.COLUMN_POST_ID
                 );
     }
 
@@ -64,7 +65,7 @@ public class PostsProvider extends ContentProvider {
             PostEntry.TABLE_NAME +
                     "." + PostEntry.COLUMN_POST_ID + " = ? ";
 
-    private Cursor getPostWithCategory(Uri uri, String[] projection, String sortOrder) {
+    private Cursor getPostWithCategoryAndTags(Uri uri, String[] projection, String sortOrder) {
         String id = PostEntry.getIdFromUri(uri);
 
         String[] selectionArgs;
@@ -121,7 +122,7 @@ public class PostsProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
             // "posts/*"
             case POST_ID: {
-                retCursor = getPostWithCategory(uri, projection, sortOrder);
+                retCursor = getPostWithCategoryAndTags(uri, projection, sortOrder);
                 dumpCursor(retCursor);
                 break;
             }

@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.activities.EditPostActivity;
+import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
 
@@ -28,8 +29,8 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
             PostEntry.COLUMN_POST_ID,
             PostEntry.COLUMN_TITLE,
             PostEntry.COLUMN_CONTENT,
-//            TagEntry.COLUMN_TAG,
-            CategoryEntry.COLUMN_CATEGORY,
+            TagEntry.COLUMN_TAG,
+            CategoryEntry.COLUMN_CATEGORY
     };
 
     private String mPostId;
@@ -104,11 +105,13 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
             String title = data.getString(data.getColumnIndex(PostEntry.COLUMN_TITLE));
             mTitle.setText(title);
 
-//            String tags = data.getString(data.getColumnIndex(TagEntry.COLUMN_TAG));
-//            mTags.setText(tags);
+            String tags = data.getString(data.getColumnIndex(TagEntry.COLUMN_TAG));
+            Log.d(LOG_TAG, "tags:" + tags);
+            if(!tags.equals("null"))
+                mTags.setText(tags);
 
             String category = data.getString(data.getColumnIndex(CategoryEntry.COLUMN_CATEGORY));
-            Log.d(LOG_TAG, category);
+            Log.d(LOG_TAG, "category" + category);
             if(!category.equals("null"))
                 mCategory.setText(category);
 

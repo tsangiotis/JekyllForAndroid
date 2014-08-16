@@ -15,8 +15,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.Vector;
-
 
 import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
@@ -31,7 +29,7 @@ public class ParsePostData {
     private final String LOG_TAG = ParsePostData.class.getSimpleName();
     private final Context mContext;
 
-    public ParsePostData (Context context) {
+    public ParsePostData(Context context) {
         mContext = context;
     }
 
@@ -48,40 +46,49 @@ public class ParsePostData {
     private void addTags(String tags, String id) {
 
         Log.d(LOG_TAG, "All Tags: " + tags);
-        String[] taglist = tags.replace(" ", "").split(",");
-
-        Vector<ContentValues> tagValuesVector = new Vector<ContentValues>(taglist.length);
 
         ContentValues tagValues = new ContentValues();
 
-        for (String tag : taglist) {
-            Log.d(LOG_TAG, "Tags for: " + tag);
+        // First, check if the post exists in the db
+        Cursor cursorId = mContext.getContentResolver().query(
+                TagEntry.CONTENT_URI,
+                new String[]{TagEntry.COLUMN_POST_ID},
+                TagEntry.COLUMN_POST_ID + " = ?",
+                new String[]{id},
+                null);
 
-            // First, check if the tag name exists in the db
-            Cursor cursor = mContext.getContentResolver().query(
-                    TagEntry.CONTENT_URI,
-                    new String[]{TagEntry.COLUMN_POST_ID, TagEntry.COLUMN_TAG},
-                    TagEntry.COLUMN_POST_ID + " = ? AND " + TagEntry.COLUMN_TAG,
-                    null,
-                    null);
+        Cursor cursorTags = mContext.getContentResolver().query(
+                TagEntry.CONTENT_URI,
+                new String[]{TagEntry.COLUMN_TAG},
+                TagEntry.COLUMN_TAG + " = ?",
+                new String[]{tags},
+                null);
 
-            // If yes, see if it is assigned to post.
-            if (!cursor.moveToFirst()) {
-                cursor.close();
-                tagValues.put(TagEntry.COLUMN_POST_ID, id);
-                tagValues.put(TagEntry.COLUMN_TAG, tag);
-                tagValuesVector.add(tagValues);
+        if (cursorId.moveToFirst()) {
+            cursorId.close();
+            if (!cursorTags.moveToFirst()) {
+                cursorTags.close();
+                ContentValues updateValues = new ContentValues();
+                updateValues.put(TagEntry.COLUMN_TAG, tags);
+                if (updateValues.size() > 0) {
+                    mContext.getContentResolver().update(TagEntry.CONTENT_URI, updateValues,
+                            TagEntry.COLUMN_POST_ID + " = \"" + id + "\"", null);
+                    Log.d(LOG_TAG, "Updated Tag Value.");
+                } else {
+                    Log.d(LOG_TAG, "No Values to insert.");
+                }
 
             }
-        }
-
-        if (tagValuesVector.size() > 0) {
-            ContentValues[] tArray = new ContentValues[tagValuesVector.size()];
-            tagValuesVector.toArray(tArray);
-            mContext.getContentResolver().bulkInsert(TagEntry.CONTENT_URI, tArray);
-            Log.d(LOG_TAG, "Inserted Tag Values.");
         } else {
-            Log.d(LOG_TAG, "No Tag Values to insert.");
+            cursorId.close();
+            cursorTags.close();
+            tagValues.put(TagEntry.COLUMN_POST_ID, id);
+            tagValues.put(TagEntry.COLUMN_TAG, tags);
+
+            mContext.getContentResolver().insert(TagEntry.CONTENT_URI, tagValues);
+
+            Log.d(LOG_TAG, "Inserted Tag Value.");
+
         }
 
     }
@@ -94,27 +101,48 @@ public class ParsePostData {
      */
     private void addCategory(String category, String id) {
 
-        ContentValues categoryValues = new ContentValues();
+        ContentValues tagValues = new ContentValues();
 
-        // First, check if the tag name exists in the db
-        Cursor cursor = mContext.getContentResolver().query(
+        // First, check if the post exists in the db
+        Cursor cursorId = mContext.getContentResolver().query(
                 CategoryEntry.CONTENT_URI,
-                new String[]{CategoryEntry.COLUMN_POST_ID, CategoryEntry.COLUMN_CATEGORY},
-                CategoryEntry.COLUMN_POST_ID + " = ? AND " + CategoryEntry.COLUMN_CATEGORY,
-                null,
+                new String[]{CategoryEntry.COLUMN_POST_ID},
+                CategoryEntry.COLUMN_POST_ID + " = ?",
+                new String[]{id},
                 null);
 
-        // If yes, see if it is assigned to post.
-        if (!cursor.moveToFirst()) {
-            cursor.close();
-            categoryValues.put(CategoryEntry.COLUMN_POST_ID, id);
-            categoryValues.put(CategoryEntry.COLUMN_CATEGORY, category);
+        Cursor cursorCategory = mContext.getContentResolver().query(
+                CategoryEntry.CONTENT_URI,
+                new String[]{CategoryEntry.COLUMN_CATEGORY},
+                CategoryEntry.COLUMN_CATEGORY + " = ?",
+                new String[]{category},
+                null);
 
-            mContext.getContentResolver().insert(CategoryEntry.CONTENT_URI, categoryValues);
-            Log.d(LOG_TAG, "Inserted Category Values.");
+        if (cursorId.moveToFirst()) {
+            cursorId.close();
+            if (!cursorCategory.moveToFirst()) {
+                cursorCategory.close();
+                ContentValues updateValues = new ContentValues();
+                updateValues.put(CategoryEntry.COLUMN_CATEGORY, category);
+                if (updateValues.size() > 0) {
+                    mContext.getContentResolver().update(CategoryEntry.CONTENT_URI, updateValues,
+                            CategoryEntry.COLUMN_POST_ID + " = \"" + id + "\"", null);
+                    Log.d(LOG_TAG, "Updated Category Value.");
+                } else {
+                    Log.d(LOG_TAG, "No Values to insert.");
+                }
 
-        }else {
-            Log.d(LOG_TAG, "No Category Values to insert.");
+            }
+        } else {
+            cursorId.close();
+            cursorCategory.close();
+            tagValues.put(CategoryEntry.COLUMN_POST_ID, id);
+            tagValues.put(CategoryEntry.COLUMN_CATEGORY, category);
+
+            mContext.getContentResolver().insert(CategoryEntry.CONTENT_URI, tagValues);
+
+            Log.d(LOG_TAG, "Inserted Category Value.");
+
         }
 
     }
@@ -123,7 +151,7 @@ public class ParsePostData {
     public ContentValues getDataFromContent(String id, String contentBytes, int type) {
 
         // If it is not specified if it is draft or not put it to drafts (drafts = 1)
-        if(type > 1) {
+        if (type > 1) {
             type = 1;
         }
 
@@ -197,7 +225,7 @@ public class ParsePostData {
         addTags(tags, id);
         addCategory(category, id);
 
-        // First, check if the location with this city name exists in the db
+        // First, check if the post exists in the db
         Cursor cursorId = mContext.getContentResolver().query(
                 PostEntry.CONTENT_URI,
                 new String[]{PostEntry.COLUMN_POST_ID},

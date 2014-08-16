@@ -88,7 +88,7 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
 
         Log.d("PostsListFragment", "Creating view");
 
-//        updateList();
+        updateList();
 
         // The ArrayAdapter will take data from a source and
         // use it to populate the ListView it's attached to.

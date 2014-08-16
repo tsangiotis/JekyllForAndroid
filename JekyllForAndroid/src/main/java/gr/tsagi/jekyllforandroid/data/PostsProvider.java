@@ -36,7 +36,6 @@ public class PostsProvider extends ContentProvider {
 
     static{
         sParametersQueryBuilder = new SQLiteQueryBuilder();
-        //ursor cur=db.rawQuery("SELECT f.* FROM food f INNER JOIN ingredient i ON f.id = i.food_id INNER JOIN meal m ON i.meal_id = 1 ",new String [] {});
         sParametersQueryBuilder.setTables(
                 PostEntry.TABLE_NAME + " INNER JOIN " +
                         CategoryEntry.TABLE_NAME +
@@ -52,14 +51,6 @@ public class PostsProvider extends ContentProvider {
                         "." + TagEntry.COLUMN_POST_ID
                 );
     }
-
-    private static final String sTagCategorySelection =
-            TagEntry.TABLE_NAME+
-                    "." + TagEntry.COLUMN_POST_ID + " = ? ";
-
-    private static final String sPostCategorySelection =
-            CategoryEntry.TABLE_NAME+
-                    "." + CategoryEntry.COLUMN_POST_ID + " = ? ";
 
     private static final String sPostSelection =
             PostEntry.TABLE_NAME +

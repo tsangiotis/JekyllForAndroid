@@ -5,11 +5,13 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
+import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
-import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 
 
 /**
@@ -17,15 +19,69 @@ import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
  */
 public class PostsProvider extends ContentProvider {
 
+    private static final String LOG_TAG = PostsProvider.class.getSimpleName();
+
     // THe URI Matcher is used by this content provider.
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private PostsDbHelper mOpenHelper;
 
     private static final int POST = 100;
+    private static final int POST_ID = 101;
     private static final int CATEGORY = 200;
+    private static final int CATEGORY_PER_POST = 201;
     private static final int TAG = 300;
-    private static final int TAG_RELATIONS = 400;
+    private static final int TAG_PER_POST = 301;
 
+    private static final SQLiteQueryBuilder sParametersQueryBuilder;
+
+    static{
+        sParametersQueryBuilder = new SQLiteQueryBuilder();
+        sParametersQueryBuilder.setTables(
+                PostEntry.TABLE_NAME + " INNER JOIN " +
+                        CategoryEntry.TABLE_NAME +
+                        " ON " + PostEntry.TABLE_NAME +
+                        "." + PostEntry.COLUMN_POST_ID +
+                        " = " + CategoryEntry.TABLE_NAME +
+                        "." + CategoryEntry.COLUMN_POST_ID //+", FROM " +
+//                PostEntry.TABLE_NAME + " INNER JOIN " +
+//                        CategoryEntry.TABLE_NAME +
+//                        " ON " + PostEntry.TABLE_NAME +
+//                        "." + PostEntry.COLUMN_POST_ID +
+//                        " = " + CategoryEntry.TABLE_NAME +
+//                        "." + CategoryEntry.COLUMN_POST_ID
+                );
+    }
+
+    private static final String sTagCategorySelection =
+            TagEntry.TABLE_NAME+
+                    "." + TagEntry.COLUMN_POST_ID + " = ? ";
+
+    private static final String sPostCategorySelection =
+            CategoryEntry.TABLE_NAME+
+                    "." + CategoryEntry.COLUMN_POST_ID + " = ? ";
+
+    private static final String sPostSelection =
+            PostEntry.TABLE_NAME +
+                    "." + PostEntry.COLUMN_POST_ID + " = ? ";
+
+    private Cursor getPostWithCategory(Uri uri, String[] projection, String sortOrder) {
+        String id = PostEntry.getIdFromUri(uri);
+
+        String[] selectionArgs;
+        String selection;
+
+        selection = sPostSelection;
+        selectionArgs = new String[]{id};
+
+        return sParametersQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+    }
 
     private static UriMatcher buildUriMatcher() {
         // I know what you're thinking.  Why create a UriMatcher when you can use regular
@@ -39,9 +95,13 @@ public class PostsProvider extends ContentProvider {
 
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, PostsContract.PATH_POSTS, POST);
+        matcher.addURI(authority, PostsContract.PATH_POSTS + "/*", POST_ID);
+
         matcher.addURI(authority, PostsContract.PATH_TAGS, TAG);
-        matcher.addURI(authority, PostsContract.PATH_TAGS_RELATIONS, TAG_RELATIONS);
+        matcher.addURI(authority, PostsContract.PATH_TAGS + "/#", TAG_PER_POST);
+
         matcher.addURI(authority, PostsContract.PATH_CATEGORIES, CATEGORY);
+        matcher.addURI(authority, PostsContract.PATH_CATEGORIES + "/$", CATEGORY_PER_POST);
 
         return matcher;
     }
@@ -59,7 +119,13 @@ public class PostsProvider extends ContentProvider {
         // and query the database accordingly.
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
-            // "weather"
+            // "posts/*"
+            case POST_ID: {
+                retCursor = getPostWithCategory(uri, projection, sortOrder);
+                dumpCursor(retCursor);
+                break;
+            }
+            // "post"
             case POST: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         PostEntry.TABLE_NAME,
@@ -72,6 +138,7 @@ public class PostsProvider extends ContentProvider {
                 );
                 break;
             }
+            // "tag"
             case TAG: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         TagEntry.TABLE_NAME,
@@ -84,6 +151,7 @@ public class PostsProvider extends ContentProvider {
                 );
                 break;
             }
+            // "category"
             case CATEGORY: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         CategoryEntry.TABLE_NAME,
@@ -103,12 +171,46 @@ public class PostsProvider extends ContentProvider {
         return retCursor;
     }
 
+    private void dumpCursor(Cursor myCursor) {
+        if (myCursor == null) {
+            Log.w(LOG_TAG, "Null cursor");
+        } else {
+            try {
+                if (myCursor.moveToFirst()) {
+                    String [] columns = myCursor.getColumnNames();
+                    StringBuilder sbHeader = new StringBuilder();
+                    for (String columnName : columns) {
+                        sbHeader.append(columnName).append(", ");
+                    }
+                    Log.i(LOG_TAG, sbHeader.toString());
+                    do {
+                        StringBuilder sbRow = new StringBuilder();
+                        for (String columnName : columns) {
+                            sbRow.append(myCursor.getString(myCursor.getColumnIndex(columnName))).append(", ");
+                        }
+                        Log.i(LOG_TAG, sbRow.toString());
+                    } while (myCursor.moveToNext());
+                } else {
+                    Log.w(LOG_TAG, "Empty cursor");
+                }
+            } catch (Exception ex) {
+                Log.e(LOG_TAG, ex.toString());
+            } finally {
+                if (!myCursor.isClosed()) {
+                    myCursor.moveToFirst();
+                }
+            }
+        }
+    }
+
     @Override
     public String getType(Uri uri) {
         // Use the Uri Matcher to determine what kind of URI this is.
         final int match = sUriMatcher.match(uri);
 
         switch (match) {
+            case POST_ID:
+                return PostEntry.CONTENT_TYPE;
             case POST:
                 return PostEntry.CONTENT_TYPE;
             case TAG:

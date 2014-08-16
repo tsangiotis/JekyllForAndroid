@@ -50,6 +50,7 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
             // using the location set by the user, which is only in the Location table.
             // So the convenience is worth it.
             PostEntry.TABLE_NAME + "." + PostEntry._ID,
+            PostEntry.COLUMN_POST_ID,
             PostEntry.COLUMN_TITLE,
             PostEntry.COLUMN_DATETEXT,
     };
@@ -57,9 +58,9 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
 
     // These indices are tied to POSTS_COLUMNS.  If FORECAST_COLUMNS changes, these
     // must change.
-    public static final int COL_POST_ID = 0;
-    public static final int COL_POST_TITLE = 1;
-    public static final int COL_POST_DATE = 2;
+    public static final int COL_POST_ID = 1;
+    public static final int COL_POST_TITLE = 2;
+    public static final int COL_POST_DATE = 3;
 
     FetchPostsTask fetchPostsTask;
 
@@ -87,7 +88,8 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
 
         Log.d("PostsListFragment", "Creating view");
 
-        updateList();
+//        updateList();
+
         // The ArrayAdapter will take data from a source and
         // use it to populate the ListView it's attached to.
         mPostListAdapter = new PostListAdapter(getActivity(), null, 0);

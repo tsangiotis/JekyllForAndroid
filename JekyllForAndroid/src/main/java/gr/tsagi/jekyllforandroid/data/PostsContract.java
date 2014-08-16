@@ -3,6 +3,7 @@ package gr.tsagi.jekyllforandroid.data;
 import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,8 @@ import java.util.Date;
  * Created by tsagi on 8/8/14.
  */
 public class PostsContract {
+
+    private static final String LOG_TAG = PostsContract.class.getSimpleName();
 
     // The "Content authority" is a name for the entire content provider, similar to the
     // relationship between a domain name and its website.  A convenient string to use for the
@@ -93,8 +96,13 @@ public class PostsContract {
             return CONTENT_URI.buildUpon().build();
         }
 
-        public static Uri buildPostFromId(String id) {
-            return CONTENT_URI.buildUpon().appendPath(id).build();
+        public static Uri buildPostFromId(String postId) {
+            Log.d(LOG_TAG, "postId: " + postId);
+            return CONTENT_URI.buildUpon().appendPath(postId).build();
+        }
+
+        public static String getIdFromUri(Uri uri) {
+            return uri.getPathSegments().get(1);
         }
 
     }

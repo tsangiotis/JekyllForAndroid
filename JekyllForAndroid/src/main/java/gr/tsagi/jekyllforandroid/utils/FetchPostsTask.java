@@ -78,7 +78,8 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
             ContentValues postValues = new ParsePostData(mContext).getDataFromContent(id,
                     blobBytes, type);
-            contentValuesVector.add(postValues);
+            if (postValues.size() >0 )
+                contentValuesVector.add(postValues);
 
         }
 

@@ -4,24 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.squareup.otto.Subscribe;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -34,14 +26,14 @@ import java.util.concurrent.ExecutionException;
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.fragments.EditPostFragment;
 import gr.tsagi.jekyllforandroid.github.GithubPush;
-import gr.tsagi.jekyllforandroid.utils.JekyllRepo;
 
 @SuppressLint({"DefaultLocale", "SimpleDateFormat"})
 public class EditPostActivity extends Activity {
 
+    private static final String LOG_TAG = EditPostActivity.class.getSimpleName();
+
     public static final String POST_ID = "post_id";
 
-    String mUsername;
     String mToken;
     String mDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     String mTitle;
@@ -51,25 +43,19 @@ public class EditPostActivity extends Activity {
 
     String message;
 
-    private String repo;
-
-    private View mNewPostFormView;
-    private View mNewPostStatusView;
-
-    private SharedPreferences settings;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_edit_post);
+        setContentView(R.layout.activity_edit_post);
 
-        if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            String date = getIntent().getStringExtra(POST_ID);
+            String postId  = getIntent().getStringExtra(POST_ID);
+
+            Log.d(LOG_TAG, "post_id: " + postId);
 
             Bundle arguments = new Bundle();
-            arguments.putString(EditPostActivity.POST_ID, date);
+            arguments.putString(EditPostActivity.POST_ID, postId);
 
             EditPostFragment fragment = new EditPostFragment();
             fragment.setArguments(arguments);
@@ -77,24 +63,7 @@ public class EditPostActivity extends Activity {
             getFragmentManager().beginTransaction()
                     .add(R.id.edit_post_container, fragment)
                     .commit();
-        }
 
-        mNewPostFormView = findViewById(R.id.editpost_form);
-        mNewPostStatusView = findViewById(R.id.editpost_status);
-        Intent intent;
-
-        if (getIntent() != null) {
-            intent = getIntent();
-
-            if (intent.getStringExtra("post") != null) {
-                message = intent.getStringExtra("post");
-                clearDraft();
-                Log.d("link", message);
-            }
-            if (intent.getStringExtra("postdate") != null) {
-                mDate = intent.getStringExtra("postdate");
-            }
-        }
 
         ActionBar actionBar = getActionBar();
         if (actionBar != null)
@@ -119,13 +88,6 @@ public class EditPostActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_clear_draft:
-                clearDraft();
-                return true;
-            //TODO add image support
-//            case R.id.action_add_image:
-//                addImage();
-//                return true;
             case R.id.action_publish:
                 publishPost();
                 return true;
@@ -151,7 +113,6 @@ public class EditPostActivity extends Activity {
             Toast.makeText(EditPostActivity.this, R.string.editpost_empty, Toast.LENGTH_LONG).show();
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            savePreferences();
             builder.setMessage(R.string.dialog_confirm_draft);
             // Add the buttons
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -169,75 +130,6 @@ public class EditPostActivity extends Activity {
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-
-    }
-
-
-    /**
-     * helper to retrieve the path of an image URI
-     */
-    public String getPath(Uri uri) {
-        if (uri == null) {
-            return null;
-        }
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if (cursor != null) {
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        return uri.getPath();
-    }
-
-    private void clearDraft() {
-        mTitle = "";
-        mCategory = "";
-        mTags = "";
-        mContent = "";
-
-        setStrings();
-    }
-
-    private void restorePreferences() {
-        settings = getSharedPreferences(
-                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
-        mUsername = settings.getString("user_login", "");
-        mToken = settings.getString("user_status", "");
-
-        mTitle = settings.getString("draft_title", "");
-        mCategory = settings.getString("draft_category", "");
-        mTags = settings.getString("draft_tags", "");
-        mContent = settings.getString("draft_content", "");
-        repo = settings.getString("user_repo", "");
-
-        TextView title = (TextView) findViewById(R.id.editTextTitle);
-        TextView category = (TextView) findViewById(R.id.editTextCategory);
-        TextView tags = (TextView) findViewById(R.id.editTextTags);
-        TextView content = (TextView) findViewById(R.id.editTextContent);
-
-        setStrings();
-
-        if (repo.equals("") && !mUsername.equals("")) {
-            repo = new JekyllRepo().getName(mUsername);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("user_repo", repo);
-            editor.commit();
-        }
-
-    }
-
-    private void setStrings() {
-        EditText titleT = (EditText) findViewById(R.id.editTextTitle);
-        EditText contentT = (EditText) findViewById(R.id.editTextContent);
-        EditText categoryT = (EditText) findViewById(R.id.editTextCategory);
-        EditText tagsT = (EditText) findViewById(R.id.editTextTags);
-
-        titleT.setText(mTitle);
-        categoryT.setText(mCategory);
-        tagsT.setText(mTags);
-        contentT.setText(mContent);
 
     }
 
@@ -317,7 +209,6 @@ public class EditPostActivity extends Activity {
             Toast.makeText(EditPostActivity.this, R.string.editpost_empty, Toast.LENGTH_LONG).show();
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            savePreferences();
             builder.setMessage(R.string.dialog_confirm_update);
             // Add the buttons
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -337,76 +228,14 @@ public class EditPostActivity extends Activity {
         }
     }
 
-    private void savePreferences() {
-        EditText titleT = (EditText) findViewById(R.id.editTextTitle);
-        EditText contentT = (EditText) findViewById(R.id.editTextContent);
-        EditText categoryT = (EditText) findViewById(R.id.editTextCategory);
-        EditText tagsT = (EditText) findViewById(R.id.editTextTags);
-
-        mTitle = titleT.getText().toString();
-        mCategory = categoryT.getText().toString();
-        mTags = tagsT.getText().toString();
-        mContent = contentT.getText().toString();
-
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("draft_title", mTitle);
-        editor.putString("draft_category", mCategory);
-        editor.putString("draft_tags", mTags);
-        editor.putString("draft_content", mContent);
-        editor.commit();
-    }
-
-    public void getThePost(HashMap<String, String> map) {
-        EditText titleT = (EditText) findViewById(R.id.editTextTitle);
-        EditText contentT = (EditText) findViewById(R.id.editTextContent);
-        EditText categoryT = (EditText) findViewById(R.id.editTextCategory);
-        EditText tagsT = (EditText) findViewById(R.id.editTextTags);
-
-        mTitle = map.get("title");
-        mCategory = map.get("category");
-        mTags = map.get("tags");
-        mContent = map.get("content");
-
-        titleT.setText(mTitle);
-        categoryT.setText(mCategory);
-        tagsT.setText(mTags);
-        contentT.setText(mContent);
-
-    }
-
-    @Override
-    protected void onStop() {
-        /**
-         * Save draft
-         */
-        savePreferences();
-        super.onStop();
-    }
-
-    @Override
-    protected void onStart() {
-        /**
-         * Return to draft if any is available
-         */
-        restorePreferences();
-
-        super.onStart();
-    }
 
     public void previewMarkdown() {
-        savePreferences();
         if (!mContent.isEmpty()) {
             Intent myIntent = new Intent(EditPostActivity.this, PreviewMarkdownActivity.class);
             myIntent.putExtra("content", mContent);
-            myIntent.putExtra("repo", repo);
             startActivity(myIntent);
         } else
             Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show();
     }
 
-    @Subscribe
-    public void dumpOutput(HashMap<String, Object> output) {
-        if (output.get("error") != null || output.get("result") != null)
-            pushResult((String) output.get("result"));
-    }
 }

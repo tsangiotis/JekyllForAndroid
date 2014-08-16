@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.activities.EditPostActivity;
 import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
-import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
 
 public class EditPostFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -27,8 +27,9 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
     private static final String[] POST_COLUMNS = {
             PostEntry.COLUMN_POST_ID,
             PostEntry.COLUMN_TITLE,
-            TagEntry.COLUMN_TAG,
-            CategoryEntry.COLUMN_CATEGORY
+            PostEntry.COLUMN_CONTENT,
+//            TagEntry.COLUMN_TAG,
+            CategoryEntry.COLUMN_CATEGORY,
     };
 
     private String mPostId;
@@ -76,10 +77,13 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        // Sort order:  Ascending, by date.
+        // Sort order:  Descending, by date.
         String sortOrder = PostEntry.COLUMN_DATETEXT + " DESC";
 
+        Log.d(LOG_TAG, "postId: " + mPostId);
+
         Uri postFromId = PostEntry.buildPostFromId(mPostId);
+        Log.d(LOG_TAG, "postIdUri: " + postFromId.toString());
 
         // Now create and return a CursorLoader that will take care of
         // creating a Cursor for the data being displayed.
@@ -89,7 +93,7 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
                 POST_COLUMNS,
                 null,
                 null,
-                sortOrder
+                null
         );
     }
 
@@ -97,14 +101,16 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
             // Read weather condition ID from cursor
-            String postId = data.getString(data.getColumnIndex(PostEntry.COLUMN_POST_ID));
-            // Use weather art image
-
-
-            // Read date from cursor and update views for day of week and date
             String title = data.getString(data.getColumnIndex(PostEntry.COLUMN_TITLE));
-            String whereTag = TagEntry.COLUMN_POST_ID + " =?";
-            mTitle.setText(postId);
+            mTitle.setText(title);
+
+//            String tags = data.getString(data.getColumnIndex(TagEntry.COLUMN_TAG));
+//            mTags.setText(tags);
+
+            String category = data.getString(data.getColumnIndex(CategoryEntry.COLUMN_CATEGORY));
+            Log.d(LOG_TAG, category);
+            if(!category.equals("null"))
+                mCategory.setText(category);
 
             String content = data.getString(data.getColumnIndex(PostEntry.COLUMN_CONTENT));
             mContent.setText(content);

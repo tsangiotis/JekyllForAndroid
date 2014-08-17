@@ -10,9 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,7 +20,6 @@ import gr.tsagi.jekyllforandroid.activities.EditPostActivity;
 import gr.tsagi.jekyllforandroid.activities.PostsListActivity;
 import gr.tsagi.jekyllforandroid.adapters.PostListAdapter;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
-import gr.tsagi.jekyllforandroid.data.PostsDbHelper;
 import gr.tsagi.jekyllforandroid.utils.FetchPostsTask;
 
 
@@ -143,34 +139,6 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
             outState.putInt(SELECTED_KEY, mPosition);
         }
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        // Inflate the menu; this adds items to the action bar
-        // if it is present.
-        inflater.inflate(R.menu.post_list, menu);
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.drop_tables:
-                dropTables();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void dropTables () {
-        PostsDbHelper postsDbHelper = new PostsDbHelper(getActivity());
-        postsDbHelper.dropTables();
     }
 
     @Override

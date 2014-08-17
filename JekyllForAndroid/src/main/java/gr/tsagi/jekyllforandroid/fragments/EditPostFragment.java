@@ -37,7 +37,7 @@ import gr.tsagi.jekyllforandroid.activities.PreviewMarkdownActivity;
 import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
-import gr.tsagi.jekyllforandroid.github.GithubPush;
+import gr.tsagi.jekyllforandroid.utils.GithubPush;
 
 public class EditPostFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 

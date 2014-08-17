@@ -35,6 +35,9 @@ public class PostsProvider extends ContentProvider {
 
     private static final SQLiteQueryBuilder sParametersQueryBuilder;
 
+    // TODO: select tags.tagname as tagname from posts cross join tags where posts
+    // .id=5;
+
     static{
         sParametersQueryBuilder = new SQLiteQueryBuilder();
         sParametersQueryBuilder.setTables(

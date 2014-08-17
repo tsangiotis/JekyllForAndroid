@@ -9,18 +9,11 @@ import android.webkit.WebView;
 
 import com.commonsware.cwac.anddown.AndDown;
 
-import gr.tsagi.jekyllforandroid.utils.ImmersiveView;
-import gr.tsagi.jekyllforandroid.utils.TranslucentBars;
-
 public class PreviewMarkdownActivity extends Activity {
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        new TranslucentBars(this).tint(false);
-        new ImmersiveView(this);
 
         WebView webview = new WebView(this);
         WebSettings settings = webview.getSettings();

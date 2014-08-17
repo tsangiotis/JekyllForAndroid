@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
@@ -24,12 +23,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import de.cketti.library.changelog.ChangeLog;
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.adapters.NavDrawerListAdapter;
-import gr.tsagi.jekyllforandroid.fragments.DraftsListFragment;
 import gr.tsagi.jekyllforandroid.fragments.PostsListFragment;
 import gr.tsagi.jekyllforandroid.fragments.PrefsFragment;
+import gr.tsagi.jekyllforandroid.utils.FetchPostsTask;
 import gr.tsagi.jekyllforandroid.utils.NavDrawerItem;
 
 /**
@@ -38,10 +36,16 @@ import gr.tsagi.jekyllforandroid.utils.NavDrawerItem;
 
 public class PostsListActivity extends FragmentActivity {
 
+    private static final String LOG_TAG = PostsListActivity.class.getSimpleName();
+
+    public static final String POST_STATUS = "post_status";
+
     String mUsername;
     String mToken;
     String mRepo;
     SharedPreferences settings;
+
+    FetchPostsTask fetchPostsTask;
 
     private String[] mNavTitles;
 
@@ -49,8 +53,6 @@ public class PostsListActivity extends FragmentActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-
-    private TypedArray navMenuIcons;
 
     private ListView mDrawerList;
 
@@ -60,37 +62,28 @@ public class PostsListActivity extends FragmentActivity {
         setContentView(R.layout.activity_posts_list);
 
         restorePreferences();
-
         DrawerSetup();
-
-        ChangeLog cl = new ChangeLog(this);
-        if (cl.isFirstRun() && !mToken.equals("")) {
-            logoutPropositionDialog();
-        }
-
-//        new TranslucentBars(this).tint(true);
+        updateList();
 
         if (mToken.equals("")) {
             login();
         }
 
-        if (mRepo.isEmpty()) {
+        if (mRepo.isEmpty() && !mToken.equals("")) {
             Toast.makeText(PostsListActivity.this,
                     "There is something wrong with your jekyll repo",
                     Toast.LENGTH_LONG).show();
             login();
         } else {
+            // Select default screen.
             selectItem(0);
         }
-        //Set default screen
+
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        restorePreferences();
-        DrawerSetup();
-        selectItem(0);
+    private void updateList() {
+        fetchPostsTask = new FetchPostsTask(this);
+        fetchPostsTask.execute();
     }
 
     @Override
@@ -104,7 +97,7 @@ public class PostsListActivity extends FragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar
         // if it is present.
-        getMenuInflater().inflate(R.menu.posts_list, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         // Just for the logout
         return true;
     }
@@ -142,12 +135,10 @@ public class PostsListActivity extends FragmentActivity {
 
         mDrawerTitle = getResources().getString(R.string.app_name);
 
-        navMenuIcons = getResources()
+        final TypedArray navMenuIcons = getResources()
                 .obtainTypedArray(R.array.nav_drawer_icons_dark);
         ArrayList<NavDrawerItem> navDrawerItems;
         NavDrawerListAdapter adapter;
-
-        Log.d("Resources", String.valueOf(navMenuIcons.getIndexCount()));
 
         navDrawerItems = new ArrayList<NavDrawerItem>();
 
@@ -201,6 +192,7 @@ public class PostsListActivity extends FragmentActivity {
         @Override
         public void onItemClick(AdapterView parent, View view,
                                 int position, long id) {
+            Log.d(LOG_TAG, "clicked position");
             selectItem(position);
         }
     }
@@ -214,33 +206,20 @@ public class PostsListActivity extends FragmentActivity {
         // position
 
         Fragment fragment = null;
-        PreferenceFragment prefsFragment = null;
+        Bundle data = new Bundle();
+        data.putInt(PostsListActivity.POST_STATUS, position);
 
         switch (position) {
-
-
             case 0:
                 try {
                     fragment = new PostsListFragment();
-                    Bundle args = new Bundle();
-                    args.putInt(PostsListFragment.ARG_PDSTATUS, position);
-                    args.putString(PostsListFragment.ARG_REPO, mRepo);
-                    if (args.size() != 0) {
-                        fragment.setArguments(args);
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case 1:
                 try {
-                    fragment = new DraftsListFragment();
-                    Bundle args = new Bundle();
-                    args.putInt(PostsListFragment.ARG_PDSTATUS, position);
-                    args.putString(PostsListFragment.ARG_REPO, mRepo);
-                    if (args.size() != 0) {
-                        fragment.setArguments(args);
-                    }
+                    fragment = new PostsListFragment();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -254,6 +233,7 @@ public class PostsListActivity extends FragmentActivity {
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
         if (position != 2) {
+            fragment.setArguments(data);
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragment)
                     .commit();
@@ -264,7 +244,7 @@ public class PostsListActivity extends FragmentActivity {
         setTitle(mNavTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
 
-}
+    }
 
     @Override
     public void setTitle(CharSequence title) {
@@ -305,43 +285,6 @@ public class PostsListActivity extends FragmentActivity {
                         // User clicked OK button
                         // Clear credentials and Drafts
                         login();
-                    }
-                }
-        );
-        builder.setNegativeButton(R.string.cancel,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                }
-        );
-
-        // Create the AlertDialog
-        AlertDialog dialog = builder.create();
-
-        // Show it
-        dialog.show();
-
-    }
-
-    public void logoutPropositionDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // Shared preferences and Intent settings
-        // before logout ask user and remind him any draft posts
-
-        final SharedPreferences sharedPreferences = getSharedPreferences(
-                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
-
-
-        builder.setMessage("If you have problems posting, please logout and login again.");
-
-        // Add the buttons
-        builder.setPositiveButton("Logout",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                        logoutDialog();
                     }
                 }
         );

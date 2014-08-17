@@ -125,8 +125,8 @@ public class LoginActivity extends Activity {
         @Override
         protected JSONObject doInBackground(String... args) {
             GetAccessToken jParser = new GetAccessToken();
-            JSONObject json = jParser.gettoken(TOKEN_URL, Code, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, GRANT_TYPE);
-            return json;
+            return jParser.gettoken(TOKEN_URL, Code, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI,
+                    GRANT_TYPE);
         }
 
         @Override
@@ -139,7 +139,7 @@ public class LoginActivity extends Activity {
                     auth.setText("Authenticated");
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("user_status", tok);
-                    editor.commit();
+                    editor.apply();
                     new UserGet().execute();
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block

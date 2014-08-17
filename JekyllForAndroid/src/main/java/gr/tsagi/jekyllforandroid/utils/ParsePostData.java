@@ -1,88 +1,257 @@
 package gr.tsagi.jekyllforandroid.utils;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.util.Log;
+import android.database.Cursor;
+import android.util.Base64;
 
-import org.json.JSONArray;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.Map;
 
-import gr.tsagi.jekyllforandroid.activities.PostsListActivity;
+import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
+import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
+import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
+
 
 /**
- * Created by tsagi on 1/30/14.
+ * Created by tsagi on 8/15/14.
  */
+public class ParsePostData {
 
-public class ParsePostData extends AsyncTask<Object, Boolean, String> {
+    private final String LOG_TAG = ParsePostData.class.getSimpleName();
+    private final Context mContext;
 
-    PostsListActivity postsListActivity;
-
-    @Override
-    protected String doInBackground(Object... params) {
-        String serviceUrl = (String) params[0];
-        postsListActivity = (PostsListActivity) params[1];
-
-        BasicWebService webService = new BasicWebService(serviceUrl);
-        return webService.webGetJson();
+    public ParsePostData(Context context) {
+        mContext = context;
     }
 
-    @Override
-    protected void onPostExecute(String response) {
-        Map<String, Object> result = new HashMap<String, Object>();
 
-        SharedPreferences settings = postsListActivity.getSharedPreferences(
-                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
+    final String JK_TITLE = "title";
+    final String JK_CATEGORY = "category";
+    final String JK_TAGS = "tags";
 
-        String source;
-        if(response.equals("404"))
-            result.put("error", "There was an error");
-        if(response.equals("IOerror")){
-            source = settings.getString("old_json", "{\"posts\":[{\"url\":\"\",\"title\":" +
-                    "\"No Connection and no old data available\",\"id\": \"nodata\"," +
-                    "\"published_on\":\"Tried getting online?\"}]}");
-        }
-        else{
-            source = response;
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("old_json", response);
-            editor.apply();
-        }
-        if(!response.equals("404")){
-            try{
-                String subdir = settings.getString("posts_subdir", "");
-                if(!subdir.equals(""))
-                    subdir = subdir +"/";
-                HtmlToJson jsonResult = new HtmlToJson(
-                        settings.getString("user_login", ""),
-                        settings.getString("user_repo", ""),
-                        subdir);
-                JSONArray jsonArray = jsonResult.getPostsJson(source);
-                if(jsonArray != null){
-                    result.put("postsList", jsonResult.getPostsArray(jsonArray));
-                    result.put("dates", jsonResult.getDates(jsonArray));
-                    result.put("urls", jsonResult.getUrls(jsonArray));
+    /**
+     * Helper method to handle insertion of a new location in the weather database.
+     *
+     * @param tags the String array of tags for this post.
+     */
+    private void addTags(String tags, String id) {
+
+        ContentValues tagValues = new ContentValues();
+
+        // First, check if the post exists in the db
+        Cursor cursorId = mContext.getContentResolver().query(
+                TagEntry.CONTENT_URI,
+                new String[]{TagEntry.COLUMN_POST_ID},
+                TagEntry.COLUMN_POST_ID + " = ?",
+                new String[]{id},
+                null);
+
+        Cursor cursorTags = mContext.getContentResolver().query(
+                TagEntry.CONTENT_URI,
+                new String[]{TagEntry.COLUMN_TAG},
+                TagEntry.COLUMN_TAG + " = ?",
+                new String[]{tags},
+                null);
+
+        if (cursorId.moveToFirst()) {
+            cursorId.close();
+            if (!cursorTags.moveToFirst()) {
+                cursorTags.close();
+                ContentValues updateValues = new ContentValues();
+                updateValues.put(TagEntry.COLUMN_TAG, tags);
+                if (updateValues.size() > 0) {
+                    mContext.getContentResolver().update(TagEntry.CONTENT_URI, updateValues,
+                            TagEntry.COLUMN_POST_ID + " = \"" + id + "\"", null);
                 }
-                else{
-                    Log.e("JsonArrayNull", null);
-                }
+
             }
-            catch(Exception e)
-            {
-                Log.d("Error: ", " " + e.getMessage());
-            }
+        } else {
+            cursorId.close();
+            cursorTags.close();
+            tagValues.put(TagEntry.COLUMN_POST_ID, id);
+            tagValues.put(TagEntry.COLUMN_TAG, tags);
+
+            mContext.getContentResolver().insert(TagEntry.CONTENT_URI, tagValues);
         }
-        register(result);
 
     }
 
-    private void register(Map<String,Object> result){
-        BusProvider.getInstance().register(this);
-        BusProvider.getInstance().post(result);
-        BusProvider.getInstance().unregister(this);
+    /**
+     * Helper method to handle insertion of a new location in the weather database.
+     *
+     * @param category The category name.
+     * @return the row ID of the added location.
+     */
+    private void addCategory(String category, String id) {
+
+        ContentValues tagValues = new ContentValues();
+
+        // First, check if the post exists in the db
+        Cursor cursorId = mContext.getContentResolver().query(
+                CategoryEntry.CONTENT_URI,
+                new String[]{CategoryEntry.COLUMN_POST_ID},
+                CategoryEntry.COLUMN_POST_ID + " = ?",
+                new String[]{id},
+                null);
+
+        Cursor cursorCategory = mContext.getContentResolver().query(
+                CategoryEntry.CONTENT_URI,
+                new String[]{CategoryEntry.COLUMN_CATEGORY},
+                CategoryEntry.COLUMN_CATEGORY + " = ?",
+                new String[]{category},
+                null);
+
+        if (cursorId.moveToFirst()) {
+            cursorId.close();
+            if (!cursorCategory.moveToFirst()) {
+                cursorCategory.close();
+                ContentValues updateValues = new ContentValues();
+                updateValues.put(CategoryEntry.COLUMN_CATEGORY, category);
+                if (updateValues.size() > 0) {
+                    mContext.getContentResolver().update(CategoryEntry.CONTENT_URI, updateValues,
+                            CategoryEntry.COLUMN_POST_ID + " = \"" + id + "\"", null);
+                }
+
+            }
+        } else {
+            cursorId.close();
+            cursorCategory.close();
+            tagValues.put(CategoryEntry.COLUMN_POST_ID, id);
+            tagValues.put(CategoryEntry.COLUMN_CATEGORY, category);
+
+            mContext.getContentResolver().insert(CategoryEntry.CONTENT_URI, tagValues);
+
+        }
+
+    }
+
+
+    public ContentValues getDataFromContent(String id, String contentBytes, int type) {
+
+        // Get and insert the new posts information into the database
+        String postContent = null;
+
+        // Blobs return with Base64 encoding so we have to UTF-8 them.
+        byte[] bytes = Base64.decode(contentBytes, Base64.DEFAULT);
+        try {
+            postContent = new String(bytes, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        InputStream is;
+        BufferedReader r;
+
+        is = new ByteArrayInputStream(postContent.getBytes());
+        // read it with BufferedReader
+        r = new BufferedReader(new InputStreamReader(is));
+        String line;
+
+        int yaml_dash = 0;
+        String yamlStr = null;
+        try {
+            while ((line = r.readLine()) != null) {
+                if (line.equals("---")) {
+                    yaml_dash++;
+                }
+                if (yaml_dash < 2) {
+                    if (!line.equals("---"))
+                        yamlStr = yamlStr + line + "\n";
+                }
+                if (yaml_dash >= 2) {
+                    if (!line.equals("---"))
+                        if (line.equals(""))
+                            stringBuilder.append("\n");
+                        else
+                            stringBuilder.append(line);
+                }
+            }
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        String content = stringBuilder.toString();
+
+        Yaml yaml = new Yaml();
+
+        HashMap<String, String[]> map = (HashMap<String, String[]>) yaml.load(yamlStr);
+        HashMap<String, String> postmap = new HashMap<String, String>();
+
+        postmap.put("title", String.valueOf(map.get("title")));
+        postmap.put("category", String.valueOf(map.get("category")));
+        postmap.put("tags", String.valueOf(map.get("tags")).replace("[", "").replace("]", ""));
+        postmap.put("content", content);
+
+
+        String title = postmap.get(JK_TITLE);
+        String tags = postmap.get(JK_TAGS);
+        String category = postmap.get(JK_CATEGORY);
+
+        long date = 0;
+
+        if (type == 0) {
+            int i = id.indexOf('-', 1 + id.indexOf('-', 1 + id.indexOf('-')));
+            date = Long.parseLong(id.substring(0, i).replace("-", ""));
+        }
+
+        addTags(tags, id);
+        addCategory(category, id);
+
+        // First, check if the post exists in the db
+        Cursor cursorId = mContext.getContentResolver().query(
+                PostEntry.CONTENT_URI,
+                new String[]{PostEntry.COLUMN_POST_ID},
+                PostEntry.COLUMN_POST_ID + " = ?",
+                new String[]{id},
+                null);
+
+        Cursor cursorContent = mContext.getContentResolver().query(
+                PostEntry.CONTENT_URI,
+                new String[]{PostEntry.COLUMN_CONTENT},
+                PostEntry.COLUMN_CONTENT + " = ?",
+                new String[]{content},
+                null);
+
+        ContentValues postValues = new ContentValues();
+
+        if (cursorId.moveToFirst()) {
+            cursorId.close();
+            if (!cursorContent.moveToFirst()) {
+                cursorContent.close();
+                ContentValues updateValues = new ContentValues();
+                updateValues.put(PostEntry.COLUMN_CONTENT, content);
+                if (updateValues.size() > 0) {
+                    mContext.getContentResolver().update(PostEntry.CONTENT_URI, updateValues,
+                            PostEntry.COLUMN_POST_ID + " = \"" + id + "\"", null);
+                }
+
+            }
+        } else {
+            cursorId.close();
+            cursorContent.close();
+
+            postValues.put(PostEntry.COLUMN_TITLE, title);
+            postValues.put(PostEntry.COLUMN_DATETEXT, date);
+            postValues.put(PostEntry.COLUMN_DRAFT, type);
+            postValues.put(PostEntry.COLUMN_CONTENT, content);
+            postValues.put(PostEntry.COLUMN_POST_ID, id);
+
+        }
+
+        return postValues;
+
     }
 
 }
-

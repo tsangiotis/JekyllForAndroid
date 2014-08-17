@@ -7,7 +7,6 @@ import android.preference.PreferenceFragment;
 
 import gr.tsagi.jekyllforandroid.R;
 
-
 /**
  * Created by tsagi on 9/9/13.
  */

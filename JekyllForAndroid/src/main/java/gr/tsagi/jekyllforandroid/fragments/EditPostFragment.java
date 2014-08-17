@@ -304,7 +304,7 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
     public void previewMarkdown() {
 
         final String content = mContent.getText().toString().trim();
-        
+
         if (!content.isEmpty()) {
             Intent myIntent = new Intent(getActivity(), PreviewMarkdownActivity.class);
             myIntent.putExtra("content", content);

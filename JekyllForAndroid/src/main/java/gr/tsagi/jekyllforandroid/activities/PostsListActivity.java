@@ -25,9 +25,9 @@ import java.util.ArrayList;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.adapters.NavDrawerListAdapter;
-import gr.tsagi.jekyllforandroid.fragments.DraftsListFragment;
 import gr.tsagi.jekyllforandroid.fragments.PostsListFragment;
 import gr.tsagi.jekyllforandroid.fragments.PrefsFragment;
+import gr.tsagi.jekyllforandroid.utils.FetchPostsTask;
 import gr.tsagi.jekyllforandroid.utils.NavDrawerItem;
 
 /**
@@ -38,10 +38,14 @@ public class PostsListActivity extends FragmentActivity {
 
     private static final String LOG_TAG = PostsListActivity.class.getSimpleName();
 
+    public static final String POST_STATUS = "post_status";
+
     String mUsername;
     String mToken;
     String mRepo;
     SharedPreferences settings;
+
+    FetchPostsTask fetchPostsTask;
 
     private String[] mNavTitles;
 
@@ -58,14 +62,14 @@ public class PostsListActivity extends FragmentActivity {
         setContentView(R.layout.activity_posts_list);
 
         restorePreferences();
-
         DrawerSetup();
+        updateList();
 
         if (mToken.equals("")) {
             login();
         }
 
-        if (mRepo.isEmpty()) {
+        if (mRepo.isEmpty() && !mToken.equals("")) {
             Toast.makeText(PostsListActivity.this,
                     "There is something wrong with your jekyll repo",
                     Toast.LENGTH_LONG).show();
@@ -75,6 +79,11 @@ public class PostsListActivity extends FragmentActivity {
             selectItem(0);
         }
 
+    }
+
+    private void updateList() {
+        fetchPostsTask = new FetchPostsTask(this);
+        fetchPostsTask.execute();
     }
 
     @Override
@@ -197,6 +206,8 @@ public class PostsListActivity extends FragmentActivity {
         // position
 
         Fragment fragment = null;
+        Bundle data = new Bundle();
+        data.putInt(PostsListActivity.POST_STATUS, position);
 
         switch (position) {
             case 0:
@@ -208,7 +219,7 @@ public class PostsListActivity extends FragmentActivity {
                 break;
             case 1:
                 try {
-                    fragment = new DraftsListFragment();
+                    fragment = new PostsListFragment();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -222,6 +233,7 @@ public class PostsListActivity extends FragmentActivity {
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
         if (position != 2) {
+            fragment.setArguments(data);
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragment)
                     .commit();

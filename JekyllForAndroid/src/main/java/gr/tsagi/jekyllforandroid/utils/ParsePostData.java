@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Base64;
-import android.util.Log;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -45,8 +44,6 @@ public class ParsePostData {
      */
     private void addTags(String tags, String id) {
 
-        Log.d(LOG_TAG, "All Tags: " + tags);
-
         ContentValues tagValues = new ContentValues();
 
         // First, check if the post exists in the db
@@ -73,9 +70,6 @@ public class ParsePostData {
                 if (updateValues.size() > 0) {
                     mContext.getContentResolver().update(TagEntry.CONTENT_URI, updateValues,
                             TagEntry.COLUMN_POST_ID + " = \"" + id + "\"", null);
-                    Log.d(LOG_TAG, "Updated Tag Value.");
-                } else {
-                    Log.d(LOG_TAG, "No Values to insert.");
                 }
 
             }
@@ -86,9 +80,6 @@ public class ParsePostData {
             tagValues.put(TagEntry.COLUMN_TAG, tags);
 
             mContext.getContentResolver().insert(TagEntry.CONTENT_URI, tagValues);
-
-            Log.d(LOG_TAG, "Inserted Tag Value.");
-
         }
 
     }
@@ -127,9 +118,6 @@ public class ParsePostData {
                 if (updateValues.size() > 0) {
                     mContext.getContentResolver().update(CategoryEntry.CONTENT_URI, updateValues,
                             CategoryEntry.COLUMN_POST_ID + " = \"" + id + "\"", null);
-                    Log.d(LOG_TAG, "Updated Category Value.");
-                } else {
-                    Log.d(LOG_TAG, "No Values to insert.");
                 }
 
             }
@@ -141,19 +129,12 @@ public class ParsePostData {
 
             mContext.getContentResolver().insert(CategoryEntry.CONTENT_URI, tagValues);
 
-            Log.d(LOG_TAG, "Inserted Category Value.");
-
         }
 
     }
 
 
     public ContentValues getDataFromContent(String id, String contentBytes, int type) {
-
-        // If it is not specified if it is draft or not put it to drafts (drafts = 1)
-        if (type > 1) {
-            type = 1;
-        }
 
         // Get and insert the new posts information into the database
         String postContent = null;
@@ -218,9 +199,12 @@ public class ParsePostData {
         String tags = postmap.get(JK_TAGS);
         String category = postmap.get(JK_CATEGORY);
 
+        long date = 0;
 
-        int i = id.indexOf('-', 1 + id.indexOf('-', 1 + id.indexOf('-')));
-        long date = Long.parseLong(id.substring(0, i).replace("-", ""));
+        if (type == 0) {
+            int i = id.indexOf('-', 1 + id.indexOf('-', 1 + id.indexOf('-')));
+            date = Long.parseLong(id.substring(0, i).replace("-", ""));
+        }
 
         addTags(tags, id);
         addCategory(category, id);
@@ -251,9 +235,6 @@ public class ParsePostData {
                 if (updateValues.size() > 0) {
                     mContext.getContentResolver().update(PostEntry.CONTENT_URI, updateValues,
                             PostEntry.COLUMN_POST_ID + " = \"" + id + "\"", null);
-                    Log.d(LOG_TAG, "Updated Value.");
-                } else {
-                    Log.d(LOG_TAG, "No Values to insert.");
                 }
 
             }

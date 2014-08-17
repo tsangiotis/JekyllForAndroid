@@ -32,7 +32,6 @@ public class PostsContract {
     // as the ContentProvider hasn't been given any information on what to do with "givemeroot".
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_POSTS = "posts";
-    public static final String PATH_TAGS_RELATIONS = "tags_relations";
     public static final String PATH_TAGS = "tags";
     public static final String PATH_CATEGORIES = "categories";
 
@@ -93,16 +92,25 @@ public class PostsContract {
         }
 
         public static Uri buildPublishedPosts() {
-            return CONTENT_URI.buildUpon().build();
+            return CONTENT_URI.buildUpon().appendPath("published").build();
         }
 
-        public static Uri buildPostFromId(String postId) {
+        public static Uri buildDraftPosts() {
+            return CONTENT_URI.buildUpon().appendPath("drafts").build();
+        }
+
+        public static Uri buildPostFromId(String status,String postId) {
             Log.d(LOG_TAG, "postId: " + postId);
-            return CONTENT_URI.buildUpon().appendPath(postId).build();
+            return CONTENT_URI.buildUpon().appendPath(status).appendPath(postId)
+                    .build();
+        }
+
+        public static String getStatusFromUri(Uri uri) {
+            return uri.getPathSegments().get(1);
         }
 
         public static String getIdFromUri(Uri uri) {
-            return uri.getPathSegments().get(1);
+            return uri.getPathSegments().get(2);
         }
 
     }

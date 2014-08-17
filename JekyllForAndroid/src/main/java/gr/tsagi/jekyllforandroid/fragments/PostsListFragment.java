@@ -20,6 +20,7 @@ import android.widget.ListView;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.activities.EditPostActivity;
+import gr.tsagi.jekyllforandroid.activities.PostsListActivity;
 import gr.tsagi.jekyllforandroid.adapters.PostListAdapter;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
 import gr.tsagi.jekyllforandroid.data.PostsDbHelper;
@@ -32,6 +33,8 @@ import gr.tsagi.jekyllforandroid.utils.FetchPostsTask;
 public  class PostsListFragment extends Fragment implements LoaderCallbacks<Cursor> {
 
     private PostListAdapter mPostListAdapter;
+
+    private int status = -1;
 
     private ListView mListView;
     private int mPosition = ListView.INVALID_POSITION;
@@ -53,6 +56,7 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
             PostEntry.COLUMN_POST_ID,
             PostEntry.COLUMN_TITLE,
             PostEntry.COLUMN_DATETEXT,
+            PostEntry.COLUMN_DRAFT
     };
 
 
@@ -61,20 +65,9 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
     public static final int COL_POST_ID = 1;
     public static final int COL_POST_TITLE = 2;
     public static final int COL_POST_DATE = 3;
+    public static final int COL_POST_DRAFT = 4;
 
     FetchPostsTask fetchPostsTask;
-
-    /**
-     * A callback interface that all activities containing this fragment must
-     * implement. This mechanism allows activities to be notified of item
-     * selections.
-     */
-    public interface Callback {
-        /**
-         * DetailFragmentCallback for when an item has been selected.
-         */
-        public void onItemSelected(String date);
-    }
 
     public PostsListFragment() {
         // Empty constructor required for fragment subclasses
@@ -88,8 +81,10 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
 
         Log.d("PostsListFragment", "Creating view");
 
-        updateList();
-
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            status = arguments.getInt(PostsListActivity.POST_STATUS);
+        }
         // The ArrayAdapter will take data from a source and
         // use it to populate the ListView it's attached to.
         mPostListAdapter = new PostListAdapter(getActivity(), null, 0);
@@ -106,7 +101,8 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
                 if (cursor != null && cursor.moveToPosition(position)) {
                     Intent intent = new Intent(getActivity(), EditPostActivity.class)
                             .putExtra(EditPostActivity.POST_ID,
-                                    cursor.getString(COL_POST_ID));
+                                    cursor.getString(COL_POST_ID))
+                            .putExtra(EditPostActivity.POST_STATUS, cursor.getInt(COL_POST_DRAFT));
                     startActivity(intent);
                 }
             }
@@ -126,11 +122,6 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
         return rootView;
     }
 
-    private void updateList() {
-        fetchPostsTask = new FetchPostsTask(getActivity());
-        fetchPostsTask.execute("p");
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(LIST_LOADER, null, this);
@@ -141,12 +132,6 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
     public void onResume() {
         super.onResume();
         getLoaderManager().restartLoader(LIST_LOADER, null, this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        fetchPostsTask.cancel(true);
     }
 
     @Override
@@ -198,9 +183,13 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
         // Only return data after today.
 
         // Sort order:  Descending, by date.
-        String sortOrder = PostEntry.COLUMN_DATETEXT + " DESC";
+        String sortOrder = PostEntry.COLUMN_POST_ID + " DESC";
+        Uri postsUri;
 
-        Uri postsUri = PostEntry.buildPublishedPosts();
+        if(status == 0)
+            postsUri = PostEntry.buildPublishedPosts();
+        else
+            postsUri = PostEntry.buildDraftPosts();
 
         // Now create and return a CursorLoader that will take care of
         // creating a Cursor for the data being displayed.

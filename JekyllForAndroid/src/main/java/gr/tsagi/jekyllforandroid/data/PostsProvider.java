@@ -27,6 +27,7 @@ public class PostsProvider extends ContentProvider {
 
     private static final int POST = 100;
     private static final int POST_ID = 101;
+    private static final int POST_STATUS = 102;
     private static final int CATEGORY = 200;
     private static final int CATEGORY_PER_POST = 201;
     private static final int TAG = 300;
@@ -55,6 +56,9 @@ public class PostsProvider extends ContentProvider {
     private static final String sPostSelection =
             PostEntry.TABLE_NAME +
                     "." + PostEntry.COLUMN_POST_ID + " = ? ";
+    private static final String sPostStatusSelection =
+            PostEntry.TABLE_NAME +
+                    "." + PostEntry.COLUMN_DRAFT + " = ? ";
 
     private Cursor getPostWithCategoryAndTags(Uri uri, String[] projection, String sortOrder) {
         String id = PostEntry.getIdFromUri(uri);
@@ -66,6 +70,32 @@ public class PostsProvider extends ContentProvider {
         selectionArgs = new String[]{id};
 
         return sParametersQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+    }
+
+    private Cursor sPostsByStatus(Uri uri, String[] projection, String sortOrder) {
+        String status = PostEntry.getStatusFromUri(uri);
+
+        Log.d(LOG_TAG, status);
+
+        if (status.equals("published"))
+            status = "0";
+        else status ="1";
+
+        String[] selectionArgs;
+        String selection;
+
+        selection = sPostStatusSelection;
+        selectionArgs = new String[]{status};
+
+        return mOpenHelper.getReadableDatabase().query(
+                PostEntry.TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,
@@ -87,10 +117,10 @@ public class PostsProvider extends ContentProvider {
 
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, PostsContract.PATH_POSTS, POST);
-        matcher.addURI(authority, PostsContract.PATH_POSTS + "/*", POST_ID);
+        matcher.addURI(authority, PostsContract.PATH_POSTS + "/*", POST_STATUS);
+        matcher.addURI(authority, PostsContract.PATH_POSTS + "/*/*", POST_ID);
 
         matcher.addURI(authority, PostsContract.PATH_TAGS, TAG);
-        matcher.addURI(authority, PostsContract.PATH_TAGS + "/#", TAG_PER_POST);
 
         matcher.addURI(authority, PostsContract.PATH_CATEGORIES, CATEGORY);
         matcher.addURI(authority, PostsContract.PATH_CATEGORIES + "/$", CATEGORY_PER_POST);
@@ -112,9 +142,14 @@ public class PostsProvider extends ContentProvider {
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
             // "posts/*"
+            case POST_STATUS: {
+                retCursor = sPostsByStatus(uri, projection, sortOrder);
+                break;
+            }
+            // "posts/*/*"
             case POST_ID: {
                 retCursor = getPostWithCategoryAndTags(uri, projection, sortOrder);
-                dumpCursor(retCursor);
+//                dumpCursor(retCursor);
                 break;
             }
             // "post"
@@ -159,6 +194,7 @@ public class PostsProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
+//        dumpCursor(retCursor);
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return retCursor;
     }

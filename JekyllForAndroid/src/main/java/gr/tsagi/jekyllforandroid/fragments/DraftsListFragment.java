@@ -84,11 +84,6 @@ public  class DraftsListFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        treeGet.cancel(true);
-    }
 
     private class TreeGet extends AsyncTask<Void, Void, Void> {
 

@@ -62,8 +62,11 @@ public class PostListAdapter extends CursorAdapter {
 
         // Read date from cursor
         String dateString = cursor.getString(PostsListFragment.COL_POST_DATE);
-        // Find TextView and set formatted date on it
-        viewHolder.dateView.setText(Utility.getFriendlyDayString(context, dateString));
 
+        // Find TextView and set formatted date on it
+        if (!dateString.equals("0"))
+            viewHolder.dateView.setText(Utility.getFriendlyDayString(context, dateString));
+        else
+            viewHolder.dateView.setText("");
     }
 }

@@ -32,7 +32,6 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
     RepositoryService repositoryService;
     CommitService commitService;
     DataService dataService;
-    int type;
 
     public FetchPostsTask(Context context) {
 
@@ -53,18 +52,18 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
     /**
      * Take the List with the posts and parse the posts for data
      */
-    private void getPostDataFromList(Repository repository, List<TreeEntry> postslist) {
+    private void getPostDataFromList(Repository repository, List<TreeEntry> postslist, int type) {
 
         // Get and insert the new posts information into the database
         Vector<ContentValues> contentValuesVector = new Vector<ContentValues>(postslist.size());
-        Log.d(LOG_TAG, "Number of posts: " + String.valueOf(postslist.size()));
+//        Log.d(LOG_TAG, "Number of posts: " + String.valueOf(postslist.size()));
         for (TreeEntry post : postslist) {
 
             String filename = post.getPath();
             String[] filenameParts = filename.split("\\.");
             String id = filenameParts[0];
 
-            Log.d(LOG_TAG, "TreeSub: " + id);
+//            Log.d(LOG_TAG, "TreeSub: " + id);
             String postSha = post.getSha();
             Blob postBlob = null;
             try {
@@ -80,7 +79,6 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                     blobBytes, type);
             if (postValues.size() >0 )
                 contentValuesVector.add(postValues);
-
         }
 
         if (contentValuesVector.size() > 0) {
@@ -96,18 +94,6 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
     @Override
     protected Void doInBackground(String... params) {
-
-        String path;
-        String param = params[0];
-
-        if (param.matches("p")) {
-            type = 0;
-            path = "_posts";
-        } else {
-            type = 1;
-            path = "_drafts";
-        }
-
 
         Log.d(LOG_TAG, "Background started");
 
@@ -129,18 +115,27 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
             // TODO: Refactor naming here.
             List<TreeEntry> list = dataService.getTree(repository, treeSha).getTree();
+            // Position of Posts.
+            String pPos = null;
+            // Position of drafts.
             String dPos = null;
+
             for (TreeEntry aList : list) {
-                if (aList.getPath().equals(path))
+                if (aList.getPath().equals("_posts"))
+                    pPos = aList.getSha();
+                if (aList.getPath().equals("_drafts"))
                     dPos = aList.getSha();
             }
 
-            List<TreeEntry> postslist = dataService.getTree(repository, dPos).getTree();
-            getPostDataFromList(repository, postslist);
+            List<TreeEntry> postslist = dataService.getTree(repository, pPos).getTree();
+            List<TreeEntry> draftslist = dataService.getTree(repository, dPos).getTree();
+            getPostDataFromList(repository, postslist, 0);
+            getPostDataFromList(repository, draftslist, 1);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         return null;
     }

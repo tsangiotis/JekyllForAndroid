@@ -1,5 +1,6 @@
 package gr.tsagi.jekyllforandroid.github;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -21,9 +22,7 @@ import org.eclipse.egit.github.core.service.RepositoryService;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import gr.tsagi.jekyllforandroid.R;
@@ -41,19 +40,22 @@ public class GithubPush {
     private String json;
     private String jsonPath;
 
-    public GithubPush(Context context){
-        SharedPreferences settings = context
+    Activity mActivity;
+
+    public GithubPush(Activity activity){
+        this.mActivity=activity;
+        SharedPreferences settings = mActivity
                 .getSharedPreferences("gr.tsagi.jekyllforandroid",
                         Context.MODE_PRIVATE);
         user = settings.getString("user_login", "");
         token = settings.getString("user_status", "");
         SharedPreferences sharedPref = PreferenceManager
-                .getDefaultSharedPreferences(context);
+                .getDefaultSharedPreferences(mActivity);
         dir = sharedPref.getString("posts_subdir", "");
         if(!dir.equals(""))
             dir = dir +"/";
         repo = settings.getString("user_repo", "");
-        jsonPath = context.getResources()
+        jsonPath = mActivity.getResources()
                 .getString(R.string.json_path);
     }
 
@@ -76,7 +78,7 @@ public class GithubPush {
         String path = date + "-" + title.toLowerCase().replace(' ', '-')
                 .replace(",","").replace("!","").replace(".","") + ".md";
         path = "_posts/" + dir + path;
-        String commitMessage = "Update/new Post from Jekyll for Android";
+        String commitMessage = "Update/New Post from Jekyll for Android";
         new PushFile().execute(content, path, commitMessage);
 
     }
@@ -87,7 +89,7 @@ public class GithubPush {
         String path = title.toLowerCase().replace(' ', '-')
                 .replace(",","").replace("!","").replace(".","") + ".md";
         path = "_drafts/" + dir + path;
-        String commitMessage = "Update/new Draft from Jekyll for Android";
+        String commitMessage = "Update/New Draft from Jekyll for Android";
         new PushFile().execute(content, path, commitMessage);
 
     }
@@ -112,7 +114,7 @@ public class GithubPush {
                 DataService dataService = new DataService(client);
 
                 // get some sha's from current state in git
-                Log.d("repository", user + "  " + repo);
+                Log.d("repository", user + " " + repo);
                 Repository repository =  repositoryService
                         .getRepository(user, repo);
                 String baseCommitSha = repositoryService
@@ -175,9 +177,9 @@ public class GithubPush {
         }
 
         @Override
-        protected void onPostExecute(String res) {
-            Map<String, Object> result = new HashMap<String, Object>();
-            result.put("result", res);
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            mActivity.finish();
         }
     }
 }

@@ -37,7 +37,6 @@ public class EditPostActivity extends Activity {
                 .add(R.id.edit_post_container, fragment)
                 .commit();
 
-
         ActionBar actionBar = getActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);

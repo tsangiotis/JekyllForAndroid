@@ -1,6 +1,7 @@
 package gr.tsagi.jekyllforandroid.utils;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.service.RepositoryService;
@@ -16,11 +17,9 @@ import java.util.concurrent.ExecutionException;
 public class JekyllRepo {
 
     public String getName(String user){
-        String name;
 
         try{
-            name = new CheckAllRepos().execute(user).get();
-            return name;
+            return new CheckAllRepos().execute(user).get();
         }catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -31,24 +30,35 @@ public class JekyllRepo {
     }
 
     private class CheckAllRepos extends AsyncTask<String, Void, String> {
-        @Override
+
         protected String doInBackground(String... params) {
 
-        String user = params[0];
+            String user = params[0];
+            String name = null;
 
-        RepositoryService repositoryService = new RepositoryService();
+            RepositoryService repositoryService = new RepositoryService();
 
-        List<Repository> repositories = null;
-        try {
-            repositories = repositoryService.getRepositories(user);
-        } catch (IOException e) {
-            e.printStackTrace();
+            List<Repository> repositories = null;
+            try {
+                repositories = repositoryService.getRepositories(user);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (Repository repository : repositories) {
+                Log.d("JekyllRepo", repository.getName());
+                if (repository.getName().contains(user + ".github.")) {
+                    Log.d("JekyllRepo", "Selected" + repository.getName());
+                    name = repository.getName();
+                    break;
+                }
+                if (repository.getName().contains(user.toLowerCase() + ".github.")) {
+                    Log.d("JekyllRepo", "Selected" + repository.getName());
+                    name = repository.getName();
+                    break;
+                }
+            }
+            return name;
         }
-        for (Repository repository1 : repositories) {
-            if(repository1.getName().contains(user + ".github."))
-                return repository1.getName();
-        }
-        return null;
-        }
+
     }
 }

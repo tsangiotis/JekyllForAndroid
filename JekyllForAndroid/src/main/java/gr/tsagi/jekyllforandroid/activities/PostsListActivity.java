@@ -63,20 +63,19 @@ public class PostsListActivity extends FragmentActivity {
 
         restorePreferences();
         DrawerSetup();
-        updateList();
 
         if (mToken.equals("")) {
             login();
         }
-
+        else {
+            // Select default screen.
+            updateList();
+            selectItem(0);
+        }
         if (mRepo.isEmpty() && !mToken.equals("")) {
             Toast.makeText(PostsListActivity.this,
                     "There is something wrong with your jekyll repo",
                     Toast.LENGTH_LONG).show();
-            login();
-        } else {
-            // Select default screen.
-            selectItem(0);
         }
 
     }
@@ -314,7 +313,7 @@ public class PostsListActivity extends FragmentActivity {
     }
 
     private void login() {
-        Intent myIntent = new Intent(PostsListActivity.this,
+        Intent PostListIntent = new Intent(PostsListActivity.this,
                 LoginActivity.class);
         SharedPreferences sharedPreferences = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
@@ -323,7 +322,9 @@ public class PostsListActivity extends FragmentActivity {
         editor.clear();
         editor.commit();
 
-        startActivity(myIntent);
+        startActivity(PostListIntent);
+        this.finish();
+
     }
 }
 

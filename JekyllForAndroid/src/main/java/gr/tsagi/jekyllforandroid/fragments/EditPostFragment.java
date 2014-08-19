@@ -38,6 +38,7 @@ import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
 import gr.tsagi.jekyllforandroid.utils.GithubPush;
+import gr.tsagi.jekyllforandroid.utils.Utility;
 
 public class EditPostFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -304,10 +305,11 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
     public void previewMarkdown() {
 
         final String content = mContent.getText().toString().trim();
+        final String repo = Utility.getRepo(getActivity());
 
         if (!content.isEmpty()) {
             Intent myIntent = new Intent(getActivity(), PreviewMarkdownActivity.class);
-            myIntent.putExtra("content", content);
+            myIntent.putExtra(PreviewMarkdownActivity.POST_CONTENT, content);
             startActivity(myIntent);
         } else
             Toast.makeText(getActivity(), "Nothing to preview", Toast.LENGTH_SHORT).show();

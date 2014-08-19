@@ -154,7 +154,6 @@ public class LoginActivity extends Activity {
 
     private class UserGet extends AsyncTask<Void, Void, Void> {
 
-        String Token = "";
         String user = "";
 
         @Override
@@ -181,6 +180,10 @@ public class LoginActivity extends Activity {
             editor.putString("user_login", user);
             editor.putString("user_repo", repo);
             editor.commit();
+
+            startActivity(new Intent(LoginActivity.this,
+                    PostsListActivity.class));
+
             finish();
         }
     }

@@ -33,11 +33,15 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
     CommitService commitService;
     DataService dataService;
 
+    Utility utility;
+
     public FetchPostsTask(Context context) {
 
         mContext = context;
 
-        final String token = Utility.getToken(context);
+        utility = new Utility(mContext);
+
+        final String token = utility.getToken();
 
         // Start the client
         GitHubClient client = new GitHubClient();
@@ -96,8 +100,8 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         Log.d(LOG_TAG, "Background started");
 
         // TODO: Support subdirectories
-        final String user = Utility.getUser(mContext);
-        final String repo = Utility.getRepo(mContext);
+        final String user = utility.getUser();
+        final String repo = utility.getRepo();
 
         // get some sha's from current state in git
         Log.d(LOG_TAG, user + " - " + repo);
@@ -109,14 +113,14 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                     .getCommit()
                     .getSha();
             // TODO: No sync when the same sha. (Utility class ready for this!)
-            String oldSha = Utility.getBaseCommitSha(mContext);
+            String oldSha = utility.getBaseCommitSha();
 
             if (baseCommitSha.equals(oldSha)) {
                 Log.d(LOG_TAG, "No Sync");
                 this.cancel(true);
             } else {
                 Log.d(LOG_TAG, "Syncing...");
-                Utility.setBaseCommitSha(mContext, baseCommitSha);
+                utility.setBaseCommitSha(baseCommitSha);
             }
 
             final String treeSha = commitService.getCommit(repository, baseCommitSha).getSha();

@@ -1,5 +1,6 @@
 package gr.tsagi.jekyllforandroid.fragments;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,23 +8,29 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewFragment;
 
 import com.commonsware.cwac.anddown.AndDown;
 
+import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.activities.PreviewMarkdownActivity;
 import gr.tsagi.jekyllforandroid.utils.Utility;
 
-public class MarkdownPreviewFragment extends WebViewFragment {
+public class MarkdownPreviewFragment extends Fragment {
 
     private static final String LOG_TAG = MarkdownPreviewFragment.class.getSimpleName();
 
     private String content = "";
-    private String repo = Utility.getRepo(getActivity());
+    private String repo;
+
+    Utility utility;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        utility = new Utility(getActivity());
+
+        repo = utility.getRepo();
 
         if (getArguments() != null) {
             content = getArguments().getString(PreviewMarkdownActivity.POST_CONTENT).replace("{{ " +
@@ -37,8 +44,11 @@ public class MarkdownPreviewFragment extends WebViewFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View rootView = inflater
+                .inflate(R.layout.fragment_markdown_preview, container, false);
 
-        WebView webview = getWebView();
+        WebView webview = (WebView) rootView.findViewById(R.id.markdown_preview_view);
+
         WebSettings settings = webview.getSettings();
         settings.setJavaScriptEnabled(true);
         webview.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
@@ -59,7 +69,7 @@ public class MarkdownPreviewFragment extends WebViewFragment {
 
         webview.loadDataWithBaseURL("file:///android_asset/", htmlData, "text/html", "UTF-8", null);
 
-        return null;
+        return rootView;
     }
 
 

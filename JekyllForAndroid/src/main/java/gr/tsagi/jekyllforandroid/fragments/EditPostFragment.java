@@ -62,6 +62,8 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
     private EditText mCategory;
     private EditText mContent;
 
+    Utility utility;
+
     public EditPostFragment() {
         setHasOptionsMenu(true);
     }
@@ -69,6 +71,8 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        utility = new Utility(getActivity());
 
         if (getArguments() != null) {
             mPostId = getArguments().getString(EditPostActivity.POST_ID);
@@ -305,7 +309,7 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
     public void previewMarkdown() {
 
         final String content = mContent.getText().toString().trim();
-        final String repo = Utility.getRepo(getActivity());
+        final String repo = utility.getRepo();
 
         if (!content.isEmpty()) {
             Intent myIntent = new Intent(getActivity(), PreviewMarkdownActivity.class);

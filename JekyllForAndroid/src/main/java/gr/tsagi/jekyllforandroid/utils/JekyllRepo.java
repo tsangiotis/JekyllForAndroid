@@ -15,13 +15,13 @@ import java.util.concurrent.ExecutionException;
 
 public class JekyllRepo {
 
-    public String getName(String user){
+    public String getName(String user) {
         String name;
 
-        try{
+        try {
             name = new CheckAllRepos().execute(user).get();
             return name;
-        }catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -34,21 +34,28 @@ public class JekyllRepo {
         @Override
         protected String doInBackground(String... params) {
 
-        String user = params[0];
+            String user = params[0];
+            String name = null;
 
-        RepositoryService repositoryService = new RepositoryService();
+            RepositoryService repositoryService = new RepositoryService();
 
-        List<Repository> repositories = null;
-        try {
-            repositories = repositoryService.getRepositories(user);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (Repository repository1 : repositories) {
-            if(repository1.getName().toLowerCase().contains(user.toLowerCase() + ".github."))
-                return repository1.getName();
-        }
-        return null;
+            List<Repository> repositories = null;
+            try {
+                repositories = repositoryService.getRepositories(user);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (Repository repository : repositories) {
+                if (repository.getName().contains(user + ".github.")) {
+                    name = repository.getName();
+                    break;
+                }
+                if (repository.getName().contains(user.toLowerCase() + ".github.")) {
+                    name = repository.getName();
+                    break;
+                }
+            }
+            return name;
         }
     }
 }

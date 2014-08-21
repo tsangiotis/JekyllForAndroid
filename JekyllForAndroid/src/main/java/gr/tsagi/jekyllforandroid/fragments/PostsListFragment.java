@@ -25,6 +25,8 @@ import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
  */
 public  class PostsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private final static String LOG_TAG = PostsListFragment.class.getSimpleName();
+
     private PostListAdapter mPostListAdapter;
 
     private int status = -1;
@@ -160,6 +162,8 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
         // Sort order:  Descending, by date.
         String sortOrder = PostEntry.COLUMN_POST_ID + " DESC";
         Uri postsUri;
+
+        Log.d(LOG_TAG, String.valueOf(status));
 
         if(status == 0)
             postsUri = PostEntry.buildPublishedPosts();

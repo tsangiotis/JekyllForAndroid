@@ -13,16 +13,15 @@
                   android:divider="?android:attr/dividerHorizontal"
                   android:orientation="horizontal"
                   tools:context="gr.tsagi.jekyllforandroid.activities.PostsListActivity">
-    <fragment
+    <FrameLayout
         android:id="@+id/listview_postslist"
-        android:name="gr.tsagi.jekyllforandroid.fragments.PostsListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
         tools:layout="@layout/fragment_posts_list" />
 
     <FrameLayout
-        android:id="@+id/content_frame"
+        android:id="@+id/markdown_preview_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="4" />

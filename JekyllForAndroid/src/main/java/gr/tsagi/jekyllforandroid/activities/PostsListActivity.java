@@ -1,7 +1,6 @@
 package gr.tsagi.jekyllforandroid.activities;
 
 import android.app.AlertDialog;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -65,7 +64,7 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
         restorePreferences();
         DrawerSetup();
 
-        if (findViewById(R.id.content_frame) != null) {
+        if (findViewById(R.id.markdown_preview_container) != null) {
             // The detail container view will be present only in the large-screen layouts
             // (res/layout-sw600dp). If this view is present, then the activity should be
             // in two-pane mode.
@@ -75,7 +74,7 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
             // fragment transaction.
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, new MarkdownPreviewFragment())
+                        .replace(R.id.markdown_preview_container, new MarkdownPreviewFragment())
                         .commit();
             }
         } else {
@@ -89,7 +88,9 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
             // Select default screen.
             updateList();
             selectItem(0);
+            Log.d(LOG_TAG, "Default item selected!");
         }
+
         if (mRepo.isEmpty() && !mToken.equals("")) {
             Toast.makeText(PostsListActivity.this,
                     "There is something wrong with your jekyll repo",
@@ -242,13 +243,14 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
      */
     private void selectItem(int position) {
 
-        Fragment fragment = new PostsListFragment();
         Bundle data = new Bundle();
         data.putInt(PostsListActivity.POST_STATUS, position);
-        fragment.setArguments(data);
 
-        getSupportFragmentManager()
-                            .findFragmentById(R.id.listview_postslist);
+        PostsListFragment fragment = new PostsListFragment();
+        fragment.setArguments(data);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.listview_postslist, fragment)
+                .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);

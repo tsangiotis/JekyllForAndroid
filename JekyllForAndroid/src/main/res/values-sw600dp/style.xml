@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Style for forecast listview -->
+    <style name="PostsListStyle">
+        <!-- Here it's a stub.  In screens of sufficient width, this style includes modifications
+        for two-pane layout -->
+        <item name="android:choiceMode">singleChoice</item>
+    </style>
+
+</resources>

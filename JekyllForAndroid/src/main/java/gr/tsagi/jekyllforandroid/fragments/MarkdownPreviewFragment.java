@@ -1,7 +1,7 @@
 package gr.tsagi.jekyllforandroid.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +20,6 @@ public class MarkdownPreviewFragment extends Fragment {
     private static final String LOG_TAG = MarkdownPreviewFragment.class.getSimpleName();
 
     private String content = "";
-    private String repo;
 
     Utility utility;
 
@@ -30,7 +29,7 @@ public class MarkdownPreviewFragment extends Fragment {
 
         utility = new Utility(getActivity());
 
-        repo = utility.getRepo();
+        final String repo = utility.getRepo();
 
         if (getArguments() != null) {
             content = getArguments().getString(PreviewMarkdownActivity.POST_CONTENT).replace("{{ " +

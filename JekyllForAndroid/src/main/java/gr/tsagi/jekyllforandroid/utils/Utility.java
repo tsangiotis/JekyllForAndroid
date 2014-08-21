@@ -134,6 +134,7 @@ public class Utility {
                     getFormattedMonthDay(dateStr)));
         } else {
             SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+
             return shortenedDateFormat.format(inputDate);
         }
     }

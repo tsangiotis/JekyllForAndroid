@@ -1,8 +1,7 @@
 package gr.tsagi.jekyllforandroid.activities;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,9 +9,9 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,8 +24,8 @@ import java.util.ArrayList;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.adapters.NavDrawerListAdapter;
+import gr.tsagi.jekyllforandroid.fragments.MarkdownPreviewFragment;
 import gr.tsagi.jekyllforandroid.fragments.PostsListFragment;
-import gr.tsagi.jekyllforandroid.fragments.PrefsFragment;
 import gr.tsagi.jekyllforandroid.utils.FetchPostsTask;
 import gr.tsagi.jekyllforandroid.utils.NavDrawerItem;
 
@@ -34,9 +33,11 @@ import gr.tsagi.jekyllforandroid.utils.NavDrawerItem;
  * Created by tsagi on 9/9/13.
  */
 
-public class PostsListActivity extends FragmentActivity {
+public class PostsListActivity extends ActionBarActivity implements PostsListFragment.Callback {
 
     private static final String LOG_TAG = PostsListActivity.class.getSimpleName();
+
+    private boolean mTwoPane;
 
     public static final String POST_STATUS = "post_status";
 
@@ -63,6 +64,23 @@ public class PostsListActivity extends FragmentActivity {
 
         restorePreferences();
         DrawerSetup();
+
+        if (findViewById(R.id.content_frame) != null) {
+            // The detail container view will be present only in the large-screen layouts
+            // (res/layout-sw600dp). If this view is present, then the activity should be
+            // in two-pane mode.
+            mTwoPane = true;
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new MarkdownPreviewFragment())
+                        .commit();
+            }
+        } else {
+            mTwoPane = false;
+        }
 
         if (mToken.equals("")) {
             login();
@@ -186,6 +204,29 @@ public class PostsListActivity extends FragmentActivity {
                 GravityCompat.START);
     }
 
+    @Override
+    public void onItemSelected(String postId, String content, int postStatus) {
+        if (mTwoPane) {
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            Bundle args = new Bundle();
+            args.putString(PreviewMarkdownActivity.POST_CONTENT, content);
+
+            MarkdownPreviewFragment fragment = new MarkdownPreviewFragment();
+            fragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.markdown_preview_container, fragment)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, EditPostActivity.class)
+                    .putExtra(EditPostActivity.POST_ID, postId)
+                    .putExtra(EditPostActivity.POST_STATUS, postStatus);
+            startActivity(intent);
+        }
+    }
+
     private class DrawerItemClickListener implements
             ListView.OnItemClickListener {
         @Override
@@ -201,42 +242,13 @@ public class PostsListActivity extends FragmentActivity {
      */
     private void selectItem(int position) {
 
-        // Create a new fragment and specify the planet to show based on
-        // position
-
-        Fragment fragment = null;
+        Fragment fragment = new PostsListFragment();
         Bundle data = new Bundle();
         data.putInt(PostsListActivity.POST_STATUS, position);
+        fragment.setArguments(data);
 
-        switch (position) {
-            case 0:
-                try {
-                    fragment = new PostsListFragment();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case 1:
-                try {
-                    fragment = new PostsListFragment();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case 2:
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, new PrefsFragment()).commit();
-                break;
-        }
-
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        if (position != 2) {
-            fragment.setArguments(data);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
-        }
+        getSupportFragmentManager()
+                            .findFragmentById(R.id.listview_postslist);
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
@@ -248,7 +260,7 @@ public class PostsListActivity extends FragmentActivity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setTitle(mTitle);
     }
 
     /**

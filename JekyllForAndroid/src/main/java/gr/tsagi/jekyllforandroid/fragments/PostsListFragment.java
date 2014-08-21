@@ -1,13 +1,12 @@
 package gr.tsagi.jekyllforandroid.fragments;
 
-import android.app.Fragment;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,17 +15,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import gr.tsagi.jekyllforandroid.R;
-import gr.tsagi.jekyllforandroid.activities.EditPostActivity;
 import gr.tsagi.jekyllforandroid.activities.PostsListActivity;
 import gr.tsagi.jekyllforandroid.adapters.PostListAdapter;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
-import gr.tsagi.jekyllforandroid.utils.FetchPostsTask;
 
 
 /**
  * Created by tsagi on 7/5/14.
  */
-public  class PostsListFragment extends Fragment implements LoaderCallbacks<Cursor> {
+public  class PostsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private PostListAdapter mPostListAdapter;
 
@@ -52,24 +49,33 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
             PostEntry.COLUMN_POST_ID,
             PostEntry.COLUMN_TITLE,
             PostEntry.COLUMN_DATETEXT,
+            PostEntry.COLUMN_CONTENT,
             PostEntry.COLUMN_DRAFT
     };
 
 
     // These indices are tied to POSTS_COLUMNS.  If FORECAST_COLUMNS changes, these
     // must change.
+    public static final int COL_ID = 0;
     public static final int COL_POST_ID = 1;
     public static final int COL_POST_TITLE = 2;
     public static final int COL_POST_DATE = 3;
-    public static final int COL_POST_DRAFT = 4;
-
-    FetchPostsTask fetchPostsTask;
+    public static final int COL_POST_CONTENT = 4;
+    public static final int COL_POST_DRAFT = 5;
 
     public PostsListFragment() {
         // Empty constructor required for fragment subclasses
         setHasOptionsMenu(true);
     }
-    
+
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(String postId, String content, int postStatus);
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,7 +93,7 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
 
         View rootView = inflater.inflate(R.layout.fragment_posts_list,
                 container, false);
-        mListView = (ListView) rootView.findViewById(R.id.posts_list);
+        mListView = (ListView) rootView.findViewById(R.id.listview_postslist);
         mListView.setAdapter(mPostListAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -95,11 +101,12 @@ public  class PostsListFragment extends Fragment implements LoaderCallbacks<Curs
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Cursor cursor = mPostListAdapter.getCursor();
                 if (cursor != null && cursor.moveToPosition(position)) {
-                    Intent intent = new Intent(getActivity(), EditPostActivity.class)
-                            .putExtra(EditPostActivity.POST_ID,
-                                    cursor.getString(COL_POST_ID))
-                            .putExtra(EditPostActivity.POST_STATUS, cursor.getInt(COL_POST_DRAFT));
-                    startActivity(intent);
+                    String postid = cursor.getString(COL_POST_ID);
+                    int pstatus = cursor.getInt(COL_POST_DRAFT);
+                    String content = cursor.getString(COL_POST_CONTENT);
+                    ((Callback)getActivity())
+                            .onItemSelected(postid, content, pstatus);
+
                 }
             }
         });

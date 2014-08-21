@@ -93,8 +93,6 @@ dependencies {
     compile 'com.android.support:palette-v7:+'
 
     androidTestCompile 'junit:junit:4.10'
-    androidTestCompile 'org.robolectric:robolectric:2.3+'
-    androidTestCompile 'com.squareup:fest-android:1.0.+'
 
     compile fileTree(dir: 'libs', include: '*.jar')
 }

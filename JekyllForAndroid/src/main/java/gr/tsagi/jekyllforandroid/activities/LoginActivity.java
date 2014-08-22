@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -139,7 +140,11 @@ public class LoginActivity extends Activity {
                     auth.setText("Authenticated");
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("user_status", tok);
-                    editor.apply();
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                        editor.apply();
+                    } else {
+                        editor.commit();
+                    }
                     new UserGet().execute();
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block

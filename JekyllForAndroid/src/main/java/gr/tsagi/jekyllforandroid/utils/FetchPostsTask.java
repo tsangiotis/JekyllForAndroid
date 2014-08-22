@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Vector;
 
 import gr.tsagi.jekyllforandroid.data.PostsContract;
+import gr.tsagi.jekyllforandroid.data.PostsDbHelper;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -65,15 +66,13 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             if (post.getType().equals("blob")) {
 
                 String filename = post.getPath();
-
-                Log.d(LOG_TAG, filename);
                 String[] filenameParts = filename.split("\\.");
                 String id = filenameParts[0];
 
                 String postSha = post.getSha();
                 Blob postBlob = null;
                 try {
-                        postBlob = dataService.getBlob(repository, postSha).setEncoding(Blob.ENCODING_UTF8);
+                    postBlob = dataService.getBlob(repository, postSha).setEncoding(Blob.ENCODING_UTF8);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -86,14 +85,6 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                 if (postValues.size() > 0)
                     contentValuesVector.add(postValues);
 
-                if (contentValuesVector.size() > 0) {
-                    ContentValues[] cvArray = new ContentValues[contentValuesVector.size()];
-                    contentValuesVector.toArray(cvArray);
-                    mContext.getContentResolver().bulkInsert(PostsContract.PostEntry.CONTENT_URI, cvArray);
-                    Log.d(LOG_TAG, "Inserted Values.");
-                } else {
-                    Log.d(LOG_TAG, "No Values to insert.");
-                }
             } else {
                 try {
                     List<TreeEntry> subdir =  dataService.getTree(repository, post.getSha()).getTree();
@@ -104,6 +95,15 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             }
         }
 
+        // this should be outside the loop as it otherwise produces duplicates
+        if (contentValuesVector.size() > 0) {
+            ContentValues[] cvArray = new ContentValues[contentValuesVector.size()];
+            contentValuesVector.toArray(cvArray);
+            mContext.getContentResolver().bulkInsert(PostsContract.PostEntry.CONTENT_URI, cvArray);
+            Log.d(LOG_TAG, "Inserted Values.");
+        } else {
+            Log.d(LOG_TAG, "No Values to insert.");
+        }
     }
 
     @Override
@@ -127,14 +127,15 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             // TODO: No sync when the same sha. (Utility class ready for this!)
             String oldSha = utility.getBaseCommitSha();
 
-//            if (baseCommitSha.equals(oldSha)) {
-//                Log.d(LOG_TAG, "No Sync");
-//                this.cancel(true);
-//                return null;
-//            } else {
-//                Log.d(LOG_TAG, "Syncing...");
-//                utility.setBaseCommitSha(baseCommitSha);
-//            }
+            if (baseCommitSha.equals(oldSha)) {
+                Log.d(LOG_TAG, "No Sync");
+                this.cancel(true);
+                return null;
+            } else {
+                Log.d(LOG_TAG, "Syncing...");
+                new PostsDbHelper(mContext).dropTables();
+                utility.setBaseCommitSha(baseCommitSha);
+            }
 
             final String treeSha = commitService.getCommit(repository, baseCommitSha).getSha();
 

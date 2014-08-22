@@ -12,7 +12,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -142,8 +141,6 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d("PostsListFragment", "Creating view");
-
         Bundle arguments = getArguments();
         if (arguments != null) {
             status = arguments.getInt(PostsListActivity.POST_STATUS);
@@ -164,7 +161,6 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Cursor cursor = mPostListAdapter.getCursor();
-                Log.d(LOG_TAG, "Position: " + position + ", l: " + Long.toString(l));
                 if (cursor != null && cursor.moveToPosition(position)) {
                     String postid = cursor.getString(COL_POST_ID);
                     int pstatus = cursor.getInt(COL_POST_DRAFT);
@@ -254,8 +250,6 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
         // Sort order:  Descending, by date.
         String sortOrder = PostEntry.COLUMN_POST_ID + " DESC";
         Uri postsUri;
-
-        Log.d(LOG_TAG, String.valueOf(status));
 
         if (status == 0)
             postsUri = PostEntry.buildPublishedPosts();

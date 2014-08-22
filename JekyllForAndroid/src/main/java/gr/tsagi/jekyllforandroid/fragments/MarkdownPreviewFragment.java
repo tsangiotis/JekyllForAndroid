@@ -46,10 +46,10 @@ public class MarkdownPreviewFragment extends Fragment {
         View rootView = inflater
                 .inflate(R.layout.fragment_markdown_preview, container, false);
 
+        // Find the webview
         WebView webview = (WebView) rootView.findViewById(R.id.markdown_preview_view);
 
         WebSettings settings = webview.getSettings();
-        settings.setJavaScriptEnabled(true);
         webview.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         webview.getSettings().setLoadWithOverviewMode(true);
         webview.getSettings().setUseWideViewPort(true);

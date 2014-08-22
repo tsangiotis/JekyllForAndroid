@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.adapters.NavDrawerListAdapter;
+import gr.tsagi.jekyllforandroid.data.PostsDbHelper;
 import gr.tsagi.jekyllforandroid.fragments.MarkdownPreviewFragment;
 import gr.tsagi.jekyllforandroid.fragments.PostsListFragment;
 import gr.tsagi.jekyllforandroid.utils.FetchPostsTask;
@@ -375,6 +376,8 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
 
         editor.clear();
         editor.commit();
+
+        new PostsDbHelper(this).dropTables();
 
         startActivity(PostListIntent);
         this.finish();

@@ -3,7 +3,9 @@ package gr.tsagi.jekyllforandroid.activities;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.fragments.EditPostFragment;
@@ -33,12 +35,23 @@ public class EditPostActivity extends ActionBarActivity {
         Fragment fragment = new EditPostFragment();
         fragment.setArguments(arguments);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.edit_post_container, fragment)
                 .commit();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

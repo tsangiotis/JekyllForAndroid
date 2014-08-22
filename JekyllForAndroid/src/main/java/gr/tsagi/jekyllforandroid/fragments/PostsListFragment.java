@@ -1,9 +1,11 @@
 package gr.tsagi.jekyllforandroid.fragments;
 
+import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -29,7 +31,7 @@ import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
 /**
  * Created by tsagi on 7/5/14.
  */
-public  class PostsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class PostsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final static String LOG_TAG = PostsListFragment.class.getSimpleName();
 
@@ -103,12 +105,12 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.action_edit:
-                    ((Callback)getActivity())
+                    ((Callback) getActivity())
                             .onItemEditSelected(postid, content, pstatus);
                     mode.finish(); // Action picked, so close the CAB
                     return true;
                 case R.id.action_delete:
-                    ((Callback)getActivity())
+                    ((Callback) getActivity())
                             .onItemDeleteSelected(postid, content, pstatus);
                     mode.finish(); // Action picked, so close the CAB
                     return true;
@@ -129,10 +131,11 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
          * PreviewCallback for when an item has been selected.
          */
         public void onItemSelected(String postId, String content, int postStatus);
+
         public void onItemEditSelected(String postId, String content, int postStatus);
+
         public void onItemDeleteSelected(String postId, String content, int postStatus);
     }
-
 
 
     @Override
@@ -149,6 +152,9 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
         // use it to populate the ListView it's attached to.
         mPostListAdapter = new PostListAdapter(getActivity(), null, 0);
 
+        // Set the first position as the default
+        mPosition = 0;
+
         View rootView = inflater.inflate(R.layout.fragment_posts_list,
                 container, false);
         mListView = (ListView) rootView.findViewById(R.id.listview_postslist);
@@ -163,7 +169,7 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
                     String postid = cursor.getString(COL_POST_ID);
                     int pstatus = cursor.getInt(COL_POST_DRAFT);
                     String content = cursor.getString(COL_POST_CONTENT);
-                    ((Callback)getActivity())
+                    ((Callback) getActivity())
                             .onItemSelected(postid, content, pstatus);
 
                 }
@@ -213,12 +219,6 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mListView.performItemClick(mListView.getChildAt(0), 0, mPostListAdapter.getItemId(0));
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(LIST_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
@@ -257,7 +257,7 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
 
         Log.d(LOG_TAG, String.valueOf(status));
 
-        if(status == 0)
+        if (status == 0)
             postsUri = PostEntry.buildPublishedPosts();
         else
             postsUri = PostEntry.buildDraftPosts();
@@ -274,14 +274,35 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
         );
     }
 
+    @TargetApi(Build.VERSION_CODES.FROYO)
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mPostListAdapter.swapCursor(data);
         if (mPosition != ListView.INVALID_POSITION) {
             // If we don't need to restart the loader, and there's a desired position to restore
             // to, do so now.
-            mListView.smoothScrollToPosition(mPosition);
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
+                mListView.smoothScrollToPosition(mPosition);
         }
+
+        // select the first post and render it.
+        if (PostsListActivity.mTwoPane) {
+
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    mPostListAdapter.notifyDataSetChanged();
+                    Log.d(LOG_TAG, "try to hit that");
+                    mListView.performItemClick(
+                            mListView.getChildAt(0),
+                            0,
+                            mListView.getAdapter().getItemId(mListView.getAdapter().getCount()));
+                }
+            });
+
+        }
+
+
     }
 
     @Override

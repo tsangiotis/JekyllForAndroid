@@ -32,7 +32,6 @@ import java.util.concurrent.ExecutionException;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.activities.EditPostActivity;
-import gr.tsagi.jekyllforandroid.activities.PostsListActivity;
 import gr.tsagi.jekyllforandroid.activities.PreviewMarkdownActivity;
 import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
@@ -111,9 +110,6 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
                 return true;
             case R.id.action_draft:
                 uploadDraft();
-                return true;
-            case android.R.id.home:
-                startActivity(new Intent(getActivity(), PostsListActivity.class));
                 return true;
             case R.id.action_preview:
                 previewMarkdown();

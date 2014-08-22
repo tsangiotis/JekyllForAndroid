@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -36,7 +37,7 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
 
     private static final String LOG_TAG = PostsListActivity.class.getSimpleName();
 
-    private boolean mTwoPane;
+    public static boolean mTwoPane;
 
     public static final String POST_STATUS = "post_status";
 
@@ -64,30 +65,28 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
         restorePreferences();
         DrawerSetup();
 
-        if (findViewById(R.id.markdown_preview_container) != null) {
-            // The preview container view will be present only in the large-screen layouts
-            // (res/layout-sw600dp). If this view is present, then the activity should be
-            // in two-pane mode.
-            mTwoPane = true;
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
-            if (savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.markdown_preview_container, new MarkdownPreviewFragment())
-                        .commit();
-            }
-        } else {
-            mTwoPane = false;
-        }
-
         if (mToken.equals("")) {
             login();
-        }
-        else {
-            // Select default screen.
+        } else {
             updateList();
             selectItem(0);
+            if (findViewById(R.id.markdown_preview_container) != null) {
+                // The preview container view will be present only in the large-screen layouts
+                // (res/layout-sw600dp). If this view is present, then the activity should be
+                // in two-pane mode.
+                mTwoPane = true;
+                // In two-pane mode, show the detail view in this activity by
+                // adding or replacing the detail fragment using a
+                // fragment transaction.
+                if (savedInstanceState == null) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.markdown_preview_container, new MarkdownPreviewFragment())
+                            .commit();
+                }
+            } else {
+                mTwoPane = false;
+            }
+            // Select default screen.
             Log.d(LOG_TAG, "Default item selected!");
         }
 
@@ -184,14 +183,14 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
             /** Called when a drawer has settled in a completely closed state.*/
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getActionBar().setTitle(mTitle);
+                getSupportActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getActionBar().setTitle(mDrawerTitle);
+                getSupportActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
             }
         };
@@ -199,7 +198,7 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // just styling option add shadow the right edge of the drawer
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
@@ -251,14 +250,40 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
      */
     private void selectItem(int position) {
 
+        Fragment fragment = null;
         Bundle data = new Bundle();
         data.putInt(PostsListActivity.POST_STATUS, position);
 
-        PostsListFragment fragment = new PostsListFragment();
-        fragment.setArguments(data);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.listview_postslist, fragment)
-                .commit();
+        switch (position) {
+            case 0:
+                try {
+                    fragment = new PostsListFragment();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 1:
+                try {
+                    fragment = new PostsListFragment();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 2:
+                Intent intent = new Intent(this, SetPreferenceActivity.class);
+                startActivity(intent);
+                break;
+        }
+
+        // Insert the fragment by replacing any existing fragment
+
+        if (position != 2) {
+            assert fragment != null;
+            fragment.setArguments(data);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.listview_postslist, fragment)
+                    .commit();
+        }
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);

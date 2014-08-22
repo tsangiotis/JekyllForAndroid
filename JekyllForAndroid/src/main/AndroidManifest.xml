@@ -23,11 +23,16 @@
             android:name=".activities.EditPostActivity"
             android:configChanges="keyboardHidden"
             android:label="@string/action_newpost" >
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="gr.tsagi.jekyllforandroid.activities.PostsListActivity" />
         </activity>
         <activity
             android:name=".activities.PreviewMarkdownActivity"
             android:label="@string/title_activity_markdown">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="gr.tsagi.jekyllforandroid.activities.EditPostActivity" />
         </activity>
         <activity
             android:name=".activities.PostsListActivity"
@@ -37,7 +42,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SetPreferenceActivity" />
+        <activity android:name=".activities.SetPreferenceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="gr.tsagi.jekyllforandroid.activities.PostsListActivity" />
+        </activity>
 
         <provider
             android:authorities="@string/content_authority"

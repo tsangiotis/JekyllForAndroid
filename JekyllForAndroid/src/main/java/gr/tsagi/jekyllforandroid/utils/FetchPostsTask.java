@@ -118,6 +118,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             if (baseCommitSha.equals(oldSha)) {
                 Log.d(LOG_TAG, "No Sync");
                 this.cancel(true);
+                return null;
             } else {
                 Log.d(LOG_TAG, "Syncing...");
                 utility.setBaseCommitSha(baseCommitSha);

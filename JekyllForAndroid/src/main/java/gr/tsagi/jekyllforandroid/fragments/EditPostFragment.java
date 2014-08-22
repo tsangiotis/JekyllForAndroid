@@ -1,17 +1,17 @@
 package gr.tsagi.jekyllforandroid.fragments;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,12 +32,12 @@ import java.util.concurrent.ExecutionException;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.activities.EditPostActivity;
-import gr.tsagi.jekyllforandroid.activities.PostsListActivity;
 import gr.tsagi.jekyllforandroid.activities.PreviewMarkdownActivity;
 import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.TagEntry;
 import gr.tsagi.jekyllforandroid.utils.GithubPush;
+import gr.tsagi.jekyllforandroid.utils.Utility;
 
 public class EditPostFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -61,6 +61,8 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
     private EditText mCategory;
     private EditText mContent;
 
+    Utility utility;
+
     public EditPostFragment() {
         setHasOptionsMenu(true);
     }
@@ -68,6 +70,8 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        utility = new Utility(getActivity());
 
         if (getArguments() != null) {
             mPostId = getArguments().getString(EditPostActivity.POST_ID);
@@ -90,6 +94,7 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
         return rootView;
     }
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -105,9 +110,6 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
                 return true;
             case R.id.action_draft:
                 uploadDraft();
-                return true;
-            case android.R.id.home:
-                startActivity(new Intent(getActivity(), PostsListActivity.class));
                 return true;
             case R.id.action_preview:
                 previewMarkdown();
@@ -304,10 +306,11 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
     public void previewMarkdown() {
 
         final String content = mContent.getText().toString().trim();
+        final String repo = utility.getRepo();
 
         if (!content.isEmpty()) {
             Intent myIntent = new Intent(getActivity(), PreviewMarkdownActivity.class);
-            myIntent.putExtra("content", content);
+            myIntent.putExtra(PreviewMarkdownActivity.POST_CONTENT, content);
             startActivity(myIntent);
         } else
             Toast.makeText(getActivity(), "Nothing to preview", Toast.LENGTH_SHORT).show();

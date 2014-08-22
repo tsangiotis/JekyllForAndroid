@@ -17,15 +17,20 @@ import gr.tsagi.jekyllforandroid.data.PostsContract;
  */
 public class Utility {
 
+    private Context mContext;
+
+    public Utility(Context context) {
+        mContext = context;
+    }
+
     /**
      * Gets the username from the private Shared preferences.
      *
-     * @param context Context to use for resource localization
      * @return username
      */
-    public static String getUser(Context context) {
+    public String getUser() {
         // We are using MODE_PRIVATE because these are sensitive data
-        SharedPreferences prefs = context.getSharedPreferences("gr.tsagi.jekyllforandroid",
+        SharedPreferences prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
                 Context.MODE_PRIVATE);
         // TODO: Change "user_login" to "username" without affecting current users
         return prefs.getString("user_login", "");
@@ -34,12 +39,11 @@ public class Utility {
     /**
      * Gets the token from the private Shared preferences.
      *
-     * @param context Context to use for resource localization
      * @return token
      */
-    public static String getToken(Context context) {
+    public String getToken() {
         // We are using MODE_PRIVATE because these are sensitive data
-        SharedPreferences prefs = context.getSharedPreferences("gr.tsagi.jekyllforandroid",
+        SharedPreferences prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
                 Context.MODE_PRIVATE);
         // TODO: Change "user_status" to "token" without affecting current users
         return prefs.getString("user_status", "");
@@ -48,11 +52,10 @@ public class Utility {
     /**
      * Gets the subdirectory of the posts if the user has set that in settings.
      *
-     * @param context Context to use for resource localization
      * @return subdirectory
      */
-    public static String getSubdir(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    public String getSubdir() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         final String dir = prefs.getString("posts_subdir", "");
         if(!dir.equals(""))
             return dir +"/";
@@ -62,11 +65,10 @@ public class Utility {
     /**
      * Gets the github repo with the users Jekyll blog.
      *
-     * @param context Context to use for resource localization
      * @return repo
      */
-    public static String getRepo(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("gr.tsagi.jekyllforandroid",
+    public String getRepo() {
+        SharedPreferences prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
                 Context.MODE_PRIVATE);
         // TODO: Change "user_repo" to "repo" without affecting current users
         return prefs.getString("user_repo", "");
@@ -76,11 +78,10 @@ public class Utility {
      * Saves the SHA-1 of the currently saved commit.
      * If it is the same, no need for sync.
      *
-     * @param context Context to use for resource localization.
      * @param baseCommitSha SHA on github.
      */
-    public static void setBaseCommitSha(Context context, String baseCommitSha) {
-        SharedPreferences prefs = context.getSharedPreferences("gr.tsagi.jekyllforandroid",
+    public void setBaseCommitSha(String baseCommitSha) {
+        SharedPreferences prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("base_commit", baseCommitSha);
@@ -91,11 +92,10 @@ public class Utility {
      * Saves the SHA-1 of the currently saved commit.
      * If it is the same, no need for sync.
      *
-     * @param context Context to use for resource localization.
      * @return baseCommitSha
      */
-    public static String getBaseCommitSha(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("gr.tsagi.jekyllforandroid",
+    public String getBaseCommitSha() {
+        SharedPreferences prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
                 Context.MODE_PRIVATE);
         return prefs.getString("base_commit", "");
     }
@@ -108,12 +108,11 @@ public class Utility {
      * Helper method to convert the database representation of the date into something to display
      * to users.  As classy and polished a user experience as "20140102" is, we can do better.
      *
-     * @param context Context to use for resource localization
      * @param dateStr The db formatted date string, expected to be of the form specified
      *                in Utility.DATE_FORMAT
      * @return a user-friendly representation of the date.
      */
-    public static String getFriendlyDayString(Context context, String dateStr) {
+    public String getFriendlyDayString(String dateStr) {
         // The day string for forecast uses the following logic:
         // For today: "Today, June 8"
         // For tomorrow:  "Tomorrow"
@@ -127,14 +126,15 @@ public class Utility {
         // If the date we're building the String for is today's date, the format
         // is "Today, June 24"
         if (todayStr.equals(dateStr)) {
-            String today = context.getString(R.string.today);
+            String today = mContext.getString(R.string.today);
             int formatId = R.string.format_full_friendly_date;
-            return String.format(context.getString(
+            return String.format(mContext.getString(
                     formatId,
                     today,
-                    getFormattedMonthDay(context, dateStr)));
+                    getFormattedMonthDay(dateStr)));
         } else {
             SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+
             return shortenedDateFormat.format(inputDate);
         }
     }
@@ -143,12 +143,11 @@ public class Utility {
      * Given a day, returns just the name to use for that day.
      * E.g "today", "tomorrow", "wednesday".
      *
-     * @param context Context to use for resource localization
      * @param dateStr The db formatted date string, expected to be of the form specified
      *                in Utility.DATE_FORMAT
      * @return
      */
-    public static String getDayName(Context context, String dateStr) {
+    public String getDayName(String dateStr) {
         SimpleDateFormat dbDateFormat = new SimpleDateFormat(Utility.DATE_FORMAT);
         try {
             Date inputDate = dbDateFormat.parse(dateStr);
@@ -156,7 +155,7 @@ public class Utility {
             // If the date is today, return the localized version of "Today" instead of the actual
             // day name.
             if (PostsContract.getDbDateString(todayDate).equals(dateStr)) {
-                return context.getString(R.string.today);
+                return mContext.getString(R.string.today);
             } else {
                 // If the date is set for tomorrow, the format is "Tomorrow".
                 Calendar cal = Calendar.getInstance();
@@ -165,7 +164,7 @@ public class Utility {
                 Date tomorrowDate = cal.getTime();
                 if (PostsContract.getDbDateString(tomorrowDate).equals(
                         dateStr)) {
-                    return context.getString(R.string.tomorrow);
+                    return mContext.getString(R.string.tomorrow);
                 } else {
                     // Otherwise, the format is just the day of the week (e.g "Wednesday".
                     SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
@@ -181,12 +180,11 @@ public class Utility {
 
     /**
      * Converts db date format to the format "Month day", e.g "June 24".
-     * @param context Context to use for resource localization
      * @param dateStr The db formatted date string, expected to be of the form specified
      *                in Utility.DATE_FORMAT
      * @return The day in the form of a string formatted "December 6"
      */
-    public static String getFormattedMonthDay(Context context, String dateStr) {
+    public static String getFormattedMonthDay(String dateStr) {
         SimpleDateFormat dbDateFormat = new SimpleDateFormat(Utility.DATE_FORMAT);
         try {
             Date inputDate = dbDateFormat.parse(dateStr);

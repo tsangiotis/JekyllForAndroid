@@ -1,8 +1,6 @@
 package gr.tsagi.jekyllforandroid.activities;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,9 +8,10 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,8 +24,8 @@ import java.util.ArrayList;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.adapters.NavDrawerListAdapter;
+import gr.tsagi.jekyllforandroid.fragments.MarkdownPreviewFragment;
 import gr.tsagi.jekyllforandroid.fragments.PostsListFragment;
-import gr.tsagi.jekyllforandroid.fragments.PrefsFragment;
 import gr.tsagi.jekyllforandroid.utils.FetchPostsTask;
 import gr.tsagi.jekyllforandroid.utils.NavDrawerItem;
 
@@ -34,9 +33,11 @@ import gr.tsagi.jekyllforandroid.utils.NavDrawerItem;
  * Created by tsagi on 9/9/13.
  */
 
-public class PostsListActivity extends FragmentActivity {
+public class PostsListActivity extends ActionBarActivity implements PostsListFragment.Callback {
 
     private static final String LOG_TAG = PostsListActivity.class.getSimpleName();
+
+    public static boolean mTwoPane;
 
     public static final String POST_STATUS = "post_status";
 
@@ -63,20 +64,36 @@ public class PostsListActivity extends FragmentActivity {
 
         restorePreferences();
         DrawerSetup();
-        updateList();
 
         if (mToken.equals("")) {
             login();
+        } else {
+            updateList();
+            selectItem(0);
+            if (findViewById(R.id.markdown_preview_container) != null) {
+                // The preview container view will be present only in the large-screen layouts
+                // (res/layout-sw600dp). If this view is present, then the activity should be
+                // in two-pane mode.
+                mTwoPane = true;
+                // In two-pane mode, show the detail view in this activity by
+                // adding or replacing the detail fragment using a
+                // fragment transaction.
+                if (savedInstanceState == null) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.markdown_preview_container, new MarkdownPreviewFragment())
+                            .commit();
+                }
+            } else {
+                mTwoPane = false;
+            }
+            // Select default screen.
+            Log.d(LOG_TAG, "Default item selected!");
         }
 
         if (mRepo.isEmpty() && !mToken.equals("")) {
             Toast.makeText(PostsListActivity.this,
                     "There is something wrong with your jekyll repo",
                     Toast.LENGTH_LONG).show();
-            login();
-        } else {
-            // Select default screen.
-            selectItem(0);
         }
 
     }
@@ -98,6 +115,7 @@ public class PostsListActivity extends FragmentActivity {
         // Inflate the menu; this adds items to the action bar
         // if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         // Just for the logout
         return true;
     }
@@ -165,14 +183,14 @@ public class PostsListActivity extends FragmentActivity {
             /** Called when a drawer has settled in a completely closed state.*/
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getActionBar().setTitle(mTitle);
+                getSupportActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getActionBar().setTitle(mDrawerTitle);
+                getSupportActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
             }
         };
@@ -180,11 +198,41 @@ public class PostsListActivity extends FragmentActivity {
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // just styling option add shadow the right edge of the drawer
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
+    }
+
+    @Override
+    public void onItemSelected(String postId, String content, int postStatus) {
+        if (mTwoPane) {
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            Bundle args = new Bundle();
+            args.putString(PreviewMarkdownActivity.POST_CONTENT, content);
+
+            MarkdownPreviewFragment fragment = new MarkdownPreviewFragment();
+            fragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.markdown_preview_container, fragment)
+                    .commit();
+        } else {
+            editPost(postId, postStatus);
+        }
+    }
+
+    @Override
+    public void onItemEditSelected(String postId, String content, int postStatus) {
+        editPost(postId, postStatus);
+    }
+
+    @Override
+    public void onItemDeleteSelected(String postId, String content, int postStatus) {
+
     }
 
     private class DrawerItemClickListener implements
@@ -201,9 +249,6 @@ public class PostsListActivity extends FragmentActivity {
      * Swaps fragments in the main content view
      */
     private void selectItem(int position) {
-
-        // Create a new fragment and specify the planet to show based on
-        // position
 
         Fragment fragment = null;
         Bundle data = new Bundle();
@@ -225,17 +270,18 @@ public class PostsListActivity extends FragmentActivity {
                 }
                 break;
             case 2:
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, new PrefsFragment()).commit();
+                Intent intent = new Intent(this, SetPreferenceActivity.class);
+                startActivity(intent);
                 break;
         }
 
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
+
         if (position != 2) {
+            assert fragment != null;
             fragment.setArguments(data);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.listview_postslist, fragment)
                     .commit();
         }
 
@@ -249,7 +295,7 @@ public class PostsListActivity extends FragmentActivity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setTitle(mTitle);
     }
 
     /**
@@ -259,6 +305,13 @@ public class PostsListActivity extends FragmentActivity {
         Intent myIntent = new Intent(PostsListActivity.this,
                 EditPostActivity.class);
         startActivity(myIntent);
+    }
+
+    public void editPost(String postId, int postStatus) {
+        Intent intent = new Intent(this, EditPostActivity.class)
+                .putExtra(EditPostActivity.POST_ID, postId)
+                .putExtra(EditPostActivity.POST_STATUS, postStatus);
+        startActivity(intent);
     }
 
     /**
@@ -314,7 +367,7 @@ public class PostsListActivity extends FragmentActivity {
     }
 
     private void login() {
-        Intent myIntent = new Intent(PostsListActivity.this,
+        Intent PostListIntent = new Intent(PostsListActivity.this,
                 LoginActivity.class);
         SharedPreferences sharedPreferences = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
@@ -323,7 +376,9 @@ public class PostsListActivity extends FragmentActivity {
         editor.clear();
         editor.commit();
 
-        startActivity(myIntent);
+        startActivity(PostListIntent);
+        this.finish();
+
     }
 }
 

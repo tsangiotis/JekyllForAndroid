@@ -1,15 +1,17 @@
 package gr.tsagi.jekyllforandroid.activities;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.fragments.EditPostFragment;
 
 @SuppressLint({"DefaultLocale", "SimpleDateFormat"})
-public class EditPostActivity extends Activity {
+public class EditPostActivity extends ActionBarActivity {
 
     private static final String LOG_TAG = EditPostActivity.class.getSimpleName();
 
@@ -30,18 +32,26 @@ public class EditPostActivity extends Activity {
         arguments.putString(EditPostActivity.POST_ID, postId);
         arguments.putInt(EditPostActivity.POST_STATUS, postStatus);
 
-        EditPostFragment fragment = new EditPostFragment();
+        Fragment fragment = new EditPostFragment();
         fragment.setArguments(arguments);
 
-        getFragmentManager().beginTransaction()
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.edit_post_container, fragment)
                 .commit();
 
+    }
 
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null)
-            actionBar.setDisplayHomeAsUpEnabled(true);
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

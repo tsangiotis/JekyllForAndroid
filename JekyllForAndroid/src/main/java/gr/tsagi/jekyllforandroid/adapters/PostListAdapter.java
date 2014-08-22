@@ -22,6 +22,8 @@ import gr.tsagi.jekyllforandroid.utils.Utility;
  */
 public class PostListAdapter extends CursorAdapter {
 
+    Utility utility;
+
     /**
      * Cache of the children views for a forecast list item.
      */
@@ -55,7 +57,9 @@ public class PostListAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-        // Read weather forecast from cursor
+        utility = new Utility(context);
+
+        // Read post title from cursor
         String title = cursor.getString(PostsListFragment.COL_POST_TITLE);
         // Find TextView and set weather forecast on it
         viewHolder.titleView.setText(title);
@@ -65,7 +69,7 @@ public class PostListAdapter extends CursorAdapter {
 
         // Find TextView and set formatted date on it
         if (!dateString.equals("0"))
-            viewHolder.dateView.setText(Utility.getFriendlyDayString(context, dateString));
+            viewHolder.dateView.setText(utility.getFriendlyDayString(dateString));
         else
             viewHolder.dateView.setText("");
     }

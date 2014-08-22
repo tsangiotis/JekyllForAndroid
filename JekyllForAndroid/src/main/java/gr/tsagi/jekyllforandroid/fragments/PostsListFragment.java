@@ -292,7 +292,6 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
                 @Override
                 public void run() {
                     mPostListAdapter.notifyDataSetChanged();
-                    Log.d(LOG_TAG, "try to hit that");
                     mListView.performItemClick(
                             mListView.getChildAt(0),
                             0,

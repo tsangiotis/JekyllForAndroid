@@ -118,11 +118,9 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         Log.d(LOG_TAG, "Background started");
 
         // TODO: Support subdirectories
-//        final String user = utility.getUser();
-//        final String repo = utility.getRepo();
+        final String user = utility.getUser();
+        final String repo = utility.getRepo();
 
-        final String user = "Balrog30";
-        final String repo = "balrog30.github.io";
 
         // get some sha's from current state in git
         Log.d(LOG_TAG, user + " - " + repo);

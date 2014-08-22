@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
-import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
+import gr.tsagi.jekyllforandroid.data.PostsContract;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -62,34 +62,46 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         Vector<ContentValues> contentValuesVector = new Vector<ContentValues>(postslist.size());
         for (TreeEntry post : postslist) {
 
-            String filename = post.getPath();
-            String[] filenameParts = filename.split("\\.");
-            String id = filenameParts[0];
+            if (post.getType().equals("blob")) {
 
-            String postSha = post.getSha();
-            Blob postBlob = null;
-            try {
-                postBlob = dataService.getBlob(repository, postSha).setEncoding(Blob.ENCODING_UTF8);
-            } catch (IOException e) {
-                e.printStackTrace();
+                String filename = post.getPath();
+
+                Log.d(LOG_TAG, filename);
+                String[] filenameParts = filename.split("\\.");
+                String id = filenameParts[0];
+
+                String postSha = post.getSha();
+                Blob postBlob = null;
+                try {
+                        postBlob = dataService.getBlob(repository, postSha).setEncoding(Blob.ENCODING_UTF8);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                assert postBlob != null;
+                String blobBytes = postBlob.getContent();
+
+                ContentValues postValues = new ParsePostData(mContext).getDataFromContent(id,
+                        blobBytes, type);
+                if (postValues.size() > 0)
+                    contentValuesVector.add(postValues);
+
+                if (contentValuesVector.size() > 0) {
+                    ContentValues[] cvArray = new ContentValues[contentValuesVector.size()];
+                    contentValuesVector.toArray(cvArray);
+                    mContext.getContentResolver().bulkInsert(PostsContract.PostEntry.CONTENT_URI, cvArray);
+                    Log.d(LOG_TAG, "Inserted Values.");
+                } else {
+                    Log.d(LOG_TAG, "No Values to insert.");
+                }
+            } else {
+                try {
+                    List<TreeEntry> subdir =  dataService.getTree(repository, post.getSha()).getTree();
+                    getPostDataFromList(repository, subdir, type);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-
-            assert postBlob != null;
-            String blobBytes = postBlob.getContent();
-
-            ContentValues postValues = new ParsePostData(mContext).getDataFromContent(id,
-                    blobBytes, type);
-            if (postValues.size() >0 )
-                contentValuesVector.add(postValues);
-        }
-
-        if (contentValuesVector.size() > 0) {
-            ContentValues[] cvArray = new ContentValues[contentValuesVector.size()];
-            contentValuesVector.toArray(cvArray);
-            mContext.getContentResolver().bulkInsert(PostEntry.CONTENT_URI, cvArray);
-            Log.d(LOG_TAG, "Inserted Values.");
-        } else {
-            Log.d(LOG_TAG, "No Values to insert.");
         }
 
     }
@@ -115,14 +127,14 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             // TODO: No sync when the same sha. (Utility class ready for this!)
             String oldSha = utility.getBaseCommitSha();
 
-            if (baseCommitSha.equals(oldSha)) {
-                Log.d(LOG_TAG, "No Sync");
-                this.cancel(true);
-                return null;
-            } else {
-                Log.d(LOG_TAG, "Syncing...");
-                utility.setBaseCommitSha(baseCommitSha);
-            }
+//            if (baseCommitSha.equals(oldSha)) {
+//                Log.d(LOG_TAG, "No Sync");
+//                this.cancel(true);
+//                return null;
+//            } else {
+//                Log.d(LOG_TAG, "Syncing...");
+//                utility.setBaseCommitSha(baseCommitSha);
+//            }
 
             final String treeSha = commitService.getCommit(repository, baseCommitSha).getSha();
 

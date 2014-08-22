@@ -2,21 +2,16 @@
                                         xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    android:fitsSystemWindows="true"
-    android:clipToPadding="false">
+    android:layout_height="match_parent">
     <!-- The main content view -->
     <!-- As the main content view, the view below consumes the entire
      space available using match_parent in both dimensions. -->
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/listview_postslist"
-              android:name="gr.tsagi.jekyllforandroid.fragments.PostsListFragment"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context="gr.tsagi.jekyllforandroid.fragments.PostsListFragment"
-              tools:layout="@android:layout/list_content" />
+    <FrameLayout
+        android:id="@+id/listview_postslist"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        tools:layout="@layout/fragment_posts_list" />
 
 
     <!-- The navigation drawer -->

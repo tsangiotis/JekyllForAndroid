@@ -65,7 +65,7 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
         DrawerSetup();
 
         if (findViewById(R.id.markdown_preview_container) != null) {
-            // The detail container view will be present only in the large-screen layouts
+            // The preview container view will be present only in the large-screen layouts
             // (res/layout-sw600dp). If this view is present, then the activity should be
             // in two-pane mode.
             mTwoPane = true;
@@ -116,6 +116,7 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
         // Inflate the menu; this adds items to the action bar
         // if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         // Just for the logout
         return true;
     }
@@ -221,11 +222,18 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
                     .replace(R.id.markdown_preview_container, fragment)
                     .commit();
         } else {
-            Intent intent = new Intent(this, EditPostActivity.class)
-                    .putExtra(EditPostActivity.POST_ID, postId)
-                    .putExtra(EditPostActivity.POST_STATUS, postStatus);
-            startActivity(intent);
+            editPost(postId, postStatus);
         }
+    }
+
+    @Override
+    public void onItemEditSelected(String postId, String content, int postStatus) {
+        editPost(postId, postStatus);
+    }
+
+    @Override
+    public void onItemDeleteSelected(String postId, String content, int postStatus) {
+
     }
 
     private class DrawerItemClickListener implements
@@ -272,6 +280,13 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
         Intent myIntent = new Intent(PostsListActivity.this,
                 EditPostActivity.class);
         startActivity(myIntent);
+    }
+
+    public void editPost(String postId, int postStatus) {
+        Intent intent = new Intent(this, EditPostActivity.class)
+                .putExtra(EditPostActivity.POST_ID, postId)
+                .putExtra(EditPostActivity.POST_STATUS, postStatus);
+        startActivity(intent);
     }
 
     /**

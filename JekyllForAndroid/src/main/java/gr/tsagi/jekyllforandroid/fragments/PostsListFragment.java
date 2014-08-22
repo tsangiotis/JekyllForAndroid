@@ -3,12 +3,18 @@ package gr.tsagi.jekyllforandroid.fragments;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,8 +37,13 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
 
     private int status = -1;
 
+    private ActionMode mActionMode;
     private ListView mListView;
     private int mPosition = ListView.INVALID_POSITION;
+
+    private String postid;
+    private int pstatus;
+    private String content;
 
     private static final String SELECTED_KEY = "selected_position";
 
@@ -56,8 +67,7 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
     };
 
 
-    // These indices are tied to POSTS_COLUMNS.  If FORECAST_COLUMNS changes, these
-    // must change.
+    // These indices are tied to POSTS_COLUMNS. If POSTS_COLUMNS changes, these must change.
     public static final int COL_ID = 0;
     public static final int COL_POST_ID = 1;
     public static final int COL_POST_TITLE = 2;
@@ -70,11 +80,57 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
         setHasOptionsMenu(true);
     }
 
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        // Called when the action mode is created; startActionMode() was called
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.context_menu, menu);
+            return true;
+        }
+
+        // Called each time the action mode is shown. Always called after onCreateActionMode, but
+        // may be called multiple times if the mode is invalidated.
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false; // Return false if nothing is done
+        }
+
+        // Called when the user selects a contextual menu item
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.action_edit:
+                    ((Callback)getActivity())
+                            .onItemEditSelected(postid, content, pstatus);
+                    mode.finish(); // Action picked, so close the CAB
+                    return true;
+                case R.id.action_delete:
+                    ((Callback)getActivity())
+                            .onItemDeleteSelected(postid, content, pstatus);
+                    mode.finish(); // Action picked, so close the CAB
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Called when the user exits the action mode
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+        }
+    };
+
     public interface Callback {
         /**
-         * DetailFragmentCallback for when an item has been selected.
+         * PreviewCallback for when an item has been selected.
          */
         public void onItemSelected(String postId, String content, int postStatus);
+        public void onItemEditSelected(String postId, String content, int postStatus);
+        public void onItemDeleteSelected(String postId, String content, int postStatus);
     }
 
 
@@ -102,6 +158,7 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Cursor cursor = mPostListAdapter.getCursor();
+                Log.d(LOG_TAG, "Position: " + position + ", l: " + Long.toString(l));
                 if (cursor != null && cursor.moveToPosition(position)) {
                     String postid = cursor.getString(COL_POST_ID);
                     int pstatus = cursor.getInt(COL_POST_DRAFT);
@@ -112,6 +169,34 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
                 }
             }
         });
+
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position,
+                                           long l) {
+                if (mActionMode != null) {
+                    return false;
+                }
+
+                view.setSelected(true);
+
+                Cursor cursor = mPostListAdapter.getCursor();
+                if (cursor != null && cursor.moveToPosition(position)) {
+                    postid = cursor.getString(COL_POST_ID);
+                    pstatus = cursor.getInt(COL_POST_DRAFT);
+                    content = cursor.getString(COL_POST_CONTENT);
+
+                    // Start the CAB using the ActionMode.Callback defined above
+                    ActionBarActivity activity = (ActionBarActivity) getActivity();
+                    mActionMode = activity.startSupportActionMode(mActionModeCallback);
+                    view.setSelected(true);
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         // If there's instance state, mine it for useful information.
         // The end-goal here is that the user never knows that turning their device sideways
@@ -128,9 +213,16 @@ public  class PostsListFragment extends Fragment implements LoaderManager.Loader
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mListView.performItemClick(mListView.getChildAt(0), 0, mPostListAdapter.getItemId(0));
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(LIST_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
+
     }
 
     @Override

@@ -17,7 +17,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
-import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
+import gr.tsagi.jekyllforandroid.data.PostsContract;
+import gr.tsagi.jekyllforandroid.data.PostsDbHelper;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -33,11 +34,15 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
     CommitService commitService;
     DataService dataService;
 
+    Utility utility;
+
     public FetchPostsTask(Context context) {
 
         mContext = context;
 
-        final String token = Utility.getToken(context);
+        utility = new Utility(mContext);
+
+        final String token = utility.getToken();
 
         // Start the client
         GitHubClient client = new GitHubClient();
@@ -58,36 +63,47 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         Vector<ContentValues> contentValuesVector = new Vector<ContentValues>(postslist.size());
         for (TreeEntry post : postslist) {
 
-            String filename = post.getPath();
-            String[] filenameParts = filename.split("\\.");
-            String id = filenameParts[0];
+            if (post.getType().equals("blob")) {
 
-            String postSha = post.getSha();
-            Blob postBlob = null;
-            try {
-                postBlob = dataService.getBlob(repository, postSha).setEncoding(Blob.ENCODING_UTF8);
-            } catch (IOException e) {
-                e.printStackTrace();
+                String filename = post.getPath();
+                String[] filenameParts = filename.split("\\.");
+                String id = filenameParts[0];
+
+                String postSha = post.getSha();
+                Blob postBlob = null;
+                try {
+                    postBlob = dataService.getBlob(repository, postSha).setEncoding(Blob.ENCODING_UTF8);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                assert postBlob != null;
+                String blobBytes = postBlob.getContent();
+
+                ContentValues postValues = new ParsePostData(mContext).getDataFromContent(id,
+                        blobBytes, type);
+                if (postValues.size() > 0)
+                    contentValuesVector.add(postValues);
+
+            } else {
+                try {
+                    List<TreeEntry> subdir =  dataService.getTree(repository, post.getSha()).getTree();
+                    getPostDataFromList(repository, subdir, type);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-
-            assert postBlob != null;
-            String blobBytes = postBlob.getContent();
-
-            ContentValues postValues = new ParsePostData(mContext).getDataFromContent(id,
-                    blobBytes, type);
-            if (postValues.size() >0 )
-                contentValuesVector.add(postValues);
         }
 
+        // this should be outside the loop as it otherwise produces duplicates
         if (contentValuesVector.size() > 0) {
             ContentValues[] cvArray = new ContentValues[contentValuesVector.size()];
             contentValuesVector.toArray(cvArray);
-            mContext.getContentResolver().bulkInsert(PostEntry.CONTENT_URI, cvArray);
+            mContext.getContentResolver().bulkInsert(PostsContract.PostEntry.CONTENT_URI, cvArray);
             Log.d(LOG_TAG, "Inserted Values.");
         } else {
             Log.d(LOG_TAG, "No Values to insert.");
         }
-
     }
 
     @Override
@@ -96,8 +112,8 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         Log.d(LOG_TAG, "Background started");
 
         // TODO: Support subdirectories
-        final String user = Utility.getUser(mContext);
-        final String repo = Utility.getRepo(mContext);
+        final String user = utility.getUser();
+        final String repo = utility.getRepo();
 
         // get some sha's from current state in git
         Log.d(LOG_TAG, user + " - " + repo);
@@ -109,14 +125,16 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                     .getCommit()
                     .getSha();
             // TODO: No sync when the same sha. (Utility class ready for this!)
-            String oldSha = Utility.getBaseCommitSha(mContext);
+            String oldSha = utility.getBaseCommitSha();
 
             if (baseCommitSha.equals(oldSha)) {
                 Log.d(LOG_TAG, "No Sync");
                 this.cancel(true);
+                return null;
             } else {
                 Log.d(LOG_TAG, "Syncing...");
-                Utility.setBaseCommitSha(mContext, baseCommitSha);
+                new PostsDbHelper(mContext).dropTables();
+                utility.setBaseCommitSha(baseCommitSha);
             }
 
             final String treeSha = commitService.getCommit(repository, baseCommitSha).getSha();

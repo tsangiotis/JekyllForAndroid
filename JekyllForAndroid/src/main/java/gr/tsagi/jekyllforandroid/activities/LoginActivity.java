@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -139,7 +140,11 @@ public class LoginActivity extends Activity {
                     auth.setText("Authenticated");
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("user_status", tok);
-                    editor.apply();
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                        editor.apply();
+                    } else {
+                        editor.commit();
+                    }
                     new UserGet().execute();
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -154,7 +159,6 @@ public class LoginActivity extends Activity {
 
     private class UserGet extends AsyncTask<Void, Void, Void> {
 
-        String Token = "";
         String user = "";
 
         @Override
@@ -181,6 +185,10 @@ public class LoginActivity extends Activity {
             editor.putString("user_login", user);
             editor.putString("user_repo", repo);
             editor.commit();
+
+            startActivity(new Intent(LoginActivity.this,
+                    PostsListActivity.class));
+
             finish();
         }
     }

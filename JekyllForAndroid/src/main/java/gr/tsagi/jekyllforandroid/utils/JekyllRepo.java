@@ -1,7 +1,6 @@
 package gr.tsagi.jekyllforandroid.utils;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.service.RepositoryService;
@@ -16,21 +15,12 @@ import java.util.concurrent.ExecutionException;
 
 public class JekyllRepo {
 
-<<<<<<< HEAD
-    public String getName(String user) {
-        String name;
-
-        try {
-            name = new CheckAllRepos().execute(user).get();
-            return name;
-        } catch (InterruptedException e) {
-=======
     public String getName(String user){
 
         try{
             return new CheckAllRepos().execute(user).get();
         }catch (InterruptedException e) {
->>>>>>> release/v1.5.5
+
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -55,21 +45,11 @@ public class JekyllRepo {
                 e.printStackTrace();
             }
             for (Repository repository : repositories) {
-<<<<<<< HEAD
                 if (repository.getName().contains(user + ".github.")) {
-=======
-                Log.d("JekyllRepo", repository.getName());
-                if (repository.getName().contains(user + ".github.")) {
-                    Log.d("JekyllRepo", "Selected" + repository.getName());
->>>>>>> release/v1.5.5
                     name = repository.getName();
                     break;
                 }
                 if (repository.getName().contains(user.toLowerCase() + ".github.")) {
-<<<<<<< HEAD
-=======
-                    Log.d("JekyllRepo", "Selected" + repository.getName());
->>>>>>> release/v1.5.5
                     name = repository.getName();
                     break;
                 }

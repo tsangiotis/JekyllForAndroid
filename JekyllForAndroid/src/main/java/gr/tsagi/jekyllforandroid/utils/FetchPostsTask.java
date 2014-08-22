@@ -7,6 +7,7 @@ import android.util.Log;
 
 import org.eclipse.egit.github.core.Blob;
 import org.eclipse.egit.github.core.Repository;
+import org.eclipse.egit.github.core.RepositoryBranch;
 import org.eclipse.egit.github.core.TreeEntry;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.CommitService;
@@ -69,6 +70,11 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                 String[] filenameParts = filename.split("\\.");
                 String id = filenameParts[0];
 
+                if (id.equals("")) {
+                    Log.d(LOG_TAG, "No id...");
+                    continue;
+                }
+
                 String postSha = post.getSha();
                 Blob postBlob = null;
                 try {
@@ -87,7 +93,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
             } else {
                 try {
-                    List<TreeEntry> subdir =  dataService.getTree(repository, post.getSha()).getTree();
+                    List<TreeEntry> subdir = dataService.getTree(repository, post.getSha()).getTree();
                     getPostDataFromList(repository, subdir, type);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -112,8 +118,11 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         Log.d(LOG_TAG, "Background started");
 
         // TODO: Support subdirectories
-        final String user = utility.getUser();
-        final String repo = utility.getRepo();
+//        final String user = utility.getUser();
+//        final String repo = utility.getRepo();
+
+        final String user = "Balrog30";
+        final String repo = "balrog30.github.io";
 
         // get some sha's from current state in git
         Log.d(LOG_TAG, user + " - " + repo);
@@ -121,9 +130,20 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
         try {
             repository = repositoryService.getRepository(user, repo);
-            final String baseCommitSha = repositoryService.getBranches(repository).get(0)
-                    .getCommit()
-                    .getSha();
+            String baseCommitSha = "";
+
+            // maybe the user has many branches
+            List<RepositoryBranch> branchList = repositoryService.getBranches(repository);
+            for (int i = 0; i <= branchList.size(); i++) {
+                String name = branchList.get(i).getName();
+                if (name.equals("master")) {
+                    baseCommitSha = repositoryService.getBranches(repository).get(i)
+                            .getCommit()
+                            .getSha();
+                    break;
+                }
+            }
+
             // TODO: No sync when the same sha. (Utility class ready for this!)
             String oldSha = utility.getBaseCommitSha();
 
@@ -142,21 +162,33 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             // TODO: Refactor naming here.
             List<TreeEntry> list = dataService.getTree(repository, treeSha).getTree();
             // Position of Posts.
-            String pPos = null;
+            String pPos = "";
             // Position of drafts.
-            String dPos = null;
+            String dPos = "";
 
             for (TreeEntry aList : list) {
-                if (aList.getPath().equals("_posts"))
+
+                Log.d(LOG_TAG, aList.getPath());
+                if (aList.getPath().equals("_posts")) {
+                    Log.d(LOG_TAG, "Found posts!");
                     pPos = aList.getSha();
-                if (aList.getPath().equals("_drafts"))
+                }
+                if (aList.getPath().equals("_drafts")) {
+                    Log.d(LOG_TAG, "Found drafts!");
                     dPos = aList.getSha();
+                }
             }
 
-            List<TreeEntry> postslist = dataService.getTree(repository, pPos).getTree();
-            List<TreeEntry> draftslist = dataService.getTree(repository, dPos).getTree();
-            getPostDataFromList(repository, postslist, 0);
-            getPostDataFromList(repository, draftslist, 1);
+            List<TreeEntry> postslist;
+            List<TreeEntry> draftslist;
+            if (!pPos.equals("")) {
+                postslist = dataService.getTree(repository, pPos).getTree();
+                getPostDataFromList(repository, postslist, 0);
+            }
+            if (!dPos.equals("")) {
+                draftslist = dataService.getTree(repository, dPos).getTree();
+                getPostDataFromList(repository, draftslist, 1);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

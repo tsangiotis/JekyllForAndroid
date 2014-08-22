@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.activities.PostsListActivity;
@@ -279,22 +280,26 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
                 mListView.smoothScrollToPosition(mPosition);
         }
 
-        // select the first post and render it.
-        if (PostsListActivity.mTwoPane) {
+        if( mPostListAdapter.getCount() == 0 ) {
+            Toast.makeText(getActivity(), "You have nothing to display here. :)",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            // select the first post and render it.
+            if (PostsListActivity.mTwoPane) {
 
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    mPostListAdapter.notifyDataSetChanged();
-                    mListView.performItemClick(
-                            mListView.getChildAt(0),
-                            0,
-                            mListView.getAdapter().getItemId(mListView.getAdapter().getCount()));
-                }
-            });
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPostListAdapter.notifyDataSetChanged();
+                        mListView.performItemClick(
+                                mListView.getChildAt(0),
+                                0,
+                                mListView.getAdapter().getItemId(mListView.getAdapter().getCount()));
+                    }
+                });
 
+            }
         }
-
 
     }
 

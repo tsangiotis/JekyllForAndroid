@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,11 +86,9 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
             } else {
                 mTwoPane = false;
             }
-            // Select default screen.
-            Log.d(LOG_TAG, "Default item selected!");
         }
 
-        if (mRepo.isEmpty() && !mToken.equals("")) {
+        if (mRepo.equals("") && !mToken.equals("")) {
             Toast.makeText(PostsListActivity.this,
                     "There is something wrong with your jekyll repo",
                     Toast.LENGTH_LONG).show();
@@ -241,7 +238,6 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
         @Override
         public void onItemClick(AdapterView parent, View view,
                                 int position, long id) {
-            Log.d(LOG_TAG, "clicked position");
             selectItem(position);
         }
     }

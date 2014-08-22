@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Base64;
+import android.util.Log;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -14,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Map;
 
 import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
@@ -158,7 +160,7 @@ public class ParsePostData {
         String line;
 
         int yaml_dash = 0;
-        String yamlStr = null;
+        String yamlStr = "";
         try {
             while ((line = r.readLine()) != null) {
                 if (line.equals("---")) {
@@ -184,20 +186,35 @@ public class ParsePostData {
 
         String content = stringBuilder.toString();
 
+
         Yaml yaml = new Yaml();
 
-        HashMap<String, String[]> map = (HashMap<String, String[]>) yaml.load(yamlStr);
-        HashMap<String, String> postmap = new HashMap<String, String>();
+        Map map;
+        HashMap<String, String> postmap;
+        map = (Map) yaml.load(yamlStr);
+        postmap = new HashMap<String, String>();
 
-        postmap.put("title", String.valueOf(map.get("title")));
-        postmap.put("category", String.valueOf(map.get("category")));
-        postmap.put("tags", String.valueOf(map.get("tags")).replace("[", "").replace("]", ""));
-        postmap.put("content", content);
+//        Log.d(LOG_TAG, map.get("title").toString());
 
+//        postmap.put("title", map.get("title").toString());
+//        postmap.put("category", String.valueOf(map.get("category")));
+//        postmap.put("tags", String.valueOf(map.get("tags")).replace("[", "").replace("]", ""));
+//        postmap.put("content", content);
 
-        String title = postmap.get(JK_TITLE);
-        String tags = postmap.get(JK_TAGS);
-        String category = postmap.get(JK_CATEGORY);
+        String title;
+        String tags;
+        String category;
+
+        title = map.get(JK_TITLE).toString();
+
+        if (map.containsKey(JK_TAGS)) {
+            tags = map.get(JK_TAGS).toString();
+            addTags(tags, id);
+        }
+        if (map.containsKey(JK_CATEGORY)) {
+            category = map.get(JK_CATEGORY).toString();
+            addCategory(category, id);
+        }
 
         long date = 0;
 
@@ -205,9 +222,6 @@ public class ParsePostData {
             int i = id.indexOf('-', 1 + id.indexOf('-', 1 + id.indexOf('-')));
             date = Long.parseLong(id.substring(0, i).replace("-", ""));
         }
-
-        addTags(tags, id);
-        addCategory(category, id);
 
         // First, check if the post exists in the db
         Cursor cursorId = mContext.getContentResolver().query(

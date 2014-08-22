@@ -85,8 +85,6 @@ public class PostsProvider extends ContentProvider {
     private Cursor sPostsByStatus(Uri uri, String[] projection, String sortOrder) {
         String status = PostEntry.getStatusFromUri(uri);
 
-        Log.d(LOG_TAG, status);
-
         if (status.equals("published"))
             status = "0";
         else status ="1";

@@ -49,11 +49,6 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
-    <array name="nav_drawer_icons">
-        <item>@drawable/ic_action_edit</item>
-        <item>@drawable/ic_action_attachment</item>
-        <item>@drawable/ic_action_settings</item>
-    </array>
     <array name="nav_drawer_icons_dark">
         <item>@drawable/ic_action_edit_dark</item>
         <item>@drawable/ic_action_attachment_dark</item>

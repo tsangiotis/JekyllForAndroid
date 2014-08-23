@@ -198,12 +198,17 @@ public class ParsePostData {
 
         if (map.containsKey(JK_TAGS)) {
             tags = map.get(JK_TAGS).toString().replace("[", "").replace("]", "");
-            addTags(tags, id);
+        } else {
+            tags = "null";
         }
         if (map.containsKey(JK_CATEGORY)) {
             category = map.get(JK_CATEGORY).toString();
-            addCategory(category, id);
+        } else {
+            category = "null";
         }
+
+        addTags(tags, id);
+        addCategory(category, id);
 
         long date = 0;
 

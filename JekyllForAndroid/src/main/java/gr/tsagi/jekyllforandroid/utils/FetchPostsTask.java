@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Vector;
 
 import gr.tsagi.jekyllforandroid.data.PostsContract;
+import gr.tsagi.jekyllforandroid.data.PostsDbHelper;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -143,20 +144,20 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                 }
             }
 
-            // TODO: No sync when the same sha. (Utility class ready for this!)
-//            String oldSha = utility.getBaseCommitSha();
+            // No sync when the same sha.
+            String oldSha = utility.getBaseCommitSha();
 
-//            if (baseCommitSha.equals(oldSha)) {
-//                Log.d(LOG_TAG, "No Sync");
-//                this.cancel(true);
-//                return null;
-//            } else {
-//                Log.d(LOG_TAG, "Syncing...");
-//                PostsDbHelper db = new PostsDbHelper(getActivity());
-//                db.dropTables();
-//                db.close();
-//                utility.setBaseCommitSha(baseCommitSha);
-//            }
+            if (baseCommitSha.equals(oldSha)) {
+                Log.d(LOG_TAG, "No Sync");
+                this.cancel(true);
+                return null;
+            } else {
+                Log.d(LOG_TAG, "Syncing...");
+                PostsDbHelper db = new PostsDbHelper(mContext);
+                db.dropTables();
+                db.close();
+                utility.setBaseCommitSha(baseCommitSha);
+            }
 
             final String treeSha = commitService.getCommit(repository, baseCommitSha).getSha();
 

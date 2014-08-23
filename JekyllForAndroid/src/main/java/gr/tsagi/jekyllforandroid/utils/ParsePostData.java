@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Base64;
-import android.util.Log;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.Map;
 
 import gr.tsagi.jekyllforandroid.data.PostsContract.CategoryEntry;
@@ -190,16 +188,7 @@ public class ParsePostData {
         Yaml yaml = new Yaml();
 
         Map map;
-        HashMap<String, String> postmap;
         map = (Map) yaml.load(yamlStr);
-        postmap = new HashMap<String, String>();
-
-//        Log.d(LOG_TAG, map.get("title").toString());
-
-//        postmap.put("title", map.get("title").toString());
-//        postmap.put("category", String.valueOf(map.get("category")));
-//        postmap.put("tags", String.valueOf(map.get("tags")).replace("[", "").replace("]", ""));
-//        postmap.put("content", content);
 
         String title;
         String tags;
@@ -208,7 +197,7 @@ public class ParsePostData {
         title = map.get(JK_TITLE).toString();
 
         if (map.containsKey(JK_TAGS)) {
-            tags = map.get(JK_TAGS).toString();
+            tags = map.get(JK_TAGS).toString().replace("[", "").replace("]", "");
             addTags(tags, id);
         }
         if (map.containsKey(JK_CATEGORY)) {
@@ -261,7 +250,6 @@ public class ParsePostData {
             postValues.put(PostEntry.COLUMN_DRAFT, type);
             postValues.put(PostEntry.COLUMN_CONTENT, content);
             postValues.put(PostEntry.COLUMN_POST_ID, id);
-
         }
 
         return postValues;

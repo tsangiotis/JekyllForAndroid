@@ -373,7 +373,9 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
         editor.clear();
         editor.commit();
 
-        new PostsDbHelper(this).dropTables();
+        PostsDbHelper db = new PostsDbHelper(this);
+        db.dropTables();
+        db.close();
 
         startActivity(PostListIntent);
         this.finish();

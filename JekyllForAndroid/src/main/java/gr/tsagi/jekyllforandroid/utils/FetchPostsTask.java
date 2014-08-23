@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Vector;
 
 import gr.tsagi.jekyllforandroid.data.PostsContract;
-import gr.tsagi.jekyllforandroid.data.PostsDbHelper;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -88,8 +87,10 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
                 ContentValues postValues = new ParsePostData(mContext).getDataFromContent(id,
                         blobBytes, type);
-                if (postValues.size() > 0)
+                if (postValues.size() > 0){
+                    Log.d(LOG_TAG, "Values for: " +id);
                     contentValuesVector.add(postValues);
+                }
 
             } else {
                 try {
@@ -143,17 +144,19 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             }
 
             // TODO: No sync when the same sha. (Utility class ready for this!)
-            String oldSha = utility.getBaseCommitSha();
+//            String oldSha = utility.getBaseCommitSha();
 
-            if (baseCommitSha.equals(oldSha)) {
-                Log.d(LOG_TAG, "No Sync");
-                this.cancel(true);
-                return null;
-            } else {
-                Log.d(LOG_TAG, "Syncing...");
-                new PostsDbHelper(mContext).dropTables();
-                utility.setBaseCommitSha(baseCommitSha);
-            }
+//            if (baseCommitSha.equals(oldSha)) {
+//                Log.d(LOG_TAG, "No Sync");
+//                this.cancel(true);
+//                return null;
+//            } else {
+//                Log.d(LOG_TAG, "Syncing...");
+//                PostsDbHelper db = new PostsDbHelper(getActivity());
+//                db.dropTables();
+//                db.close();
+//                utility.setBaseCommitSha(baseCommitSha);
+//            }
 
             final String treeSha = commitService.getCommit(repository, baseCommitSha).getSha();
 
@@ -177,21 +180,18 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                 }
             }
 
-            List<TreeEntry> postslist;
-            List<TreeEntry> draftslist;
             if (!pPos.equals("")) {
-                postslist = dataService.getTree(repository, pPos).getTree();
+                List<TreeEntry> postslist = dataService.getTree(repository, pPos).getTree();
                 getPostDataFromList(repository, postslist, 0);
             }
             if (!dPos.equals("")) {
-                draftslist = dataService.getTree(repository, dPos).getTree();
+                List<TreeEntry> draftslist = dataService.getTree(repository, dPos).getTree();
                 getPostDataFromList(repository, draftslist, 1);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         return null;
     }

@@ -134,10 +134,11 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
         Log.d(LOG_TAG, "postId: " + mPostId);
 
         Uri postFromId;
-        if(mPostStatus == 1)
+        if(mPostStatus == 1) {
             postFromId = PostEntry.buildPostFromId("draft", mPostId);
-        else
+        } else {
             postFromId = PostEntry.buildPostFromId("published", mPostId);
+        }
 
         Log.d(LOG_TAG, "postIdUri: " + postFromId.toString());
 
@@ -166,7 +167,7 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
                 mTags.setText(tags);
 
             String category = data.getString(data.getColumnIndex(CategoryEntry.COLUMN_CATEGORY));
-            Log.d(LOG_TAG, "category" + category);
+            Log.d(LOG_TAG, "category: " + category);
             if(!category.equals("null"))
                 mCategory.setText(category);
 

@@ -1,7 +1,16 @@
 <resources>
+    <!-- inherit from the material theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Main theme colors -->
+        <!--   your app's branding color (for the app bar) -->
+        <item name="android:colorPrimary">@color/actionbar_bg</item>
+        <!--   darker variant of colorPrimary (for status bar, contextual app bars) -->
+        <item name="android:colorPrimaryDark">@color/statusbar_bg</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+    </style>
 
-    <!--<style name="TransTheme" parent="android:Theme.Material.Light">-->
-        <!--&lt;!&ndash; Theme customizations can go here. &ndash;&gt;-->
-    <!--</style>-->
-
+    <style name="AppTheme.ActionBar.TitleTextStyle"
+           parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/accent</item>
+    </style>
 </resources>

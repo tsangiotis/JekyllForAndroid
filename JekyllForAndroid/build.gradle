@@ -28,7 +28,7 @@ def getBuildName()
 }
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 'android-L'
     buildToolsVersion "20.0.0"
 
     defaultConfig {
@@ -81,11 +81,11 @@ android {
 
 dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:3.4+'
+    compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:3.4.0.201406110918-r'
     compile 'com.commonsware.cwac:anddown:0.2.0'
 
-    compile 'com.android.support:support-v4:20.+'
-    compile 'com.android.support:appcompat-v7:20.+'
+    compile 'com.android.support:support-v4:21.0.0-rc1'
+    compile 'com.android.support:appcompat-v7:21.0.0-rc1'
 
     androidTestCompile 'junit:junit:4.10'
 

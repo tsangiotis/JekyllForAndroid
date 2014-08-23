@@ -2,4 +2,5 @@
 <resources>
     <color name="actionbar_bg">#FF0099CC</color>
     <color name="statusbar_bg">#FF006080</color>
+    <color name="accent">#FFF</color>
 </resources>

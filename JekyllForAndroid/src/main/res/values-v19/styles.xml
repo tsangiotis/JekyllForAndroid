@@ -8,15 +8,5 @@
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
-    <!-- ActionBar styles -->
-    <style name="ActionBar.Solid.JekyllforAndroid"
-           parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/actionbar_bg</item>
-    </style>
-
-    <style name="Widget.AppCompat.Light.ListPopupWindow.JekyllforAndroid"
-           parent="@style/Widget.AppCompat.Light.ListPopupWindow">
-        <item name="android:popupBackground">@color/popup_bg</item>
-    </style>
 
 </resources>

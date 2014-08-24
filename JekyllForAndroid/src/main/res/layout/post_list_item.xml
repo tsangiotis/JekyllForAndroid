@@ -12,7 +12,7 @@ android:padding="6dip" >
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="Publish date"
-        android:textSize="12sp" />
+        android:textAppearance="?android:textAppearanceSmall" />
 
     <TextView
         android:id="@+id/ptitle"
@@ -25,6 +25,6 @@ android:padding="6dip" >
         android:layout_alignWithParentIfMissing="true"
         android:gravity="center_vertical"
         android:text="Title"
-        android:textSize="16sp" />
+        android:textSize="20sp" />
 
 </RelativeLayout>

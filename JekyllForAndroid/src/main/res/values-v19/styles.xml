@@ -1,11 +1,22 @@
 <resources>
 
-    <!--
-        Base application theme for API 11+. This theme completely replaces
-        AppBaseTheme from res/values/styles.xml on API 11+ devices.
-    -->
-    <style name="TransTheme" parent="android:Theme.Holo.Light.NoActionBar.TranslucentDecor">
-        <!-- API 19 theme customizations can go here. -->
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.JekyllforAndroid</item>
+        <item name="android:listPopupWindowStyle">@style/Widget.AppCompat.Light.ListPopupWindow.JekyllforAndroid</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <!-- ActionBar styles -->
+    <style name="ActionBar.Solid.JekyllforAndroid"
+           parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/actionbar_bg</item>
+    </style>
+
+    <style name="Widget.AppCompat.Light.ListPopupWindow.JekyllforAndroid"
+           parent="@style/Widget.AppCompat.Light.ListPopupWindow">
+        <item name="android:popupBackground">@color/popup_bg</item>
     </style>
 
 </resources>

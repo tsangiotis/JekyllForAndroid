@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.fragments.MarkdownPreviewFragment;
 
@@ -17,6 +19,13 @@ public class PreviewMarkdownActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_markdown_preview);
+
+        // create our manager instance after the content view is set
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        // enable status bar tint
+        tintManager.setStatusBarTintEnabled(true);
+        // Set color
+        tintManager.setTintColor(getResources().getColor(R.color.actionbar_bg));
 
         Intent myIntent = getIntent();
         String content = myIntent.getStringExtra(POST_CONTENT);

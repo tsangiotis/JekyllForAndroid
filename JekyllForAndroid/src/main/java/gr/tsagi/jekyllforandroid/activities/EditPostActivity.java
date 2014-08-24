@@ -7,6 +7,8 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.fragments.EditPostFragment;
 
@@ -22,6 +24,13 @@ public class EditPostActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_post);
+
+        // create our manager instance after the content view is set
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        // enable status bar tint
+        tintManager.setStatusBarTintEnabled(true);
+        // Set color
+        tintManager.setTintColor(getResources().getColor(R.color.actionbar_bg));
 
         // Create the detail fragment and add it to the activity
         // using a fragment transaction.

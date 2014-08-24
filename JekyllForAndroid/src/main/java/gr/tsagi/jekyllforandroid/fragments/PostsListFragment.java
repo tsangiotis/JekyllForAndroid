@@ -26,7 +26,6 @@ import gr.tsagi.jekyllforandroid.R;
 import gr.tsagi.jekyllforandroid.activities.PostsListActivity;
 import gr.tsagi.jekyllforandroid.adapters.PostListAdapter;
 import gr.tsagi.jekyllforandroid.data.PostsContract.PostEntry;
-import gr.tsagi.jekyllforandroid.data.PostsDbHelper;
 
 
 /**
@@ -227,10 +226,10 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.drop_tables:
-                PostsDbHelper db = new PostsDbHelper(getActivity());
-                db.dropTables();
-                db.close();
+//            case R.id.drop_tables:
+//                PostsDbHelper db = new PostsDbHelper(getActivity());
+//                db.dropTables();
+//                db.close();
             default:
                 return super.onOptionsItemSelected(item);
         }

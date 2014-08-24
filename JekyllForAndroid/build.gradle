@@ -81,11 +81,12 @@ android {
 
 dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:3.4+'
+    compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:3.4.0.201406110918-r'
     compile 'com.commonsware.cwac:anddown:0.2.0'
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 
-    compile 'com.android.support:support-v4:20.+'
-    compile 'com.android.support:appcompat-v7:20.+'
+    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.android.support:appcompat-v7:20.0.0'
 
     androidTestCompile 'junit:junit:4.10'
 

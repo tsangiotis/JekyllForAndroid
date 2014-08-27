@@ -3,19 +3,16 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.JekyllforAndroid</item>
-        <item name="android:listPopupWindowStyle">@style/Widget.AppCompat.Light.ListPopupWindow.JekyllforAndroid</item>
+        <item name="android:actionBarStyle">@style/Widget.JekyllforAndroid.ActionBar.Solid</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.JekyllforAndroid.ActionButton.Overflow.JekyllforAndroid</item>
+        <item name="android:editTextBackground">@drawable/edit_text</item>
+        <item name="android:editTextStyle">@style/Widget.JekyllforAndroid.EditText</item>
     </style>
 
-    <style name="ActionBar.Solid.JekyllforAndroid" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/actionbar_bg</item>
-        <item name="android:logo">@drawable/ic_logo</item>
+    <style name="Widget.JekyllforAndroid.EditText" parent="android:Widget.Holo.Light.EditText">
+        <item name="android:background">@drawable/edit_text</item>
     </style>
 
-    <style name="Widget.AppCompat.Light.ListPopupWindow.JekyllforAndroid"
-           parent="@style/Widget.AppCompat.Light.ListPopupWindow">
-        <item name="android:popupBackground">@color/popup_bg</item>
-    </style>
     <!-- Style for forecast listview -->
     <style name="android:PostsListStyle">
         <!-- Here it's a stub.  In screens of sufficient width, this style includes modifications

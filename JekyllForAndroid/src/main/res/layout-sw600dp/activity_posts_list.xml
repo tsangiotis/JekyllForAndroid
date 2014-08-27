@@ -1,43 +1,55 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    tools:context="gr.tsagi.jekyllforandroid.activities.PostsListActivity">
 
-    <!-- The main content view -->
-    <!-- As the main content view, the view below consumes the entire
-     space available using match_parent in both dimensions. -->
-    <LinearLayout android:layout_width="fill_parent"
-                  android:layout_height="fill_parent"
-                  android:baselineAligned="false"
-                  android:divider="?android:attr/dividerHorizontal"
-                  android:orientation="horizontal"
-                  tools:context="gr.tsagi.jekyllforandroid.activities.PostsListActivity">
-    <FrameLayout
-        android:id="@+id/listview_postslist"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        tools:layout="@layout/fragment_posts_list" />
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/markdown_preview_container"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="4" />
-    </LinearLayout>
+        <!-- The main content view -->
+        <!-- As the main content view, the view below consumes the entire
+         space available using match_parent in both dimensions. -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:baselineAligned="false"
+            android:divider="?android:attr/dividerHorizontal"
+            android:orientation="horizontal"
+            tools:context="gr.tsagi.jekyllforandroid.activities.PostsListActivity">
 
-    <!-- The navigation drawer -->
-    <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="#111"
-        android:choiceMode="singleChoice"
-        android:divider="#c23e3e3e"
-        android:dividerHeight="0.1dp"
+            <FrameLayout
+                android:id="@+id/listview_postslist"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                tools:layout="@layout/fragment_posts_list"/>
 
-        android:fitsSystemWindows="true"
-        android:clipToPadding="false"/>
-</android.support.v4.widget.DrawerLayout>
+            <FrameLayout
+                android:id="@+id/markdown_preview_container"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"/>
+        </LinearLayout>
+
+        <!-- The navigation drawer -->
+        <ListView
+            android:id="@+id/left_drawer"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#111"
+            android:choiceMode="singleChoice"
+            android:clipToPadding="false"
+            android:divider="#c23e3e3e"
+
+            android:dividerHeight="0.1dp"
+            android:fitsSystemWindows="true"/>
+    </android.support.v4.widget.DrawerLayout>
+
+</FrameLayout>

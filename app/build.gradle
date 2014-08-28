@@ -25,8 +25,8 @@ android {
         applicationId 'gr.tsagi.jekyllforandroid'
         minSdkVersion 8
         targetSdkVersion 20
-        versionCode 116
-        versionName "1.5.6"
+        versionCode 117
+        versionName "1.6"
     }
 
     buildTypes {
@@ -46,4 +46,6 @@ dependencies {
 
     compile 'com.android.support:support-v4:20.0.0'
     compile 'com.android.support:appcompat-v7:20.0.0'
+
+
 }

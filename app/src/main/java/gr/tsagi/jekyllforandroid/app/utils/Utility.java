@@ -2,6 +2,7 @@ package gr.tsagi.jekyllforandroid.app.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
 import java.text.ParseException;
@@ -85,7 +86,12 @@ public class Utility {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("base_commit", baseCommitSha);
-        editor.apply();
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD){
+            editor.apply();
+        } else {
+            editor.commit();
+        }
+
     }
 
     /**

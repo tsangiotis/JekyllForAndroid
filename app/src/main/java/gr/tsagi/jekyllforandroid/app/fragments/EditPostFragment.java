@@ -186,7 +186,7 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
         final String category = mCategory.getText().toString().trim();
         final String content = mContent.getText().toString().trim();
 
-        if (content.isEmpty())
+        if (content.equals(""))
             Toast.makeText(getActivity(), R.string.editpost_empty, Toast.LENGTH_LONG).show();
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -280,7 +280,7 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
         final String category = mCategory.getText().toString().trim();
         final String content = mContent.getText().toString().trim();
 
-        if (content.isEmpty())
+        if (content.equals(""))
             Toast.makeText(getActivity(), R.string.editpost_empty, Toast.LENGTH_LONG).show();
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -309,7 +309,7 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
         final String content = mContent.getText().toString().trim();
         final String repo = utility.getRepo();
 
-        if (!content.isEmpty()) {
+        if (!content.equals("")) {
             Intent myIntent = new Intent(getActivity(), PreviewMarkdownActivity.class);
             myIntent.putExtra(PreviewMarkdownActivity.POST_CONTENT, content);
             startActivity(myIntent);

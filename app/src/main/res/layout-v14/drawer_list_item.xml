@@ -19,6 +19,8 @@
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/icon"
         android:layout_toEndOf="@id/icon"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="#fff"
         android:textStyle="bold"
         android:gravity="center_vertical"

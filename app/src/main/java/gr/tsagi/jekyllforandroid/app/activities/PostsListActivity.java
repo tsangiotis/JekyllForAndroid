@@ -192,14 +192,14 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 getSupportActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
+                supportInvalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
+                supportInvalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
             }
         };
 

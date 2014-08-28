@@ -1,1 +1,1 @@
-include ':JekyllForAndroid'
+include ':app'

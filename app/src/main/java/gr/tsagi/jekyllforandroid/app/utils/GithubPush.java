@@ -25,8 +25,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import gr.tsagi.jekyllforandroid.app.R;
-
 /**
  * Created by tsagi on 1/30/14.
  */
@@ -37,8 +35,6 @@ public class GithubPush {
     private String token;
     private String repo;
     private String dir;
-    private String json;
-    private String jsonPath;
 
     Activity mActivity;
 
@@ -55,21 +51,6 @@ public class GithubPush {
         if(!dir.equals(""))
             dir = dir +"/";
         repo = settings.getString("user_repo", "");
-        jsonPath = mActivity.getResources()
-                .getString(R.string.json_path);
-    }
-
-    public void pushJson() throws ExecutionException, InterruptedException {
-        json ="---\n" +
-                "title: json" + "\n" +
-                "---\n" +
-                "{\"homepage\":\"{{ site.production_url }}\",\"name\":\"{{ site.title }}\",\"description\":\"{{ site.tagline }}\""+
-                ",\"author\":\"{{ site.author.name }}\",\"posts\":[{% for post in site.posts %}"+
-                "{\"url\":\"{{ site.production_url }}{{ post.url }}\",\"title\""+
-                ":\"{{ post.title | replace: '\"', '\\\"' }}\",\"id\": \"{{ post.id }}\",\"published_on\":\"{{ post.date | date: \"%-d %B %Y\" }}\"}"+
-                "{% if forloop.rindex0 > 0 %},{% endif %}{% endfor %}]}";
-        String commitMessage = "Json generator by Jekyll for Android";
-        new PushFile().execute(json, jsonPath, commitMessage);
     }
 
     public void pushContent(String title, String date, String content) throws

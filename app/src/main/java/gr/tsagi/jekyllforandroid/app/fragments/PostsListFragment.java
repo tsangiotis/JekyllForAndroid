@@ -22,7 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.activities.PostsListActivity;
 import gr.tsagi.jekyllforandroid.app.adapters.PostListAdapter;
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry;

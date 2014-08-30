@@ -11,7 +11,7 @@ import android.webkit.WebView;
 
 import com.commonsware.cwac.anddown.AndDown;
 
-import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.activities.PreviewMarkdownActivity;
 import gr.tsagi.jekyllforandroid.app.utils.Utility;
 

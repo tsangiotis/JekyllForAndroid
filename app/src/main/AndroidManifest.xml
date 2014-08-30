@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="gr.tsagi.jekyllforandroid" >
+    package="gr.tsagi.jekyllforandroid.app" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-sdk
         tools:node="replace" />
@@ -15,47 +14,45 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".app.activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
-            android:name=".app.activities.EditPostActivity"
-            android:configChanges="keyboardHidden"
-            android:label="@string/action_newpost" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="gr.tsagi.jekyllforandroid.activities.PostsListActivity" />
-        </activity>
-        <activity
-            android:name=".app.activities.PreviewMarkdownActivity"
-            android:label="@string/title_activity_markdown">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="gr.tsagi.jekyllforandroid.activities.EditPostActivity" />
-        </activity>
-        <activity
-            android:name=".app.activities.PostsListActivity"
+            android:name=".activities.PostsListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.activities.SetPreferenceActivity">
+        <activity
+            android:name=".activities.EditPostActivity"
+            android:configChanges="keyboardHidden"
+            android:label="@string/action_newpost" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="gr.tsagi.jekyllforandroid.activities.PostsListActivity" />
+                android:value=".activities.PostsListActivity" />
+        </activity>
+        <activity
+            android:name=".activities.PreviewMarkdownActivity"
+            android:label="@string/title_activity_markdown">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.EditPostActivity" />
+        </activity>
+        <activity android:name=".activities.SetPreferenceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.PostsListActivity" />
         </activity>
 
         <provider
             android:authorities="@string/content_authority"
-            android:name=".app.data.PostsProvider"
+            android:name=".data.PostsProvider"
             android:exported="false"
             android:syncable="true" />
 
-        <meta-data android:name="com.google.android.gms.version"
-                   android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

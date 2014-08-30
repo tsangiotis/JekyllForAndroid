@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Vector;
 
 import gr.tsagi.jekyllforandroid.app.data.PostsContract;
+import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -152,6 +153,9 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                 return null;
             } else {
                 Log.d(LOG_TAG, "Syncing...");
+                PostsDbHelper db = new PostsDbHelper(mContext);
+                db.dropTables();
+                db.close();
                 utility.setBaseCommitSha(baseCommitSha);
             }
 

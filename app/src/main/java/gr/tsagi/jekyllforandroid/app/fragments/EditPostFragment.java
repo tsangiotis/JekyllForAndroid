@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.activities.EditPostActivity;
 import gr.tsagi.jekyllforandroid.app.activities.PreviewMarkdownActivity;
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.CategoryEntry;

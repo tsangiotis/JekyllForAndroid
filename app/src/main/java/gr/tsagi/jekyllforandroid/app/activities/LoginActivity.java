@@ -29,7 +29,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken;
 import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo;
 

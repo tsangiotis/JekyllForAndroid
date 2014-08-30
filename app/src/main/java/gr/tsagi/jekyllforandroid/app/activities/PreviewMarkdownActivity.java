@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.fragments.MarkdownPreviewFragment;
 
 public class PreviewMarkdownActivity extends ActionBarActivity {

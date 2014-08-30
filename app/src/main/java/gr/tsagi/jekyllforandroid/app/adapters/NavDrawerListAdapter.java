@@ -11,10 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem;
-
-import static gr.tsagi.jekyllforandroid.R.layout.drawer_list_item;
 
 /**
  * Created by tsagi on 7/9/14.
@@ -50,7 +48,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(drawer_list_item, null);
+            convertView = mInflater.inflate(R.layout.drawer_list_item, null);
         }
 
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);

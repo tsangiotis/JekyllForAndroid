@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.app.R;
 
 /**
  * Created by tsagi on 9/9/13.

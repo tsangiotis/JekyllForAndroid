@@ -6,7 +6,7 @@ import android.preference.PreferenceFragment;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.app.R;
 
 /**
  * Created by tsagi on 9/10/13.

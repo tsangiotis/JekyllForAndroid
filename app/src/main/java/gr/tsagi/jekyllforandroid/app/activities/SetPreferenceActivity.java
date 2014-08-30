@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-import gr.tsagi.jekyllforandroid.R;
+import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.fragments.PrefsFragment;
 
 /**

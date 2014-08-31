@@ -11,22 +11,35 @@
 # generated files
 bin/
 gen/
+out/
+build/
 
 # Local configuration file (sdk path, etc)
 local.properties
-.idea/
+
 # Eclipse project files
 .classpath
 .project
-.iml
-build
 
-proguard-project.txt
-project.properties
+# Windows thumbnail db
+.DS_Store
 
+# IDEA/Android Studio project files, because
+# the project can be imported from settings.gradle
+.idea
+*.iml
+
+# Old-style IDEA project files
+*.ipr
+*.iws
+
+# Local IDEA workspace
+.idea/workspace.xml
+
+# Gradle cache
 .gradle
-gradle
-gradle.xml
-bypass
+
+# Sandbox stuff
+_sandbox
 
 *.keystore

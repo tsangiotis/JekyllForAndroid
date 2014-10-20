@@ -19,6 +19,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="16dp"
         android:background="@drawable/ripple"
+        android:elevation="1dp"
+        android:stateListAnimator="@anim/fab_anim"
         android:tint="@android:color/white"
         android:src="@drawable/ic_create"/>
 

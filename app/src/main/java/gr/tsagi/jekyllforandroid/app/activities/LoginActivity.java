@@ -1,6 +1,5 @@
 package gr.tsagi.jekyllforandroid.app.activities;
 
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -16,7 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -33,7 +32,7 @@ import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken;
 import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends BaseActivity {
     private static String CLIENT_ID = "c93bd14e3c9671bd7dbf";
     //Use your own client id
     private static String CLIENT_SECRET = "e1566daf8025707db0d5fefa146b965f3ad38086";
@@ -45,24 +44,27 @@ public class LoginActivity extends Activity {
     private static String OAUTH_SCOPE = "user%2Crepo";
     //Change the Scope as you need
     WebView web;
-    Button auth;
+    ImageButton auth;
     SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        // create our manager instance after the content view is set
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        // enable status bar tint
-        tintManager.setStatusBarTintEnabled(true);
-        // Set color
-        tintManager.setTintColor(getResources().getColor(R.color.actionbar_bg));
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            // create our manager instance after the content view is set
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            // enable status bar tint
+            tintManager.setStatusBarTintEnabled(true);
+            // Set color
+            tintManager.setTintColor(getResources().getColor(R.color.primary));
+        }
 
         settings = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
-        auth = (Button) findViewById(R.id.auth);
+
+        auth = (ImageButton) findViewById(R.id.auth);
+
         auth.setOnClickListener(new View.OnClickListener() {
             Dialog auth_dialog;
 
@@ -118,6 +120,10 @@ public class LoginActivity extends Activity {
         });
     }
 
+    @Override protected int getLayoutResource() {
+        return R.layout.activity_login;
+    }
+
     private class TokenGet extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         String Code;
@@ -147,7 +153,7 @@ public class LoginActivity extends Activity {
                 try {
                     String tok = json.getString("access_token");
                     Log.d("Token Access", tok);
-                    auth.setText("Authenticated");
+                    //TODO: React to touch
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("user_status", tok);
                     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {

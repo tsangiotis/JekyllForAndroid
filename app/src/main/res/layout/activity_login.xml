@@ -2,27 +2,30 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".MainActivity"
+                tools:context="gr.tsagi.jekyllforandroid.app.activities.LoginActivity"
                 android:fitsSystemWindows="true"
                 android:clipToPadding="false">
-
-    <Button
-        android:id="@+id/auth"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/button_background_selector"
-        android:text="Github Login"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
 
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/auth"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/logo_web"/>
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_web"/>
+
+    <ImageButton
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_login"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:layout_centerHorizontal="true"
+        android:tint="@android:color/white"
+        android:id="@+id/auth"
+        android:background="@drawable/ripple"
+        />
+
 </RelativeLayout>

@@ -1,15 +1,16 @@
 package gr.tsagi.jekyllforandroid.app.fragments;
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.view.LayoutInflater;
@@ -19,10 +20,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import gr.tsagi.jekyllforandroid.app.R;
+import gr.tsagi.jekyllforandroid.app.activities.EditPostActivity;
 import gr.tsagi.jekyllforandroid.app.activities.PostsListActivity;
 import gr.tsagi.jekyllforandroid.app.adapters.PostListAdapter;
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry;
@@ -80,6 +83,15 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
     public PostsListFragment() {
         // Empty constructor required for fragment subclasses
         setHasOptionsMenu(true);
+    }
+
+    /**
+     * Start new post or continue working on your draft
+     */
+    public void newPost() {
+        Intent myIntent = new Intent(getActivity(),
+                EditPostActivity.class);
+        startActivity(myIntent);
     }
 
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
@@ -155,6 +167,7 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
 
         View rootView = inflater.inflate(R.layout.fragment_posts_list,
                 container, false);
+
         mListView = (ListView) rootView.findViewById(R.id.listview_postslist);
         mListView.setAdapter(mPostListAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -197,6 +210,16 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
                     return true;
                 }
                 return false;
+            }
+        });
+
+        ImageButton create;
+
+        create = (ImageButton) rootView.findViewById(R.id.create);
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                newPost();
             }
         });
 

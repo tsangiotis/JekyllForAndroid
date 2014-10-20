@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionBarStyle">@style/Widget.JekyllforAndroid.ActionBar.Solid</item>
-        <item name="actionOverflowButtonStyle">@style/Widget.JekyllforAndroid.ActionButton.Overflow.JekyllforAndroid</item>
-    </style>
-
-    <style name="Widget.JekyllforAndroid.ActionBar.Solid"
-           parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/actionbar_bg</item>
+    <style name="AppTheme.Base" parent="Base.Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 
     <style name="Widget.JekyllforAndroid.ActionButton.Overflow.JekyllforAndroid"

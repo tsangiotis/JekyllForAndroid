@@ -1,17 +1,18 @@
 package gr.tsagi.jekyllforandroid.app.activities;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import gr.tsagi.jekyllforandroid.app.adapters.NavDrawerListAdapter;
 import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper;
 import gr.tsagi.jekyllforandroid.app.fragments.MarkdownPreviewFragment;
 import gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment;
+import gr.tsagi.jekyllforandroid.app.fragments.PrefsFragment;
 import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask;
 import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem;
 
@@ -35,7 +37,7 @@ import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem;
  * Created by tsagi on 9/9/13.
  */
 
-public class PostsListActivity extends ActionBarActivity implements PostsListFragment.Callback {
+public class PostsListActivity extends BaseActivity implements PostsListFragment.Callback {
 
     private static final String LOG_TAG = PostsListActivity.class.getSimpleName();
 
@@ -62,15 +64,16 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_posts_list);
+        setActionBarIcon(R.drawable.ic_ab_drawer);
 
-        // create our manager instance after the content view is set
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        // enable status bar tint
-        tintManager.setStatusBarTintEnabled(true);
-        // Set color
-        tintManager.setTintColor(getResources().getColor(R.color.actionbar_bg));
-
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            // create our manager instance after the content view is set
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            // enable status bar tint
+            tintManager.setStatusBarTintEnabled(true);
+            // Set color
+            tintManager.setTintColor(getResources().getColor(R.color.primary));
+        }
 
         restorePreferences();
         DrawerSetup();
@@ -106,6 +109,10 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
 
     }
 
+    @Override protected int getLayoutResource() {
+        return R.layout.activity_posts_list;
+    }
+
     private void updateList() {
         fetchPostsTask = new FetchPostsTask(this);
         fetchPostsTask.execute();
@@ -136,9 +143,6 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
             case R.id.action_logout:
                 logoutDialog();
                 return true;
-            case R.id.action_new:
-                newPost();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -149,8 +153,6 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open,
         // hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        menu.findItem(R.id.action_new).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -181,11 +183,12 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
                 navDrawerItems);
         mDrawerList.setAdapter(adapter);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.ic_drawer, R.string.drawer_open,
+                toolbar, R.string.drawer_open,
                 R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely closed state.*/
@@ -277,20 +280,21 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
                 }
                 break;
             case 2:
-                Intent intent = new Intent(this, SetPreferenceActivity.class);
-                startActivity(intent);
+                try {
+                    fragment = new PrefsFragment();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
 
         // Insert the fragment by replacing any existing fragment
 
-        if (position != 2) {
-            assert fragment != null;
-            fragment.setArguments(data);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.listview_postslist, fragment)
-                    .commit();
-        }
+        assert fragment != null;
+        fragment.setArguments(data);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
@@ -303,15 +307,6 @@ public class PostsListActivity extends ActionBarActivity implements PostsListFra
     public void setTitle(CharSequence title) {
         mTitle = title;
         getSupportActionBar().setTitle(mTitle);
-    }
-
-    /**
-     * Start new post or continue working on your draft
-     */
-    public void newPost() {
-        Intent myIntent = new Intent(PostsListActivity.this,
-                EditPostActivity.class);
-        startActivity(myIntent);
     }
 
     public void editPost(String postId, int postStatus) {

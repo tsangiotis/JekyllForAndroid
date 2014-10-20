@@ -1,7 +1,10 @@
 <resources>
-
-    <!--<style name="TransTheme" parent="android:Theme.Material.Light">-->
-        <!--&lt;!&ndash; Theme customizations can go here. &ndash;&gt;-->
-    <!--</style>-->
-
+    <!-- inherit from the material theme -->
+    <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
+    </style>
 </resources>

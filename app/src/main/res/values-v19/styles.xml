@@ -1,8 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/Widget.JekyllforAndroid.ActionBar.Solid</item>
+    <style name="AppTheme" parent="AppTheme.Base">
         <item name="android:actionOverflowButtonStyle">@style/Widget.JekyllforAndroid.ActionButton.Overflow.JekyllforAndroid</item>
         <item name="android:editTextStyle">@style/Widget.JekyllforAndroid.EditText</item>
         <item name="android:editTextBackground">@drawable/edit_text</item>

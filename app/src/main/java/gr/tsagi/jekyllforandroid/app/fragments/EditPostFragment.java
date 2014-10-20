@@ -86,6 +86,10 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_edit_post, container, false);
 
+        if(rootView != null){
+            Log.d(LOG_TAG, "Inflated");
+        }
+
         mTitle = (EditText) rootView.findViewById(R.id.edit_title);
         mTags = (EditText) rootView.findViewById(R.id.edit_tags);
         mCategory = (EditText) rootView.findViewById(R.id.edit_category);

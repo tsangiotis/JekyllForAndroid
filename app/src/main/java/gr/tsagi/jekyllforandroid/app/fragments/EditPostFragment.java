@@ -109,9 +109,6 @@ public class EditPostFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_publish:
-                publishPost();
-                return true;
             case R.id.action_draft:
                 uploadDraft();
                 return true;

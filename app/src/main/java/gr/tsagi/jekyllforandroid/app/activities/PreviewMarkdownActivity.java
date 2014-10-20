@@ -37,6 +37,8 @@ public class PreviewMarkdownActivity extends BaseActivity {
         Fragment fragment = new MarkdownPreviewFragment();
         fragment.setArguments(arguments);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.markdown_preview_container, fragment)
                 .commit();

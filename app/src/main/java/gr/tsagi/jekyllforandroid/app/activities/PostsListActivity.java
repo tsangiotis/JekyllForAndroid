@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -58,6 +59,8 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+
+    ImageButton create;
 
     private ListView mDrawerList;
 
@@ -106,6 +109,14 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
                     "There is something wrong with your jekyll repo",
                     Toast.LENGTH_LONG).show();
         }
+
+        create = (ImageButton) findViewById(R.id.fab);
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                newPost();
+            }
+        });
 
     }
 
@@ -307,6 +318,15 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
     public void setTitle(CharSequence title) {
         mTitle = title;
         getSupportActionBar().setTitle(mTitle);
+    }
+
+    /**
+     * Start new post or continue working on your draft
+     */
+    public void newPost() {
+        Intent myIntent = new Intent(PostsListActivity.this,
+                EditPostActivity.class);
+        startActivity(myIntent);
     }
 
     public void editPost(String postId, int postStatus) {

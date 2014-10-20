@@ -26,6 +26,23 @@
             android:layout_height="0dp"
             tools:layout="@layout/fragment_posts_list"/>
 
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <ImageButton
+                android:id="@+id/create"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/ripple"
+                android:tint="@android:color/white"
+                android:src="@drawable/ic_create"/>
+
+        </RelativeLayout>
+
 
         <!-- The navigation drawer -->
         <ListView

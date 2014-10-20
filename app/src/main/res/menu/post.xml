@@ -12,10 +12,6 @@
           android:icon="@drawable/ic_action_save"
           android:title="Upload Draft"
           app:showAsAction="always" />
-    <item android:id="@+id/action_publish"
-        android:icon="@drawable/ic_action_send_now"
-        android:title="Publish"
-        app:showAsAction="ifRoom" />
     <item android:id="@+id/action_clear_draft"
         android:title="Clear"
         app:showAsAction="never" />

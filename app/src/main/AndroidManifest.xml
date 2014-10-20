@@ -29,14 +29,14 @@
             android:label="@string/action_newpost" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.PostsListActivity" />
+                android:value=".app.activities.PostsListActivity" />
         </activity>
         <activity
             android:name=".activities.PreviewMarkdownActivity"
             android:label="@string/title_activity_markdown" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.EditPostActivity" />
+                android:value="app.activities.EditPostActivity" />
         </activity>
         <activity android:name=".activities.SetPreferenceActivity" >
             <meta-data

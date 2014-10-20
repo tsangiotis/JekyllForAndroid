@@ -9,6 +9,14 @@
         <item name="windowActionBar">false</item>
     </style>
 
+    <style name="AppTheme.Base.Dark" parent="Base.Theme.AppCompat">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
     <style name="Widget.JekyllforAndroid.ActionButton.Overflow.JekyllforAndroid"
            parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_action_overflow</item>

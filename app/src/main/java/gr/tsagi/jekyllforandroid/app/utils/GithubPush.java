@@ -9,18 +9,22 @@ import android.util.Log;
 
 import org.eclipse.egit.github.core.Blob;
 import org.eclipse.egit.github.core.Commit;
+import org.eclipse.egit.github.core.CommitUser;
 import org.eclipse.egit.github.core.Reference;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.RepositoryCommit;
 import org.eclipse.egit.github.core.Tree;
 import org.eclipse.egit.github.core.TreeEntry;
 import org.eclipse.egit.github.core.TypedResource;
+import org.eclipse.egit.github.core.User;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.DataService;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.eclipse.egit.github.core.service.UserService;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -131,9 +135,25 @@ public class GithubPush {
                 Commit commit = new Commit();
                 commit.setMessage(commitMessage);
                 commit.setTree(newTree);
+
+                //Due to an error with github api we have to to all this
+                //TODO: Make this better (another function)
+                UserService userService = new UserService(client);
+                User user = userService.getUser();
+                Log.d("user: ", user.getName());
+                Log.d("email: ", userService.getEmails().get(0));
+                CommitUser author = new CommitUser();
+                author.setName(user.getName());
+                author.setEmail(userService.getEmails().get(0));
+                Calendar now = Calendar.getInstance();
+                author.setDate(now.getTime());
+                commit.setAuthor(author);
+                commit.setCommitter(author);
+
                 List<Commit> listOfCommits = new ArrayList<Commit>();
                 listOfCommits.add(new Commit().setSha(baseCommitSha));
                 commit.setParents(listOfCommits);
+                Log.d("commit", commit.getMessage());
                 Commit newCommit = dataService.createCommit(repository, commit);
 
                 // create resource

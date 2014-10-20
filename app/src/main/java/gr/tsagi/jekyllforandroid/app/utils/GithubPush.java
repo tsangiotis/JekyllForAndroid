@@ -140,8 +140,6 @@ public class GithubPush {
                 //TODO: Make this better (another function)
                 UserService userService = new UserService(client);
                 User user = userService.getUser();
-                Log.d("user: ", user.getName());
-                Log.d("email: ", userService.getEmails().get(0));
                 CommitUser author = new CommitUser();
                 author.setName(user.getName());
                 author.setEmail(userService.getEmails().get(0));

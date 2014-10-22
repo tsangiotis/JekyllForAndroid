@@ -7,12 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +22,6 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
 
@@ -67,23 +67,17 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionBarIcon(R.drawable.ic_ab_drawer);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-            // create our manager instance after the content view is set
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            // enable status bar tint
-            tintManager.setStatusBarTintEnabled(true);
-            // Set color
-            tintManager.setTintColor(getResources().getColor(R.color.primary));
-        }
-
-        restorePreferences();
         DrawerSetup();
+        restorePreferences();
 
         if (mToken.equals("")) {
+            Log.d(LOG_TAG, "Login");
             login();
         } else {
+            Log.d(LOG_TAG, "Loged in");
+            setActionBarIcon(R.drawable.ic_ab_drawer);
+
             updateList();
             selectItem(0);
             if (findViewById(R.id.markdown_preview_container) != null) {
@@ -130,8 +124,8 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
@@ -324,16 +318,13 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
      * Start new post or continue working on your draft
      */
     public void newPost() {
-        Intent myIntent = new Intent(PostsListActivity.this,
-                EditPostActivity.class);
-        startActivity(myIntent);
+        EditPostActivity.launch(PostsListActivity.this,
+                findViewById(R.id.fab), "new", 3);
     }
 
     public void editPost(String postId, int postStatus) {
-        Intent intent = new Intent(this, EditPostActivity.class)
-                .putExtra(EditPostActivity.POST_ID, postId)
-                .putExtra(EditPostActivity.POST_STATUS, postStatus);
-        startActivity(intent);
+        EditPostActivity.launch(PostsListActivity.this,
+               findViewById(R.id.fab), postId, postStatus);
     }
 
     /**
@@ -389,22 +380,29 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
     }
 
     private void login() {
-        Intent PostListIntent = new Intent(PostsListActivity.this,
-                LoginActivity.class);
         SharedPreferences sharedPreferences = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
-        editor.commit();
+        editor.apply();
 
         PostsDbHelper db = new PostsDbHelper(this);
         db.dropTables();
         db.close();
 
-        startActivity(PostListIntent);
-        this.finish();
+        Log.d(LOG_TAG, "Launching login");
+        LoginActivity.launch(PostsListActivity.this, findViewById(R.id.fab));
+        finish();
 
+    }
+
+    public static void launch(BaseActivity activity, View transitionView) {
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        activity, transitionView, "fab_create");
+        Intent intent = new Intent(activity, PostsListActivity.class);
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
 }
 

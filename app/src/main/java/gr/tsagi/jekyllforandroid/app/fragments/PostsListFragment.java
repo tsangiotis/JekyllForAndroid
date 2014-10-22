@@ -40,6 +40,7 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
     private int status = -1;
 
     private ActionMode mActionMode;
+
     private ListView mListView;
     private int mPosition = ListView.INVALID_POSITION;
 
@@ -155,6 +156,7 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
 
         View rootView = inflater.inflate(R.layout.fragment_posts_list,
                 container, false);
+
 
         mListView = (ListView) rootView.findViewById(R.id.listview_postslist);
         mListView.setAdapter(mPostListAdapter);

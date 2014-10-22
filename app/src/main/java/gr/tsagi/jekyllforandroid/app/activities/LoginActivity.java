@@ -18,8 +18,6 @@ import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
-
 import org.eclipse.egit.github.core.User;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.UserService;
@@ -51,20 +49,10 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-            // create our manager instance after the content view is set
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            // enable status bar tint
-            tintManager.setStatusBarTintEnabled(true);
-            // Set color
-            tintManager.setTintColor(getResources().getColor(R.color.primary));
-        }
-
         settings = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
 
-        auth = (ImageButton) findViewById(R.id.auth);
-
+        auth = (ImageButton) findViewById(R.id.fab);
         auth.setOnClickListener(new View.OnClickListener() {
             Dialog auth_dialog;
 
@@ -200,12 +188,15 @@ public class LoginActivity extends BaseActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("user_login", user);
             editor.putString("user_repo", repo);
-            editor.commit();
-
-            startActivity(new Intent(LoginActivity.this,
-                    PostsListActivity.class));
-
+            editor.apply();
+            PostsListActivity.launch(LoginActivity.this, findViewById(R.id.fab));
             finish();
         }
+    }
+
+    public static void launch(BaseActivity activity, View transitionView) {
+
+        Intent intent = new Intent(activity, LoginActivity.class);
+        activity.startActivity(intent);
     }
 }

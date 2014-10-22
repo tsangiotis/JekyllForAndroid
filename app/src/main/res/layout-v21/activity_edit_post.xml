@@ -94,6 +94,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignBottom="@id/head"
             android:layout_marginBottom="@dimen/floating_action_button_margin_normal_minus"
+            android:elevation="2dp"
+            android:transitionName="fab_publish"
             android:background="@drawable/ripple"
             android:src="@drawable/ic_action_send"
             android:tint="@android:color/white"/>

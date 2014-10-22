@@ -9,9 +9,10 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -20,8 +21,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -68,15 +67,6 @@ public class EditPostActivity extends BaseActivity implements LoaderManager.Load
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-            // create our manager instance after the content view is set
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            // enable status bar tint
-            tintManager.setStatusBarTintEnabled(true);
-            // Set color
-            tintManager.setTintColor(getResources().getColor(R.color.primary));
-        }
 
         // Create the detail fragment and add it to the activity
         // using a fragment transaction.
@@ -150,8 +140,10 @@ public class EditPostActivity extends BaseActivity implements LoaderManager.Load
         Uri postFromId;
         if(mPostStatus == 1) {
             postFromId = PostsContract.PostEntry.buildPostFromId("draft", mPostId);
+            setActionBarTitle(getResources().getString(R.string.edit_draft));
         } else {
             postFromId = PostsContract.PostEntry.buildPostFromId("published", mPostId);
+            setActionBarTitle(getResources().getString(R.string.edit_post));
         }
 
         Log.d(LOG_TAG, "postIdUri: " + postFromId.toString());
@@ -331,6 +323,24 @@ public class EditPostActivity extends BaseActivity implements LoaderManager.Load
             startActivity(myIntent);
         } else
             Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show();
+    }
+
+    public static void launch(BaseActivity activity, View transitionView, String postId,
+                              int postStatus) {
+
+        Intent intent = new Intent(activity, EditPostActivity.class);
+        if (postId.equals("new") && postStatus == 3) {
+            ActivityOptionsCompat options =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            activity, transitionView, "fab_publish");
+            ActivityCompat.startActivity(activity, intent, options.toBundle());
+        }
+        else {
+            intent.putExtra(EditPostActivity.POST_ID, postId);
+            intent.putExtra(EditPostActivity.POST_STATUS, postStatus);
+            activity.startActivity(intent);
+        }
+
     }
 
 }

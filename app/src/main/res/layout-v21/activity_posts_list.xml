@@ -39,6 +39,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
                 android:tint="@android:color/white"
+                android:transitionName="fab_create"
                 android:id="@+id/fab"
                 android:elevation="1dp"
                 android:background="@drawable/ripple"

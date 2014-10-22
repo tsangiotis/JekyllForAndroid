@@ -1,11 +1,13 @@
 package gr.tsagi.jekyllforandroid.app.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
+
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import gr.tsagi.jekyllforandroid.app.R;
 
@@ -25,12 +27,18 @@ public abstract class BaseActivity extends ActionBarActivity {
         if(getLayoutResource() != 0) {
             setContentView(getLayoutResource());
             toolbar = (Toolbar) findViewById(R.id.toolbar);
-            Log.d(LOG_TAG, "To be created");
             if (toolbar != null) {
-                Log.d(LOG_TAG, "Created");
                 setSupportActionBar(toolbar);
-//            toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
             }
+        }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            // create our manager instance after the content view is set
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            // enable status bar tint
+            tintManager.setStatusBarTintEnabled(true);
+            // Set color
+            tintManager.setTintColor(getResources().getColor(R.color.primary));
         }
 
     }

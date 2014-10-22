@@ -25,7 +25,6 @@
         </activity>
         <activity
             android:name=".activities.EditPostActivity"
-            android:configChanges="keyboardHidden"
             android:label="@string/action_newpost" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -37,11 +36,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="app.activities.EditPostActivity" />
-        </activity>
-        <activity android:name=".activities.SetPreferenceActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.PostsListActivity" />
         </activity>
 
         <provider

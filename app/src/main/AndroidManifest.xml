@@ -44,6 +44,11 @@
             android:exported="false"
             android:syncable="true" />
 
+        <service
+            android:name=".sync.JekyllForAndroidSyncService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

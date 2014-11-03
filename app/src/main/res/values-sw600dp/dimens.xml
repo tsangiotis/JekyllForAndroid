@@ -1,4 +1,7 @@
 <resources>
     <!-- Customize dimensions originally defined in res/values/dimens.xml (such as
          screen margins) for sw600dp devices (e.g. 7" tablets) here. -->
+    <dimen name="keyline1">24dp</dimen>
+    <dimen name="keyline2">80dp</dimen>
+    <dimen name="double_keyline1">48dp</dimen>
 </resources>

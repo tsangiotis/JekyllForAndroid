@@ -127,7 +127,8 @@ public class Utility {
 
         Date todayDate = new Date();
         String todayStr = PostsContract.getDbDateString(todayDate);
-        Date inputDate = PostsContract.getDateFromDb(dateStr);
+        Date inputDate = null;
+        inputDate = PostsContract.getDateFromDb(dateStr);
 
         // If the date we're building the String for is today's date, the format
         // is "Today, June 24"

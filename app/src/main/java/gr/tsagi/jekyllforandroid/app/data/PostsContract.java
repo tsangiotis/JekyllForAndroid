@@ -32,8 +32,6 @@ public class PostsContract {
     // as the ContentProvider hasn't been given any information on what to do with "givemeroot".
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_POSTS = "posts";
-    public static final String PATH_TAGS = "tags";
-    public static final String PATH_CATEGORIES = "categories";
 
     // Format used for storing dates in the database.  ALso used for converting those strings
     // back into date objects for comparison/processing.
@@ -85,6 +83,9 @@ public class PostsContract {
         public static final String COLUMN_DRAFT = "draft";
         public static final String COLUMN_DATETEXT = "date";
         public static final String COLUMN_CONTENT = "content";
+        public static final String COLUMN_TAGS = "tags";
+        public static final String COLUMN_CATEGORY = "category";
+
 
 
         public static Uri buildPostUri(long id) {
@@ -115,45 +116,5 @@ public class PostsContract {
 
     }
 
-    public static final class TagEntry implements BaseColumns {
 
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_TAGS).build();
-
-        public static final String CONTENT_TYPE =
-                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_TAGS;
-        public static final String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_TAGS;
-
-        // Table name
-        public static final String TABLE_NAME = "tags";
-
-        public static final String COLUMN_TAG = "tag";
-        public static final String COLUMN_POST_ID = "post_id";
-
-        public static Uri buildTagUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-    }
-
-    public static final class CategoryEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CATEGORIES).build();
-
-        public static final String CONTENT_TYPE =
-                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORIES;
-        public static final String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORIES;
-
-        // Table name
-        public static final String TABLE_NAME = "categories";
-
-        public static final String COLUMN_CATEGORY = "category";
-        public static final String COLUMN_POST_ID = "post_id";
-
-        public static Uri buildCategoryUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-    }
 }

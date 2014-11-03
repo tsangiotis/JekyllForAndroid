@@ -1,10 +1,11 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="keyline1">16dp</dimen>
+    <dimen name="keyline2">72dp</dimen>
+    <dimen name="double_keyline1">32dp</dimen>
     <dimen name="fab_elevation">2dp</dimen>
     <dimen name="fab_start">2dp</dimen>
     <dimen name="fab_end">4dp</dimen>
-    <dimen name="floating_action_button_margin_normal_minus">-28dp</dimen>
-    <dimen name="floating_action_button_margin_normal">34dp</dimen>
+    <dimen name="floating_action_button_margin_minus">-28dp</dimen>
+    <dimen name="floating_action_button_margin_normal">28dp</dimen>
 </resources>

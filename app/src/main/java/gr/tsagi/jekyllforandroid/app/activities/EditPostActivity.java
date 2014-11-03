@@ -45,8 +45,8 @@ public class EditPostActivity extends BaseActivity implements LoaderManager.Load
             PostsContract.PostEntry.COLUMN_POST_ID,
             PostsContract.PostEntry.COLUMN_TITLE,
             PostsContract.PostEntry.COLUMN_CONTENT,
-            PostsContract.TagEntry.COLUMN_TAG,
-            PostsContract.CategoryEntry.COLUMN_CATEGORY
+            PostsContract.PostEntry.COLUMN_TAGS,
+            PostsContract.PostEntry.COLUMN_CATEGORY
     };
 
     private String mPostId;
@@ -167,12 +167,13 @@ public class EditPostActivity extends BaseActivity implements LoaderManager.Load
             String title = data.getString(data.getColumnIndex(PostsContract.PostEntry.COLUMN_TITLE));
             mTitle.setText(title);
 
-            String tags = data.getString(data.getColumnIndex(PostsContract.TagEntry.COLUMN_TAG));
+            String tags = data.getString(data.getColumnIndex(PostsContract.PostEntry.COLUMN_TAGS));
             Log.d(LOG_TAG, "tags:" + tags);
             if(!tags.equals("null"))
                 mTags.setText(tags);
 
-            String category = data.getString(data.getColumnIndex(PostsContract.CategoryEntry.COLUMN_CATEGORY));
+            String category = data.getString(data.getColumnIndex(PostsContract.PostEntry
+                    .COLUMN_CATEGORY));
             Log.d(LOG_TAG, "category: " + category);
             if(!category.equals("null"))
                 mCategory.setText(category);

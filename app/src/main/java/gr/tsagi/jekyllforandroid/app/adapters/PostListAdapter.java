@@ -3,6 +3,7 @@ package gr.tsagi.jekyllforandroid.app.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import gr.tsagi.jekyllforandroid.app.utils.Utility;
  * from a {@link Cursor} to a {@link android.widget.ListView}.
  */
 public class PostListAdapter extends CursorAdapter {
+
+    private final String LOG_TAG = PostListAdapter.class.getSimpleName();
 
     Utility utility;
 
@@ -67,8 +70,10 @@ public class PostListAdapter extends CursorAdapter {
         // Read date from cursor
         String dateString = cursor.getString(PostsListFragment.COL_POST_DATE);
 
+        Log.d(LOG_TAG, dateString + title);
+
         // Find TextView and set formatted date on it
-        if (!dateString.equals("0"))
+        if (dateString!=null)
             viewHolder.dateView.setText(utility.getFriendlyDayString(dateString));
         else
             viewHolder.dateView.setText("");

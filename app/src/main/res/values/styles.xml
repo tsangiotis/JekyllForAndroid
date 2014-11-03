@@ -18,11 +18,6 @@
         
     </style>
 
-    <style name="Widget.JekyllforAndroid.ActionButton.Overflow.JekyllforAndroid"
-           parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_action_overflow</item>
-    </style>
-
     <!-- Style for forecast listview -->
     <style name="PostsListStyle">
         <!-- Here it's a stub.  In screens of sufficient width, this style includes modifications

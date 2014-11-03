@@ -52,9 +52,11 @@
                 android:layout_height="56dp"
                 android:src="@drawable/ic_create"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/keyline1"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/keyline1"
+                android:layout_marginEnd="@dimen/keyline1"
                 android:tint="@android:color/white"
                 android:id="@+id/fab"
                 android:background="@drawable/ripple"/>

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Vector;
 
 import gr.tsagi.jekyllforandroid.app.data.PostsContract;
-import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper;
 
 /**
  * Created by tsagi on 1/30/14.
@@ -37,6 +36,8 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
     Utility utility;
 
+    String baseCommitSha = "";
+
     public FetchPostsTask(Context context) {
 
         mContext = context;
@@ -50,7 +51,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         client.setOAuth2Token(token);
 
         // Initiate services
-        repositoryService = new RepositoryService();
+        repositoryService = new RepositoryService(client);
         commitService = new CommitService(client);
         dataService = new DataService(client);
     }
@@ -130,7 +131,6 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
         try {
             repository = repositoryService.getRepository(user, repo);
-            String baseCommitSha = "";
 
             // maybe the user has many branches
             List<RepositoryBranch> branchList = repositoryService.getBranches(repository);
@@ -151,33 +151,26 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                 Log.d(LOG_TAG, "No Sync");
                 this.cancel(true);
                 return null;
-            } else {
-                Log.d(LOG_TAG, "Syncing...");
-                PostsDbHelper db = new PostsDbHelper(mContext);
-                db.dropTables();
-                db.close();
-                utility.setBaseCommitSha(baseCommitSha);
             }
 
             final String treeSha = commitService.getCommit(repository, baseCommitSha).getSha();
 
-            // TODO: Refactor naming here.
-            List<TreeEntry> list = dataService.getTree(repository, treeSha).getTree();
+            List<TreeEntry> paths = dataService.getTree(repository, treeSha).getTree();
             // Position of Posts.
             String pPos = "";
             // Position of drafts.
             String dPos = "";
 
-            for (TreeEntry aList : list) {
+            for (TreeEntry aPath : paths) {
 
-                Log.d(LOG_TAG, aList.getPath());
-                if (aList.getPath().equals("_posts")) {
+                Log.d(LOG_TAG, aPath.getPath());
+                if (aPath.getPath().equals("_posts")) {
                     Log.d(LOG_TAG, "Found posts!");
-                    pPos = aList.getSha();
+                    pPos = aPath.getSha();
                 }
-                if (aList.getPath().equals("_drafts")) {
+                if (aPath.getPath().equals("_drafts")) {
                     Log.d(LOG_TAG, "Found drafts!");
-                    dPos = aList.getSha();
+                    dPos = aPath.getSha();
                 }
             }
 
@@ -195,5 +188,12 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         }
 
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+
+        utility.setBaseCommitSha(baseCommitSha);
     }
 }

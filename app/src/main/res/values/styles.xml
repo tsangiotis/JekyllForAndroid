@@ -24,5 +24,10 @@
         for two-pane layout -->
     </style>
 
+    <!-- Navigation Drawer styling -->
+    <style name="NavDrawerItemSelected" parent="Base.Theme.AppCompat">
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
+    </style>
+
 
 </resources>

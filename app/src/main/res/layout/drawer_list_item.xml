@@ -2,26 +2,33 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="48dp"
+    android:minHeight="48dp"
+    android:background="@drawable/activated_background">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginStart="@dimen/keyline1"
+        android:layout_marginLeft="@dimen/keyline1"
+        android:tint="@drawable/activated_text"
+        android:layout_gravity="center_vertical"
         android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@id/icon"
-        android:layout_toEndOf="@id/icon"
-        android:textColor="#fff"
-        android:textStyle="bold"
-        android:gravity="center_vertical"
-        android:paddingRight="40dp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/keyline2"
+        android:layout_marginStart="@dimen/keyline2"
+        android:layout_marginEnd="@dimen/keyline1"
+        android:layout_marginRight="@dimen/keyline1"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:textColor="@drawable/activated_text"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="14sp"/>
 
 </RelativeLayout>

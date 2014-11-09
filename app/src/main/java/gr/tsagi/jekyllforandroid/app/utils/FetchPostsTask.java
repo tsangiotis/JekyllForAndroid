@@ -13,6 +13,7 @@ import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.DataService;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.eclipse.egit.github.core.service.UserService;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +34,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
     RepositoryService repositoryService;
     CommitService commitService;
     DataService dataService;
+    UserService userService;
 
     Utility utility;
 
@@ -54,6 +56,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         repositoryService = new RepositoryService(client);
         commitService = new CommitService(client);
         dataService = new DataService(client);
+        userService = new UserService(client);
     }
 
     /**
@@ -124,6 +127,13 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         final String user = utility.getUser();
         final String repo = utility.getRepo();
 
+
+        try {
+            String avatar = userService.getUser().getAvatarUrl();
+            Log.d(LOG_TAG, "Avatar: " + avatar);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // get some sha's from current state in git
         Log.d(LOG_TAG, user + " - " + repo);

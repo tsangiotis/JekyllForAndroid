@@ -2,9 +2,16 @@ package gr.tsagi.jekyllforandroid.app.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -202,5 +209,19 @@ public class Utility {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Bitmap LoadImageFromWebOperations(String url) {
+        try {
+            Bitmap bmp = BitmapFactory.decodeStream((InputStream)new URL(url).getContent());
+            Log.d("Utility", "Converted");
+            return bmp;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

@@ -7,7 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.GravityCompat;
@@ -21,18 +24,22 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.adapters.NavDrawerListAdapter;
 import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper;
 import gr.tsagi.jekyllforandroid.app.fragments.MarkdownPreviewFragment;
 import gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment;
 import gr.tsagi.jekyllforandroid.app.fragments.PrefsFragment;
+import gr.tsagi.jekyllforandroid.app.utils.FetchAvatar;
 import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask;
 import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem;
+import gr.tsagi.jekyllforandroid.app.utils.Utility;
 
 /**
  * Created by tsagi on 9/9/13.
@@ -63,10 +70,15 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
     ImageButton create;
 
     private ListView mDrawerList;
+    private View mDrawerView;
+
+    private Utility utility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        utility = new Utility(this);
 
         DrawerSetup();
         restorePreferences();
@@ -119,6 +131,8 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
     }
 
     private void updateList() {
+        new FetchAvatar(this).execute();
+
         fetchPostsTask = new FetchPostsTask(this);
         fetchPostsTask.execute();
     }
@@ -164,14 +178,50 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
     private void DrawerSetup() {
         mNavTitles = getResources().getStringArray(R.array.nav_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerView = findViewById(R.id.drawer);
+        mDrawerList = (ListView) findViewById(R.id.drawer_choice_list);
 
         mDrawerTitle = getResources().getString(R.string.app_name);
+
+        mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.primary_dark));
 
         final TypedArray navMenuIcons = getResources()
                 .obtainTypedArray(R.array.nav_drawer_icons_dark);
         ArrayList<NavDrawerItem> navDrawerItems;
         NavDrawerListAdapter adapter;
+
+        final TextView userTextView = (TextView) findViewById(R.id.user);
+        final TextView repoTextView = (TextView) findViewById(R.id.repo);
+
+        SharedPreferences set = getSharedPreferences(
+                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
+
+        String avatarUrl = "notset";
+
+        //TODO: Add strings in file
+        if (set.getString("AvatarUrl", "https://assets-cdn.github" +
+                ".com/images/modules/logos_page/GitHub-Mark.png") != null) {
+            avatarUrl = set.getString("AvatarUrl", "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png");
+        }
+
+        Log.d(LOG_TAG, avatarUrl);
+
+        final CircleImageView avatarView = (CircleImageView)findViewById(R.id.profile_image);
+
+        String photoPath = Environment.getExternalStorageDirectory().toString() +"/jfa/avatar.png";
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 8;
+        Bitmap avatar = null;
+
+        try {
+            avatar = BitmapFactory.decodeFile(photoPath, options);
+        } catch (Exception e) {
+            new FetchAvatar(this).execute();
+        }
+        avatarView.setImageBitmap(avatar);
+
+        userTextView.setText(utility.getUser());
+        repoTextView.setText(utility.getRepo());
 
         navDrawerItems = new ArrayList<NavDrawerItem>();
 
@@ -304,7 +354,7 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mNavTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
+        mDrawerLayout.closeDrawer(mDrawerView);
 
     }
 

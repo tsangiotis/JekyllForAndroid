@@ -3,6 +3,8 @@
     <dimen name="keyline1">16dp</dimen>
     <dimen name="keyline2">72dp</dimen>
     <dimen name="double_keyline1">32dp</dimen>
+    <dimen name="drawer_width">304dp</dimen>
+    <dimen name="drawer_end">56dp</dimen>
     <dimen name="fab_elevation">2dp</dimen>
     <dimen name="fab_start">2dp</dimen>
     <dimen name="fab_end">4dp</dimen>

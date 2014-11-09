@@ -5,5 +5,13 @@
     <color name="accent">#cddc39</color>
     <color name="popup_bg">#FFF</color>
 
+    <color name="black">#000</color>
+    <color name="black87">#87000000</color>
+    <color name="black54">#54000000</color>
+
+    <color name="blackTest">#24000000</color>
+
+    <color name="nav_back">#01579B</color>
+
     <color name="mlightblue">#ff00beff</color>
 </resources>

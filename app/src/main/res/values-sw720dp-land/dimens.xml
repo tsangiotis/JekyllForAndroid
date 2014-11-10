@@ -1,7 +1,7 @@
 <resources>
     <!-- Customize dimensions originally defined in res/values/dimens.xml (such as
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here. -->
-    <dimen name="keyline1">24dp</dimen>
-    <dimen name="keyline2">80dp</dimen>
-    <dimen name="double_keyline1">48dp</dimen>
+    <dimen name="keyline_1">24dp</dimen>
+    <dimen name="keyline_2">80dp</dimen>
+    <dimen name="double_keyline_1">48dp</dimen>
 </resources>

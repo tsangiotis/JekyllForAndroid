@@ -6,7 +6,7 @@
     android:clipToPadding="false"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="gr.tsagi.jekyllforandroid.app.activities.PostsListActivity">
+    tools:context="gr.tsagi.jekyllforandroid.app.activities.PostsActivity">
 
     <include
         android:id="@+id/toolbar"

@@ -38,6 +38,7 @@ android {
 }
 
 
+
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 
@@ -46,7 +47,7 @@ dependencies {
     compile 'com.commonsware.cwac:anddown:0.2.1'
     compile 'de.hdodenhof:circleimageview:1.2.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
-    compile 'com.android.support:support-v4:21.+'
-    compile 'com.android.support:appcompat-v7:21.+'
-    compile 'com.android.support:recyclerview-v7:21.+'
+    compile 'com.android.support:support-v4:21.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:recyclerview-v7:21.0.0'
 }

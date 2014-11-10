@@ -7,6 +7,8 @@
         <item name="colorAccent">@color/accent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="photoItemForeground">?android:selectableItemBackground</item>
+        <item name="photoItemForegroundBorderless">?android:selectableItemBackground</item>
     </style>
 
     <style name="AppTheme.Base.Dark" parent="Base.Theme.AppCompat">
@@ -29,5 +31,9 @@
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
     </style>
 
+    <style name="HeaderBar">
+        <item name="android:background">?colorPrimary</item>
+        <item name="android:elevation">@dimen/headerbar_elevation</item>
+    </style>
 
 </resources>

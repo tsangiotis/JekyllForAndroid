@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.activities.PostsListActivity;
+import gr.tsagi.jekyllforandroid.app.activities.PostsActivity;
 import gr.tsagi.jekyllforandroid.app.adapters.PostListAdapter;
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry;
 
@@ -101,7 +101,7 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
 
         Bundle arguments = getArguments();
         if (arguments != null) {
-            status = arguments.getInt(PostsListActivity.POST_STATUS);
+            status = arguments.getInt(PostsActivity.POST_STATUS);
         }
         // The ArrayAdapter will take data from a source and
         // use it to populate the ListView it's attached to.
@@ -264,7 +264,7 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
                     Toast.LENGTH_SHORT).show();
         } else {
             // select the first post and render it.
-            if (PostsListActivity.mTwoPane) {
+            if (PostsActivity.mTwoPane) {
 
                 new Handler().post(new Runnable() {
                     @Override

@@ -40,6 +40,15 @@
     <!-- Date format [CHAR LIMIT=NONE] -->
     <string name="format_full_friendly_date"><xliff:g id="month">%1$s</xliff:g>, <xliff:g id="day">%2$s</xliff:g></string>
 
+    <!-- Menu item to open the Posts screen [CHAR_LIMIT=20] -->
+    <string name="navdrawer_item_posts">Posts</string>
+
+    <!-- Menu item to open the Drafts screen [CHAR_LIMIT=20] -->
+    <string name="navdrawer_item_drafts">Drafts</string>
+
+    <!-- Menu item to open the Settings screen [CHAR_LIMIT=20] -->
+    <string name="navdrawer_item_settings">Settings</string>
+
     <string-array name="nav_array">
         <item>Posts</item>
         <item>Drafts</item>
@@ -66,12 +75,6 @@
 
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-
-    <array name="nav_drawer_icons_dark">
-        <item>@drawable/ic_action_create</item>
-        <item>@drawable/ic_action_attachment</item>
-        <item>@drawable/ic_action_settings</item>
-    </array>
 
     <string name="json_path" translatable="false">json/index.html</string>
     <string name="title_activity_posts_list">Posts</string>

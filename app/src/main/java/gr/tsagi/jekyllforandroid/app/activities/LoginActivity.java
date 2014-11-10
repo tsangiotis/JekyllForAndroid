@@ -112,6 +112,11 @@ public class LoginActivity extends BaseActivity {
         return R.layout.activity_login;
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+    }
+
     private class TokenGet extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         String Code;
@@ -189,7 +194,7 @@ public class LoginActivity extends BaseActivity {
             editor.putString("user_login", user);
             editor.putString("user_repo", repo);
             editor.apply();
-            PostsListActivity.launch(LoginActivity.this, findViewById(R.id.fab));
+            PostsActivity.launch(LoginActivity.this, findViewById(R.id.fab));
             finish();
         }
     }

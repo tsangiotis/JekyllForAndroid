@@ -1,13 +1,21 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="keyline1">16dp</dimen>
-    <dimen name="keyline2">72dp</dimen>
-    <dimen name="double_keyline1">32dp</dimen>
-    <dimen name="drawer_width">304dp</dimen>
+    <dimen name="keyline_1">16dp</dimen>
+    <dimen name="keyline_2">72dp</dimen>
+    <dimen name="double_keyline_1">32dp</dimen>
+    <dimen name="navdrawer_width">304dp</dimen>
+    <dimen name="navdrawer_chosen_account_height">164dp</dimen>
+    <dimen name="navdrawer_profile_image_size">40dp</dimen>
+    <dimen name="swipe_refresh_progress_bar_start_margin">-40dp</dimen>
+    <dimen name="swipe_refresh_progress_bar_end_margin">16dp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
     <dimen name="drawer_end">56dp</dimen>
     <dimen name="fab_elevation">2dp</dimen>
     <dimen name="fab_start">2dp</dimen>
     <dimen name="fab_end">4dp</dimen>
     <dimen name="floating_action_button_margin_minus">-28dp</dimen>
     <dimen name="floating_action_button_margin_normal">28dp</dimen>
+    <dimen name="butter_bar_height">64dp</dimen>
+    <dimen name="headerbar_elevation">2dp</dimen>
 </resources>

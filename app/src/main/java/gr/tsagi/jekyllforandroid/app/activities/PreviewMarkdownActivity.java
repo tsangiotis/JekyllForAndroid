@@ -1,6 +1,7 @@
 package gr.tsagi.jekyllforandroid.app.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
@@ -48,4 +49,8 @@ public class PreviewMarkdownActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+    }
 }

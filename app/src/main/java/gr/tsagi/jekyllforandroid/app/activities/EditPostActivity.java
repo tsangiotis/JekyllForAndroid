@@ -344,4 +344,8 @@ public class EditPostActivity extends BaseActivity implements LoaderManager.Load
 
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+    }
 }

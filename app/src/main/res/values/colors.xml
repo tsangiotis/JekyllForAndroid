@@ -5,9 +5,35 @@
     <color name="accent">#cddc39</color>
     <color name="popup_bg">#FFF</color>
 
+    <color name="theme_accent_1">@color/accent</color>
+    <color name="theme_accent_2">#E91E63</color>
+    <color name="theme_primary">@color/primary</color>
+
     <color name="black">#000</color>
     <color name="black87">#87000000</color>
     <color name="black54">#54000000</color>
+
+    <color name="navdrawer_text_color">@color/black87</color>
+    <color name="navdrawer_text_color_selected">@color/black</color>
+
+    <color name="navdrawer_icon_tint">@color/black87</color>
+    <color name="navdrawer_icon_tint_selected">@color/primary_dark</color>
+
+    <color name="butter_bar_light">#eee0e0e0</color>
+
+    <color name="body_text_1">#de000000</color>
+    <color name="body_text_2">#8a000000</color>
+    <color name="body_text_3">#60000000</color>
+    <color name="body_text_disabled">#44000000</color>
+
+    <color name="body_text_1_inverse">#deffffff</color>
+    <color name="body_text_2_inverse">#8affffff</color>
+
+    <color name="session_photo_scrim">#6000</color>
+
+    <color name="refresh_progress_1">@color/theme_accent_2</color>
+    <color name="refresh_progress_2">@color/theme_accent_1</color>
+    <color name="refresh_progress_3">@color/theme_primary</color>
 
     <color name="blackTest">#24000000</color>
 

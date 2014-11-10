@@ -35,9 +35,11 @@ import java.util.ArrayList;
 import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.ui.widget.MultiSwipeRefreshLayout;
 import gr.tsagi.jekyllforandroid.app.ui.widget.ScrimInsetsScrollView;
+import gr.tsagi.jekyllforandroid.app.utils.ImageLoader;
 import gr.tsagi.jekyllforandroid.app.utils.LUtils;
 import gr.tsagi.jekyllforandroid.app.utils.PrefUtils;
 import gr.tsagi.jekyllforandroid.app.utils.UIUtils;
+import gr.tsagi.jekyllforandroid.app.utils.Utility;
 
 import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGW;
 
@@ -143,12 +145,15 @@ public abstract class BaseActivity extends ActionBarActivity implements
     private int mProgressBarTopWhenActionBarShown;
     private static final TypeEvaluator ARGB_EVALUATOR = new ArgbEvaluator();
 
+    private ImageLoader mImageLoader;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         PrefUtils.init(this);
 
+        mImageLoader = new ImageLoader(this);
         mHandler = new Handler();
 
         // Enable or disable each Activity depending on the form factor. This is necessary
@@ -170,13 +175,15 @@ public abstract class BaseActivity extends ActionBarActivity implements
         mThemedStatusBarColor = getResources().getColor(R.color.primary_dark);
         mNormalStatusBarColor = mThemedStatusBarColor;
 
+
+
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setupNavDrawer();
-//        setupAccountBox();
+        setupAccountBox();
 
         trySetupSwipeRefresh();
         updateSwipeRefreshProgressBarTop();
@@ -534,6 +541,75 @@ public abstract class BaseActivity extends ActionBarActivity implements
             }
         }
     }
+
+    /**
+     * Sets up the account box. The account box is the area at the top of the nav drawer that
+     * shows which account the user is logged in as, and lets them switch accounts. It also
+     * shows the user's Google+ cover photo as background.
+     */
+    private void setupAccountBox() {
+        mAccountListContainer = (LinearLayout) findViewById(R.id.account_list);
+
+        if (mAccountListContainer == null) {
+            //This activity does not have an account box
+            return;
+        }
+
+        final View chosenAccountView = findViewById(R.id.chosen_account_view);
+
+        ImageView coverImageView = (ImageView) chosenAccountView.findViewById(R.id.profile_cover_image);
+        ImageView profileImageView = (ImageView) chosenAccountView.findViewById(R.id.profile_image);
+        TextView nameTextView = (TextView) chosenAccountView.findViewById(R.id.profile_name_text);
+        mExpandAccountBoxIndicator = (ImageView) findViewById(R.id.expand_account_box_indicator);
+
+        Utility utility = new Utility(this);
+
+        String name = utility.getUser();
+        if (name == null) {
+            nameTextView.setVisibility(View.GONE);
+        } else {
+            nameTextView.setVisibility(View.VISIBLE);
+            nameTextView.setText(name);
+        }
+
+        String imageUrl = utility.getImageUrl();
+        if (imageUrl != null) {
+            mImageLoader.loadImage(imageUrl, profileImageView);
+        }
+
+//        String coverImageUrl = AccountUtils.getPlusCoverUrl(this);
+//        if (coverImageUrl != null) {
+//            mImageLoader.loadImage(coverImageUrl, coverImageView);
+//        } else {
+//            coverImageView.setImageResource(R.drawable.default_cover);
+//        }
+
+        nameTextView.setText(utility.getUser());
+
+//        if (accounts.isEmpty()) {
+//            // There's only one account on the device, so no need for a switcher.
+//            mExpandAccountBoxIndicator.setVisibility(View.GONE);
+//            mAccountListContainer.setVisibility(View.GONE);
+//            chosenAccountView.setEnabled(false);
+//            return;
+//        }
+
+        chosenAccountView.setEnabled(true);
+
+        mExpandAccountBoxIndicator.setVisibility(View.VISIBLE);
+        chosenAccountView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAccountBoxExpanded = !mAccountBoxExpanded;
+                setupAccountBoxToggle();
+            }
+        });
+        setupAccountBoxToggle();
+
+//        populateAccountList(accounts);
+    }
+
+    
 
     private void setupAccountBoxToggle() {
         int selfItem = getSelfNavDrawerItem();

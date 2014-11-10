@@ -211,6 +211,12 @@ public class Utility {
         }
     }
 
+    public String getImageUrl() {
+        SharedPreferences prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
+                Context.MODE_PRIVATE);
+        return prefs.getString("AvatarUrl", "");
+    }
+
     public Bitmap LoadImageFromWebOperations(String url) {
         try {
             Bitmap bmp = BitmapFactory.decodeStream((InputStream)new URL(url).getContent());

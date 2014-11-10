@@ -127,7 +127,6 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         final String user = utility.getUser();
         final String repo = utility.getRepo();
 
-
         try {
             String avatar = userService.getUser().getAvatarUrl();
             Log.d(LOG_TAG, "Avatar: " + avatar);

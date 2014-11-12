@@ -8,17 +8,24 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.data.PostsContract;
+
+import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
 
 /**
  * Created by tsagi on 8/9/14.
@@ -215,6 +222,43 @@ public class Utility {
         SharedPreferences prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
                 Context.MODE_PRIVATE);
         return prefs.getString("AvatarUrl", "");
+    }
+
+    public Map<String,String> getJekyllRepos(){
+        SharedPreferences prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
+                Context.MODE_PRIVATE);
+
+        String jsonList = prefs.getString("branchesJSON","");
+        LOGD("UTILITY", jsonList);
+
+        Gson gson = new Gson();
+        Type stringStringMap = new TypeToken<Map<String, String>>(){}.getType();
+
+        return gson.fromJson(jsonList, stringStringMap);
+    }
+
+    public void setCurrentRepo(String repoName){
+        SharedPreferences prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("user_repo", repoName);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD){
+            editor.apply();
+        } else {
+            editor.commit();
+        }
+    }
+
+    public void setCurrentBranch(String branchName){
+        SharedPreferences prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("repo_branch", branchName);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD){
+            editor.apply();
+        } else {
+            editor.commit();
+        }
     }
 
     public Bitmap LoadImageFromWebOperations(String url) {

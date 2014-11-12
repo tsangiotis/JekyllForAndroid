@@ -189,7 +189,7 @@ public class LoginActivity extends BaseActivity {
         protected void onPostExecute(Void aVoid) {
             Log.d("LoginUser", settings.getString("user_status", ""));
             JekyllRepo uRepo = new JekyllRepo();
-            String repo = uRepo.getName(user);
+            String repo = uRepo.getName(user, LoginActivity.this);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("user_login", user);
             editor.putString("user_repo", repo);

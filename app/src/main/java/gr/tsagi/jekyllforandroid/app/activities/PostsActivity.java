@@ -25,6 +25,7 @@ import gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment;
 import gr.tsagi.jekyllforandroid.app.fragments.PrefsFragment;
 import gr.tsagi.jekyllforandroid.app.utils.FetchAvatar;
 import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask;
+import gr.tsagi.jekyllforandroid.app.utils.Utility;
 
 /**
  * Created by tsagi on 9/9/13.
@@ -53,6 +54,8 @@ public class PostsActivity extends BaseActivity implements PostsListFragment.Cal
 
     ImageButton create;
 
+    Utility utility;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,8 @@ public class PostsActivity extends BaseActivity implements PostsListFragment.Cal
         restorePreferences();
 
         setContentView(R.layout.activity_posts_list);
+
+        utility = new Utility(this);
 
         if (mToken.equals("")) {
             Log.d(LOG_TAG, "Login");

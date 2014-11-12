@@ -22,6 +22,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +32,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.ui.widget.MultiSwipeRefreshLayout;
 import gr.tsagi.jekyllforandroid.app.ui.widget.ScrimInsetsScrollView;
 import gr.tsagi.jekyllforandroid.app.utils.ImageLoader;
+import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo;
 import gr.tsagi.jekyllforandroid.app.utils.LUtils;
 import gr.tsagi.jekyllforandroid.app.utils.PrefUtils;
 import gr.tsagi.jekyllforandroid.app.utils.UIUtils;
 import gr.tsagi.jekyllforandroid.app.utils.Utility;
 
+import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
 import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGW;
 
 /**
@@ -147,6 +151,8 @@ public abstract class BaseActivity extends ActionBarActivity implements
 
     private ImageLoader mImageLoader;
 
+    Utility utility;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,6 +181,8 @@ public abstract class BaseActivity extends ActionBarActivity implements
         mThemedStatusBarColor = getResources().getColor(R.color.primary_dark);
         mNormalStatusBarColor = mThemedStatusBarColor;
 
+        utility = new Utility(this);
+
 
 
     }
@@ -182,6 +190,9 @@ public abstract class BaseActivity extends ActionBarActivity implements
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
+        new JekyllRepo().getName(utility.getUser(), this);
+
         setupNavDrawer();
         setupAccountBox();
 
@@ -560,6 +571,8 @@ public abstract class BaseActivity extends ActionBarActivity implements
         ImageView coverImageView = (ImageView) chosenAccountView.findViewById(R.id.profile_cover_image);
         ImageView profileImageView = (ImageView) chosenAccountView.findViewById(R.id.profile_image);
         TextView nameTextView = (TextView) chosenAccountView.findViewById(R.id.profile_name_text);
+        TextView repositoryTextView = (TextView) chosenAccountView.findViewById(R.id
+                .repository_text);
         mExpandAccountBoxIndicator = (ImageView) findViewById(R.id.expand_account_box_indicator);
 
         Utility utility = new Utility(this);
@@ -585,6 +598,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 //        }
 
         nameTextView.setText(utility.getUser());
+        repositoryTextView.setText(utility.getRepo());
 
 //        if (accounts.isEmpty()) {
 //            // There's only one account on the device, so no need for a switcher.
@@ -606,10 +620,42 @@ public abstract class BaseActivity extends ActionBarActivity implements
         });
         setupAccountBoxToggle();
 
-//        populateAccountList(accounts);
+        Map<String,String> repositories = utility.getJekyllRepos();
+
+        if(repositories != null){
+            LOGD(TAG, "not null");
+            populateAccountList(repositories);
+        }
     }
 
-    
+    private void populateAccountList(Map<String,String> repositories) {
+        mAccountListContainer.removeAllViews();
+
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        for (Map.Entry<String, String> repository: repositories.entrySet()) {
+            View itemView = layoutInflater.inflate(R.layout.navdrawer_account_item,
+                    mAccountListContainer, false);
+            ((TextView) itemView.findViewById(R.id.title))
+                    .setText(repository.getKey());
+            final String repositoryName = repository.getKey();
+            final String repositoryBranch = repository.getValue();
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                        utility.setCurrentRepo(repositoryName);
+                        utility.setCurrentBranch(repositoryBranch);
+
+                        LOGD(TAG, "User requested switch to repository: " + repositoryName);
+                        mAccountBoxExpanded = false;
+                        setupAccountBoxToggle();
+                        mDrawerLayout.closeDrawer(Gravity.START);
+                        setupAccountBox();
+                }
+            });
+            mAccountListContainer.addView(itemView);
+        }
+    }
 
     private void setupAccountBoxToggle() {
         int selfItem = getSelfNavDrawerItem();

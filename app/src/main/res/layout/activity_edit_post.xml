@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:background="@color/primary"
+        android:elevation="2dp"
         android:orientation="vertical"
         android:theme="@style/AppTheme.Dark">
 
@@ -43,8 +44,6 @@
             android:layout_marginBottom="@dimen/keyline_1"
             android:layout_marginEnd="@dimen/keyline_2"
             android:layout_marginStart="@dimen/keyline_1"
-            android:layout_marginRight="@dimen/keyline_2"
-            android:layout_marginLeft="@dimen/keyline_1"
             android:orientation="horizontal">
 
             <EditText
@@ -83,8 +82,6 @@
             android:id="@+id/edit_content"
             android:layout_marginStart="@dimen/keyline_1"
             android:layout_marginEnd="@dimen/double_keyline_1"
-            android:layout_marginLeft="@dimen/keyline_1"
-            android:layout_marginRight="@dimen/double_keyline_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"/>
@@ -95,12 +92,14 @@
         android:id="@+id/fab"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/keyline_1"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginRight="@dimen/keyline_1"
+        android:layout_marginEnd="@dimen/keyline_1"
         android:layout_alignBottom="@id/head"
         android:layout_marginBottom="@dimen/floating_action_button_margin_minus"
+        android:elevation="3dp"
+        android:transitionName="fab_publish"
         android:background="@drawable/ripple"
         android:src="@drawable/ic_action_send"
         android:tint="@android:color/white"/>

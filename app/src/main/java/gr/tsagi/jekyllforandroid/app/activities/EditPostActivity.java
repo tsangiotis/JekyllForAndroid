@@ -68,6 +68,8 @@ public class EditPostActivity extends BaseActivity implements LoaderManager.Load
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_edit_post);
+
         // Create the detail fragment and add it to the activity
         // using a fragment transaction.
         mPostId = getIntent().getStringExtra(POST_ID);

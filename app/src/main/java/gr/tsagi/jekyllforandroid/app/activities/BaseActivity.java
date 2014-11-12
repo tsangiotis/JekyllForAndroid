@@ -191,8 +191,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        new JekyllRepo().getName(utility.getUser(), this);
-
         setupNavDrawer();
         setupAccountBox();
 
@@ -295,6 +293,9 @@ public abstract class BaseActivity extends ActionBarActivity implements
         if (mDrawerLayout == null) {
             return;
         }
+
+        new JekyllRepo().getName(utility.getUser(), this);
+
         mDrawerLayout.setStatusBarBackgroundColor(
                 getResources().getColor(R.color.primary_dark));
         ScrimInsetsScrollView navDrawer = (ScrimInsetsScrollView)

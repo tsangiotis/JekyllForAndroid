@@ -1,39 +1,47 @@
-<LinearLayout
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="false"
+    android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
     tools:context="gr.tsagi.jekyllforandroid.app.activities.PostsActivity">
+    <!-- The main content view -->
+    <!-- As the main content view, the view below consumes the entire
+     space available using match_parent in both dimensions. -->
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+    <!-- Main layout -->
+    <RelativeLayout
+        android:id="@+id/main_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <include layout="@layout/toolbar"/>
 
-        <!-- The main content view -->
-        <!-- As the main content view, the view below consumes the entire
-         space available using match_parent in both dimensions. -->
+        <!-- Butter bar -->
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="top"
+                     android:layout_below="@+id/toolbar"
+                     android:layout_marginTop="?actionBarSize">
+            <include layout="@layout/include_butter_bar" />
+        </FrameLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:baselineAligned="false"
+        <gr.tsagi.jekyllforandroid.app.ui.widget.MultiSwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
             android:divider="?android:attr/dividerHorizontal"
             android:orientation="horizontal"
-            tools:context="gr.tsagi.jekyllforandroid.app.activities.PostsActivity">
+            app:foreground="@drawable/header_shadow">
 
             <FrameLayout
                 android:id="@+id/content_frame"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/toolbar"
                 tools:layout="@layout/fragment_posts_list"/>
 
             <FrameLayout
@@ -41,29 +49,28 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"/>
-        </LinearLayout>
+        </gr.tsagi.jekyllforandroid.app.ui.widget.MultiSwipeRefreshLayout>
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        <ImageButton
+            android:id="@+id/fab"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/keyline_1"
+            android:layout_marginRight="@dimen/keyline_1"
+            android:layout_marginEnd="@dimen/keyline_1"
+            android:background="@drawable/ripple"
+            android:elevation="2dp"
+            android:src="@drawable/ic_create"
+            android:stateListAnimator="@anim/fab_anim"
+            android:tint="@android:color/white"
+            android:transitionName="fab_create"
+            />
 
-            <ImageButton
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/ic_create"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/keyline_1"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="@dimen/keyline_1"
-                android:layout_marginEnd="@dimen/keyline_1"
-                android:tint="@android:color/white"
-                android:id="@+id/fab"
-                android:background="@drawable/ripple"/>
-        </RelativeLayout>
+    </RelativeLayout>
 
-        <!-- The navigation drawer -->
-        <include layout="@layout/navdrawer"/>
-    </android.support.v4.widget.DrawerLayout>
+    <include layout="@layout/navdrawer"/>
 
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>

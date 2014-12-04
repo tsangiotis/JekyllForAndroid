@@ -28,28 +28,38 @@
             <include layout="@layout/include_butter_bar" />
         </FrameLayout>
 
-        <gr.tsagi.jekyllforandroid.app.ui.widget.MultiSwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/toolbar"
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:baselineAligned="false"
             android:divider="?android:attr/dividerHorizontal"
             android:orientation="horizontal"
-            app:foreground="@drawable/header_shadow">
+            android:layout_below="@id/toolbar"
+            tools:context="gr.tsagi.jekyllforandroid.app.activities.PostsActivity">
 
-            <FrameLayout
-                android:id="@+id/content_frame"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_below="@+id/toolbar"
-                tools:layout="@layout/fragment_posts_list"/>
+            <gr.tsagi.jekyllforandroid.app.ui.widget.MultiSwipeRefreshLayout
+                android:id="@+id/swipe_refresh_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                app:foreground="@drawable/header_shadow">
+
+                <FrameLayout
+                    android:id="@+id/content_frame"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    tools:layout="@layout/fragment_posts_list"/>
+
+
+            </gr.tsagi.jekyllforandroid.app.ui.widget.MultiSwipeRefreshLayout>
 
             <FrameLayout
                 android:id="@+id/markdown_preview_container"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"/>
-        </gr.tsagi.jekyllforandroid.app.ui.widget.MultiSwipeRefreshLayout>
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/fab"

@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity {
         settings = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
 
-        auth = (ImageButton) findViewById(R.id.auth);
+        auth = (ImageButton) findViewById(R.id.fab);
 
         auth.setOnClickListener(new View.OnClickListener() {
             Dialog auth_dialog;

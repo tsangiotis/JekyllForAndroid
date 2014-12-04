@@ -19,14 +19,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.0.0"
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
         applicationId 'gr.tsagi.jekyllforandroid'
         minSdkVersion 11
         targetSdkVersion 21
-        versionCode 120
-        versionName "1.9"
+        versionCode 121
+        versionName "1.9.1"
     }
 
     buildTypes {
@@ -45,6 +45,6 @@ dependencies {
     compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:3.5.0.201409260305-r'
     compile 'com.commonsware.cwac:anddown:0.2.1'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
-    compile 'com.android.support:support-v4:21.0.0'
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:support-v4:21.0.2'
+    compile 'com.android.support:appcompat-v7:21.0.2'
 }

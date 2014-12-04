@@ -30,7 +30,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
             <ImageButton
-                android:id="@+id/create"
+                android:id="@+id/fab"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_alignParentRight="true"

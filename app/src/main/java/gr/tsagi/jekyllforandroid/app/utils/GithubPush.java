@@ -94,7 +94,7 @@ public class GithubPush {
                 GitHubClient client = new GitHubClient().setOAuth2Token(token);
 
                 // create needed services
-                RepositoryService repositoryService = new RepositoryService();
+                RepositoryService repositoryService = new RepositoryService(client);
                 CommitService commitService = new CommitService(client);
                 DataService dataService = new DataService(client);
 

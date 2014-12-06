@@ -60,20 +60,18 @@ public class PostsActivity extends BaseActivity implements PostsListFragment.Cal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        restorePreferences();
-
         setContentView(R.layout.activity_posts_list);
-
+        restorePreferences();
         utility = new Utility(this);
 
         if (mToken.equals("")) {
             Log.d(LOG_TAG, "Login");
             login();
         } else {
-            Log.d(LOG_TAG, "Loged in");
+            Log.d(LOG_TAG, "Logged in");
 
-            updateList();
             selectItem(0);
+            updateList();
             if (findViewById(R.id.markdown_preview_container) != null) {
                 // The preview container view will be present only in the large-screen layouts
                 // (res/layout-sw600dp). If this view is present, then the activity should be

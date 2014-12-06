@@ -253,9 +253,10 @@ public class UIUtils {
     }
 
     public static Class getPostsListActivityClass(Context context) {
-//        if (UIUtils.isTablet(context)) {
+        if (UIUtils.isTablet(context)) {
 //            return PostsListMultiPaneActivity.class;
-//        }
+            return PostsActivity.class;
+        }
 
         return PostsActivity.class;
     }

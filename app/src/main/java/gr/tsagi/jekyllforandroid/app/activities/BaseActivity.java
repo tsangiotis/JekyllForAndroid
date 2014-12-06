@@ -168,23 +168,19 @@ public abstract class BaseActivity extends ActionBarActivity implements
         // Intent in the app.
         UIUtils.enableDisableActivitiesByFormFactor(this);
 
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.registerOnSharedPreferenceChangeListener(this);
 
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        sp.registerOnSharedPreferenceChangeListener(this);
-
         mLUtils = LUtils.getInstance(this);
         mThemedStatusBarColor = getResources().getColor(R.color.primary_dark);
         mNormalStatusBarColor = mThemedStatusBarColor;
 
         utility = new Utility(this);
-
-
-
     }
 
     @Override

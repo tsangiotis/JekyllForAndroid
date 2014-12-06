@@ -63,8 +63,8 @@ public class JekyllRepo {
                 repositories = repositoryService.getRepositories(user);
             } catch (IOException e) {
                 e.printStackTrace();
+                return "norepos";
             }
-
             LOGD("JEKYLLREPO", repositories.toString());
             LOGD("JEKYLLREPO", user);
             for (Repository repository : repositories) {
@@ -106,15 +106,18 @@ public class JekyllRepo {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            SharedPreferences prefs = context.getSharedPreferences("gr.tsagi.jekyllforandroid",
-                    Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("branchesJSON", s);
-            editor.putString("currentRepo", s);
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD){
-                editor.apply();
-            } else {
-                editor.commit();
+
+            if(!s.equals("norepos")) {
+                SharedPreferences prefs = context.getSharedPreferences("gr.tsagi.jekyllforandroid",
+                        Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("branchesJSON", s);
+                editor.putString("currentRepo", s);
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                    editor.apply();
+                } else {
+                    editor.commit();
+                }
             }
 
         }

@@ -52,9 +52,9 @@ public class FetchAvatar extends AsyncTask<Void, Void, Void> {
             String path = Environment.getExternalStorageDirectory().toString() + "/jfa";
             OutputStream fOut = null;
             File file = new File(path, "avatar.png");
-            if (!file.exists()) {
+//            if (!file.exists()) {
                 file.mkdir();
-            }
+//            }
             fOut = new FileOutputStream(file);
             Bitmap pictureBitmap = BitmapFactory.decodeStream((InputStream) new URL(imgUrl).getContent()); // obtaining the Bitmap
             pictureBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut); // saving the Bitmap to
@@ -70,7 +70,7 @@ public class FetchAvatar extends AsyncTask<Void, Void, Void> {
 
         SharedPreferences.Editor edit = settings.edit();
         edit.putString("AvatarUrl", imgUrl);
-        edit.commit();
+        edit.apply();
 
         return null;
 

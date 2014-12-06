@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -247,8 +248,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
         super.setContentView(layoutResID);
         getActionBarToolbar();
     }
-
-    protected abstract int getLayoutResource();
 
     protected void setActionBarIcon(int iconRes) {
         mActionBarToolbar.setNavigationIcon(iconRes);
@@ -515,6 +514,47 @@ public abstract class BaseActivity extends ActionBarActivity implements
         mDrawerLayout.closeDrawer(Gravity.START);
     }
 
+    /**
+     * Converts an intent into a {@link Bundle} suitable for use as fragment arguments.
+     */
+    public static Bundle intentToFragmentArguments(Intent intent) {
+        Bundle arguments = new Bundle();
+        if (intent == null) {
+            return arguments;
+        }
+
+        final Uri data = intent.getData();
+        if (data != null) {
+            arguments.putParcelable("_uri", data);
+        }
+
+        final Bundle extras = intent.getExtras();
+        if (extras != null) {
+            arguments.putAll(intent.getExtras());
+        }
+
+        return arguments;
+    }
+
+    /**
+     * Converts a fragment arguments bundle into an intent.
+     */
+    public static Intent fragmentArgumentsToIntent(Bundle arguments) {
+        Intent intent = new Intent();
+        if (arguments == null) {
+            return intent;
+        }
+
+        final Uri data = arguments.getParcelable("_uri");
+        if (data != null) {
+            intent.setData(data);
+        }
+
+        intent.putExtras(arguments);
+        intent.removeExtra("_uri");
+        return intent;
+    }
+
     private void goToNavDrawerItem(int item) {
         Intent intent;
         switch (item) {
@@ -735,6 +775,30 @@ public abstract class BaseActivity extends ActionBarActivity implements
 
         mActionBarShown = show;
         onActionBarAutoShowOrHide(show);
+    }
+
+    protected void onRefreshingStateChanged(boolean refreshing) {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(refreshing);
+        }
+    }
+
+    protected void enableDisableSwipeRefresh(boolean enable) {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setEnabled(enable);
+        }
+    }
+
+    protected void registerHideableHeaderView(View hideableHeaderView) {
+        if (!mHideableHeaderViews.contains(hideableHeaderView)) {
+            mHideableHeaderViews.add(hideableHeaderView);
+        }
+    }
+
+    protected void deregisterHideableHeaderView(View hideableHeaderView) {
+        if (mHideableHeaderViews.contains(hideableHeaderView)) {
+            mHideableHeaderViews.remove(hideableHeaderView);
+        }
     }
 
     public LUtils getLUtils() {

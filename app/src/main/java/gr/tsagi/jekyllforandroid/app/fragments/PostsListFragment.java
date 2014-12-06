@@ -5,11 +5,13 @@ import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.view.LayoutInflater;
@@ -26,6 +28,8 @@ import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.activities.PostsActivity;
 import gr.tsagi.jekyllforandroid.app.adapters.PostListAdapter;
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry;
+
+import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
 
 
 /**
@@ -171,6 +175,73 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
         }
 
         return rootView;
+    }
+
+    void reloadFromArguments(Bundle arguments) {
+        // Load new arguments
+        if (arguments == null) {
+            arguments = new Bundle();
+        } else {
+            // since we might make changes, don't meddle with caller's copy
+            arguments = (Bundle) arguments.clone();
+        }
+
+        // save arguments so we can reuse it when reloading from content observer events
+        mArguments = arguments;
+
+        LOGD(TAG, "SessionsFragment reloading from arguments: " + arguments);
+        mCurrentUri = arguments.getParcelable("_uri");
+        if (mCurrentUri == null) {
+            // if no URI, default to all sessions URI
+            LOGD(TAG, "SessionsFragment did not get a URL, defaulting to all sessions.");
+            arguments.putParcelable("_uri", ScheduleContract.Sessions.CONTENT_URI);
+            mCurrentUri = ScheduleContract.Sessions.CONTENT_URI;
+        }
+
+        mNoTrackBranding = mArguments.getBoolean(EXTRA_NO_TRACK_BRANDING);
+
+        if (ScheduleContract.Sessions.isSearchUri(mCurrentUri)) {
+            mSessionQueryToken = SessionsQuery.SEARCH_TOKEN;
+        } else {
+            mSessionQueryToken = SessionsQuery.NORMAL_TOKEN;
+        }
+
+        LOGD(TAG, "SessionsFragment reloading, uri=" + mCurrentUri + ", expanded=" + useExpandedMode());
+
+        reloadSessionData(true); // full reload
+        if (mTagMetadata == null) {
+            reloadTagMetadata();
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (!(activity instanceof Callbacks)) {
+            throw new ClassCastException("Activity must implement fragment's callbacks.");
+        }
+
+        mAppContext = getActivity().getApplicationContext();
+        mCallbacks = (Callbacks) activity;
+        mSessionsObserver = new ThrottledContentObserver(new ThrottledContentObserver.Callbacks() {
+            @Override
+            public void onThrottledContentObserverFired() {
+                onSessionsContentChanged();
+            }
+        });
+        mTagsObserver = new ThrottledContentObserver(new ThrottledContentObserver.Callbacks() {
+            @Override
+            public void onThrottledContentObserverFired() {
+                onTagsContentChanged();
+            }
+        });
+        activity.getContentResolver().registerContentObserver(
+                ScheduleContract.Sessions.CONTENT_URI, true, mSessionsObserver);
+        activity.getContentResolver().registerContentObserver(
+                ScheduleContract.Tags.CONTENT_URI, true, mTagsObserver);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
+        sp.registerOnSharedPreferenceChangeListener(mPrefChangeListener);
     }
 
     @Override

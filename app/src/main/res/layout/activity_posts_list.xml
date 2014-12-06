@@ -35,12 +35,12 @@
             android:layout_below="@id/toolbar"
             app:foreground="@drawable/header_shadow">
 
-            <FrameLayout
-                android:id="@+id/content_frame"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_below="@+id/toolbar"
-                tools:layout="@layout/fragment_posts_list"/>
+            <!-- Sessions fragment showing the session grid -->
+            <fragment android:name="gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment"
+                      android:id="@+id/sessions_fragment"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      tools:layout="@layout/fragment_posts_list" />
         </gr.tsagi.jekyllforandroid.app.ui.widget.MultiSwipeRefreshLayout>
 
         <ImageButton

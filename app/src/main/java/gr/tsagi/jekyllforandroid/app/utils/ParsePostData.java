@@ -17,7 +17,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry;
-import gr.tsagi.jekyllforandroid.app.entities.Post;
+import gr.tsagi.jekyllforandroid.app.model.Post;
 
 
 /**

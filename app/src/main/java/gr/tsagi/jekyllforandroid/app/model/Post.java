@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.entities;
+package gr.tsagi.jekyllforandroid.app.model;
 
 /**
  * Created by tsagi on 10/21/14.

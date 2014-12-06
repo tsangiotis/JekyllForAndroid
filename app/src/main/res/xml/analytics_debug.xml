@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools"
+           tools:ignore="TypographyDashes">
+    <!-- Using -2 profile for production, -3 for debug -->
+    <string name="ga_trackingId">UA-47474629-3</string>
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+    <integer name="ga_sessionTimeout">300</integer>
+
+    <!-- 120 seconds for development purposes. -->
+    <integer name="ga_dispatchInterval">120</integer>
+
+    <bool name="ga_debug">true</bool>
+</resources>

@@ -47,12 +47,6 @@
             android:exported="false"
             android:syncable="true" />
 
-        <service
-            android:name="gr.tsagi.jekyllforandroid.app.sync.JekyllForAndroidSyncService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
-
         <activity
             android:name="gr.tsagi.jekyllforandroid.app.activities.SettingsActivity"
             android:label="@string/title_activity_settings" >

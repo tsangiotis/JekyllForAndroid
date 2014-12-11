@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.fragments.MarkdownPreviewFragment;
 
 public class PreviewMarkdownActivity extends BaseActivity {
 

@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.fragments;
+package gr.tsagi.jekyllforandroid.app.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +12,6 @@ import android.webkit.WebView;
 import com.commonsware.cwac.anddown.AndDown;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.ui.PreviewMarkdownActivity;
 import gr.tsagi.jekyllforandroid.app.utils.Utility;
 
 public class MarkdownPreviewFragment extends Fragment {

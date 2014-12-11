@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.fragments;
+package gr.tsagi.jekyllforandroid.app.ui;
 
 import android.annotation.TargetApi;
 import android.os.Build;

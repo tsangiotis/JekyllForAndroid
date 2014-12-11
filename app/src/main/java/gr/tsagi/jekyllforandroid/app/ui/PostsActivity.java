@@ -9,8 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment;
-import gr.tsagi.jekyllforandroid.app.ui.widget.DrawShadowFrameLayout;
 import gr.tsagi.jekyllforandroid.app.utils.AnalyticsManager;
 
 import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.makeLogTag;
@@ -46,7 +44,6 @@ public class PostsActivity extends BaseActivity implements PostsListFragment.Cal
 
     public static final String POST_STATUS = "post_status";
 
-    private DrawShadowFrameLayout mDrawShadowFrameLayout;
     private View mButterBar;
 
     @Override
@@ -72,7 +69,6 @@ public class PostsActivity extends BaseActivity implements PostsListFragment.Cal
         toolbar.setTitle(SCREEN_LABEL);
 
         mButterBar = findViewById(R.id.butter_bar);
-        mDrawShadowFrameLayout = (DrawShadowFrameLayout) findViewById(R.id.main_content);
         registerHideableHeaderView(mButterBar);
 
     }
@@ -80,10 +76,6 @@ public class PostsActivity extends BaseActivity implements PostsListFragment.Cal
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        CollectionView collectionView = (CollectionView) findViewById(R.id.sessions_collection_view);
-        if (collectionView != null) {
-            enableActionBarAutoHide(collectionView);
-        }
 
         mPostsFrag = (PostsListFragment) getFragmentManager().findFragmentById(
                 R.id.sessions_fragment);
@@ -91,16 +83,7 @@ public class PostsActivity extends BaseActivity implements PostsListFragment.Cal
             Bundle args = intentToFragmentArguments(getIntent());
             mPostsFrag.reloadFromArguments(args);
         }
-
-        registerHideableHeaderView(findViewById(R.id.headerbar));
     }
-
-    @Override
-    protected void onActionBarAutoShowOrHide(boolean shown) {
-        super.onActionBarAutoShowOrHide(shown);
-        mDrawShadowFrameLayout.setShadowVisible(shown, shown);
-    }
-
 
     public static void launch(BaseActivity activity, View transitionView) {
         ActivityOptionsCompat options =

@@ -36,7 +36,7 @@
             app:foreground="@drawable/header_shadow">
 
             <!-- Sessions fragment showing the session grid -->
-            <fragment android:name="gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment"
+            <fragment android:name="gr.tsagi.jekyllforandroid.app.ui.PostsListFragment"
                       android:id="@+id/sessions_fragment"
                       android:layout_width="match_parent"
                       android:layout_height="match_parent"

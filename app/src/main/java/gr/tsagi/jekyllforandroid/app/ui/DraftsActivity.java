@@ -24,10 +24,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper;
-import gr.tsagi.jekyllforandroid.app.fragments.MarkdownPreviewFragment;
-import gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment;
-import gr.tsagi.jekyllforandroid.app.fragments.PrefsFragment;
+import gr.tsagi.jekyllforandroid.app.data.PostsDatabase;
 import gr.tsagi.jekyllforandroid.app.utils.FetchAvatar;
 import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask;
 import gr.tsagi.jekyllforandroid.app.utils.Utility;
@@ -377,7 +374,7 @@ public class DraftsActivity extends BaseActivity implements PostsListFragment.Ca
         editor.clear();
         editor.apply();
 
-        PostsDbHelper db = new PostsDbHelper(this);
+        PostsDatabase db = new PostsDatabase(this);
         db.dropTables();
         db.close();
 

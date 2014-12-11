@@ -1,17 +1,14 @@
-package gr.tsagi.jekyllforandroid.app.fragments;
+package gr.tsagi.jekyllforandroid.app.ui;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.view.LayoutInflater;
@@ -22,10 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.ui.PostsActivity;
 import gr.tsagi.jekyllforandroid.app.adapters.PostListAdapter;
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry;
 
@@ -44,7 +39,7 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
 
     // the cursor whose data we are currently displaying
     private int mSessionQueryToken;
-    private Uri mCurrentUri = ScheduleContract.Sessions.CONTENT_URI;
+    private Uri mCurrentUri = PostEntry.CONTENT_URI;
     private Cursor mCursor;
     private boolean mIsSearchCursor;
     private boolean mNoTrackBranding;
@@ -199,59 +194,15 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
         // save arguments so we can reuse it when reloading from content observer events
         mArguments = arguments;
 
-        LOGD(TAG, "SessionsFragment reloading from arguments: " + arguments);
+        LOGD(TAG, "PostsListFragment reloading from arguments: " + arguments);
         mCurrentUri = arguments.getParcelable("_uri");
         if (mCurrentUri == null) {
             // if no URI, default to all sessions URI
             LOGD(TAG, "SessionsFragment did not get a URL, defaulting to all sessions.");
-            arguments.putParcelable("_uri", ScheduleContract.Sessions.CONTENT_URI);
-            mCurrentUri = ScheduleContract.Sessions.CONTENT_URI;
+            arguments.putParcelable("_uri", PostEntry.CONTENT_URI);
+            mCurrentUri = PostEntry.CONTENT_URI;
         }
 
-        mNoTrackBranding = mArguments.getBoolean(EXTRA_NO_TRACK_BRANDING);
-
-        if (ScheduleContract.Sessions.isSearchUri(mCurrentUri)) {
-            mSessionQueryToken = SessionsQuery.SEARCH_TOKEN;
-        } else {
-            mSessionQueryToken = SessionsQuery.NORMAL_TOKEN;
-        }
-
-        LOGD(TAG, "SessionsFragment reloading, uri=" + mCurrentUri + ", expanded=" + useExpandedMode());
-
-        reloadSessionData(true); // full reload
-        if (mTagMetadata == null) {
-            reloadTagMetadata();
-        }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (!(activity instanceof Callbacks)) {
-            throw new ClassCastException("Activity must implement fragment's callbacks.");
-        }
-
-        mAppContext = getActivity().getApplicationContext();
-        mCallbacks = (Callbacks) activity;
-        mSessionsObserver = new ThrottledContentObserver(new ThrottledContentObserver.Callbacks() {
-            @Override
-            public void onThrottledContentObserverFired() {
-                onSessionsContentChanged();
-            }
-        });
-        mTagsObserver = new ThrottledContentObserver(new ThrottledContentObserver.Callbacks() {
-            @Override
-            public void onThrottledContentObserverFired() {
-                onTagsContentChanged();
-            }
-        });
-        activity.getContentResolver().registerContentObserver(
-                ScheduleContract.Sessions.CONTENT_URI, true, mSessionsObserver);
-        activity.getContentResolver().registerContentObserver(
-                ScheduleContract.Tags.CONTENT_URI, true, mTagsObserver);
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-        sp.registerOnSharedPreferenceChangeListener(mPrefChangeListener);
     }
 
     @Override
@@ -338,27 +289,6 @@ public class PostsListFragment extends Fragment implements LoaderManager.LoaderC
             // to, do so now.
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
                 mListView.smoothScrollToPosition(mPosition);
-        }
-
-        if( mPostListAdapter.getCount() == 0 ) {
-            Toast.makeText(getActivity(), "You have nothing to display here. :)",
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            // select the first post and render it.
-            if (PostsActivity.mTwoPane) {
-
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPostListAdapter.notifyDataSetChanged();
-                        mListView.performItemClick(
-                                mListView.getChildAt(0),
-                                0,
-                                mListView.getAdapter().getItemId(mListView.getAdapter().getCount()));
-                    }
-                });
-
-            }
         }
 
     }

@@ -1,9 +1,7 @@
-package gr.tsagi.jekyllforandroid.app.activities;
+package gr.tsagi.jekyllforandroid.app.ui;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -50,7 +48,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         settings = getSharedPreferences(
-                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
+                "gr.tsagi.jekyllforandroid", MODE_PRIVATE);
 
         setContentView(R.layout.activity_login);
 
@@ -86,8 +84,8 @@ public class LoginActivity extends BaseActivity {
                             Log.i("", "CODE : " + authCode);
                             authComplete = true;
                             resultIntent.putExtra("code", authCode);
-                            LoginActivity.this.setResult(Activity.RESULT_OK, resultIntent);
-                            setResult(Activity.RESULT_CANCELED, resultIntent);
+                            LoginActivity.this.setResult(RESULT_OK, resultIntent);
+                            setResult(RESULT_CANCELED, resultIntent);
                             SharedPreferences.Editor edit = settings.edit();
                             edit.putString("Code", authCode);
                             edit.commit();
@@ -97,7 +95,7 @@ public class LoginActivity extends BaseActivity {
                             Log.i("", "ACCESS_DENIED_HERE");
                             resultIntent.putExtra("code", authCode);
                             authComplete = true;
-                            setResult(Activity.RESULT_CANCELED, resultIntent);
+                            setResult(RESULT_CANCELED, resultIntent);
                             Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
                             auth_dialog.dismiss();
                         }

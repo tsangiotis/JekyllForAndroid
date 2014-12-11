@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.activities;
+package gr.tsagi.jekyllforandroid.app.ui;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;

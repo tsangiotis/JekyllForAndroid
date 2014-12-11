@@ -7,7 +7,7 @@
                 android:baselineAligned="false"
                 android:clipToPadding="false"
                 android:fitsSystemWindows="true"
-                tools:context="gr.tsagi.jekyllforandroid.app.activities.EditPostActivity">
+                tools:context="gr.tsagi.jekyllforandroid.app.ui.EditPostActivity">
 
     <include
         android:id="@+id/toolbar"

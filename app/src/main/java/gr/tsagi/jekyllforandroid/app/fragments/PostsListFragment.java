@@ -25,11 +25,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.activities.PostsActivity;
+import gr.tsagi.jekyllforandroid.app.ui.PostsActivity;
 import gr.tsagi.jekyllforandroid.app.adapters.PostListAdapter;
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry;
 
 import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
+import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.makeLogTag;
 
 
 /**
@@ -37,9 +38,18 @@ import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
  */
 public class PostsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private final static String LOG_TAG = PostsListFragment.class.getSimpleName();
+    private static final String TAG = makeLogTag(PostsListFragment.class);
 
     private PostListAdapter mPostListAdapter;
+
+    // the cursor whose data we are currently displaying
+    private int mSessionQueryToken;
+    private Uri mCurrentUri = ScheduleContract.Sessions.CONTENT_URI;
+    private Cursor mCursor;
+    private boolean mIsSearchCursor;
+    private boolean mNoTrackBranding;
+
+    private Bundle mArguments;
 
     private int status = -1;
 

@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.activities;
+package gr.tsagi.jekyllforandroid.app.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

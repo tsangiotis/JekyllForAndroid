@@ -45,7 +45,7 @@ import android.widget.TextView;
 
 import gr.tsagi.jekyllforandroid.app.BuildConfig;
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.activities.PostsActivity;
+import gr.tsagi.jekyllforandroid.app.ui.PostsActivity;
 
 import java.util.regex.Pattern;
 

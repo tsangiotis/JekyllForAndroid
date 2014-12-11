@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
-    tools:context="gr.tsagi.jekyllforandroid.app.activities.PostsActivity">
+    tools:context="gr.tsagi.jekyllforandroid.app.ui.PostsActivity">
     <!-- The main content view -->
     <!-- As the main content view, the view below consumes the entire
      space available using match_parent in both dimensions. -->

@@ -1,8 +1,7 @@
-package gr.tsagi.jekyllforandroid.app.activities;
+package gr.tsagi.jekyllforandroid.app.ui;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -328,7 +327,7 @@ public class DraftsActivity extends BaseActivity implements PostsListFragment.Ca
         // before logout ask user and remind him any draft posts
 
         final SharedPreferences sharedPreferences = getSharedPreferences(
-                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
+                "gr.tsagi.jekyllforandroid", MODE_PRIVATE);
 
         if (sharedPreferences.getString("draft_content", "").equals(""))
             builder.setMessage(R.string.dialog_logout_nodraft);
@@ -363,7 +362,7 @@ public class DraftsActivity extends BaseActivity implements PostsListFragment.Ca
 
     private void restorePreferences() {
         settings = getSharedPreferences(
-                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
+                "gr.tsagi.jekyllforandroid", MODE_PRIVATE);
         mUsername = settings.getString("user_login", "");
         mToken = settings.getString("user_status", "");
         mRepo = settings.getString("user_repo", "");
@@ -372,7 +371,7 @@ public class DraftsActivity extends BaseActivity implements PostsListFragment.Ca
 
     private void login() {
         SharedPreferences sharedPreferences = getSharedPreferences(
-                "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
+                "gr.tsagi.jekyllforandroid", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();

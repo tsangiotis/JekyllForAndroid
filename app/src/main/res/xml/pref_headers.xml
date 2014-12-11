@@ -3,15 +3,15 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="gr.tsagi.jekyllforandroid.app.activities.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="gr.tsagi.jekyllforandroid.app.ui.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general"/>
 
     <header
-        android:fragment="gr.tsagi.jekyllforandroid.app.activities.SettingsActivity$NotificationPreferenceFragment"
+        android:fragment="gr.tsagi.jekyllforandroid.app.ui.SettingsActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications"/>
 
     <header
-        android:fragment="gr.tsagi.jekyllforandroid.app.activities.SettingsActivity$DataSyncPreferenceFragment"
+        android:fragment="gr.tsagi.jekyllforandroid.app.ui.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync"/>
 
 </preference-headers>

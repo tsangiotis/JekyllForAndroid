@@ -19,6 +19,7 @@ import gr.tsagi.jekyllforandroid.app.Config;
 import gr.tsagi.jekyllforandroid.app.provider.PostsContract;
 import gr.tsagi.jekyllforandroid.app.util.PrefUtils;
 import gr.tsagi.jekyllforandroid.app.util.UIUtils;
+import gr.tsagi.jekyllforandroid.app.util.Utility;
 
 import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGD;
 import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGE;
@@ -214,9 +215,10 @@ public class SyncHelper {
 
         LOGD(TAG, "Starting remote sync.");
 
+        Utility utility = new Utility(mContext);
+
         // Fetch the remote data files via RemoteConferenceDataFetcher
-        String[] dataFiles = mRemoteDataFetcher.fetchConferenceDataIfNewer(
-                mJekyllDataHandler.getDataTimestamp());
+        String[] dataFiles = mRemoteDataFetcher.fetchConferenceDataIfNewer(utility.getBaseCommitSha());
 
         if (dataFiles != null) {
             LOGI(TAG, "Applying remote data.");

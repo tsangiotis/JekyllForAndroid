@@ -22,6 +22,12 @@ public class Config {
     // Is this an internal dogfood build?
     public static final boolean IS_DOGFOOD_BUILD = true;
 
+    // shorthand for some units of time
+    public static final long SECOND_MILLIS = 1000;
+    public static final long MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    public static final long HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    public static final long DAY_MILLIS = 24 * HOUR_MILLIS;
+
     // Warning messages for dogfood build
     public static final String DOGFOOD_BUILD_WARNING_TITLE = "Test build";
     public static final String DOGFOOD_BUILD_WARNING_TEXT = "This is a test build.";
@@ -36,6 +42,9 @@ public class Config {
     public static final String FEEDBACK_API_CODE = "";
     public static final String FEEDBACK_URL = "";
     public static final String FEEDBACK_API_KEY = "";
+
+    // Auto sync interval. Shouldn't be too small, or it might cause battery drain.
+    public static final long AUTO_SYNC_INTERVAL = 6 * HOUR_MILLIS;
 
     private static String piece(String s, char start, char end) {
         int startIndex = s.indexOf(start), endIndex = s.indexOf(end);

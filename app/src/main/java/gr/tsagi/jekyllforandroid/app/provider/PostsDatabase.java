@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.data;
+package gr.tsagi.jekyllforandroid.app.provider;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
-import static gr.tsagi.jekyllforandroid.app.data.PostsContract.*;
+import static gr.tsagi.jekyllforandroid.app.provider.PostsContract.*;
 import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
 import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGW;
 import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.makeLogTag;
@@ -32,7 +32,6 @@ public class PostsDatabase extends SQLiteOpenHelper {
         String POSTS_CATEGORIES = "posts_categories";
 
         String PUBLISHED = "published";
-        String DRAFTS = "published";
 
         String POSTS_SEARCH = "posts_search";
 
@@ -40,8 +39,6 @@ public class PostsDatabase extends SQLiteOpenHelper {
 
         String POSTS_JOIN_PUBLISHED = "posts "
                 + "LEFT OUTER JOIN published ON posts.post_id=published.post_id ";
-        String POSTS_JOIN_DRAFTS = "posts "
-                + "LEFT OUTER JOIN drafts ON posts.post_id=drafts.post_id ";
 
         String POSTS_JOIN_CATEGORY_TAGS = "posts "
                 + "LEFT OUTER JOIN published ON posts.post_id=published.post_id "
@@ -67,7 +64,6 @@ public class PostsDatabase extends SQLiteOpenHelper {
         String POSTS_TAGS_DELETE = "posts_tags_delete";
         String POSTS_CATEGORIES_DELETE = "posts_categories_delete";
         String POSTS_PUBLISHED_DELETE = "posts_published_delete";
-        String POSTS_DRAFTS_DELETE = "posts_drafts_delete";
 
         // When triggers get deprecated, add them to this list (so they get correctly deleted
         // on database upgrades)
@@ -158,10 +154,6 @@ public class PostsDatabase extends SQLiteOpenHelper {
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Published.POST_ID + " TEXT NOT NULL UNIQUE " + References.POST_ID);
 
-        db.execSQL("CREATE TABLE " + Tables.DRAFTS + " ("
-                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + Drafts.POST_ID + " TEXT NOT NULL UNIQUE " + References.POST_ID);
-
         // Full-text search index. Update using updatePostSearchIndex method.
         // Use the porter tokenizer for simple stemming, so that "frustration" matches "frustrated."
         db.execSQL("CREATE VIRTUAL TABLE " + Tables.POSTS_SEARCH + " USING fts3("
@@ -191,12 +183,6 @@ public class PostsDatabase extends SQLiteOpenHelper {
         db.execSQL("CREATE TRIGGER " + Triggers.POSTS_PUBLISHED_DELETE + " AFTER DELETE ON "
                 + Tables.POSTS + " BEGIN DELETE FROM " + Tables.PUBLISHED + " "
                 + " WHERE " + Tables.PUBLISHED + "." + Published.POST_ID +
-                "=old." + Posts.POST_ID
-                + ";" + " END;");
-
-        db.execSQL("CREATE TRIGGER " + Triggers.POSTS_DRAFTS_DELETE + " AFTER DELETE ON "
-                + Tables.POSTS + " BEGIN DELETE FROM " + Tables.DRAFTS + " "
-                + " WHERE " + Tables.DRAFTS + "." + Drafts.POST_ID +
                 "=old." + Posts.POST_ID
                 + ";" + " END;");
 
@@ -265,13 +251,11 @@ public class PostsDatabase extends SQLiteOpenHelper {
             db.execSQL("DROP TRIGGER IF EXISTS " + Triggers.POSTS_TAGS_DELETE);
             db.execSQL("DROP TRIGGER IF EXISTS " + Triggers.POSTS_CATEGORIES_DELETE);
             db.execSQL("DROP TRIGGER IF EXISTS " + Triggers.POSTS_PUBLISHED_DELETE);
-            db.execSQL("DROP TRIGGER IF EXISTS " + Triggers.POSTS_DRAFTS_DELETE);
 
             db.execSQL("DROP TABLE IF EXISTS " + Tables.TAGS);
             db.execSQL("DROP TABLE IF EXISTS " + Tables.CATEGORIES);
             db.execSQL("DROP TABLE IF EXISTS " + Tables.POSTS);
             db.execSQL("DROP TABLE IF EXISTS " + Tables.PUBLISHED);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.DRAFTS);
             db.execSQL("DROP TABLE IF EXISTS " + Tables.POSTS_TAGS);
             db.execSQL("DROP TABLE IF EXISTS " + Tables.POSTS_CATEGORIES);
             db.execSQL("DROP TABLE IF EXISTS " + Tables.POSTS_SEARCH);

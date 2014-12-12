@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.data;
+package gr.tsagi.jekyllforandroid.app.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
@@ -9,17 +9,25 @@ import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import gr.tsagi.jekyllforandroid.app.Config;
-import gr.tsagi.jekyllforandroid.app.data.PostsContract.*;
-import gr.tsagi.jekyllforandroid.app.data.PostsDatabase.*;
+import gr.tsagi.jekyllforandroid.app.provider.PostsContract.Categories;
+import gr.tsagi.jekyllforandroid.app.provider.PostsContract.Posts;
+import gr.tsagi.jekyllforandroid.app.provider.PostsContract.Published;
+import gr.tsagi.jekyllforandroid.app.provider.PostsContract.PublishedColumns;
+import gr.tsagi.jekyllforandroid.app.provider.PostsContract.SearchSuggest;
+import gr.tsagi.jekyllforandroid.app.provider.PostsContract.Tags;
+import gr.tsagi.jekyllforandroid.app.provider.PostsDatabase.PostsCategories;
+import gr.tsagi.jekyllforandroid.app.provider.PostsDatabase.PostsSearchColumns;
+import gr.tsagi.jekyllforandroid.app.provider.PostsDatabase.PostsTags;
+import gr.tsagi.jekyllforandroid.app.provider.PostsDatabase.Tables;
 import gr.tsagi.jekyllforandroid.app.utils.SelectionBuilder;
 
 import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGV;
@@ -49,22 +57,18 @@ public class PostsProvider extends ContentProvider {
     private static final int POSTS_ID = 302;
     private static final int POSTS_ID_TAGS = 303;
     private static final int POSTS_ID_CATEGORIES = 304;
-    private static final int POSTS_DRAFTS = 305;
-    private static final int POSTS_PUBLISHED = 306;
+    private static final int POSTS_PUBLISHED = 305;
+    private static final int POSTS_DRAFTS = 306;
 
     private static final int PUBLISHED = 400;
 
-    private static final int DRAFTS = 500;
-
-    private static final int SEARCH_SUGGEST = 600;
-    private static final int SEARCH_INDEX = 601;
+    private static final int SEARCH_SUGGEST = 500;
+    private static final int SEARCH_INDEX = 501;
 
     /**
      * Build and return a {@link UriMatcher} that catches all {@link Uri}
      * variations supported by this {@link ContentProvider}.
      */
-    private static final SQLiteQueryBuilder sParametersQueryBuilder;
-
     private static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = PostsContract.CONTENT_AUTHORITY;
@@ -77,14 +81,13 @@ public class PostsProvider extends ContentProvider {
 
         matcher.addURI(authority, "posts", POSTS);
         matcher.addURI(authority, "posts/search/*", POSTS_SEARCH);
-        matcher.addURI(authority, "posts/drafts/*", POSTS_DRAFTS);
         matcher.addURI(authority, "posts/published/*", POSTS_PUBLISHED);
+        matcher.addURI(authority, "posts/drafts/*", POSTS_DRAFTS);
         matcher.addURI(authority, "posts/*", POSTS_ID);
         matcher.addURI(authority, "posts/*/categories", POSTS_ID_CATEGORIES);
         matcher.addURI(authority, "posts/*/tags", POSTS_ID_TAGS);
 
         matcher.addURI(authority, "published", PUBLISHED);
-        matcher.addURI(authority, "drafts", DRAFTS);
 
         matcher.addURI(authority, "search_suggest_query", SEARCH_SUGGEST);
         matcher.addURI(authority, "search_index", SEARCH_INDEX); // 'update' only
@@ -135,8 +138,6 @@ public class PostsProvider extends ContentProvider {
                 return Tags.CONTENT_TYPE;
             case PUBLISHED:
                 return Published.CONTENT_TYPE;
-            case DRAFTS:
-                return Drafts.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -259,12 +260,6 @@ public class PostsProvider extends ContentProvider {
                 notifyChange(uri);
                 return Posts.buildPostUri(values.getAsString(
                         PublishedColumns.POST_ID));
-            }
-            case DRAFTS: {
-                db.insertOrThrow(Tables.DRAFTS, null, values);
-                notifyChange(uri);
-                return Posts.buildPostUri(values.getAsString(
-                        DraftsColumns.POST_ID));
             }
             case SEARCH_SUGGEST: {
                 db.insertOrThrow(Tables.SEARCH_SUGGEST, null, values);
@@ -395,16 +390,8 @@ public class PostsProvider extends ContentProvider {
                 return builder.table(Tables.PUBLISHED)
                         .where(PostsContract.PublishedColumns.POST_ID + "=?", postId);
             }
-            case POSTS_DRAFTS: {
-                final String postId = Posts.getPostId(uri);
-                return builder.table(Tables.DRAFTS)
-                        .where(PostsContract.DraftsColumns.POST_ID + "=?", postId);
-            }
             case PUBLISHED: {
                 return builder.table(Tables.PUBLISHED);
-            }
-            case DRAFTS: {
-                return builder.table(Tables.DRAFTS);
             }
             case SEARCH_SUGGEST: {
                 return builder.table(Tables.SEARCH_SUGGEST);
@@ -501,5 +488,33 @@ public class PostsProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
             }
         }
+    }
+
+    @Override
+    public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            default: {
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+            }
+        }
+    }
+
+    private interface Subquery {
+        String POSTS_SNIPPET = "snippet(" + Tables.POSTS_SEARCH + ",'{','}','\u2026')";
+    }
+
+    /**
+     * {@link PostsContract} fields that are fully qualified with a specific
+     * parent {@link Tables}. Used when needed to work around SQL ambiguity.
+     */
+    private interface Qualified {
+        String POSTS_POST_ID = Tables.POSTS + "." + Posts.POST_ID;
+
+        String POSTS_TAGS_POST_ID = Tables.POSTS_TAGS + "."
+                + PostsTags.POST_ID;
+
+        String POSTS_CATEGORIES_POST_ID = Tables.POSTS_CATEGORIES + "."
+                + PostsCategories.POST_ID;
     }
 }

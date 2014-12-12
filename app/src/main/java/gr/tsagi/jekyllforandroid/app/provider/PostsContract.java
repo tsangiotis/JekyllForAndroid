@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.data;
+package gr.tsagi.jekyllforandroid.app.provider;
 
 import android.app.SearchManager;
 import android.net.Uri;
@@ -76,8 +76,6 @@ public class PostsContract {
         String POST_CATEGORIES = "post_categories";
         /** Flag indicating published status. */
         String POST_PUBLISHED = "post_published";
-        /** Flag indicating draft status. */
-        String POST_DRAFTS = "post_draft";
     }
 
     // The "Content authority" is a name for the entire content provider, similar to the

@@ -202,20 +202,9 @@ public class PostsDatabase extends SQLiteOpenHelper {
                 // Full text body
                 + Posts.POST_TITLE + "||'; '||"
                 + Posts.POST_ABSTRACT + "||'; '||"
-                + "IFNULL(GROUP_CONCAT(t." + Speakers.SPEAKER_NAME + ",' '),'')||'; '||"
                 + "'')"
 
                 + " FROM " + Tables.POSTS + " s "
-                + " LEFT OUTER JOIN"
-
-                // Subquery resulting in post_id, speaker_id, speaker_name
-                + "(SELECT " + Posts.POST_ID + "," + Qualified.SPEAKERS_SPEAKER_ID
-                + "," + Speakers.SPEAKER_NAME
-                + " FROM " + Tables.POSTS_SPEAKERS
-                + " INNER JOIN " + Tables.SPEAKERS
-                + " ON " + Qualified.POSTS_SPEAKERS_SPEAKER_ID + "="
-                + Qualified.SPEAKERS_SPEAKER_ID
-                + ") t"
 
                 // Grand finale
                 + " ON s." + Posts.POST_ID + "=t." + Posts.POST_ID

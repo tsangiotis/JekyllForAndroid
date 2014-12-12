@@ -23,6 +23,7 @@ import gr.tsagi.jekyllforandroid.app.util.UIUtils;
 import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGD;
 import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGE;
 import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGI;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGW;
 import static gr.tsagi.jekyllforandroid.app.util.LogUtils.makeLogTag;
 
 /**
@@ -36,12 +37,12 @@ public class SyncHelper {
 
     private Context mContext;
     private JekyllDataHandler mJekyllDataHandler;
-    private RemoteConferenceDataFetcher mRemoteDataFetcher;
+    private RemoteJekyllDataFetcher mRemoteDataFetcher;
 
     public SyncHelper(Context context) {
         mContext = context;
         mJekyllDataHandler = new JekyllDataHandler(mContext);
-        mRemoteDataFetcher = new RemoteConferenceDataFetcher(mContext);
+        mRemoteDataFetcher = new RemoteJekyllDataFetcher(mContext);
     }
 
     public static void requestManualSync(Account mChosenAccount) {
@@ -134,10 +135,6 @@ public class SyncHelper {
                         break;
                     case OP_USER_SCHEDULE_SYNC:
                         dataChanged |= doUserScheduleSync(account.name);
-                        break;
-                    case OP_USER_FEEDBACK_SYNC:
-                        doUserFeedbackSync();
-                        break;
                 }
             } catch (AuthException ex) {
                 syncResult.stats.numAuthExceptions++;
@@ -224,8 +221,7 @@ public class SyncHelper {
         if (dataFiles != null) {
             LOGI(TAG, "Applying remote data.");
             // save the remote data to the database
-            mJekyllDataHandler.applyConferenceData(dataFiles,
-                    mRemoteDataFetcher.getServerDataTimestamp(), true);
+            mJekyllDataHandler.applyConferenceData(dataFiles, true);
             LOGI(TAG, "Done applying remote data.");
 
             // mark that conference data sync succeeded

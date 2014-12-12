@@ -52,7 +52,7 @@ public class JekyllDataHandler {
     private static final String DEFAULT_TIMESTAMP = "Sat, 1 Jan 2000 00:00:00 GMT";
 
     private static final String DATA_KEY_TAGS = "tags";
-    private static final String DATA_KEY_CATEGORIES = "categories";
+    private static final String DATA_KEY_CATEGORIES = "category";
     private static final String DATA_KEY_POSTS = "posts";
     private static final String DATA_KEY_SEARCH_SUGGESTIONS = "search_suggestions";
 
@@ -87,13 +87,12 @@ public class JekyllDataHandler {
      * content provider. The format of the data is documented at https://code.google.com/p/iosched.
      *
      * @param dataBodies The collection of JSON objects to parse and import.
-     * @param dataTimestamp The timestamp of the data. This should be in RFC1123 format.
      * @param downloadsAllowed Whether or not we are supposed to download data from the internet if needed.
      * @throws IOException If there is a problem parsing the data.
      */
-    public void applyConferenceData(String[] dataBodies, String dataTimestamp,
+    public void applyConferenceData(String[] dataBodies,
                                     boolean downloadsAllowed) throws IOException {
-        LOGD(TAG, "Applying data from " + dataBodies.length + " files, timestamp " + dataTimestamp);
+        LOGD(TAG, "Applying data from " + dataBodies.length + " files");
 
         // create handlers for each data type
         mHandlerForKey.put(DATA_KEY_TAGS, mTagsHandler = new TagsHandler(mContext));
@@ -148,9 +147,6 @@ public class JekyllDataHandler {
             resolver.notifyChange(uri, null);
         }
 
-
-        // update our data timestamp
-        setDataTimestamp(dataTimestamp);
         LOGD(TAG, "Done applying conference data.");
     }
 

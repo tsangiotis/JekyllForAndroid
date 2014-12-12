@@ -11,6 +11,7 @@ public class Post {
     public String description;
     public String date;
     public String content;
+    public int published;
     public String[] categories;
     public String[] tags;
 

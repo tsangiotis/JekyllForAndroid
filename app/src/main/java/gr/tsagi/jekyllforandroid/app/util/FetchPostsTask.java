@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
-import gr.tsagi.jekyllforandroid.app.data.PostsContract;
+import gr.tsagi.jekyllforandroid.app.provider.PostsContract;
 
 /**
  * Created by tsagi on 1/30/14.

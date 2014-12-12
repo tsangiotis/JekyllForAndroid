@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,9 +23,9 @@ import java.util.Date;
 import java.util.Map;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.data.PostsContract;
+import gr.tsagi.jekyllforandroid.app.provider.PostsContract;
 
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGD;
 
 /**
  * Created by tsagi on 8/9/14.

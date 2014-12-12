@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 /**
  * Created by tsagi on 7/9/14.

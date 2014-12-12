@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

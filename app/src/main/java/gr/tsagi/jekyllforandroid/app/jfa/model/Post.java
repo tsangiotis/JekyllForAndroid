@@ -1,5 +1,7 @@
 package gr.tsagi.jekyllforandroid.app.jfa.model;
 
+import gr.tsagi.jekyllforandroid.app.util.HashUtils;
+
 /**
  * Created by tsagi on 10/21/14.
  */
@@ -48,6 +50,27 @@ public class Post {
         }
         return false;
     }
+
+    public boolean hasCategory(String category) {
+        for (String myCategory : categories) {
+            if (myCategory.equals(category)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String makeCategoriesList() {
+        int i;
+        if (categories.length == 0) return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append(categories[0]);
+        for (i = 1; i < categories.length; i++) {
+            sb.append(",").append(categories[i]);
+        }
+        return sb.toString();
+    }
+
 }
 
 

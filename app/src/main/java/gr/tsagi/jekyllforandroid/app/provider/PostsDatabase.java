@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
 import static gr.tsagi.jekyllforandroid.app.provider.PostsContract.*;
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGW;
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.makeLogTag;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGD;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGW;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.makeLogTag;
 
 /**
  * Created by tsagi on 8/8/14.
@@ -134,6 +134,7 @@ public class PostsDatabase extends SQLiteOpenHelper {
                 + PostsColumns.POST_ABSTRACT + " TEXT,"
                 + PostsColumns.POST_TAGS + " TEXT,"
                 + PostsColumns.POST_CATEGORIES + " TEXT,"
+                + PostsColumns.POST_IMPORT_HASHCODE + " TEXT NOT NULL DEFAULT '',"
                 + "UNIQUE (" + PostsColumns.POST_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE " + Tables.POSTS_TAGS + " ("

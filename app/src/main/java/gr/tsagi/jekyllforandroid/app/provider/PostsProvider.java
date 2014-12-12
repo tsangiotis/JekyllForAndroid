@@ -28,10 +28,10 @@ import gr.tsagi.jekyllforandroid.app.provider.PostsDatabase.PostsCategories;
 import gr.tsagi.jekyllforandroid.app.provider.PostsDatabase.PostsSearchColumns;
 import gr.tsagi.jekyllforandroid.app.provider.PostsDatabase.PostsTags;
 import gr.tsagi.jekyllforandroid.app.provider.PostsDatabase.Tables;
-import gr.tsagi.jekyllforandroid.app.utils.SelectionBuilder;
+import gr.tsagi.jekyllforandroid.app.util.SelectionBuilder;
 
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGV;
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.makeLogTag;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGV;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.makeLogTag;
 
 
 /**

@@ -42,7 +42,7 @@
         </activity>
 
         <provider
-            android:name="gr.tsagi.jekyllforandroid.app.data.PostsProvider"
+            android:name="gr.tsagi.jekyllforandroid.app.provider.PostsProvider"
             android:authorities="@string/content_authority"
             android:exported="false"
             android:syncable="true" />

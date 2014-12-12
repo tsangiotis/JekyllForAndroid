@@ -78,6 +78,9 @@
 
     <string name="no_connection_cant_login">Try getting online first</string>
 
+    <string name="day_title_today">Today</string>
+    <string name="day_title_yesterday">Yesterday</string>
+
     <string name="json_path" translatable="false">json/index.html</string>
     <string name="title_activity_posts_list">Posts</string>
     <string name="action_settings">Settings</string>

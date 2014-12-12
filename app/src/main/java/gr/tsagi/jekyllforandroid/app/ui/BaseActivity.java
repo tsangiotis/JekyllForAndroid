@@ -38,15 +38,15 @@ import java.util.Map;
 import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.ui.widget.MultiSwipeRefreshLayout;
 import gr.tsagi.jekyllforandroid.app.ui.widget.ScrimInsetsScrollView;
-import gr.tsagi.jekyllforandroid.app.utils.ImageLoader;
-import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo;
-import gr.tsagi.jekyllforandroid.app.utils.LUtils;
-import gr.tsagi.jekyllforandroid.app.utils.PrefUtils;
-import gr.tsagi.jekyllforandroid.app.utils.UIUtils;
-import gr.tsagi.jekyllforandroid.app.utils.Utility;
+import gr.tsagi.jekyllforandroid.app.util.ImageLoader;
+import gr.tsagi.jekyllforandroid.app.util.JekyllRepo;
+import gr.tsagi.jekyllforandroid.app.util.LUtils;
+import gr.tsagi.jekyllforandroid.app.util.PrefUtils;
+import gr.tsagi.jekyllforandroid.app.util.UIUtils;
+import gr.tsagi.jekyllforandroid.app.util.Utility;
 
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGW;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGD;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGW;
 
 /**
  * Created by tsagi on 10/20/14.

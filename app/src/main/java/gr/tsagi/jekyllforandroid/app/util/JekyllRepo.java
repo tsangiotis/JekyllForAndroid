@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGD;
 
 /**
  * Created by tsagi on 1/29/14.

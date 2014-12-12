@@ -8,7 +8,7 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.makeLogTag;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.makeLogTag;
 
 /**
  * Created by tsagi on 8/8/14.
@@ -76,6 +76,8 @@ public class PostsContract {
         String POST_CATEGORIES = "post_categories";
         /** Flag indicating published status. */
         String POST_PUBLISHED = "post_published";
+        /** The hashcode of the data used to create this record. */
+        String POST_IMPORT_HASHCODE = "post_import_hashcode";
     }
 
     // The "Content authority" is a name for the entire content provider, similar to the

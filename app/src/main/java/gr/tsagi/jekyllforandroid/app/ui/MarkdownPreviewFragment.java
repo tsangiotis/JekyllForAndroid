@@ -12,7 +12,7 @@ import android.webkit.WebView;
 import com.commonsware.cwac.anddown.AndDown;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.utils.Utility;
+import gr.tsagi.jekyllforandroid.app.util.Utility;
 
 public class MarkdownPreviewFragment extends Fragment {
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.ui.PostsListFragment;
-import gr.tsagi.jekyllforandroid.app.utils.Utility;
+import gr.tsagi.jekyllforandroid.app.util.Utility;
 
 /**
  * Created by tsagi on 8/9/14.

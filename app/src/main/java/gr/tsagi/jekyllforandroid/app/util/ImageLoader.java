@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -36,8 +36,8 @@ import java.util.regex.Pattern;
 
 import gr.tsagi.jekyllforandroid.app.R;
 
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.makeLogTag;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGD;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.makeLogTag;
 
 
 public class ImageLoader {

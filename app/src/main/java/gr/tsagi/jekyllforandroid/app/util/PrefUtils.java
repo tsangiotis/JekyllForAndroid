@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import java.util.TimeZone;
 
 
 /**
@@ -109,14 +111,8 @@ public class PrefUtils  {
         return sp.getBoolean(PREF_LOCAL_TIMES, false);
     }
 
-    public static void setUsingLocalTime(final Context context, final boolean usingLocalTime) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putBoolean(PREF_LOCAL_TIMES, usingLocalTime).commit();
-    }
-
-    public static boolean isAttendeeAtVenue(final Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(PREF_ATTENDEE_AT_VENUE, true);
+    public static TimeZone getDisplayTimeZone(Context context) {
+        return TimeZone.getDefault();
     }
 
     public static void markDataBootstrapDone(final Context context) {

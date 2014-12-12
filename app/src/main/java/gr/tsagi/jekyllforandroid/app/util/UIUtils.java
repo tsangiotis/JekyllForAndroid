@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 import android.annotation.TargetApi;
 import android.content.ComponentName;
@@ -49,8 +49,8 @@ import gr.tsagi.jekyllforandroid.app.ui.PostsActivity;
 
 import java.util.regex.Pattern;
 
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGE;
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.makeLogTag;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGE;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.makeLogTag;
 
 
 /**

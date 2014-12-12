@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,8 +16,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry;
-import gr.tsagi.jekyllforandroid.app.model.Post;
+import gr.tsagi.jekyllforandroid.app.provider.PostsContract.PostEntry;
+import gr.tsagi.jekyllforandroid.app.jfa.model.Post;
 
 
 /**

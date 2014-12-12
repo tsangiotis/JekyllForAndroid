@@ -25,8 +25,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken;
-import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo;
+import gr.tsagi.jekyllforandroid.app.util.GetAccessToken;
+import gr.tsagi.jekyllforandroid.app.util.JekyllRepo;
 
 public class LoginActivity extends BaseActivity {
     private static String CLIENT_ID = "c93bd14e3c9671bd7dbf";

@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 /**
  * Created by tsagi on 12/11/14.
@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGV;
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.makeLogTag;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGV;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.makeLogTag;
 
 /**
  * Helper for building selection clauses for {@link SQLiteDatabase}. Each

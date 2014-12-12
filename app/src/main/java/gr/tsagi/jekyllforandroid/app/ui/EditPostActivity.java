@@ -31,9 +31,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.data.PostsContract;
-import gr.tsagi.jekyllforandroid.app.utils.GithubPush;
-import gr.tsagi.jekyllforandroid.app.utils.Utility;
+import gr.tsagi.jekyllforandroid.app.provider.PostsContract;
+import gr.tsagi.jekyllforandroid.app.util.GithubPush;
+import gr.tsagi.jekyllforandroid.app.util.Utility;
 
 public class EditPostActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 

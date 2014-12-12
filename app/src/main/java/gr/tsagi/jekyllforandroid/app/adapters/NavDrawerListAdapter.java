@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem;
+import gr.tsagi.jekyllforandroid.app.util.NavDrawerItem;
 
 /**
  * Created by tsagi on 7/9/14.

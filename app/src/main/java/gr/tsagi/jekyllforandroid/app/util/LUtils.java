@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 import android.annotation.TargetApi;
 import android.app.ActivityOptions;

@@ -22,10 +22,10 @@ import android.widget.ListView;
 
 import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.adapters.PostListAdapter;
-import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry;
+import gr.tsagi.jekyllforandroid.app.provider.PostsContract.PostEntry;
 
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.makeLogTag;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGD;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.makeLogTag;
 
 
 /**

@@ -1,4 +1,4 @@
-package gr.tsagi.jekyllforandroid.app.utils;
+package gr.tsagi.jekyllforandroid.app.util;
 
 /**
  * Created by tsagi on 12/6/14.
@@ -14,7 +14,7 @@ import com.google.android.gms.analytics.Tracker;
 import gr.tsagi.jekyllforandroid.app.BuildConfig;
 import gr.tsagi.jekyllforandroid.app.R;
 
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.LOGD;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.LOGD;
 
 public class AnalyticsManager {
     private static Context sAppContext = null;

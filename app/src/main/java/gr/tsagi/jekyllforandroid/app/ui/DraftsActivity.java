@@ -24,10 +24,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.data.PostsDatabase;
-import gr.tsagi.jekyllforandroid.app.utils.FetchAvatar;
-import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask;
-import gr.tsagi.jekyllforandroid.app.utils.Utility;
+import gr.tsagi.jekyllforandroid.app.provider.PostsDatabase;
+import gr.tsagi.jekyllforandroid.app.util.FetchAvatar;
+import gr.tsagi.jekyllforandroid.app.util.FetchPostsTask;
+import gr.tsagi.jekyllforandroid.app.util.Utility;
 
 /**
  * Created by tsagi on 9/9/13.

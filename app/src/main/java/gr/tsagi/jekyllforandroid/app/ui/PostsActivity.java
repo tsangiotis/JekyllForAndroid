@@ -9,9 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import gr.tsagi.jekyllforandroid.app.R;
-import gr.tsagi.jekyllforandroid.app.utils.AnalyticsManager;
+import gr.tsagi.jekyllforandroid.app.util.AnalyticsManager;
 
-import static gr.tsagi.jekyllforandroid.app.utils.LogUtils.makeLogTag;
+import static gr.tsagi.jekyllforandroid.app.util.LogUtils.makeLogTag;
 
 /**
  * Created by tsagi on 9/9/13.

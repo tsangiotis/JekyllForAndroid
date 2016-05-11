@@ -1,7 +1,7 @@
 Jekyll for Android
 =========================
 
-># CONTRIBUTORS NEEDED
+># NO LONGER ACTIVE - CONTRIBUTORS NEEDED
 >I don't have the time to maintain the app. If someone could help it would be **awesome**!
 
 ---
@@ -35,7 +35,9 @@ Download [ADT Bundle](http://developer.android.com/sdk/index.html) and Import th
 
 #Download:
 
-Download from the [Play Store](https://play.google.com/store/apps/details?id=gr.tsagi.jekyllforandroid)!
+~~Download from the Play Store~~
+
+You can find old APKs in the [releases tab](https://github.com/tsangiotis/JekyllForAndroid/releases)
 
 The client is in __Beta__ stage.
 

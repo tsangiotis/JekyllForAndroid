@@ -23,6 +23,7 @@ install it on your smartphone from the link at the end of the README.
 
 ##Features:
 
+
 - One time GitHub Login
 - Create a post
 	- Title
@@ -35,6 +36,7 @@ install it on your smartphone from the link at the end of the README.
 - Edit/Delete posts
 
 ##特征：
+
 
 * 一次GitHub登录
 *  创建一个帖子

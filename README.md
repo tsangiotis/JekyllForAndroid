@@ -5,7 +5,7 @@
 
 
 
-###### Written in kotlin language
+###### android app Written in kotlin language
 
 --------------
 A very simple client to post on a Jekyll blog from your phone.

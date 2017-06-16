@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="category_icon_id">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+    </integer-array>
+
+    <string-array name="category_icon_data">
+        <item>ic_cat_general</item>
+        <item>ic_cat_personal</item>
+        <item>ic_cat_work</item>
+        <item>ic_cat_inspiration</item>
+        <item>ic_cat_office</item>
+        <item>ic_cat_home</item>
+        <item>ic_cat_school</item>
+        <item>ic_cat_plan</item>
+        <item>ic_cat_finace</item>
+        <item>ic_bubble_white</item>
+        <item>ic_cc_white</item>
+        <item>ic_computer_white</item>
+        <item>ic_fitness_white</item>
+        <item>ic_music_white</item>
+        <item>ic_plane_white</item>
+        <item>ic_puzzle_white</item>
+        <item>ic_railway_white</item>
+        <item>ic_restaurant_white</item>
+        <item>ic_school_white</item>
+        <item>ic_pet_white</item>
+    </string-array>
+
+    <string-array name="category_color_data">
+        <item>#F44336</item>
+        <item>#E91E63</item>
+        <item>#9C27B0</item>
+        <item>#673AB7</item>
+        <item>#3F51B5</item>
+        <item>#2196F3</item>
+        <item>#03A9F4</item>
+        <item>#00BCD4</item>
+        <item>#00BCD4</item>
+        <item>#4CAF50</item>
+        <item>#8BC34A</item>
+        <item>#CDDC39</item>
+        <item>#FFEB3B</item>
+        <item>#FFC107</item>
+        <item>#FF9800</item>
+        <item>#FF5722</item>
+        <item>#795548</item>
+        <item>#9E9E9E</item>
+        <item>#607D8B</item>
+        <item>#000000</item>
+    </string-array>
+</resources>

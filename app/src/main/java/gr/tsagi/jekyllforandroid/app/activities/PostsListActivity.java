@@ -25,7 +25,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
 
-import gr.tsagi.jekyllforandroid.app.R;
+import app.wt.noolis.R;
 import gr.tsagi.jekyllforandroid.app.adapters.NavDrawerListAdapter;
 import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper;
 import gr.tsagi.jekyllforandroid.app.fragments.MarkdownPreviewFragment;

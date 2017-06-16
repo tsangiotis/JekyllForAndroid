@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import gr.tsagi.jekyllforandroid.app.R;
+import app.wt.noolis.R;
 import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken;
 import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo;
 

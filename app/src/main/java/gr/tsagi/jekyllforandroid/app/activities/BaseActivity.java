@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import gr.tsagi.jekyllforandroid.app.R;
+import app.wt.noolis.R;
 
 /**
  * Created by tsagi on 10/20/14.

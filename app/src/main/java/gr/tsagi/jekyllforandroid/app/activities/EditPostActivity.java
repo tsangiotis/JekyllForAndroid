@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import gr.tsagi.jekyllforandroid.app.R;
+import app.wt.noolis.R;
 import gr.tsagi.jekyllforandroid.app.data.PostsContract;
 import gr.tsagi.jekyllforandroid.app.utils.GithubPush;
 import gr.tsagi.jekyllforandroid.app.utils.Utility;

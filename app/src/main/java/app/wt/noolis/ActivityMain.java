@@ -1,5 +1,6 @@
 package app.wt.noolis;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -55,6 +56,7 @@ public class ActivityMain extends AppCompatActivity {
 
     private int navigation = 0;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

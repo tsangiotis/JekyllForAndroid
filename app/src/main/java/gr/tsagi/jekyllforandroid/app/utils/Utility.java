@@ -1,5 +1,6 @@
 package gr.tsagi.jekyllforandroid.app.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -10,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import gr.tsagi.jekyllforandroid.app.R;
+import app.wt.noolis.R;
 import gr.tsagi.jekyllforandroid.app.data.PostsContract;
 
 /**
@@ -118,6 +119,7 @@ public class Utility {
      *                in Utility.DATE_FORMAT
      * @return a user-friendly representation of the date.
      */
+    @SuppressLint("StringFormatMatches")
     public String getFriendlyDayString(String dateStr) {
         // The day string for forecast uses the following logic:
         // For today: "Today, June 8"

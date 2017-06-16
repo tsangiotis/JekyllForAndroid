@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import gr.tsagi.jekyllforandroid.app.R;
+import app.wt.noolis.R;
 import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem;
 
 /**

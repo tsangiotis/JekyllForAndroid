@@ -148,8 +148,8 @@ public class GithubPush {
                 Calendar now = Calendar.getInstance();
                 author.setDate(now.getTime());
                 commit.setAuthor(author);
-                commit.setCommitte
-                r(author);
+//                commit.setCommitte
+//                r(author);
 
                 List<Commit> listOfCommits = new ArrayList<Commit>();
                 listOfCommits.add(new Commit().setSha(baseCommitSha));

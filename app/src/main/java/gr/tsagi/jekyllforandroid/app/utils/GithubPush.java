@@ -149,6 +149,7 @@ public class GithubPush {
                 author.setDate(now.getTime());
                 commit.setAuthor(author);
 //                commit.setCommitte
+
 //                r(author);
 
                 List<Commit> listOfCommits = new ArrayList<Commit>();

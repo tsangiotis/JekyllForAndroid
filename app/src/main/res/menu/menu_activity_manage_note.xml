@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_fav"
+        android:icon="@drawable/ic_favorites_outline"
+        android:orderInCategory="10"
+        android:title="Fav"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@drawable/ic_trash_white"
+        android:orderInCategory="10"
+        android:title="Delete"
+        app:showAsAction="always" />
+
+</menu>

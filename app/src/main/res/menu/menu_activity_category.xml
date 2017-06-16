@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_edit_cat"
+        android:icon="@drawable/ic_pen_white"
+        android:orderInCategory="10"
+        android:title="Edit"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/action_delete_cat"
+        android:icon="@drawable/ic_trash_white"
+        android:orderInCategory="10"
+        android:title="Delete"
+        app:showAsAction="always" />
+
+</menu>

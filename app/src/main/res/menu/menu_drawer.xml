@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_all_note"
+            android:icon="@drawable/ic_nav_list"
+            android:title="@string/str_nav_all_note"
+            app:actionLayout="@layout/menu_counter"/>
+
+        <item
+            android:id="@+id/nav_category"
+            android:icon="@drawable/ic_nav_category"
+            android:title="@string/str_nav_cat"/>
+
+        <item
+            android:id="@+id/nav_fav"
+            android:icon="@drawable/ic_nav_favorites"
+            android:title="@string/str_nav_fav"
+            app:actionLayout="@layout/menu_counter"/>
+
+    </group>
+
+    <group
+        android:id="@+id/others"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_rate"
+            android:icon="@drawable/ic_nav_star"
+            android:title="@string/str_nav_rate"/>
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_nav_about"
+            android:title="@string/str_nav_about"/>
+    </group>
+
+</menu>

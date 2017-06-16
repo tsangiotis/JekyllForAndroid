@@ -21,6 +21,7 @@ apply plugin: 'com.android.application'
 
 
 android {
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
 

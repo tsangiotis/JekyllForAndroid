@@ -13,10 +13,10 @@
     </style>
 
     <!-- Style for forecast listview -->
-    <style name="android:PostsListStyle">
-        <!-- Here it's a stub.  In screens of sufficient width, this style includes modifications
-        for two-pane layout -->
-    </style>
+    <!--<style name="android:PostsListStyle">-->
+        <!--&lt;!&ndash; Here it's a stub.  In screens of sufficient width, this style includes modifications-->
+        <!--for two-pane layout &ndash;&gt;-->
+    <!--</style>-->
 
 
 </resources>

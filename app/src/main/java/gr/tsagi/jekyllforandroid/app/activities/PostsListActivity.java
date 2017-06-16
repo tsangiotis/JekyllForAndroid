@@ -37,7 +37,7 @@ import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem;
 /**
  * Created by tsagi on 9/9/13.
  */
-
+@SuppressWarnings("ResourceType")
 public class PostsListActivity extends BaseActivity implements PostsListFragment.Callback {
 
     private static final String LOG_TAG = PostsListActivity.class.getSimpleName();

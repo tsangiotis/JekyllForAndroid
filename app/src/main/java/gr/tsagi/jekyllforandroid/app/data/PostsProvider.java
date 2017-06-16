@@ -8,10 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
-
-import gr.tsagi.jekyllforandroid.app.data.PostsContract.CategoryEntry;
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry;
-import gr.tsagi.jekyllforandroid.app.data.PostsContract.TagEntry;
 
 
 /**
@@ -41,18 +38,7 @@ public class PostsProvider extends ContentProvider {
     static{
         sParametersQueryBuilder = new SQLiteQueryBuilder();
         sParametersQueryBuilder.setTables(
-                PostEntry.TABLE_NAME + " INNER JOIN " +
-                        CategoryEntry.TABLE_NAME +
-                        " ON " + PostEntry.TABLE_NAME +
-                        "." + PostEntry.COLUMN_POST_ID +
-                        " = " + CategoryEntry.TABLE_NAME +
-                        "." + CategoryEntry.COLUMN_POST_ID +
-                        " INNER JOIN " +
-                        TagEntry.TABLE_NAME +
-                        " ON " + PostEntry.TABLE_NAME +
-                        "." + PostEntry.COLUMN_POST_ID +
-                        " = " + TagEntry.TABLE_NAME +
-                        "." + TagEntry.COLUMN_POST_ID
+                PostEntry.TABLE_NAME
                 );
     }
 
@@ -140,7 +126,7 @@ public class PostsProvider extends ContentProvider {
                         String sortOrder) {
         // Here's the switch statement that, given a URI, will determine what kind of request it is,
         // and query the database accordingly.
-        Cursor retCursor;
+        Cursor retCursor = null;
         switch (sUriMatcher.match(uri)) {
             // "posts/*"
             case POST_STATUS: {
@@ -168,28 +154,28 @@ public class PostsProvider extends ContentProvider {
             }
             // "tag"
             case TAG: {
-                retCursor = mOpenHelper.getReadableDatabase().query(
-                        TagEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder
-                );
+//                retCursor = mOpenHelper.getReadableDatabase().query(
+//                        TagEntry.TABLE_NAME,
+//                        projection,
+//                        selection,
+//                        selectionArgs,
+//                        null,
+//                        null,
+//                        sortOrder
+//                );
                 break;
             }
             // "category"
             case CATEGORY: {
-                retCursor = mOpenHelper.getReadableDatabase().query(
-                        CategoryEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder
-                );
+//                retCursor = mOpenHelper.getReadableDatabase().query(
+//                        CategoryEntry.TABLE_NAME,
+//                        projection,
+//                        selection,
+//                        selectionArgs,
+//                        null,
+//                        null,
+//                        sortOrder
+//                );
                 break;
             }
             default:
@@ -243,9 +229,9 @@ public class PostsProvider extends ContentProvider {
             case POST:
                 return PostEntry.CONTENT_TYPE;
             case TAG:
-                return TagEntry.CONTENT_TYPE;
+//                return TagEntry.CONTENT_TYPE;
             case CATEGORY:
-                return CategoryEntry.CONTENT_TYPE;
+//                return CategoryEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -255,7 +241,7 @@ public class PostsProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
-        Uri returnUri;
+        Uri returnUri = null;
 
         switch (match) {
             case POST: {
@@ -267,19 +253,19 @@ public class PostsProvider extends ContentProvider {
                 break;
             }
             case TAG: {
-                long _id = db.insert(TagEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
-                    returnUri = TagEntry.buildTagUri(_id);
-                else
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
+//                long _id = db.insert(TagEntry.TABLE_NAME, null, values);
+//                if ( _id > 0 )
+//                    returnUri = TagEntry.buildTagUri(_id);
+//                else
+//                    throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
             case CATEGORY: {
-                long _id = db.insert(CategoryEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
-                    returnUri = CategoryEntry.buildCategoryUri(_id);
-                else
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
+//                long _id = db.insert(CategoryEntry.TABLE_NAME, null, values);
+//                if ( _id > 0 )
+//                    returnUri = CategoryEntry.buildCategoryUri(_id);
+//                else
+//                    throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
             default:
@@ -293,19 +279,19 @@ public class PostsProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
-        int rowsDeleted;
+        int rowsDeleted = 0;
         switch (match) {
             case POST:
                 rowsDeleted = db.delete(
                         PostEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case TAG:
-                rowsDeleted = db.delete(
-                        TagEntry.TABLE_NAME, selection, selectionArgs);
+//                rowsDeleted = db.delete(
+//                        TagEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case CATEGORY:
-                rowsDeleted = db.delete(
-                        CategoryEntry.TABLE_NAME, selection, selectionArgs);
+//                rowsDeleted = db.delete(
+//                        CategoryEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -322,7 +308,7 @@ public class PostsProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
-        int rowsUpdated;
+        int rowsUpdated=0;
 
         switch (match) {
             case POST:
@@ -330,12 +316,12 @@ public class PostsProvider extends ContentProvider {
                         selectionArgs);
                 break;
             case TAG:
-                rowsUpdated = db.update(TagEntry.TABLE_NAME, values, selection,
-                        selectionArgs);
+//                rowsUpdated = db.update(TagEntry.TABLE_NAME, values, selection,
+//                        selectionArgs);
                 break;
             case CATEGORY:
-                rowsUpdated = db.update(CategoryEntry.TABLE_NAME, values, selection,
-                        selectionArgs);
+//                rowsUpdated = db.update(CategoryEntry.TABLE_NAME, values, selection,
+//                        selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -373,10 +359,10 @@ public class PostsProvider extends ContentProvider {
                 returnCount = 0;
                 try {
                     for (ContentValues value : values) {
-                        long _id = db.insert(TagEntry.TABLE_NAME, null, value);
-                        if (_id != -1) {
-                            returnCount++;
-                        }
+//                        long _id = db.insert(TagEntry.TABLE_NAME, null, value);
+//                        if (_id != -1) {
+//                            returnCount++;
+//                        }
                     }
                     db.setTransactionSuccessful();
                 } finally {
@@ -389,10 +375,10 @@ public class PostsProvider extends ContentProvider {
                 returnCount = 0;
                 try {
                     for (ContentValues value : values) {
-                        long _id = db.insert(CategoryEntry.TABLE_NAME, null, value);
-                        if (_id != -1) {
-                            returnCount++;
-                        }
+//                        long _id = db.insert(CategoryEntry.TABLE_NAME, null, value);
+//                        if (_id != -1) {
+//                            returnCount++;
+//                        }
                     }
                     db.setTransactionSuccessful();
                 } finally {

@@ -35,6 +35,9 @@ android {
         targetSdkVersion 25
         versionCode 122
         versionName "1.9.2"
+        jackOptions {
+            enabled true
+        }
     }
 
     buildTypes {

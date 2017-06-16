@@ -61,8 +61,8 @@ public class PostsContract {
         try {
             return dbDateFormat.parse(dateText);
         } catch ( ParseException e ) {
-            e.printStackTrace();
-            return null;
+//            e.printStackTrace();
+            return new Date();
         }
     }
 
@@ -115,45 +115,45 @@ public class PostsContract {
 
     }
 
-    public static final class TagEntry implements BaseColumns {
+//    public static final class TagEntry implements BaseColumns {
+//
+//        public static final Uri CONTENT_URI =
+//                BASE_CONTENT_URI.buildUpon().appendPath(PATH_TAGS).build();
+//
+//        public static final String CONTENT_TYPE =
+//                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_TAGS;
+//        public static final String CONTENT_ITEM_TYPE =
+//                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_TAGS;
+//
+//        // Table name
+//        public static final String TABLE_NAME = "tags";
+//
+//        public static final String COLUMN_TAG = "tag";
+//        public static final String COLUMN_POST_ID = "post_id";
+//
+//        public static Uri buildTagUri(long id) {
+//            return ContentUris.withAppendedId(CONTENT_URI, id);
+//        }
+//    }
 
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_TAGS).build();
-
-        public static final String CONTENT_TYPE =
-                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_TAGS;
-        public static final String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_TAGS;
-
-        // Table name
-        public static final String TABLE_NAME = "tags";
-
-        public static final String COLUMN_TAG = "tag";
-        public static final String COLUMN_POST_ID = "post_id";
-
-        public static Uri buildTagUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-    }
-
-    public static final class CategoryEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CATEGORIES).build();
-
-        public static final String CONTENT_TYPE =
-                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORIES;
-        public static final String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORIES;
-
-        // Table name
-        public static final String TABLE_NAME = "categories";
-
-        public static final String COLUMN_CATEGORY = "category";
-        public static final String COLUMN_POST_ID = "post_id";
-
-        public static Uri buildCategoryUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-    }
+//    public static final class CategoryEntry implements BaseColumns {
+//
+//        public static final Uri CONTENT_URI =
+//                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CATEGORIES).build();
+//
+//        public static final String CONTENT_TYPE =
+//                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORIES;
+//        public static final String CONTENT_ITEM_TYPE =
+//                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORIES;
+//
+//        // Table name
+//        public static final String TABLE_NAME = "categories";
+//
+//        public static final String COLUMN_CATEGORY = "category";
+//        public static final String COLUMN_POST_ID = "post_id";
+//
+//        public static Uri buildCategoryUri(long id) {
+//            return ContentUris.withAppendedId(CONTENT_URI, id);
+//        }
+//    }
 }

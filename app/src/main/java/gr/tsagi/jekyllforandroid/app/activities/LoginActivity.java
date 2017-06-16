@@ -33,9 +33,9 @@ import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken;
 import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo;
 
 public class LoginActivity extends BaseActivity {
-    private static String CLIENT_ID = "c93bd14e3c9671bd7dbf";
+    private static String CLIENT_ID = "1569f7710e0b37bb066c";
     //Use your own client id
-    private static String CLIENT_SECRET = "e1566daf8025707db0d5fefa146b965f3ad38086";
+    private static String CLIENT_SECRET = "f28ab3c713d44d4cc582c09fa7afe38e5e6024b4";
     //Use your own client secret
     private static String REDIRECT_URI = "http://localhost";
     private static String GRANT_TYPE = "auth_code";

@@ -142,11 +142,14 @@ public class GithubPush {
                 User user = userService.getUser();
                 CommitUser author = new CommitUser();
                 author.setName(user.getName());
-                author.setEmail(userService.getEmails().get(0));
+//                String email = userService.getEmails().get(0).toString();
+//                Log.v("my---", email);
+                author.setEmail(user.getEmail());
                 Calendar now = Calendar.getInstance();
                 author.setDate(now.getTime());
                 commit.setAuthor(author);
-                commit.setCommitter(author);
+                commit.setCommitte
+                r(author);
 
                 List<Commit> listOfCommits = new ArrayList<Commit>();
                 listOfCommits.add(new Commit().setSha(baseCommitSha));

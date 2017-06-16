@@ -1,6 +1,10 @@
-Jekyll for Android Jekyll博客安卓app
-=========================
+###Jekyll for Android 
 
+
+###Jekyll博客安卓app
+
+
+--------------
 A very simple client to post on a Jekyll blog from your phone.
 
 It commits a `yyyy-mm-dd-title.md` file to the `_posts/` directory of your Jekyll's blog.

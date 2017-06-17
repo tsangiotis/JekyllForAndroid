@@ -16,15 +16,15 @@
 
     <string-array name="category_name">
         <item>一般</item>
-        <item>Personal</item>
-        <item>Work</item>
-        <item>Inspiration</item>
-        <item>Office</item>
+        <item>个人</item>
+        <item>工作</item>
+        <item>灵感</item>
+        <item>办公</item>
         <item>家</item>
-        <item>School</item>
-        <item>Plan</item>
-        <item>Finance</item>
-        <item>Baloon</item>
+        <item>学校</item>
+        <item>计划</item>
+        <item>金融</item>
+        <item>气球</item>
     </string-array>
 
     <string-array name="category_color">

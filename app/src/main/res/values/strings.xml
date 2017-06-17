@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Noolis</string>
 
-    <string name="app_name_ver">Noolis 2.3</string>
+    <string name="app_name_ver" translatable="false">Noolis 2.3</string>
 
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>

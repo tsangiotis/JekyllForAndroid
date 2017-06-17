@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <integer-array name="category_id">
+    <integer-array name="zhongcategory_id">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -14,7 +14,7 @@
         <item>10</item>
     </integer-array>
 
-    <string-array name="category_name">
+    <string-array name="zhongcategory_name">
         <item>一般</item>
         <item>个人</item>
         <item>工作</item>
@@ -27,7 +27,7 @@
         <item>气球</item>
     </string-array>
 
-    <string-array name="category_color">
+    <string-array name="zhongcategory_color">
         <item>#F44336</item>
         <item>#E91E63</item>
         <item>#9C27B0</item>
@@ -40,7 +40,7 @@
         <item>#4CAF50</item>
     </string-array>
 
-    <string-array name="category_icon">
+    <string-array name="zhongcategory_icon">
         <item>ic_cat_general</item>
         <item>ic_cat_personal</item>
         <item>ic_cat_work</item>

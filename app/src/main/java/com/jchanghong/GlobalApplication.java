@@ -3,11 +3,10 @@ package com.jchanghong;
 import android.app.Application;
 import android.util.Log;
 
+import com.jchanghong.data.Constant;
 import com.jchanghong.data.DatabaseManager;
 import com.jchanghong.data.SharedPref;
 import com.jchanghong.model.Note;
-
-import com.jchanghong.R;
 
 public class GlobalApplication extends Application {
 
@@ -44,7 +43,13 @@ public class GlobalApplication extends Application {
             sampleNote2.setTittle(getString(R.string.dummy_title_2));
             sampleNote2.setContent(getString(R.string.dummy_content_2));
             sampleNote2.setLastEdit(System.currentTimeMillis());
-            sampleNote2.setCategory(db.getCategoryById(getResources().getIntArray(R.array.category_id)[1]));
+            if (Constant.iszhong) {
+
+                sampleNote2.setCategory(db.getCategoryById(getResources().getIntArray(R.array.zhongcategory_id)[1]));
+            } else {
+
+                sampleNote2.setCategory(db.getCategoryById(getResources().getIntArray(R.array.category_id)[1]));
+            }
             db.insertNote(sampleNote2);
 
             //sample data 3
@@ -52,7 +57,13 @@ public class GlobalApplication extends Application {
             sampleNote3.setTittle(getString(R.string.dummy_title_3));
             sampleNote3.setContent(getString(R.string.dummy_content_3));
             sampleNote3.setLastEdit(System.currentTimeMillis());
-            sampleNote3.setCategory(db.getCategoryById(getResources().getIntArray(R.array.category_id)[2]));
+            if (Constant.iszhong) {
+                sampleNote3.setCategory(db.getCategoryById(getResources().getIntArray(R.array.zhongcategory_id)[2]));
+            }
+           else  {
+
+                sampleNote3.setCategory(db.getCategoryById(getResources().getIntArray(R.array.category_id)[2]));
+            }
             db.insertNote(sampleNote3);
 
             sharedPref.setFirstLaunch(false);

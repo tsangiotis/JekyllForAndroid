@@ -51,12 +51,41 @@ public class DatabaseManager extends SQLiteOpenHelper {
         super(ctx, DB_NAME, null, DB_VERSION);
         this.context = ctx;
 
-        cat_id = ctx.getResources().getIntArray(R.array.category_id);
-        cat_name = ctx.getResources().getStringArray(R.array.category_name);
-        cat_color = ctx.getResources().getStringArray(R.array.category_color);
-        cat_icon = ctx.getResources().getStringArray(R.array.category_icon);
-        cat_icon_data = ctx.getResources().getStringArray(R.array.category_icon_data);
-        cat_color_data = ctx.getResources().getStringArray(R.array.category_color_data);
+        if (Constant.iszhong) {
+
+            cat_id = ctx.getResources().getIntArray(R.array.zhongcategory_id);
+        } else {
+
+            cat_id = ctx.getResources().getIntArray(R.array.category_id);
+        }
+        if (Constant.iszhong) {
+
+            cat_name = ctx.getResources().getStringArray(R.array.zhongcategory_name);
+        } else {
+
+            cat_name = ctx.getResources().getStringArray(R.array.category_name);
+        }
+        if (Constant.iszhong) {
+
+            cat_color = ctx.getResources().getStringArray(R.array.zhongcategory_color);
+        } else {
+
+            cat_color = ctx.getResources().getStringArray(R.array.category_color);
+        }
+        if (Constant.iszhong) {
+
+            cat_icon = ctx.getResources().getStringArray(R.array.zhongcategory_icon);
+            cat_icon_data = ctx.getResources().getStringArray(R.array.zhongcategory_icon_data);
+            cat_color_data = ctx.getResources().getStringArray(R.array.zhongcategory_color_data);
+        }
+        else {
+
+            cat_icon = ctx.getResources().getStringArray(R.array.category_icon);
+            cat_icon_data = ctx.getResources().getStringArray(R.array.category_icon_data);
+            cat_color_data = ctx.getResources().getStringArray(R.array.category_color_data);
+        }
+
+
     }
 
     @Override

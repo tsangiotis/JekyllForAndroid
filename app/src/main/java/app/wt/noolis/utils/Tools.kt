@@ -4,21 +4,20 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
-import android.view.Window
 import android.view.WindowManager
-
 import app.wt.noolis.R
-
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
 /**
- * Created by muslim on 25/11/2015.
- */
+\* Created with IntelliJ IDEA.
+\* User: muslim
+\* Date: 25/11/2015
+\* Time: 9:15
+\*/
 object Tools {
     private val apiVerison: Float
         get() {
@@ -64,13 +63,6 @@ object Tools {
     fun stringToDate(`val`: Long): String {
         val date = Date(`val`)
         val df2 = SimpleDateFormat("MMM, dd yyyy")
-        val dateText = df2.format(date)
-        return dateText
-    }
-
-    fun longToTime(`val`: Long?): String {
-        val date = Date(`val`!!)
-        val df2 = SimpleDateFormat("hh:ss aa")
         val dateText = df2.format(date)
         return dateText
     }

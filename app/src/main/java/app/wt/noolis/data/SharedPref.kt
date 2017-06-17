@@ -3,16 +3,10 @@ package app.wt.noolis.data
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
-import android.preference.PreferenceManager
-
 import app.wt.noolis.R
 
 class SharedPref(private val context: Context) {
-    private val sharedPreferences: SharedPreferences
-
-    init {
-        sharedPreferences = context.getSharedPreferences("MAIN_PREF", Context.MODE_PRIVATE)
-    }
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("MAIN_PREF", Context.MODE_PRIVATE)
 
     var isFirstLaunch: Boolean
         get() = sharedPreferences.getBoolean(FIRST_LAUNCH_KEY, true)
@@ -21,12 +15,6 @@ class SharedPref(private val context: Context) {
             editor.putBoolean(FIRST_LAUNCH_KEY, flag)
             editor.commit()
         }
-
-    fun clearUserName(name: String) {
-        val editor = sharedPreferences.edit()
-        editor.remove(USER_NAME_KEY)
-        editor.commit()
-    }
 
     var userName: String
         get() = sharedPreferences.getString(USER_NAME_KEY, res.getString(R.string.str_user_name))

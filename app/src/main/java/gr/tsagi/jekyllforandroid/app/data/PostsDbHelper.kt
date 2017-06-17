@@ -7,8 +7,11 @@ import android.provider.BaseColumns
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry
 
 /**
- * Created by tsagi on 8/8/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 8/8/14
+\* Time: 9:15
+\*/
 class PostsDbHelper(context: Context) : SQLiteOpenHelper(context, PostsDbHelper.DATABASE_NAME, null, PostsDbHelper.DATABASE_VERSION) {
 
     override fun onCreate(sqLiteDatabase: SQLiteDatabase) {

@@ -1,8 +1,6 @@
 package gr.tsagi.jekyllforandroid.app.utils
 
 import android.util.Log
-import org.apache.http.HttpEntity
-import org.apache.http.HttpResponse
 import org.apache.http.NameValuePair
 import org.apache.http.client.ClientProtocolException
 import org.apache.http.client.entity.UrlEncodedFormEntity
@@ -11,13 +9,15 @@ import org.apache.http.impl.client.DefaultHttpClient
 import org.apache.http.message.BasicNameValuePair
 import org.json.JSONException
 import org.json.JSONObject
-
 import java.io.*
-import java.util.ArrayList
+import java.util.*
 
 /**
- * Created by tsagi on 7/7/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 7/7/14
+\* Time: 9:15
+\*/
 
 class GetAccessToken {
     internal var jsondel = ""

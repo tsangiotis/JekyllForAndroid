@@ -2,19 +2,18 @@ package gr.tsagi.jekyllforandroid.app.utils
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.util.Base64
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry
-
 import java.io.UnsupportedEncodingException
 
 
 /**
- * Created by tsagi on 8/15/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 8/15/14
+\* Time: 9:15
+\*/
 class ParsePostData(private val mContext: Context) {
-
-    private val LOG_TAG = ParsePostData::class.java.simpleName
 
 
     internal val JK_TITLE = "title"

@@ -15,8 +15,11 @@ import app.wt.noolis.R
 import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem
 
 /**
- * Created by tsagi on 7/9/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 7/9/14
+\* Time: 9:15
+\*/
 
 class NavDrawerListAdapter(private val context: Context, private val navDrawerItems: ArrayList<NavDrawerItem>) : BaseAdapter() {
 
@@ -39,8 +42,8 @@ class NavDrawerListAdapter(private val context: Context, private val navDrawerIt
             convertView = mInflater.inflate(R.layout.drawer_list_item, null)
         }
 
-        val imgIcon = convertView!!.findViewById(R.id.icon) as ImageView
-        val txtTitle = convertView.findViewById(R.id.title) as TextView
+        val imgIcon = convertView!!.findViewById<View>(R.id.icon) as ImageView
+        val txtTitle = convertView.findViewById<View>(R.id.title) as TextView
 
         imgIcon.setImageResource(navDrawerItems[position].icon)
         txtTitle.text = navDrawerItems[position].title

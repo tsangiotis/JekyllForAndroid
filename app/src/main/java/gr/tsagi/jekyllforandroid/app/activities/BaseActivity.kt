@@ -10,8 +10,11 @@ import android.view.MenuItem
 import app.wt.noolis.R
 
 /**
- * Created by tsagi on 10/20/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 10/20/14
+\* Time: 9:15
+\*/
 
 abstract class BaseActivity : ActionBarActivity() {
 

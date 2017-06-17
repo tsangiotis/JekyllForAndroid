@@ -4,25 +4,24 @@ import android.content.ContentValues
 import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
-
+import gr.tsagi.jekyllforandroid.app.data.PostsContract
+import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper
 import org.eclipse.egit.github.core.Blob
 import org.eclipse.egit.github.core.Repository
-import org.eclipse.egit.github.core.RepositoryBranch
 import org.eclipse.egit.github.core.TreeEntry
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.CommitService
 import org.eclipse.egit.github.core.service.DataService
 import org.eclipse.egit.github.core.service.RepositoryService
-
 import java.io.IOException
-import java.util.Vector
-
-import gr.tsagi.jekyllforandroid.app.data.PostsContract
-import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper
+import java.util.*
 
 /**
- * Created by tsagi on 1/30/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 1/30/14
+\* Time: 9:15
+\*/
 
 class FetchPostsTask(private val mContext: Context) : AsyncTask<String, Void, Void>() {
 
@@ -33,11 +32,9 @@ class FetchPostsTask(private val mContext: Context) : AsyncTask<String, Void, Vo
     internal var commitService: CommitService
     internal var dataService: DataService
 
-    internal var utility: Utility
+    internal var utility: Utility = Utility(mContext)
 
     init {
-
-        utility = Utility(mContext)
 
         val token = utility.token
 

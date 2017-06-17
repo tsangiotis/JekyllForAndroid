@@ -37,16 +37,15 @@ class ListAdapterCategory// Provide a suitable constructor (depends on the kind 
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         // each data item is just a string in this case
-        var name: TextView
+        var name: TextView = v.findViewById<View>(R.id.name) as TextView
         var image: ImageView
         var counter: TextView
         var lyt_parent: LinearLayout
 
         init {
-            name = v.findViewById(R.id.name) as TextView
-            counter = v.findViewById(R.id.counter) as TextView
-            image = v.findViewById(R.id.image) as ImageView
-            lyt_parent = v.findViewById(R.id.lyt_parent) as LinearLayout
+            counter = v.findViewById<View>(R.id.counter) as TextView
+            image = v.findViewById<View>(R.id.image) as ImageView
+            lyt_parent = v.findViewById<View>(R.id.lyt_parent) as LinearLayout
         }
     }
 

@@ -2,23 +2,20 @@ package app.wt.noolis.data
 
 import android.content.ContentValues
 import android.content.Context
-import android.content.res.TypedArray
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-
-import java.util.ArrayList
-
 import app.wt.noolis.R
 import app.wt.noolis.model.Category
 import app.wt.noolis.model.CategoryIcon
 import app.wt.noolis.model.Note
 import app.wt.noolis.utils.Tools
+import java.util.*
 
 class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, DatabaseManager.DB_NAME, null, DatabaseManager.DB_VERSION) {
 
-    private val cat_id: IntArray
+    private val cat_id: IntArray = context.resources.getIntArray(R.array.category_id)
     private val cat_name: Array<String>
     private val cat_color: Array<String>
     private val cat_icon: Array<String>
@@ -27,7 +24,6 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
     init {
 
-        cat_id = context.resources.getIntArray(R.array.category_id)
         cat_name = context.resources.getStringArray(R.array.category_name)
         cat_color = context.resources.getStringArray(R.array.category_color)
         cat_icon = context.resources.getStringArray(R.array.category_icon)
@@ -506,25 +502,6 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         }
         return count > 0
     }
-
-    val categorySize: Int
-        get() {
-            var returnVal = 0
-            val db = this.readableDatabase
-            var cursor: Cursor? = null
-            try {
-                cursor = db.rawQuery("SELECT COUNT($COL_C_ID) FROM $TABLE_CATEGORY", null)
-                cursor!!.moveToFirst()
-                returnVal = cursor.getInt(0)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("Db Error", e.toString())
-            } finally {
-                cursor!!.close()
-                db.close()
-            }
-            return returnVal
-        }
 
     /**
      * This is only for update 3.0

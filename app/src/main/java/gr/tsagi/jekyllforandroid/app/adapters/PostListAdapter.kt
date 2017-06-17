@@ -13,8 +13,11 @@ import gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment
 import gr.tsagi.jekyllforandroid.app.utils.Utility
 
 /**
- * Created by tsagi on 8/9/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 8/9/14
+\* Time: 9:15
+\*/
 
 /**
  * [PostListAdapter] exposes a list of weather forecasts
@@ -28,12 +31,11 @@ class PostListAdapter(context: Context, c: Cursor, flags: Int) : CursorAdapter(c
      * Cache of the children views for a forecast list item.
      */
     class ViewHolder(view: View) {
-        val titleView: TextView
+        val titleView: TextView = view.findViewById<View>(R.id.ptitle) as TextView
         val dateView: TextView
 
         init {
-            titleView = view.findViewById(R.id.ptitle) as TextView
-            dateView = view.findViewById(R.id.pdate) as TextView
+            dateView = view.findViewById<View>(R.id.pdate) as TextView
         }
     }
 

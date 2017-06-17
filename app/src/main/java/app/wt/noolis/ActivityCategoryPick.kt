@@ -5,22 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.CardView
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ListView
-import android.widget.TextView
-
+import android.widget.*
 import app.wt.noolis.data.DatabaseManager
 import app.wt.noolis.model.Category
 import app.wt.noolis.utils.Tools
@@ -82,8 +73,8 @@ class ActivityCategoryPick : AppCompatActivity() {
             if (convertView == null) {
                 holder = ViewHolder()
                 convertView = LayoutInflater.from(ctx).inflate(R.layout.row_category_simple, parent, false)
-                holder.image = convertView!!.findViewById(R.id.image) as ImageView
-                holder.name = convertView.findViewById(R.id.name) as TextView
+                holder.image = convertView!!.findViewById<View>(R.id.image) as ImageView
+                holder.name = convertView.findViewById<View>(R.id.name) as TextView
                 convertView.tag = holder
             } else {
                 holder = convertView.tag as ViewHolder

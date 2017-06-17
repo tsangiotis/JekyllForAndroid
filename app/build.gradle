@@ -22,10 +22,6 @@ repositories {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
-//task clean(type: Delete) {
-//    delete rootProject.buildDir
-//}
-
 
 android {
     dexOptions {
@@ -37,30 +33,31 @@ android {
     android.compileOptions.sourceCompatibility 1.8
     android.compileOptions.targetCompatibility 1.8
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "26.0.0"
 
     defaultConfig {
         applicationId 'gr.tsagi.jekyllforandroid'
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 122
         versionName "1.9.2"
 //        jackOptions {
 //            enabled true
 //        }
-        multiDexEnabled true
+//        multiDexEnabled true
 		  testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
         }
     }
     sourceSets {
@@ -76,7 +73,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
 // https://mvnrepository.com/artifact/org.eclipse.mylyn.github/org.eclipse.egit.github.core
-//    compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '4.8.0.201705170830-rc1'
+    compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '4.8.0.201705170830-rc1'
 
     compile 'com.commonsware.cwac:anddown:0.3.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
@@ -86,7 +83,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:cardview-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:design:25.3.1'
 //    compile 'com.google.android.gms:play-services:11.0.1'
     compile 'com.balysv:material-ripple:1.0.2'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"

@@ -2,10 +2,7 @@ package app.wt.noolis
 
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
-import android.os.IBinder
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,15 +14,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
-
 import app.wt.noolis.adapter.ListAdapterCategoryIcon
 import app.wt.noolis.data.DatabaseManager
 import app.wt.noolis.model.Category
-import app.wt.noolis.model.CategoryIcon
 
 /**
- * Created by Kodok on 12/06/2016.
- */
+\* Created with IntelliJ IDEA.
+\* User: Kodok
+\* Date: 12/06/2016
+\* Time: 9:14
+\*/
 class ActivityCategoryEdit : AppCompatActivity() {
 
     private var parent_view: View? = null
@@ -74,7 +72,7 @@ class ActivityCategoryEdit : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Category Name or Icon can't be empty", Toast.LENGTH_SHORT).show()
             } else {
                 if (ext_cat != null) {
-                    if (ext_cat!!.name == txtTittle!!.text.toString() && ext_cat!!.icon == ai!!.selectedCategoryIcon!!.icon?:"") {
+                    if (ext_cat!!.name == txtTittle!!.text.toString() && ext_cat!!.icon == ai.selectedCategoryIcon!!.icon?:"") {
                         finish()
                     } else {
                         ext_cat!!.name = txtTittle!!.text.toString()
@@ -87,8 +85,8 @@ class ActivityCategoryEdit : AppCompatActivity() {
                 } else {
                     val category = Category()
                     category.name = txtTittle!!.text.toString()
-                    category.color = ai!!.selectedCategoryIcon!!.color!!
-                    category.icon = ai!!.selectedCategoryIcon!!.icon
+                    category.color = ai.selectedCategoryIcon!!.color!!
+                    category.icon = ai.selectedCategoryIcon!!.icon
                     db!!.insertCategory(category)
                     finish()
                     Toast.makeText(applicationContext, "Category saved", Toast.LENGTH_SHORT).show()

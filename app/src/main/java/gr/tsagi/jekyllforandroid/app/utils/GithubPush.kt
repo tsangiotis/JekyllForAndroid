@@ -2,34 +2,24 @@ package gr.tsagi.jekyllforandroid.app.utils
 
 import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.preference.PreferenceManager
 import android.util.Log
-
-import org.eclipse.egit.github.core.Blob
-import org.eclipse.egit.github.core.Commit
-import org.eclipse.egit.github.core.CommitUser
-import org.eclipse.egit.github.core.Reference
-import org.eclipse.egit.github.core.Repository
-import org.eclipse.egit.github.core.RepositoryCommit
-import org.eclipse.egit.github.core.Tree
-import org.eclipse.egit.github.core.TreeEntry
-import org.eclipse.egit.github.core.TypedResource
-import org.eclipse.egit.github.core.User
+import org.eclipse.egit.github.core.*
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.CommitService
 import org.eclipse.egit.github.core.service.DataService
 import org.eclipse.egit.github.core.service.RepositoryService
 import org.eclipse.egit.github.core.service.UserService
-
-import java.util.ArrayList
-import java.util.Calendar
+import java.util.*
 import java.util.concurrent.ExecutionException
 
 /**
- * Created by tsagi on 1/30/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 1/30/14
+\* Time: 9:15
+\*/
 
 class GithubPush(internal var mActivity: Activity) {
 

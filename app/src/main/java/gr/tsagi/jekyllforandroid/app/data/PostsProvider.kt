@@ -4,7 +4,6 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
 import android.util.Log
@@ -12,8 +11,11 @@ import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry
 
 
 /**
- * Created by tsagi on 8/8/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 8/8/14
+\* Time: 9:15
+\*/
 class PostsProvider : ContentProvider() {
     private var mOpenHelper: PostsDbHelper? = null
 
@@ -21,9 +23,8 @@ class PostsProvider : ContentProvider() {
         val id = PostEntry.getIdFromUri(uri)
 
         val selectionArgs: Array<String>
-        val selection: String
+        val selection: String = sPostSelection
 
-        selection = sPostSelection
         selectionArgs = arrayOf(id)
 
         return sParametersQueryBuilder.query(mOpenHelper!!.readableDatabase,
@@ -43,9 +44,8 @@ class PostsProvider : ContentProvider() {
             status = "1"
 
         val selectionArgs: Array<String>
-        val selection: String
+        val selection: String = sPostStatusSelection
 
-        selection = sPostStatusSelection
         selectionArgs = arrayOf(status)
 
         return mOpenHelper!!.readableDatabase.query(
@@ -113,38 +113,6 @@ class PostsProvider : ContentProvider() {
         //        dumpCursor(retCursor);
         retCursor!!.setNotificationUri(context!!.contentResolver, uri)
         return retCursor
-    }
-
-    private fun dumpCursor(myCursor: Cursor?) {
-        if (myCursor == null) {
-            Log.w(LOG_TAG, "Null cursor")
-        } else {
-            try {
-                if (myCursor.moveToFirst()) {
-                    val columns = myCursor.columnNames
-                    val sbHeader = StringBuilder()
-                    for (columnName in columns) {
-                        sbHeader.append(columnName).append(", ")
-                    }
-                    Log.i(LOG_TAG, sbHeader.toString())
-                    do {
-                        val sbRow = StringBuilder()
-                        for (columnName in columns) {
-                            sbRow.append(myCursor.getString(myCursor.getColumnIndex(columnName))).append(", ")
-                        }
-                        Log.i(LOG_TAG, sbRow.toString())
-                    } while (myCursor.moveToNext())
-                } else {
-                    Log.w(LOG_TAG, "Empty cursor")
-                }
-            } catch (ex: Exception) {
-                Log.e(LOG_TAG, ex.toString())
-            } finally {
-                if (!myCursor.isClosed) {
-                    myCursor.moveToFirst()
-                }
-            }
-        }
     }
 
     override fun getType(uri: Uri): String? {
@@ -251,12 +219,10 @@ class PostsProvider : ContentProvider() {
                 db.beginTransaction()
                 returnCount = 0
                 try {
-                    for (value in values) {
-                        val _id = db.insert(PostEntry.TABLE_NAME, null, value)
-                        if (-1L != _id) {
-                            returnCount++
-                        }
-                    }
+                    values
+                            .map { db.insert(PostEntry.TABLE_NAME, null, it) }
+                            .filter { -1L != it }
+                            .forEach { returnCount++ }
                     db.setTransactionSuccessful()
                 } finally {
                     db.endTransaction()
@@ -315,15 +281,13 @@ class PostsProvider : ContentProvider() {
         private val CATEGORY = 200
         private val CATEGORY_PER_POST = 201
         private val TAG = 300
-        private val TAG_PER_POST = 301
 
-        private val sParametersQueryBuilder: SQLiteQueryBuilder
+        private val sParametersQueryBuilder: SQLiteQueryBuilder = SQLiteQueryBuilder()
 
         // TODO: select tags.tagname as tagname from posts cross join tags where posts
         // .id=5;
 
         init {
-            sParametersQueryBuilder = SQLiteQueryBuilder()
             sParametersQueryBuilder.tables = PostEntry.TABLE_NAME
         }
 

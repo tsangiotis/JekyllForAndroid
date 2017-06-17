@@ -10,8 +10,11 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 /**
- * Created by tsagi on 8/8/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 8/8/14
+\* Time: 9:15
+\*/
 object PostsContract {
 
     private val LOG_TAG = PostsContract::class.java.simpleName
@@ -24,7 +27,7 @@ object PostsContract {
 
     // Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
     // the content provider.
-    val BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY)
+    val BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY)!!
 
     // Possible paths (appended to base content URI for possible URI's)
     // For instance, content://com.example.android.sunshine.app/weather/ is a valid path for
@@ -73,12 +76,10 @@ object PostsContract {
     class PostEntry : BaseColumns {
         companion object {
 
-            val CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_POSTS).build()
+            val CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_POSTS).build()!!
 
             val CONTENT_TYPE =
                     "vnd.android.cursor.dir/$CONTENT_AUTHORITY/$PATH_POSTS"
-            val CONTENT_ITEM_TYPE =
-                    "vnd.android.cursor.item/$CONTENT_AUTHORITY/$PATH_POSTS"
 
             // Table name
             val TABLE_NAME = "posts"

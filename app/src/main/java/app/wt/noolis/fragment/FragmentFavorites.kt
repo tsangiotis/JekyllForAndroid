@@ -38,8 +38,8 @@ class FragmentFavorites : Fragment() {
         // activate fragment menu
         setHasOptionsMenu(true)
 
-        recyclerView = view1!!.findViewById(R.id.recyclerView) as RecyclerView
-        lyt_not_found = view1!!.findViewById(R.id.lyt_not_found) as LinearLayout
+        recyclerView = view1!!.findViewById<View>(R.id.recyclerView) as RecyclerView
+        lyt_not_found = view1!!.findViewById<View>(R.id.lyt_not_found) as LinearLayout
 
         recyclerView!!.layoutManager = LinearLayoutManager(activity)
         recyclerView!!.setHasFixedSize(true)
@@ -103,10 +103,10 @@ class FragmentFavorites : Fragment() {
     }
 
     private fun setItemsVisibility(menu: Menu, exception: MenuItem, visible: Boolean) {
-        for (i in 0..menu.size() - 1) {
-            val item = menu.getItem(i)
-            if (item !== exception) item.isVisible = visible
-        }
+        (0..menu.size() - 1)
+                .map { menu.getItem(it) }
+                .filter { it !== exception }
+                .forEach { it.isVisible = visible }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

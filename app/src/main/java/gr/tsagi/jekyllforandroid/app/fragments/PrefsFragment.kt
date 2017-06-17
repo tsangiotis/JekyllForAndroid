@@ -8,8 +8,11 @@ import android.preference.PreferenceFragment
 import app.wt.noolis.R
 
 /**
- * Created by tsagi on 9/9/13.
- */
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 9/9/13
+\* Time: 9:15
+\*/
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 class PrefsFragment : PreferenceFragment() {
 

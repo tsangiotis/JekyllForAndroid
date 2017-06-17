@@ -15,8 +15,10 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
-
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import app.wt.noolis.adapter.ListAdapterNote
 import app.wt.noolis.data.DatabaseManager
 import app.wt.noolis.model.Category
@@ -120,7 +122,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
                 i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, ext_category)
                 startActivity(i)
             }
-            R.id.action_delete_cat -> if (db!!.getNotesByCategoryId(ext_category!!.id).size == 0) {
+            R.id.action_delete_cat -> if (db!!.getNotesByCategoryId(ext_category!!.id).isEmpty()) {
                 //                    db.deleteCategory(ext_category.getId());
                 //                    Toast.makeText(getApplicationContext(),"Category deleted", Toast.LENGTH_SHORT).show();
                 deleteConfirmation()

@@ -9,7 +9,7 @@ class Category : Serializable {
     var icon: String? = null
     var note_count = 0
 
-    constructor() {}
+    constructor()
 
     constructor(id: Long, name: String, color: String, icon: String) {
         this.id = id

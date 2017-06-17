@@ -2,11 +2,9 @@ package app.wt.noolis
 
 import android.app.Application
 import android.util.Log
-
 import app.wt.noolis.data.DatabaseManager
 import app.wt.noolis.data.SharedPref
 import app.wt.noolis.model.Note
-import app.wt.noolis.utils.Tools
 
 class GlobalApplication : Application() {
 

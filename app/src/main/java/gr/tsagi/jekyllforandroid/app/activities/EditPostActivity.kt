@@ -3,10 +3,8 @@ package gr.tsagi.jekyllforandroid.app.activities
 import android.app.AlertDialog
 import android.app.LoaderManager
 import android.content.CursorLoader
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.Loader
-import android.content.SharedPreferences
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
@@ -16,26 +14,20 @@ import android.support.v4.app.NavUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
-
-import com.readystatesoftware.systembartint.SystemBarTintManager
-
-import org.yaml.snakeyaml.Yaml
-
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.HashMap
-import java.util.concurrent.ExecutionException
-
 import app.wt.noolis.R
+import com.readystatesoftware.systembartint.SystemBarTintManager
 import gr.tsagi.jekyllforandroid.app.data.PostsContract
 import gr.tsagi.jekyllforandroid.app.utils.GithubPush
 import gr.tsagi.jekyllforandroid.app.utils.Utility
+import org.yaml.snakeyaml.Yaml
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.ExecutionException
 
-class EditPostActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
+open class EditPostActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
     private var mPostId: String? = null
     private var mPostStatus: Int = 0
@@ -80,7 +72,7 @@ class EditPostActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
     }
 
-    protected override val layoutResource: Int
+    override val layoutResource: Int
         get() = R.layout.activity_edit_post
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

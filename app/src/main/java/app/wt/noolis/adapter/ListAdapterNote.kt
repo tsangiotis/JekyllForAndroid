@@ -28,18 +28,17 @@ class ListAdapterNote(private val context: Context, items: List<Note>) : Recycle
     private var onItemClickListener: OnItemClickListener? = null
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        var title: TextView
+        var title: TextView = v.findViewById<View>(R.id.title) as TextView
         var content: TextView
         var time: TextView
         var image: ImageView
         var lyt_parent: LinearLayout
 
         init {
-            title = v.findViewById(R.id.title) as TextView
-            content = v.findViewById(R.id.content) as TextView
-            time = v.findViewById(R.id.time) as TextView
-            image = v.findViewById(R.id.image) as ImageView
-            lyt_parent = v.findViewById(R.id.lyt_parent) as LinearLayout
+            content = v.findViewById<View>(R.id.content) as TextView
+            time = v.findViewById<View>(R.id.time) as TextView
+            image = v.findViewById<View>(R.id.image) as ImageView
+            lyt_parent = v.findViewById<View>(R.id.lyt_parent) as LinearLayout
         }
 
     }

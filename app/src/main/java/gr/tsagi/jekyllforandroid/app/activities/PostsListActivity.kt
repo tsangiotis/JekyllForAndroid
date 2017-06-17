@@ -3,10 +3,8 @@ package gr.tsagi.jekyllforandroid.app.activities
 import android.app.AlertDialog
 import android.app.Fragment
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.TypedArray
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
@@ -20,12 +18,8 @@ import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.Toast
-
-import com.readystatesoftware.systembartint.SystemBarTintManager
-
-import java.util.ArrayList
-
 import app.wt.noolis.R
+import com.readystatesoftware.systembartint.SystemBarTintManager
 import gr.tsagi.jekyllforandroid.app.adapters.NavDrawerListAdapter
 import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper
 import gr.tsagi.jekyllforandroid.app.fragments.MarkdownPreviewFragment
@@ -33,11 +27,15 @@ import gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment
 import gr.tsagi.jekyllforandroid.app.fragments.PrefsFragment
 import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask
 import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem
+import java.util.*
 
 /**
- * Created by tsagi on 9/9/13.
- */
-class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
+\* Created with IntelliJ IDEA.
+\* User: tsagi
+\* Date: 9/9/13
+\* Time: 9:15
+\*/
+open class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
     lateinit internal var mUsername: String
     lateinit internal var mToken: String
@@ -107,7 +105,7 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
     }
 
-    protected override val layoutResource: Int
+    override val layoutResource: Int
         get() = R.layout.activity_posts_list
 
     private fun updateList() {
@@ -158,10 +156,8 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
         val navMenuIcons = resources
                 .obtainTypedArray(R.array.nav_drawer_icons_dark)
-        val navDrawerItems: ArrayList<NavDrawerItem>
+        val navDrawerItems: ArrayList<NavDrawerItem> = ArrayList<NavDrawerItem>()
         val adapter: NavDrawerListAdapter
-
-        navDrawerItems = ArrayList<NavDrawerItem>()
 
         navDrawerItems.add(NavDrawerItem(mNavTitles!![0],
                 navMenuIcons.getResourceId(0, -1)))
@@ -179,7 +175,7 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
         val toolbar = findViewById(R.id.toolbar) as Toolbar
 
         // Set the list's click listener
-        mDrawerList!!.setOnItemClickListener(DrawerItemClickListener())
+        mDrawerList!!.onItemClickListener = DrawerItemClickListener()
         mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout,
                 toolbar, R.string.drawer_open,
                 R.string.drawer_close) {
@@ -187,14 +183,14 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
             /** Called when a drawer has settled in a completely closed state. */
             override fun onDrawerClosed(view: View?) {
                 super.onDrawerClosed(view)
-                supportActionBar!!.setTitle(mTitle)
+                supportActionBar!!.title = mTitle
                 supportInvalidateOptionsMenu() // creates call onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state.  */
             override fun onDrawerOpened(drawerView: View?) {
                 super.onDrawerOpened(drawerView)
-                supportActionBar!!.setTitle(mDrawerTitle)
+                supportActionBar!!.title = mDrawerTitle
                 supportInvalidateOptionsMenu() // creates call onPrepareOptionsMenu()
             }
         }
@@ -283,14 +279,14 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList!!.setItemChecked(position, true)
-        setTitle(mNavTitles!![position])
+        title = mNavTitles!![position]
         mDrawerLayout!!.closeDrawer(mDrawerList)
 
     }
 
     override fun setTitle(title: CharSequence) {
         mTitle = title
-        supportActionBar!!.setTitle(mTitle)
+        supportActionBar!!.title = mTitle
     }
 
     /**
@@ -375,8 +371,6 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
     }
 
     companion object {
-
-        private val LOG_TAG = PostsListActivity::class.java.simpleName
 
         var mTwoPane: Boolean = false
 

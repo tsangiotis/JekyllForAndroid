@@ -1,5 +1,6 @@
 package app.wt.noolis
 
+
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
@@ -10,8 +11,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBar
@@ -27,8 +26,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-
-
 import app.wt.noolis.data.DatabaseManager
 import app.wt.noolis.data.SharedPref
 import app.wt.noolis.fragment.FragmentAbout
@@ -94,7 +91,7 @@ class ActivityMain : AppCompatActivity() {
         actionBar = supportActionBar!!
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
-        (findViewById(R.id.date) as TextView).setText(Tools.nowDate)
+        (findViewById(R.id.date) as TextView).text = Tools.nowDate
     }
 
     private fun initDrawerMenu() {
@@ -118,8 +115,8 @@ class ActivityMain : AppCompatActivity() {
             displayContentView(menuItem.itemId)
             true
         }
-        user_name = navigationView!!.getHeaderView(0).findViewById(R.id.user_name) as TextView
-        navigationView!!.getHeaderView(0).findViewById(R.id.lyt_edit_name).setOnClickListener { dialogEditUserName() }
+        user_name = navigationView!!.getHeaderView(0).findViewById<View>(R.id.user_name) as TextView
+        navigationView!!.getHeaderView(0).findViewById<View>(R.id.lyt_edit_name).setOnClickListener { dialogEditUserName() }
         if (sharedPref!!.isNameNeverEdit) {
             dialogEditUserName()
         } else {
@@ -148,7 +145,7 @@ class ActivityMain : AppCompatActivity() {
 
     //set counter in drawer
     private fun setMenuAdvCounter(@IdRes itemId: Int, count: Int) {
-        val view = navigationView!!.menu.findItem(itemId).actionView.findViewById(R.id.counter) as TextView
+        val view = navigationView!!.menu.findItem(itemId).actionView.findViewById<View>(R.id.counter) as TextView
         view.text = count.toString()
     }
 
@@ -239,10 +236,10 @@ class ActivityMain : AppCompatActivity() {
 
         sharedPref!!.isNameNeverEdit = false
 
-        val et_name = dialog.findViewById(R.id.name) as EditText
+        val et_name = dialog.findViewById<View>(R.id.name) as EditText
         et_name.setText(sharedPref!!.userName)
-        (dialog.findViewById(R.id.img_close) as ImageView).setOnClickListener { dialog.dismiss() }
-        (dialog.findViewById(R.id.bt_save) as Button).setOnClickListener {
+        (dialog.findViewById<View>(R.id.img_close) as ImageView).setOnClickListener { dialog.dismiss() }
+        (dialog.findViewById<View>(R.id.bt_save) as Button).setOnClickListener {
             if (et_name.text.toString().trim { it <= ' ' } != "") {
                 sharedPref!!.userName = et_name.text.toString()
                 user_name!!.text = sharedPref!!.userName

@@ -17,22 +17,17 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageButton
 import android.widget.Toast
-
+import app.wt.noolis.R
 import com.readystatesoftware.systembartint.SystemBarTintManager
-
-import org.eclipse.egit.github.core.User
+import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken
+import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.UserService
 import org.json.JSONException
 import org.json.JSONObject
-
 import java.io.IOException
 
-import app.wt.noolis.R
-import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken
-import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo
-
-class LoginActivity : BaseActivity() {
+open class LoginActivity : BaseActivity() {
     //Change the Scope as you need
     lateinit internal var web: WebView
     lateinit internal var auth: ImageButton
@@ -62,10 +57,10 @@ class LoginActivity : BaseActivity() {
                 // TODO Auto-generated method stub
                 auth_dialog = Dialog(this@LoginActivity)
                 auth_dialog.setContentView(R.layout.auth_dialog)
-                web = auth_dialog.findViewById(R.id.webv) as WebView
+                web = auth_dialog.findViewById<View>(R.id.webv) as WebView
                 web.settings.javaScriptEnabled = true
                 web.loadUrl("$OAUTH_URL?redirect_uri=$REDIRECT_URI&response_type=code&client_id=$CLIENT_ID&scope=$OAUTH_SCOPE")
-                web.setWebViewClient(object : WebViewClient() {
+                web.webViewClient = object : WebViewClient() {
                     internal var authComplete = false
                     internal var resultIntent = Intent()
 
@@ -99,7 +94,7 @@ class LoginActivity : BaseActivity() {
                             auth_dialog.dismiss()
                         }
                     }
-                })
+                }
                 auth_dialog.show()
                 auth_dialog.setTitle("Authorize Jekyll for Android")
                 auth_dialog.setCancelable(true)
@@ -107,7 +102,7 @@ class LoginActivity : BaseActivity() {
         })
     }
 
-    protected override val layoutResource: Int
+    override val layoutResource: Int
         get() = R.layout.activity_login
 
     private inner class TokenGet : AsyncTask<String, String, JSONObject>() {

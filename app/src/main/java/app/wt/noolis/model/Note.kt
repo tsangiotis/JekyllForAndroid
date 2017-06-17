@@ -10,7 +10,7 @@ class Note : Serializable {
     var favourite = 0
     var category: Category? = null
 
-    constructor() {}
+    constructor()
 
     constructor(tittle: String, content: String, last_edit: Long, favourite: Int, category: Category) {
         this.tittle = tittle

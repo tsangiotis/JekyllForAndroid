@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
-import android.webkit.WebSettings
 import android.webkit.WebView
-
-import com.commonsware.cwac.anddown.AndDown
-
 import app.wt.noolis.R
+import com.commonsware.cwac.anddown.AndDown
 import gr.tsagi.jekyllforandroid.app.activities.PreviewMarkdownActivity
 import gr.tsagi.jekyllforandroid.app.utils.Utility
 
@@ -42,13 +39,13 @@ class MarkdownPreviewFragment : Fragment() {
                 .inflate(R.layout.fragment_markdown_preview, container, false)
 
         // Find the webview
-        val webview = rootView.findViewById(R.id.markdown_preview_view) as WebView
+        val webview = rootView.findViewById<View>(R.id.markdown_preview_view) as WebView
 
         val settings = webview.settings
         webview.scrollBarStyle = WebView.SCROLLBARS_OUTSIDE_OVERLAY
         webview.settings.loadWithOverviewMode = true
         webview.settings.useWideViewPort = true
-        webview.setWebChromeClient(WebChromeClient())
+        webview.webChromeClient = WebChromeClient()
 
         val andDown = AndDown()
         var htmlData = andDown.markdownToHtml(content)

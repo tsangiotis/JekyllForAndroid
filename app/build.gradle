@@ -67,6 +67,9 @@ android {
 dependencies {
 
     compile fileTree(dir: 'libs', include: '*.jar')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
     // https://mvnrepository.com/artifact/org.yaml/snakeyaml
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.17'
 

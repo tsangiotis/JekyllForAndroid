@@ -15,9 +15,21 @@
  */
 package gr.tsagi.jekyllforandroid.app.test;
 
+import android.support.test.runner.AndroidJUnit4;
 import android.test.AndroidTestCase;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.Locale;
+
+
+@RunWith(AndroidJUnit4.class)
 public class TestDb extends AndroidTestCase {
 
+    @Test
+   public void test() {
+        System.out.println(Locale.getDefault().getDisplayLanguage());
+    }
 
 }

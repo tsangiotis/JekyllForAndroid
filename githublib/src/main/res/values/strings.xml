@@ -1,3 +1,66 @@
-<resources>
-    <string name="app_name">githublib</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+
+    <string name="app_name">Jekyll for Android</string>
+    <string name="action_newpost">New Post</string>
+    <string name="title_activity_markdown">Markdown Preview</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_list">List Posts</string>
+    <string name="title_activity_action">Jekyll for Android</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_category">Category</string>
+    <string name="hint_tags">Tags (tag1, tag2, …)</string>
+    <string name="hint_content">Post Content:</string>
+    <string name="editpost_progress">Publishing post…</string>
+    <string name="getpost_progress">Getting post…</string>
+    <string name="postslist_progress">Updating list…</string>
+    <string name="editpost_empty">Chances are you don\'t want to publish an empty post.</string>
+    <string name="editpost_publish">Post Published!</string>
+    <string name="editpost_fail">Somethig has gone wrong. Failed to publish post…</string>
+    <string name="success">Success!</string>
+    <string name="fail">Something got wrong…</string>
+    <string name="ok">OK</string>
+    <string name="menu_settings">Settings</string>
+    <string name="info">Info</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_logout_nodraft">Sure you want to logout?</string>
+    <string name="dialog_logout_draft">Sure you want to logout?\nYou have a draft post.</string>
+    <string name="dialog_confirm_update">Sure you want to publish this post?</string>
+    <string name="dialog_confirm_draft">Sure you want to push this
+        draft?</string>
+    <string name="dialog_push_json">To get your posts a file should be added to your repository. 
+	    For more information on that and the contents of the file check jekyll-for-android on Github!</string>
+
+    <!-- Language-specific constants -->
+    <string name="today">Today</string>
+
+    <!-- For labelling tomorrow's forecast [CHAR LIMIT=15] -->
+    <string name="tomorrow">Tomorrow</string>
+
+    <!-- Date format [CHAR LIMIT=NONE] -->
+    <string name="format_full_friendly_date"><xliff:g id="month">%1$s</xliff:g>, <xliff:g id="day">%2$s</xliff:g></string>
+
+    <string-array name="nav_array">
+        <item>Posts</item>
+        <item>Drafts</item>
+        <item>Settings</item>
+    </string-array>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <array name="nav_drawer_icons_dark">
+        <item>@drawable/ic_action_edit_dark</item>
+        <item>@drawable/ic_action_attachment_dark</item>
+        <item>@drawable/ic_action_settings_dark</item>
+    </array>
+
+    <string name="json_path">json/index.html</string>
+    <string name="title_activity_posts_list">Posts</string>
+    <string name="action_settings">Settings</string>
+    <string name="content_authority">"gr.tsagi.jekyllforandroid"</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_base">Base</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

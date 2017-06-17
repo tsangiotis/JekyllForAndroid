@@ -39,6 +39,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
-        <include layout="@layout/include_ad_banner"/>
     </LinearLayout>
 </RelativeLayout>

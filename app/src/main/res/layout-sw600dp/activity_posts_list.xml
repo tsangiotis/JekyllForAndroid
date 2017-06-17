@@ -17,8 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- The main content view -->
-        <!-- As the main content view, the view below consumes the entire
+        <!-- The main contview1view -->
+        <!-- As the main contview1view, view1view below consumes the entire
          space available using match_parent in both dimensions. -->
 
         <LinearLayout

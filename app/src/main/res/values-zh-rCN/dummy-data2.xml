@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //sample data 1
+    <string name="dummy_title_1">Lorem ipsum</string>
+    <string name="dummy_content_1">
+        Lorem ipsum dolor sit amet, harum tincidunt ut vis, cu sonet graece qui, sed at aliquam graecis definitionem. Vix ex placerat perpetua, cum id nemore veritus epicuri, porro mandamus has te. Duo in liberavisse signiferumque. Est liber luptatum pertinacia cu, decore maiorum oporteat pri at, ex mea solum conclusionemque. Vis tollit vidisse apeirian no.
+        \n\nSolet facilis accusamus pro cu, fabulas oporteat per at, nec ex suas fugit patrioque. Ad summo scripserit cum, semper scribentur persequeris ea usu, viderer debitis nam ad. Per consulatu instructior ne, abhorreant efficiendi his an. Decore ignota est ne.
+    </string>
+
+    <string name="dummy_title_2">Suspendisse</string>
+    <string name="dummy_content_2">
+        - fabulas oporteat\n
+        - nec ex suas\n
+        - Ad summo\n
+        - semper scribentur\n
+        - viderer debitis\n
+        - Per consulatu\n
+        - abhorreant efficiendi\n
+        - Decore ignota"
+    </string>
+
+    <string name="dummy_title_3">Praesent tempus</string>
+    <string name="dummy_content_3">
+        Mauris eget augue feugiat dolor blandit euismod ac vel ante. Etiam pellentesque finibus nulla, quis pulvinar purus porta at. Vestibulum congue semper laoreet. Integer vitae nulla eget nisl dignissim molestie.
+    </string>
+
+</resources>

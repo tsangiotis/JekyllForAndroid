@@ -18,8 +18,8 @@ import com.jchanghong.utils.Tools
 
 class ActivityCategoryPick : AppCompatActivity() {
 
-    private var adapterListCategory: AdapterListCategory? = null
-    private var db: DatabaseManager? = null
+   lateinit private var adapterListCategory: AdapterListCategory
+  lateinit  private var db: DatabaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,19 +27,19 @@ class ActivityCategoryPick : AppCompatActivity() {
         db = DatabaseManager(this)
         initToolbar()
 
-        adapterListCategory = AdapterListCategory(this, db!!.allCategory)
+        adapterListCategory = AdapterListCategory(this, db.allCategory)
         val listView = findViewById(R.id.paired_devices) as ListView
         listView.adapter = adapterListCategory
-        listView.onItemClickListener = AdapterView.OnItemClickListener { av, v, i, l -> sendIntentResult(adapterListCategory!!.getItem(i) as Category) }
+        listView.onItemClickListener = AdapterView.OnItemClickListener { av, v, i, l -> sendIntentResult(adapterListCategory.getItem(i) as Category) }
     }
 
     private fun initToolbar() {
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         val actionBar = supportActionBar
-        actionBar!!.setDisplayHomeAsUpEnabled(false)
-        actionBar.setHomeButtonEnabled(false)
-        actionBar.setTitle(R.string.title_activity_pick_category)
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+        actionBar?.setHomeButtonEnabled(false)
+        actionBar?.setTitle(R.string.title_activity_pick_category)
     }
 
     private fun sendIntentResult(category: Category) {
@@ -73,18 +73,18 @@ class ActivityCategoryPick : AppCompatActivity() {
             if (convertView == null) {
                 holder = ViewHolder()
                 convertView = LayoutInflater.from(ctx).inflate(R.layout.row_category_simple, parent, false)
-                holder.image = convertView!!.findViewById<View>(R.id.image) as ImageView
+                holder.image = convertView.findViewById<View>(R.id.image) as ImageView
                 holder.name = convertView.findViewById<View>(R.id.name) as TextView
                 convertView.tag = holder
             } else {
                 holder = convertView.tag as ViewHolder
             }
 
-            holder.image!!.setImageResource(Tools.StringToResId(obj.icon!!, ctx))
-            (holder.image!!.background as GradientDrawable).setColor(Color.parseColor(obj.color))
-            holder.name!!.text = obj.name
+            holder.image?.setImageResource(Tools.StringToResId(obj.icon!!, ctx))
+            (holder.image?.background as GradientDrawable).setColor(Color.parseColor(obj.color))
+            holder.name?.text = obj.name
 
-            return convertView
+            return convertView!!
         }
 
         private inner class ViewHolder {

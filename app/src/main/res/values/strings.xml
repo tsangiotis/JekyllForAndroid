@@ -47,5 +47,8 @@ It commits a yyyy-mm-dd-title.md file to the _posts/ directory of your Jekyll's 
     <string name="set_your_name">Set Your Name</string>
     <string name="setname_save">Save</string>
     <string name="hint_name">Name</string>
+    <string name="hint_note_title">Title</string>
+    <string name="hint_note_c">Note</string>
+    <string name="note_save">save</string>
 
 </resources>

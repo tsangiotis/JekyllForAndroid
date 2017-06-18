@@ -57,5 +57,6 @@ It commits a yyyy-mm-dd-title.md file to the _posts/ directory of your Jekyll's 
     <string name="Contentcannotbeempty">Tittle or Content can\'t be empty</string>
     <string name="notesaved">Note Saved</string>
     <string name="noteupdate">Note Updated</string>
+    <string name="SaveConfirmation">Save Confirmation</string>
 
 </resources>

@@ -202,7 +202,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         if (ext_note != null) {
             if (tittle .text.toString() != ext_note .tittle ||
                     content .text.toString() != ext_note .content ||
-                    cur_category .id != ext_note .category .id) {
+                    cur_category?.id != ext_note?.category?.id?:1) {
                 backConfirmation()
             } else {
                 finish()
@@ -219,7 +219,7 @@ class ActivityNoteEdit : AppCompatActivity() {
 
     private fun backConfirmation() {
         val builder = AlertDialog.Builder(this@ActivityNoteEdit)
-        builder.setTitle("Save Confirmation")
+        builder.setTitle(getString(R.string.SaveConfirmation))
         builder.setMessage("Do you want to save?")
         builder.setPositiveButton("Yes") { dialogInterface, i ->
             if (ext_note == null) {

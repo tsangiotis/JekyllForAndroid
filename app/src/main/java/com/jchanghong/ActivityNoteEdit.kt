@@ -158,12 +158,12 @@ class ActivityNoteEdit : AppCompatActivity() {
             if (fav_checked) {
                 menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline,theme)
                 db .removeFav(ext_note .id)
-                Snackbar.make(parent_view, "Removed from favorites", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(parent_view, getString(R.string.Removedfromfavorites), Snackbar.LENGTH_SHORT).show()
                 fav_checked = false
             } else {
                 menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid,theme)
-                db .setFav(ext_note .id)
-                Snackbar.make(parent_view, "Added to favorites", Snackbar.LENGTH_SHORT).show()
+                db .setFav(ext_note?.id?:1)
+                Snackbar.make(parent_view, getString(R.string.Addedtofavorites), Snackbar.LENGTH_SHORT).show()
                 fav_checked = true
             }
         }

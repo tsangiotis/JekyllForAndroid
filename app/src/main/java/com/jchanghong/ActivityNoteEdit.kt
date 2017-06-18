@@ -220,8 +220,8 @@ class ActivityNoteEdit : AppCompatActivity() {
     private fun backConfirmation() {
         val builder = AlertDialog.Builder(this@ActivityNoteEdit)
         builder.setTitle(getString(R.string.SaveConfirmation))
-        builder.setMessage("Do you want to save?")
-        builder.setPositiveButton("Yes") { dialogInterface, i ->
+        builder.setMessage(getString(R.string.doyouwanttosave))
+        builder.setPositiveButton(getString(R.string.yes)) { dialogInterface, i ->
             if (ext_note == null) {
                 //save new note
                 val n = Note()
@@ -240,7 +240,7 @@ class ActivityNoteEdit : AppCompatActivity() {
                 db .updateNote(ext_note!!)
                 ext_note .clear()
             }
-            Snackbar.make(parent_view!!, "Note Saved", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(parent_view!!, getString(R.string.notesaved), Snackbar.LENGTH_SHORT).show()
             finish()
         }
         builder.setNegativeButton("No") { dialogInterface, i -> finish() }
@@ -249,16 +249,16 @@ class ActivityNoteEdit : AppCompatActivity() {
 
     private fun deleteConfirmation() {
         val builder = AlertDialog.Builder(this@ActivityNoteEdit)
-        builder.setTitle("Delete Confirmation")
-        builder.setMessage("Are you sure want to delete this Note?")
-        builder.setPositiveButton("Yes") { dialogInterface, i ->
+        builder.setTitle(getString(R.string.SaveConfirmation1))
+        builder.setMessage(getString(R.string.areyouwantdelete))
+        builder.setPositiveButton(getString(R.string.yes)) { dialogInterface, i ->
             if (ext_note != null) {//modify
-                db .deleteNote(ext_note .id)
+                db .deleteNote(ext_note?.id?:1)
             }
-            Toast.makeText(applicationContext, "Note Deleted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, getString(R.string.notedeleted), Toast.LENGTH_SHORT).show()
             finish()
         }
-        builder.setNegativeButton("No", null)
+        builder.setNegativeButton(getString(R.string.no), null)
         builder.show()
     }
 

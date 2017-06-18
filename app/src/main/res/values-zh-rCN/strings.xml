@@ -57,5 +57,11 @@
     <string name="notesaved">Note Saved</string>
     <string name="noteupdate">Note Updated</string>
     <string name="SaveConfirmation">Save Confirmation</string>
+    <string name="doyouwanttosave">Do you want to save?</string>
+    <string name="yes">Yes</string>
+    <string name="SaveConfirmation1">Delete Confirmation</string>
+    <string name="areyouwantdelete">Are you sure want to delete this Note?</string>
+    <string name="notedeleted">Note Deleted</string>
+    <string name="no">No</string>
 
 </resources>

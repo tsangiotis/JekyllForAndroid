@@ -54,5 +54,6 @@ It commits a yyyy-mm-dd-title.md file to the _posts/ directory of your Jekyll's 
     <string name="time_edited">Edited :</string>
     <string name="Removedfromfavorites">Removed from favorites</string>
     <string name="Addedtofavorites">Added to favorites</string>
+    <string name="Contentcannotbeempty">Tittle or Content can\'t be empty</string>
 
 </resources>

@@ -171,7 +171,7 @@ class ActivityNoteEdit : AppCompatActivity() {
 
     private fun actionSave() {
         if (tittle .text.toString() == "" || content .text.toString() == "") {
-            Snackbar.make(parent_view!!, "Tittle or Content can't be empty", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(parent_view, getString(R.string.Contentcannotbeempty), Snackbar.LENGTH_SHORT).show()
         } else {
             if (is_new) ext_note = Note()
             val notif_text: String
@@ -189,7 +189,7 @@ class ActivityNoteEdit : AppCompatActivity() {
                 db .updateNote(ext_note!!)
             }
 
-            Snackbar.make(parent_view!!, notif_text, Snackbar.LENGTH_SHORT).setCallback(object : Snackbar.Callback() {
+            Snackbar.make(parent_view, notif_text, Snackbar.LENGTH_SHORT).setCallback(object : Snackbar.Callback() {
                 override fun onDismissed(snackbar: Snackbar?, event: Int) {
                     super.onDismissed(snackbar, event)
                     finish()

@@ -8,8 +8,8 @@ import com.jchanghong.model.Note
 
 class GlobalApplication : Application() {
 
-   lateinit private var db: DatabaseManager
-  lateinit  private var sharedPref: SharedPref
+   lateinit  var db: DatabaseManager
+  lateinit   var sharedPref: SharedPref
 
     override fun onCreate() {
         // init db

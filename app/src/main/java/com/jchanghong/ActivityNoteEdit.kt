@@ -21,24 +21,24 @@ import com.jchanghong.utils.Tools
 
 class ActivityNoteEdit : AppCompatActivity() {
 
-    private var toolbar: Toolbar? = null
-    private var actionBar: ActionBar? = null
-    private var parent_view: View? = null
-    private var tittle: EditText? = null
-    private var content: EditText? = null
-    private var time: TextView? = null
-    private var cat_icon: ImageView? = null
-    private var cat_drop: ImageView? = null
-    private var cat_text: TextView? = null
-    private var appbar: AppBarLayout? = null
-    private var menu: Menu? = null
+  lateinit  private var toolbar: Toolbar
+  lateinit  private var actionBar: ActionBar
+  lateinit  private var parent_view: View
+   lateinit private var tittle: EditText
+  lateinit  private var content: EditText
+  lateinit  private var time: TextView
+  lateinit  private var cat_icon: ImageView
+  lateinit  private var cat_drop: ImageView
+  lateinit  private var cat_text: TextView
+  lateinit  private var appbar: AppBarLayout
+   lateinit private var menu: Menu
 
     private var fav_checked = false
     private var is_new = true
 
     private var ext_note: Note? = null
     private var cur_category: Category? = null
-    private var db: DatabaseManager? = null
+  lateinit  private var db: DatabaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,10 +60,10 @@ class ActivityNoteEdit : AppCompatActivity() {
     private fun initToolbar() {
         toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        actionBar = supportActionBar
-        actionBar!!.setDisplayHomeAsUpEnabled(true)
-        actionBar!!.setHomeButtonEnabled(true)
-        actionBar!!.title = ""
+        actionBar = supportActionBar!!
+        actionBar .setDisplayHomeAsUpEnabled(true)
+        actionBar .setHomeButtonEnabled(true)
+        actionBar .title = ""
     }
 
 
@@ -80,15 +80,15 @@ class ActivityNoteEdit : AppCompatActivity() {
         is_new = ext_note == null
 
         if (is_new) {
-            time!!.text = ""
-            cur_category = db!!.firstCategory
+            time .text = ""
+            cur_category = db .firstCategory
         } else {
-            time!!.text = "Edited : " + Tools.stringToDate(ext_note!!.lastEdit)
-            tittle!!.setText(ext_note!!.tittle)
-            content!!.setText(ext_note!!.content)
-            cur_category = ext_note!!.category
+            time .text = getString(R.string.time_edited) + Tools.stringToDate(ext_note .lastEdit)
+            tittle .setText(ext_note ?.tittle?:"")
+            content .setText(ext_note ?.content?:"")
+            cur_category = ext_note ?.category
         }
-        setCategoryView(cur_category!!)
+        setCategoryView(cur_category?:db.firstCategory)
 
         (findViewById(R.id.lyt_category) as LinearLayout).setOnClickListener {
             val i = Intent(applicationContext, ActivityCategoryPick::class.java)
@@ -99,12 +99,12 @@ class ActivityNoteEdit : AppCompatActivity() {
     }
 
     private fun setCategoryView(category: Category) {
-        cat_icon!!.setImageResource(Tools.StringToResId(category.icon!!, applicationContext))
-        cat_icon!!.setColorFilter(Color.parseColor(category.color))
-        cat_drop!!.setColorFilter(Color.parseColor(category.color))
-        cat_text!!.text = category.name
-        cat_text!!.setTextColor(Color.parseColor(category.color))
-        appbar!!.setBackgroundColor(Color.parseColor(category.color))
+        cat_icon .setImageResource(Tools.StringToResId(category.icon!!, applicationContext))
+        cat_icon .setColorFilter(Color.parseColor(category.color))
+        cat_drop .setColorFilter(Color.parseColor(category.color))
+        cat_text .text = category.name
+        cat_text .setTextColor(Color.parseColor(category.color))
+        appbar .setBackgroundColor(Color.parseColor(category.color))
         Tools.systemBarLolipopCustom(this@ActivityNoteEdit, category.color!!)
     }
 
@@ -114,7 +114,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_activity_manage_note, menu)
         //set fav icon
         if (!is_new) {
-            if (ext_note!!.favourite == 1) {
+            if (ext_note .favourite == 1) {
                 fav_checked = true
                 menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid)
             } else {
@@ -132,7 +132,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         if (requestCode == OPEN_DIALOG_CATEGORY_CODE && resultCode == Activity.RESULT_OK) {
             cur_category = data.getSerializableExtra(ActivityCategoryPick.EXTRA_OBJ) as Category
             setCategoryView(cur_category!!)
-            Snackbar.make(parent_view!!, "Category Selected : " + cur_category!!.name, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(parent_view!!, "Category Selected : " + cur_category .name, Snackbar.LENGTH_SHORT).show()
         }
     }
 
@@ -148,13 +148,13 @@ class ActivityNoteEdit : AppCompatActivity() {
     private fun actionFavorite() {
         if (!is_new) {
             if (fav_checked) {
-                menu!!.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline)
-                db!!.removeFav(ext_note!!.id)
+                menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline)
+                db .removeFav(ext_note .id)
                 Snackbar.make(parent_view!!, "Removed from favorites", Snackbar.LENGTH_SHORT).show()
                 fav_checked = false
             } else {
-                menu!!.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid)
-                db!!.setFav(ext_note!!.id)
+                menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid)
+                db .setFav(ext_note .id)
                 Snackbar.make(parent_view!!, "Added to favorites", Snackbar.LENGTH_SHORT).show()
                 fav_checked = true
             }
@@ -162,23 +162,23 @@ class ActivityNoteEdit : AppCompatActivity() {
     }
 
     private fun actionSave() {
-        if (tittle!!.text.toString() == "" || content!!.text.toString() == "") {
+        if (tittle .text.toString() == "" || content .text.toString() == "") {
             Snackbar.make(parent_view!!, "Tittle or Content can't be empty", Snackbar.LENGTH_SHORT).show()
         } else {
             if (is_new) ext_note = Note()
             val notif_text: String
 
-            ext_note!!.tittle = tittle!!.text.toString()
-            ext_note!!.content = content!!.text.toString()
-            ext_note!!.lastEdit = System.currentTimeMillis()
-            ext_note!!.category = cur_category
+            ext_note .tittle = tittle .text.toString()
+            ext_note .content = content .text.toString()
+            ext_note .lastEdit = System.currentTimeMillis()
+            ext_note .category = cur_category
 
             if (is_new) {
                 notif_text = "Note Saved"
-                db!!.insertNote(ext_note!!)
+                db .insertNote(ext_note!!)
             } else {
                 notif_text = "Note Updated"
-                db!!.updateNote(ext_note!!)
+                db .updateNote(ext_note!!)
             }
 
             Snackbar.make(parent_view!!, notif_text, Snackbar.LENGTH_SHORT).setCallback(object : Snackbar.Callback() {
@@ -192,15 +192,15 @@ class ActivityNoteEdit : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (ext_note != null) {
-            if (tittle!!.text.toString() != ext_note!!.tittle ||
-                    content!!.text.toString() != ext_note!!.content ||
-                    cur_category!!.id != ext_note!!.category!!.id) {
+            if (tittle .text.toString() != ext_note .tittle ||
+                    content .text.toString() != ext_note .content ||
+                    cur_category .id != ext_note .category .id) {
                 backConfirmation()
             } else {
                 finish()
             }
         } else {
-            if (tittle!!.text.toString() == "" && content!!.text.toString() == "") {
+            if (tittle .text.toString() == "" && content .text.toString() == "") {
                 //do nothing
                 finish()
             } else {
@@ -217,20 +217,20 @@ class ActivityNoteEdit : AppCompatActivity() {
             if (ext_note == null) {
                 //save new note
                 val n = Note()
-                n.tittle = tittle!!.text.toString() + ""
-                n.content = content!!.text.toString() + ""
+                n.tittle = tittle .text.toString() + ""
+                n.content = content .text.toString() + ""
                 n.category = cur_category
                 n.favourite = 0
                 n.lastEdit = System.currentTimeMillis()
-                db!!.insertNote(n)
+                db .insertNote(n)
             } else {
-                ext_note!!.tittle = tittle!!.text.toString() + ""
-                ext_note!!.content = content!!.text.toString() + ""
-                ext_note!!.category = cur_category
+                ext_note .tittle = tittle .text.toString() + ""
+                ext_note .content = content .text.toString() + ""
+                ext_note .category = cur_category
                 //no need to set fav here, fav already save to DB when clicked
-                ext_note!!.lastEdit = System.currentTimeMillis()
-                db!!.updateNote(ext_note!!)
-                ext_note!!.clear()
+                ext_note .lastEdit = System.currentTimeMillis()
+                db .updateNote(ext_note!!)
+                ext_note .clear()
             }
             Snackbar.make(parent_view!!, "Note Saved", Snackbar.LENGTH_SHORT).show()
             finish()
@@ -245,7 +245,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         builder.setMessage("Are you sure want to delete this Note?")
         builder.setPositiveButton("Yes") { dialogInterface, i ->
             if (ext_note != null) {//modify
-                db!!.deleteNote(ext_note!!.id)
+                db .deleteNote(ext_note .id)
             }
             Toast.makeText(applicationContext, "Note Deleted", Toast.LENGTH_SHORT).show()
             finish()

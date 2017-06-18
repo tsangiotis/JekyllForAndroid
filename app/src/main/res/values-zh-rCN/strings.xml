@@ -50,5 +50,6 @@
     <string name="hint_note_c">内容</string>
     <string name="note_save">保存</string>
     <string name="category_name">名字</string>
+    <string name="time_edited">Edited :</string>
 
 </resources>

@@ -84,7 +84,7 @@ class ActivityNoteEdit : AppCompatActivity() {
             time .text = ""
             cur_category = db .firstCategory
         } else {
-            time .text = getString(R.string.time_edited) + Tools.stringToDate(ext_note ?.lastEdit)
+            time .text = getString(R.string.time_edited) + Tools.stringToDate(ext_note?.lastEdit?:1)
             tittle .setText(ext_note ?.tittle?:"")
             content .setText(ext_note ?.content?:"")
             cur_category = ext_note ?.category
@@ -200,8 +200,8 @@ class ActivityNoteEdit : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (ext_note != null) {
-            if (tittle .text.toString() != ext_note .tittle ||
-                    content .text.toString() != ext_note .content ||
+            if (tittle .text.toString() != ext_note?.tittle ||
+                    content .text.toString() != ext_note?.content ||
                     cur_category?.id != ext_note?.category?.id?:1) {
                 backConfirmation()
             } else {
@@ -232,15 +232,15 @@ class ActivityNoteEdit : AppCompatActivity() {
                 n.lastEdit = System.currentTimeMillis()
                 db .insertNote(n)
             } else {
-                ext_note .tittle = tittle .text.toString() + ""
-                ext_note .content = content .text.toString() + ""
-                ext_note .category = cur_category
+                ext_note?.tittle = tittle .text.toString() + ""
+                ext_note?.content = content .text.toString() + ""
+                ext_note?.category = cur_category
                 //no need to set fav here, fav already save to DB when clicked
-                ext_note .lastEdit = System.currentTimeMillis()
+                ext_note?.lastEdit = System.currentTimeMillis()
                 db .updateNote(ext_note!!)
-                ext_note .clear()
+                ext_note?.clear()
             }
-            Snackbar.make(parent_view!!, getString(R.string.notesaved), Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(parent_view, getString(R.string.notesaved), Snackbar.LENGTH_SHORT).show()
             finish()
         }
         builder.setNegativeButton("No") { dialogInterface, i -> finish() }

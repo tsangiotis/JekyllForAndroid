@@ -84,7 +84,7 @@ class ActivityNoteEdit : AppCompatActivity() {
             time .text = ""
             cur_category = db .firstCategory
         } else {
-            time .text = getString(R.string.time_edited) + Tools.stringToDate(ext_note .lastEdit)
+            time .text = getString(R.string.time_edited) + Tools.stringToDate(ext_note ?.lastEdit)
             tittle .setText(ext_note ?.tittle?:"")
             content .setText(ext_note ?.content?:"")
             cur_category = ext_note ?.category
@@ -115,7 +115,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_activity_manage_note, menu)
         //set fav icon
         if (!is_new) {
-            if (ext_note .favourite == 1) {
+            if (ext_note ?.favourite == 1) {
                 fav_checked = true
                 menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid,theme)
             } else {
@@ -157,7 +157,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         if (!is_new) {
             if (fav_checked) {
                 menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline,theme)
-                db .removeFav(ext_note .id)
+                db .removeFav(ext_note?.id?:1)
                 Snackbar.make(parent_view, getString(R.string.Removedfromfavorites), Snackbar.LENGTH_SHORT).show()
                 fav_checked = false
             } else {
@@ -176,10 +176,10 @@ class ActivityNoteEdit : AppCompatActivity() {
             if (is_new) ext_note = Note()
             val notif_text: String
 
-            ext_note .tittle = tittle .text.toString()
-            ext_note .content = content .text.toString()
-            ext_note .lastEdit = System.currentTimeMillis()
-            ext_note .category = cur_category
+            ext_note ?.tittle = tittle .text.toString()
+            ext_note ?.content = content .text.toString()
+            ext_note ?.lastEdit = System.currentTimeMillis()
+            ext_note ?.category = cur_category
 
             if (is_new) {
                 notif_text = "Note Saved"

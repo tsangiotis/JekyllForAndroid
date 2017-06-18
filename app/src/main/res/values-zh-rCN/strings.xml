@@ -63,5 +63,8 @@
     <string name="areyouwantdelete">Are you sure want to delete this Note?</string>
     <string name="notedeleted">Note Deleted</string>
     <string name="no">No</string>
+    <string name="ratethisapp">Rate This App</string>
+    <string name="name_changed">Name successfully changed</string>
+    <string name="namecannotempty">Name cannot empty</string>
 
 </resources>

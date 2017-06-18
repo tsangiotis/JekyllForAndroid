@@ -37,15 +37,15 @@ class ActivityMain : AppCompatActivity() {
 
     //for ads
 
-    private var toolbar: Toolbar? = null
-    lateinit var actionBar: ActionBar
-    private var navigationView: NavigationView? = null
-    private var floatingActionButton: FloatingActionButton? = null
-    private var parent_view: View? = null
-    private var user_name: TextView? = null
+   lateinit private var toolbar: Toolbar 
+  lateinit   var actionBar: ActionBar
+  lateinit  private var navigationView: NavigationView 
+   lateinit private var floatingActionButton: FloatingActionButton 
+ lateinit   private var parent_view: View 
+  lateinit  private var user_name: TextView 
 
-    private var db: DatabaseManager? = null
-    private var sharedPref: SharedPref? = null
+  lateinit  private var db: DatabaseManager 
+  lateinit  private var sharedPref: SharedPref 
 
     private var navigation = 0
 
@@ -69,7 +69,7 @@ class ActivityMain : AppCompatActivity() {
         displayContentView(R.id.nav_all_note)
         navigation = R.id.nav_all_note
 
-        floatingActionButton!!.setOnClickListener {
+        floatingActionButton .setOnClickListener {
             var intent: Intent? = null
             if (navigation == R.id.nav_category) {
                 intent = Intent(applicationContext, ActivityCategoryEdit::class.java)
@@ -105,7 +105,7 @@ class ActivityMain : AppCompatActivity() {
         toggle.syncState()
 
         navigationView = findViewById(R.id.nav_view) as NavigationView
-        navigationView!!.setNavigationItemSelectedListener { menuItem ->
+        navigationView .setNavigationItemSelectedListener { menuItem ->
             menuItem.isChecked = true
             drawer.closeDrawers()
             setToolbarTitle(menuItem.title.toString())
@@ -113,12 +113,12 @@ class ActivityMain : AppCompatActivity() {
             displayContentView(menuItem.itemId)
             true
         }
-        user_name = navigationView!!.getHeaderView(0).findViewById<View>(R.id.user_name) as TextView
-        navigationView!!.getHeaderView(0).findViewById<View>(R.id.lyt_edit_name).setOnClickListener { dialogEditUserName() }
-        if (sharedPref!!.isNameNeverEdit) {
+        user_name = navigationView .getHeaderView(0).findViewById<View>(R.id.user_name) as TextView
+        navigationView .getHeaderView(0).findViewById<View>(R.id.lyt_edit_name).setOnClickListener { dialogEditUserName() }
+        if (sharedPref .isNameNeverEdit) {
             dialogEditUserName()
         } else {
-            user_name!!.text = sharedPref!!.userName
+            user_name .text = sharedPref .userName
         }
     }
 
@@ -137,13 +137,13 @@ class ActivityMain : AppCompatActivity() {
     }
 
     private fun updateDrawerCounter() {
-        setMenuAdvCounter(R.id.nav_all_note, db!!.allNotes.size)
-        setMenuAdvCounter(R.id.nav_fav, db!!.allFavNote.size)
+        setMenuAdvCounter(R.id.nav_all_note, db .allNotes.size)
+        setMenuAdvCounter(R.id.nav_fav, db .allFavNote.size)
     }
 
     //set counter in drawer
     private fun setMenuAdvCounter(@IdRes itemId: Int, count: Int) {
-        val view = navigationView!!.menu.findItem(itemId).actionView.findViewById<View>(R.id.counter) as TextView
+        val view = navigationView .menu.findItem(itemId).actionView.findViewById<View>(R.id.counter) as TextView
         view.text = count.toString()
     }
 
@@ -164,7 +164,7 @@ class ActivityMain : AppCompatActivity() {
             }
             R.id.nav_fav -> fragment = FragmentFavorites()
             R.id.nav_rate -> {
-                Snackbar.make(parent_view!!, "Rate This App", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(parent_view, getString(R.string.ratethisapp), Snackbar.LENGTH_SHORT).show()
                 Tools.rateAction(this)
             }
             R.id.nav_about -> fragment = FragmentAbout()
@@ -193,10 +193,10 @@ class ActivityMain : AppCompatActivity() {
 
     fun doExitApp() {
         if (System.currentTimeMillis() - exitTime > 2000) {
-            Snackbar.make(parent_view!!, R.string.press_again_exit_app, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(parent_view, R.string.press_again_exit_app, Snackbar.LENGTH_SHORT).show()
             exitTime = System.currentTimeMillis()
         } else {
-            db!!.close()
+            db .close()
             finish()
         }
     }
@@ -228,27 +228,27 @@ class ActivityMain : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_name_edit)
 
         val lp = WindowManager.LayoutParams()
-        lp.copyFrom(dialog.window!!.attributes)
+        lp.copyFrom(dialog.window .attributes)
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
 
-        sharedPref!!.isNameNeverEdit = false
+        sharedPref .isNameNeverEdit = false
 
         val et_name = dialog.findViewById<View>(R.id.name) as EditText
-        et_name.setText(sharedPref!!.userName)
+        et_name.setText(sharedPref .userName)
         (dialog.findViewById<View>(R.id.img_close) as ImageView).setOnClickListener { dialog.dismiss() }
         (dialog.findViewById<View>(R.id.bt_save) as Button).setOnClickListener {
             if (et_name.text.toString().trim { it <= ' ' } != "") {
-                sharedPref!!.userName = et_name.text.toString()
-                user_name!!.text = sharedPref!!.userName
-                Snackbar.make(parent_view!!, "Name successfully changed", Snackbar.LENGTH_SHORT).show()
+                sharedPref .userName = et_name.text.toString()
+                user_name .text = sharedPref .userName
+                Snackbar.make(parent_view, getString(R.string.name_changed), Snackbar.LENGTH_SHORT).show()
                 dialog.dismiss()
             } else {
-                Snackbar.make(parent_view!!, "Name cannot empty", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(parent_view, getString(R.string.namecannotempty), Snackbar.LENGTH_SHORT).show()
             }
         }
         dialog.show()
-        dialog.window!!.attributes = lp
+        dialog.window .attributes = lp
     }
 
 }

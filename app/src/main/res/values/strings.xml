@@ -67,5 +67,8 @@ It commits a yyyy-mm-dd-title.md file to the _posts/ directory of your Jekyll's 
     <string name="ratethisapp">Rate This App</string>
     <string name="name_changed">Name successfully changed</string>
     <string name="namecannotempty">Name cannot empty</string>
+    <string name="categorynamecanno_empty">Category Name or Icon can\'t be empty</string>
+    <string name="category_updated">Category updated</string>
+    <string name="categorysaved">Category saved</string>
 
 </resources>

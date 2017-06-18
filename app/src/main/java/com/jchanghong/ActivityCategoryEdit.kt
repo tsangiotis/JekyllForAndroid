@@ -26,14 +26,14 @@ import com.jchanghong.model.Category
  * \ */
 class ActivityCategoryEdit : AppCompatActivity() {
 
-    private var parent_view: View? = null
+   lateinit private var parent_view: View
     private val is_new = true
-    private var ext_cat: Category? = null
-    private var btnSave: Button? = null
-    private var txtTittle: EditText? = null
-    private var radioIcon: RadioButton? = null
+  lateinit  private var ext_cat: Category
+   lateinit private var btnSave: Button
+   lateinit private var txtTittle: EditText
+   lateinit private var radioIcon: RadioButton
 
-    private var db: DatabaseManager? = null
+   lateinit private var db: DatabaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +49,7 @@ class ActivityCategoryEdit : AppCompatActivity() {
         hideKeyboard()
 
         // get extra object
-        ext_cat = intent.getSerializableExtra(EXTRA_OBJCT) as? Category
+        ext_cat = intent.getSerializableExtra(EXTRA_OBJCT) as? Category?:db.firstCategory
 
         val recyclerView = findViewById(R.id.category_icon_list) as RecyclerView
         recyclerView.setHasFixedSize(true)
@@ -57,39 +57,39 @@ class ActivityCategoryEdit : AppCompatActivity() {
         //grid layout
         val lLayout = GridLayoutManager(applicationContext, 2)
         recyclerView.layoutManager = lLayout
-        val icons = db!!.categoryIcon
+        val icons = db.categoryIcon
         val ai = ListAdapterCategoryIcon(applicationContext, icons)
         recyclerView.adapter = ai
 
         //define field from object
         if (ext_cat != null) {
-            txtTittle!!.setText(ext_cat!!.name)
-            ai.setSelectedRadio(ext_cat!!.icon!!)
+            txtTittle.setText(ext_cat.name)
+            ai.setSelectedRadio(ext_cat.icon!!)
         }
 
-        btnSave!!.setOnClickListener {
-            if (txtTittle!!.text.toString() == "" || ai.selectedCategoryIcon == null) {
-                Toast.makeText(applicationContext, "Category Name or Icon can't be empty", Toast.LENGTH_SHORT).show()
+        btnSave.setOnClickListener {
+            if (txtTittle.text.toString() == "" || ai.selectedCategoryIcon == null) {
+                Toast.makeText(applicationContext, getString(R.string.categorynamecanno_empty), Toast.LENGTH_SHORT).show()
             } else {
                 if (ext_cat != null) {
-                    if (ext_cat!!.name == txtTittle!!.text.toString() && ext_cat!!.icon == ai.selectedCategoryIcon!!.icon) {
+                    if (ext_cat.name == txtTittle.text.toString() && ext_cat.icon == ai?.selectedCategoryIcon?.icon) {
                         finish()
                     } else {
-                        ext_cat!!.name = txtTittle!!.text.toString()
-                        ext_cat!!.icon = ai.selectedCategoryIcon!!.icon
-                        ext_cat!!.color = ai.selectedCategoryIcon!!.color
-                        db!!.updateCategory(ext_cat!!)
+                        ext_cat.name = txtTittle.text.toString()
+                        ext_cat.icon = ai.selectedCategoryIcon?.icon
+                        ext_cat.color = ai.selectedCategoryIcon?.color
+                        db.updateCategory(ext_cat)
                         finish()
-                        Toast.makeText(applicationContext, "Category updated", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, getString(R.string.category_updated), Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     val category = Category()
-                    category.name = txtTittle!!.text.toString()
-                    category.color = ai.selectedCategoryIcon!!.color
-                    category.icon = ai.selectedCategoryIcon!!.icon
-                    db!!.insertCategory(category)
+                    category.name = txtTittle.text.toString()
+                    category.color = ai.selectedCategoryIcon?.color
+                    category.icon = ai.selectedCategoryIcon?.icon
+                    db.insertCategory(category)
                     finish()
-                    Toast.makeText(applicationContext, "Category saved", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, getString(R.string.categorysaved), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -99,7 +99,7 @@ class ActivityCategoryEdit : AppCompatActivity() {
     private fun initComponent() {
         txtTittle = findViewById(R.id.cat_tittle) as EditText
         btnSave = findViewById(R.id.btn_save) as Button
-        radioIcon = findViewById(R.id.radioSelected) as? RadioButton
+        radioIcon = findViewById(R.id.radioSelected) as RadioButton
     }
 
 
@@ -161,7 +161,7 @@ class ActivityCategoryEdit : AppCompatActivity() {
 
         fun hideSoftKeyboard(activity: Activity) {
             val inputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
+            inputMethodManager.hideSoftInputFromWindow(activity.currentFocus.windowToken, 0)
         }
     }
 }

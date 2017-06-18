@@ -182,10 +182,10 @@ class ActivityNoteEdit : AppCompatActivity() {
             ext_note ?.category = cur_category
 
             if (is_new) {
-                notif_text = "Note Saved"
+                notif_text = getString(R.string.notesaved)
                 db .insertNote(ext_note!!)
             } else {
-                notif_text = "Note Updated"
+                notif_text = getString(R.string.noteupdate)
                 db .updateNote(ext_note!!)
             }
 

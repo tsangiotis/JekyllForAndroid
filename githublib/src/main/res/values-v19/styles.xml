@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:actionOverflowButtonStyle">@style/Widget.JekyllforAndroid.ActionButton.Overflow.JekyllforAndroid</item>
+        <item name="android:editTextStyle">@style/Widget.JekyllforAndroid.EditText</item>
+        <item name="android:editTextBackground">@drawable/edit_text</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+
+</resources>

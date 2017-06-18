@@ -1,42 +1,17 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.google.com' }
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-alpha4'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
-
-repositories {
-    mavenCentral()
-    maven {
-        url "https://s3.amazonaws.com/repo.commonsware.com"
-    }
-    maven { url "https://repo.eclipse.org/content/groups/releases/" }
-    maven { url "https://repo.commonsware.com.s3.amazonaws.com" }
-}
-
-apply plugin: 'com.android.application'
-
+apply plugin: 'com.android.library'
 
 android {
-    android.compileOptions.sourceCompatibility 1.8
-    android.compileOptions.targetCompatibility 1.8
+//    android.compileOptions.sourceCompatibility 1.8
+//    android.compileOptions.targetCompatibility 1.8
 
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
-        applicationId 'gr.tsagi.jekyllforandroid'
         minSdkVersion 11
         targetSdkVersion 26
         versionCode 122
         versionName "1.9.2"
-
     }
 
     buildTypes {
@@ -49,18 +24,18 @@ android {
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    implementation fileTree(dir: 'libs', include: '*.jar')
 
     // https://mvnrepository.com/artifact/org.yaml/snakeyaml
-    compile group: 'org.yaml', name: 'snakeyaml', version: '1.17'
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.17'
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
 // https://mvnrepository.com/artifact/org.eclipse.mylyn.github/org.eclipse.egit.github.core
-    compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '4.8.0.201705170830-rc1'
+//    implementation group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '4.8.0.201705170830-rc1'
 
-    compile 'com.commonsware.cwac:anddown:0.3.0'
-    compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.commonsware.cwac:anddown:0.3.0'
+    implementation 'com.readystatesoftware.systembartint:systembartint:1.0.4'
+    implementation 'com.android.support:support-v4:25.3.1'
+    implementation 'com.android.support:appcompat-v7:25.3.1'
 }

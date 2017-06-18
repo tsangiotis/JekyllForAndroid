@@ -9,7 +9,7 @@ import com.jchanghong.model.Note
 class GlobalApplication : Application() {
 
    lateinit private var db: DatabaseManager
-    private var sharedPref: SharedPref? = null
+  lateinit  private var sharedPref: SharedPref
 
     override fun onCreate() {
         // init db
@@ -17,36 +17,30 @@ class GlobalApplication : Application() {
         sharedPref = SharedPref(applicationContext)
 
         //first launch
-        if (sharedPref!!.isFirstLaunch) {
+        if (sharedPref.isFirstLaunch) {
 
             //define category
-            db!!.defineCategory()
+            db.defineCategory()
 
             Log.e("onCreate", "GlobalApplication : defineCategory")
 
             //define category icon
-            db!!.defineCategoryIcon()
+            db.defineCategoryIcon()
 
             //sample data 1
             val sampleNote = Note()
             sampleNote.tittle = getString(R.string.dummy_title_1)
             sampleNote.content = getString(R.string.dummy_content_1)
             sampleNote.lastEdit = System.currentTimeMillis()
-            sampleNote.category = db!!.getCategoryById(resources.getIntArray(R.array.category_id)[0].toLong())
-            db!!.insertNote(sampleNote)
+            sampleNote.category = db.getCategoryById(resources.getIntArray(R.array.category_id)[0].toLong())
+            db.insertNote(sampleNote)
 
             //sample data 2
             val sampleNote2 = Note()
             sampleNote2.tittle = getString(R.string.dummy_title_2)
             sampleNote2.content = getString(R.string.dummy_content_2)
             sampleNote2.lastEdit = System.currentTimeMillis()
-//            if (Constant.iszhong) {
-//
-//                sampleNote2.category = db!!.getCategoryById(resources.getIntArray(R.array.zhongcategory_id)[1].toLong())
-//            } else {
-
-                sampleNote2.category = db!!.getCategoryById(resources.getIntArray(R.array.category_id)[1].toLong())
-//            }
+                sampleNote2.category = db.getCategoryById(resources.getIntArray(R.array.category_id)[1].toLong())
             db!!.insertNote(sampleNote2)
 
             //sample data 3

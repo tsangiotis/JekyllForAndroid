@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer-array name="zhongcategory_icon_id">
+    <integer-array name="category_icon_id">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -23,7 +23,7 @@
         <item>20</item>
     </integer-array>
 
-    <string-array name="zhongcategory_icon_data">
+    <string-array name="category_icon_data">
         <item>ic_cat_general</item>
         <item>ic_cat_personal</item>
         <item>ic_cat_work</item>
@@ -46,7 +46,7 @@
         <item>ic_pet_white</item>
     </string-array>
 
-    <string-array name="zhongcategory_color_data">
+    <string-array name="category_color_data">
         <item>#F44336</item>
         <item>#E91E63</item>
         <item>#9C27B0</item>

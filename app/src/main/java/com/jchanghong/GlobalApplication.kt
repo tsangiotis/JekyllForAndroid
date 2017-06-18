@@ -2,8 +2,6 @@ package com.jchanghong
 
 import android.app.Application
 import android.util.Log
-
-import com.jchanghong.data.Constant
 import com.jchanghong.data.DatabaseManager
 import com.jchanghong.data.SharedPref
 import com.jchanghong.model.Note
@@ -42,13 +40,13 @@ class GlobalApplication : Application() {
             sampleNote2.tittle = getString(R.string.dummy_title_2)
             sampleNote2.content = getString(R.string.dummy_content_2)
             sampleNote2.lastEdit = System.currentTimeMillis()
-            if (Constant.iszhong) {
-
-                sampleNote2.category = db!!.getCategoryById(resources.getIntArray(R.array.zhongcategory_id)[1].toLong())
-            } else {
+//            if (Constant.iszhong) {
+//
+//                sampleNote2.category = db!!.getCategoryById(resources.getIntArray(R.array.zhongcategory_id)[1].toLong())
+//            } else {
 
                 sampleNote2.category = db!!.getCategoryById(resources.getIntArray(R.array.category_id)[1].toLong())
-            }
+//            }
             db!!.insertNote(sampleNote2)
 
             //sample data 3
@@ -56,12 +54,12 @@ class GlobalApplication : Application() {
             sampleNote3.tittle = getString(R.string.dummy_title_3)
             sampleNote3.content = getString(R.string.dummy_content_3)
             sampleNote3.lastEdit = System.currentTimeMillis()
-            if (Constant.iszhong) {
-                sampleNote3.category = db!!.getCategoryById(resources.getIntArray(R.array.zhongcategory_id)[2].toLong())
-            } else {
+//            if (Constant.iszhong) {
+//                sampleNote3.category = db!!.getCategoryById(resources.getIntArray(R.array.zhongcategory_id)[2].toLong())
+//            } else {
 
                 sampleNote3.category = db!!.getCategoryById(resources.getIntArray(R.array.category_id)[2].toLong())
-            }
+//            }
             db!!.insertNote(sampleNote3)
 
             sharedPref!!.isFirstLaunch = false

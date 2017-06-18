@@ -20,16 +20,17 @@ import android.widget.Toast;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import org.eclipse.egit.github.core.User;
+import org.eclipse.egit.github.core.client.GitHubClient;
+import org.eclipse.egit.github.core.service.UserService;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken;
 import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo;
-
-//import org.eclipse.egit.github.core.User;
-//import org.eclipse.egit.github.core.client.GitHubClient;
-//import org.eclipse.egit.github.core.service.UserService;
 
 public class LoginActivity extends BaseActivity {
     private static String CLIENT_ID = "1569f7710e0b37bb066c";
@@ -178,15 +179,15 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         protected Void doInBackground(Void... args) {
-//            GitHubClient client = new GitHubClient();
-//            client.setOAuth2Token(settings.getString("user_status", ""));
-//            UserService uService = new UserService(client);
-//            try {
-//                User us = uService.getUser();
-//                user = us.getLogin();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            GitHubClient client = new GitHubClient();
+            client.setOAuth2Token(settings.getString("user_status", ""));
+            UserService uService = new UserService(client);
+            try {
+                User us = uService.getUser();
+                user = us.getLogin();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }

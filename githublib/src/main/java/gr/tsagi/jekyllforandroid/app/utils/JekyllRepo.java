@@ -2,10 +2,12 @@ package gr.tsagi.jekyllforandroid.app.utils;
 
 import android.os.AsyncTask;
 
-import java.util.concurrent.ExecutionException;
+import org.eclipse.egit.github.core.Repository;
+import org.eclipse.egit.github.core.service.RepositoryService;
 
-//import org.eclipse.egit.github.core.Repository;
-//import org.eclipse.egit.github.core.service.RepositoryService;
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by tsagi on 1/29/14.
@@ -31,29 +33,28 @@ public class JekyllRepo {
 
         protected String doInBackground(String... params) {
 
-//            String user = params[0];
-//            String name = null;
-//
-//            RepositoryService repositoryService = new RepositoryService();
-//
-//            List<Repository> repositories = null;
-//            try {
-//                repositories = repositoryService.getRepositories(user);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            for (Repository repository : repositories) {
-//                if (repository.getName().contains(user + ".github.")) {
-//                    name = repository.getName();
-//                    break;
-//                }
-//                if (repository.getName().contains(user.toLowerCase() + ".github.")) {
-//                    name = repository.getName();
-//                    break;
-//                }
-//            }
-//            return name;
-            return null;
+            String user = params[0];
+            String name = null;
+
+            RepositoryService repositoryService = new RepositoryService();
+
+            List<Repository> repositories = null;
+            try {
+                repositories = repositoryService.getRepositories(user);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (Repository repository : repositories) {
+                if (repository.getName().contains(user + ".github.")) {
+                    name = repository.getName();
+                    break;
+                }
+                if (repository.getName().contains(user.toLowerCase() + ".github.")) {
+                    name = repository.getName();
+                    break;
+                }
+            }
+            return name;
         }
 
     }

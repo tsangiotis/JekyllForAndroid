@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     //sample data 1
-    <string name="dummy_title_1">Lorem饿肚肚 ipsum</string>
+    <string name="dummy_title_1">jekyll是什么</string>
     <string name="dummy_content_1">
-        Lorem ipsum dolor sit amet, harum tincidunt ut vis, cu sonet graece qui, sed at aliquam graecis definitionem. Vix ex placerat perpetua, cum id nemore veritus epicuri, porro mandamus has te. Duo in liberavisse signiferumque. Est liber luptatum pertinacia cu, decore maiorum oporteat pri at, ex mea solum conclusionemque. Vis tollit vidisse apeirian no.
-        \n\nSolet facilis accusamus pro cu, fabulas oporteat per at, nec ex suas fugit patrioque. Ad summo scripserit cum, semper scribentur persequeris ea usu, viderer debitis nam ad. Per consulatu instructior ne, abhorreant efficiendi his an. Decore ignota est ne.
+       Jekyll 是一个简单的博客形态的静态站点生产机器。它有一个模版目录，其中包含原始文本格式的文档，通过一个转换器（如 Markdown）和我们的 Liquid 渲染器转化成一个完整的可发布的静态网站，你可以发布在任何你喜爱的服务器上。Jekyll 也可以运行在 GitHub Page 上，也就是说，你可以使用 GitHub 的服务来搭建你的项目页面、博客或者网站，而且是完全免费的。
     </string>
 
-    <string name="dummy_title_2" translatable="false">Suspendisse</string>
+    <string name="dummy_title_2" translatable="false">学习</string>
     <string name="dummy_content_2">
-        - fabulas oporteat\n
-        - nec ex suas\n
-        - Ad summo\n
-        - semper scribentur\n
-        - viderer debitis\n
-        - Per consulatu\n
-        - abhorreant efficiendi\n
-        - Decore ignota"
+     Jekyll 是一个简单的博客形态的静态站点生产机器。它有一个模版目录，其中包含原始文本格式的文档，通过一个转换器（如 Markdown）和我们的 Liquid 渲染器转化成一个完整的可发布的静态网站，你可以发布在任何你喜爱的服务器上。Jekyll 也可以运行在 GitHub Page 上，也就是说，你可以使用 GitHub 的服务来搭建你的项目页面、博客或者网站，而且是完全免费的。
     </string>
 
-    <string name="dummy_title_3">Praesent tempus</string>
+    <string name="dummy_title_3">生活</string>
     <string name="dummy_content_3">
-        Mauris eget augue feugiat dolor blandit euismod ac vel ante. Etiam pellentesque finibus nulla, quis pulvinar purus porta at. Vestibulum congue semper laoreet. Integer vitae nulla eget nisl dignissim molestie.
+   Jekyll 是一个简单的博客形态的静态站点生产机器。它有一个模版目录，其中包含原始文本格式的文档，通过一个转换器（如 Markdown）和我们的 Liquid 渲染器转化成一个完整的可发布的静态网站，你可以发布在任何你喜爱的服务器上。Jekyll 也可以运行在 GitHub Page 上，也就是说，你可以使用 GitHub 的服务来搭建你的项目页面、博客或者网站，而且是完全免费的。
     </string>
 
 </resources>

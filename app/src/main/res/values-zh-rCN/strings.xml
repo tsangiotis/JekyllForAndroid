@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">MdNodes</string>
+    <string name="app_name">Jekyll笔记本</string>
 
-    <string name="app_name_ver">mdnotes 1.0</string>
+    <string name="app_name_ver">Jekyll笔记本</string>
 
     <string name="drawer_open">打开</string>
     <string name="drawer_close">关闭</string>

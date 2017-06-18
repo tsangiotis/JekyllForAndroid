@@ -49,7 +49,7 @@ class ActivityCategoryEdit : AppCompatActivity() {
         hideKeyboard()
 
         // get extra object
-        ext_cat = intent.getSerializableExtra(EXTRA_OBJCT) as Category
+        ext_cat = intent.getSerializableExtra(EXTRA_OBJCT) as? Category
 
         val recyclerView = findViewById(R.id.category_icon_list) as RecyclerView
         recyclerView.setHasFixedSize(true)

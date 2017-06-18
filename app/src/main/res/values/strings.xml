@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Noolis</string>
+    <string name="app_name">jekyll</string>
 
-    <string name="app_name_ver" translatable="false">Noolis 2.3</string>
+    <string name="app_name_ver" translatable="false">jekyll 2.3</string>
 
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="about_text">
-        Noolis is Iconic Note Android Application. Categorize by attractive icon and color make save note more fun and easy.
+        jekyll is Iconic Note Android Application. Categorize by attractive icon and color make save note more fun and easy.
     </string>
 
     <string name="title_activity_main">MainActivity</string>

@@ -1,5 +1,6 @@
 package com.jchanghong.model
 
+import com.jchanghong.GlobalApplication
 import java.io.Serializable
 
 /**
@@ -8,15 +9,6 @@ import java.io.Serializable
  * \* Date: 14/06/2016
  * \* Time: 10:00
  * \ */
-class CategoryIcon : Serializable {
-    var icon: String? = null
-    var color: String? = null
-    var isChecked: Boolean = false
-
-    constructor()
-
-    constructor(icon: String, color: String) {
-        this.icon = icon
-        this.color = color
-    }
-}
+data class CategoryIcon(var icon: String=GlobalApplication.db.cat_icon[0],
+                        var color: String=GlobalApplication.db.cat_color[0],
+                        var isChecked: Boolean = false) : Serializable

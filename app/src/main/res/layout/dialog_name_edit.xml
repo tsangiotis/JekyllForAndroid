@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/spacing_large"
-            android:text="Set Your Name"
+            android:text="@string/set_your_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="@color/grey_hard" />
 
@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:hint="Name"
+                    android:hint="@string/hint_name"
                     android:maxLines="1"
                     android:minHeight="50dp"
                     android:minWidth="300dp"
@@ -91,9 +91,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/grey_medium"
                 android:minHeight="?attr/actionBarSize"
-                android:text="SAVE"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary" />
+                android:text="@string/setname_save"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
         </com.balysv.materialripple.MaterialRippleLayout>
     </LinearLayout>
 </LinearLayout>

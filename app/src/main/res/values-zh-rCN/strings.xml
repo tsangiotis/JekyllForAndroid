@@ -43,5 +43,8 @@
 
     <!-- This is an ad unit ID for a test ad. Replace with your own banner ad unit id. -->
     <string name="banner_ad_unit_id">ca-app-pub-3239677920600357/2323890961</string>
+    <string name="set_your_name">Set Your Name</string>
+    <string name="setname_save">Save</string>
+    <string name="hint_name">Name</string>
 
 </resources>

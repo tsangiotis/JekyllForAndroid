@@ -28,19 +28,19 @@ import com.jchanghong.utils.Tools
 
 class ActivityCategoryDetails : AppCompatActivity() {
 
-    private var toolbar: Toolbar? = null
-    private var actionBar: ActionBar? = null
-    private var menu: Menu? = null
+  lateinit  private var toolbar: Toolbar
+    lateinit  private var actionBar: ActionBar
+    lateinit   private var menu: Menu
 
-    private var image: ImageView? = null
-    private var name: TextView? = null
-    private var appbar: AppBarLayout? = null
-    private var ext_category: Category? = null
+    lateinit  private var image: ImageView
+    lateinit  private var name: TextView
+    lateinit private var appbar: AppBarLayout
+      private var ext_category: Category?=null
 
     lateinit var recyclerView: RecyclerView
    lateinit var mAdapter: ListAdapterNote
-    private var lyt_not_found: LinearLayout? = null
-    private var db: DatabaseManager? = null
+    lateinit  private var lyt_not_found: LinearLayout
+    lateinit  private var db: DatabaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +65,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
         recyclerView.itemAnimator = DefaultItemAnimator()
 
 
-        displayData(db!!.getNotesByCategoryId(ext_category!!.id))
+        displayData(db.getNotesByCategoryId(ext_category?.id))
     }
 
     private fun iniComponent() {
@@ -75,20 +75,20 @@ class ActivityCategoryDetails : AppCompatActivity() {
     }
 
     private fun setCategoryView() {
-        image!!.setImageResource(Tools.StringToResId(ext_category!!.icon!!, applicationContext))
-        image!!.setColorFilter(Color.parseColor(ext_category!!.color))
-        name!!.text = ext_category!!.name
-        appbar!!.setBackgroundColor(Color.parseColor(ext_category!!.color))
-        Tools.systemBarLolipopCustom(this@ActivityCategoryDetails, ext_category!!.color!!)
+        image.setImageResource(Tools.StringToResId(ext_category!!.icon!!, applicationContext))
+        image.setColorFilter(Color.parseColor(ext_category?.color))
+        name.text = ext_category?.name
+        appbar.setBackgroundColor(Color.parseColor(ext_category?.color))
+        Tools.systemBarLolipopCustom(this@ActivityCategoryDetails, ext_category?.color!!)
     }
 
     private fun initToolbar() {
         toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        actionBar = supportActionBar
-        actionBar!!.setDisplayHomeAsUpEnabled(true)
-        actionBar!!.setHomeButtonEnabled(true)
-        actionBar!!.title = ""
+        actionBar = supportActionBar!!
+        actionBar.setDisplayHomeAsUpEnabled(true)
+        actionBar.setHomeButtonEnabled(true)
+        actionBar.title = ""
     }
 
     private fun displayData(items: List<Note>) {
@@ -105,9 +105,9 @@ class ActivityCategoryDetails : AppCompatActivity() {
         )
 
         if (mAdapter.itemCount == 0) {
-            lyt_not_found!!.visibility = View.VISIBLE
+            lyt_not_found.visibility = View.VISIBLE
         } else {
-            lyt_not_found!!.visibility = View.GONE
+            lyt_not_found.visibility = View.GONE
         }
     }
 
@@ -119,13 +119,13 @@ class ActivityCategoryDetails : AppCompatActivity() {
                 i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, ext_category)
                 startActivity(i)
             }
-            R.id.action_delete_cat -> if (db!!.getNotesByCategoryId(ext_category!!.id).isEmpty()) {
+            R.id.action_delete_cat -> if (db.getNotesByCategoryId(ext_category?.id).isEmpty()) {
                 //                    db.deleteCategory(ext_category.getId());
                 //                    Toast.makeText(getApplicationContext(),"Category deleted", Toast.LENGTH_SHORT).show();
                 deleteConfirmation()
                 //                    finish();
             } else {
-                Snackbar.make(recyclerView, "Category is not empty", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(recyclerView, getString(R.string.Categoryisnotempty), Snackbar.LENGTH_SHORT).show()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -139,29 +139,29 @@ class ActivityCategoryDetails : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        ext_category = db!!.getCategoryById(ext_category!!.id)
+        ext_category = db.getCategoryById(ext_category?.id?:1)
         recyclerView.layoutManager = LinearLayoutManager(this@ActivityCategoryDetails)
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator = DefaultItemAnimator()
 
-        image!!.setImageResource(Tools.StringToResId(ext_category!!.icon!!, applicationContext))
-        image!!.setColorFilter(Color.parseColor(ext_category!!.color))
-        name!!.text = ext_category!!.name
-        appbar!!.setBackgroundColor(Color.parseColor(ext_category!!.color))
+        image.setImageResource(Tools.StringToResId(ext_category?.icon!!, applicationContext))
+        image.setColorFilter(Color.parseColor(ext_category?.color))
+        name.text = ext_category?.name
+        appbar.setBackgroundColor(Color.parseColor(ext_category?.color))
         Tools.systemBarLolipopCustom(this@ActivityCategoryDetails, ext_category!!.color!!)
 
-        displayData(db!!.getNotesByCategoryId(ext_category!!.id))
+        displayData(db.getNotesByCategoryId(ext_category?.id))
     }
 
     private fun deleteConfirmation() {
         val builder = AlertDialog.Builder(this@ActivityCategoryDetails)
-        builder.setTitle("Delete Confirmation")
-        builder.setMessage("Are you sure want to delete this Category?")
+        builder.setTitle(getString(R.string.deleteconfirmation))
+        builder.setMessage(getString(R.string.areyousuredeletec))
         builder.setPositiveButton("Yes") { dialogInterface, i ->
             if (ext_category != null) {
-                db!!.deleteCategory(ext_category!!.id)
+                db.deleteCategory(ext_category?.id?:1)
             }
-            Toast.makeText(applicationContext, "Category Deleted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, getString(R.string.categorydeleted), Toast.LENGTH_SHORT).show()
             finish()
         }
         builder.setNegativeButton("No", null)

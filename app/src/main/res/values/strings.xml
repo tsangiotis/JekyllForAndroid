@@ -70,5 +70,9 @@ It commits a yyyy-mm-dd-title.md file to the _posts/ directory of your Jekyll's 
     <string name="categorynamecanno_empty">Category Name or Icon can\'t be empty</string>
     <string name="category_updated">Category updated</string>
     <string name="categorysaved">Category saved</string>
+    <string name="Categoryisnotempty">Category is not empty</string>
+    <string name="deleteconfirmation">Delete Confirmation</string>
+    <string name="areyousuredeletec">Are you sure want to delete this Category?</string>
+    <string name="categorydeleted">Category Deleted</string>
 
 </resources>

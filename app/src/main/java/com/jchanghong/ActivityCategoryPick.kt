@@ -24,7 +24,7 @@ class ActivityCategoryPick : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_pick)
-        db = DatabaseManager(this)
+        db = GlobalApplication.db
         initToolbar()
 
         adapterListCategory = AdapterListCategory(this, db.allCategory)

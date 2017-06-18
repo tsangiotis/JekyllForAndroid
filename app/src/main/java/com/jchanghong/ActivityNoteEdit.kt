@@ -47,7 +47,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         parent_view = findViewById(android.R.id.content)
 
         // init db
-        db = DatabaseManager(this)
+        db = GlobalApplication.db
 
         initToolbar()
 

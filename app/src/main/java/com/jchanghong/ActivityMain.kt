@@ -57,7 +57,7 @@ class ActivityMain : AppCompatActivity() {
         floatingActionButton = findViewById(R.id.fab) as FloatingActionButton
 
         sharedPref = SharedPref(this)
-        db = DatabaseManager(this) // init db
+        db = GlobalApplication.db // init db
 
         prepareAds()
         initToolbar()

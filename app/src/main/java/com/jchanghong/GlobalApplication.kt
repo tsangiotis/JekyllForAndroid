@@ -7,9 +7,12 @@ import com.jchanghong.data.SharedPref
 import com.jchanghong.model.Note
 
 class GlobalApplication : Application() {
+    companion object{
+      lateinit  var db: DatabaseManager
+        lateinit   var sharedPref: SharedPref
+    }
 
-   lateinit  var db: DatabaseManager
-  lateinit   var sharedPref: SharedPref
+
 
     override fun onCreate() {
         // init db

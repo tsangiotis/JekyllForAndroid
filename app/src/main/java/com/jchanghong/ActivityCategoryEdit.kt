@@ -44,7 +44,7 @@ class ActivityCategoryEdit : AppCompatActivity() {
         initComponent()
 
         // init db
-        db = DatabaseManager(this)
+        db = GlobalApplication.db
 
         hideKeyboard()
 

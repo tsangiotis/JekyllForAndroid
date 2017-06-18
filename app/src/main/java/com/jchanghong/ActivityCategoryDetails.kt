@@ -47,7 +47,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
         setContentView(R.layout.activity_category_details)
 
         // init db
-        db = DatabaseManager(this)
+        db = GlobalApplication.db
 
         // get extra object
         ext_category = intent.getSerializableExtra(EXTRA_OBJCT) as Category

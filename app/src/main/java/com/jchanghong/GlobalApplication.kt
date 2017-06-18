@@ -41,22 +41,17 @@ class GlobalApplication : Application() {
             sampleNote2.content = getString(R.string.dummy_content_2)
             sampleNote2.lastEdit = System.currentTimeMillis()
                 sampleNote2.category = db.getCategoryById(resources.getIntArray(R.array.category_id)[1].toLong())
-            db!!.insertNote(sampleNote2)
+            db.insertNote(sampleNote2)
 
             //sample data 3
             val sampleNote3 = Note()
             sampleNote3.tittle = getString(R.string.dummy_title_3)
             sampleNote3.content = getString(R.string.dummy_content_3)
             sampleNote3.lastEdit = System.currentTimeMillis()
-//            if (Constant.iszhong) {
-//                sampleNote3.category = db!!.getCategoryById(resources.getIntArray(R.array.zhongcategory_id)[2].toLong())
-//            } else {
+                sampleNote3.category = db.getCategoryById(resources.getIntArray(R.array.category_id)[2].toLong())
+            db.insertNote(sampleNote3)
 
-                sampleNote3.category = db!!.getCategoryById(resources.getIntArray(R.array.category_id)[2].toLong())
-//            }
-            db!!.insertNote(sampleNote3)
-
-            sharedPref!!.isFirstLaunch = false
+            sharedPref.isFirstLaunch = false
         }
         super.onCreate()
 

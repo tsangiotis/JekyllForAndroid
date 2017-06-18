@@ -6,7 +6,9 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="about_text">
-        jekyll is Iconic Note Android Application. Categorize by attractive icon and color make save note more fun and easy.
+        jekyll is Iconic Note Android Application. Categorize by attractive icon and color make save note more fun and easy .A very simple client to post on a Jekyll blog from your phone.
+
+It commits a yyyy-mm-dd-title.md file to the _posts/ directory of your Jekyll's blog.
     </string>
 
     <string name="title_activity_main">MainActivity</string>

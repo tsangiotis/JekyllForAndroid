@@ -16,31 +16,21 @@ import java.util.*
 
 class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
-    private val cat_id: IntArray
-    private val cat_name: Array<String>
-    private val cat_color: Array<String>
-    private val cat_icon: Array<String>
-    private val cat_icon_data: Array<String>
-    private val cat_color_data: Array<String>
+     val cat_id: IntArray
+     val cat_name: Array<String>
+     val cat_color: Array<String>
+     val cat_icon: Array<String>
+     val cat_icon_data: Array<String>
+     val cat_color_data: Array<String>
 
     init {
 
-//        if (Constant.iszhong) {
-//            cat_id = context.resources.getIntArray(R.array.zhongcategory_id)
-//            cat_name = context.resources.getStringArray(R.array.zhongcategory_name)
-//            cat_color = context.resources.getStringArray(R.array.zhongcategory_color)
-//            cat_icon = context.resources.getStringArray(R.array.zhongcategory_icon)
-//            cat_icon_data = context.resources.getStringArray(R.array.zhongcategory_icon_data)
-//            cat_color_data = context.resources.getStringArray(R.array.zhongcategory_color_data)
-//        }
-//        else{
             cat_id = context.resources.getIntArray(R.array.category_id)
             cat_name = context.resources.getStringArray(R.array.category_name)
             cat_color = context.resources.getStringArray(R.array.category_color)
             cat_icon = context.resources.getStringArray(R.array.category_icon)
             cat_icon_data = context.resources.getStringArray(R.array.category_icon_data)
             cat_color_data = context.resources.getStringArray(R.array.category_color_data)
-//        }
 
     }
 

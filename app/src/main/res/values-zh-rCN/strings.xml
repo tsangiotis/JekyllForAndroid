@@ -49,5 +49,6 @@
     <string name="hint_note_title">Title</string>
     <string name="hint_note_c">Note</string>
     <string name="note_save">save</string>
+    <string name="category_name">Name</string>
 
 </resources>

@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:hint="Tittle"
+                    android:hint="@string/category_name"
                     android:maxLines="1"
                     android:minHeight="50dp"
                     android:paddingLeft="@dimen/spacing_large"
@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackground"
-                android:text="SAVE"
+                android:text="@string/note_save"
                 android:textColor="@color/grey_dark"
                 android:textStyle="bold" />
         </android.support.v7.widget.CardView>

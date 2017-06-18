@@ -14,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import com.jchanghong.data.Constant
 import com.jchanghong.data.DatabaseManager
 import com.jchanghong.model.Category
 import com.jchanghong.model.Note
@@ -116,10 +117,10 @@ class ActivityNoteEdit : AppCompatActivity() {
         if (!is_new) {
             if (ext_note .favourite == 1) {
                 fav_checked = true
-                menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid)
+                menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid,theme)
             } else {
                 fav_checked = false
-                menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline)
+                menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline,theme)
             }
         } else {
             menu.getItem(0).isVisible = false
@@ -131,8 +132,15 @@ class ActivityNoteEdit : AppCompatActivity() {
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         if (requestCode == OPEN_DIALOG_CATEGORY_CODE && resultCode == Activity.RESULT_OK) {
             cur_category = data.getSerializableExtra(ActivityCategoryPick.EXTRA_OBJ) as Category
-            setCategoryView(cur_category!!)
-            Snackbar.make(parent_view!!, "Category Selected : " + cur_category .name, Snackbar.LENGTH_SHORT).show()
+            setCategoryView(cur_category?:db.firstCategory)
+            if (Constant.iszhong) {
+
+                Snackbar.make(parent_view, "选择了分类 : " + cur_category?.name, Snackbar.LENGTH_SHORT).show()
+            }
+            else{
+
+                Snackbar.make(parent_view, "Category Selected : " + cur_category?.name, Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -148,14 +156,14 @@ class ActivityNoteEdit : AppCompatActivity() {
     private fun actionFavorite() {
         if (!is_new) {
             if (fav_checked) {
-                menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline)
+                menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline,theme)
                 db .removeFav(ext_note .id)
-                Snackbar.make(parent_view!!, "Removed from favorites", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(parent_view, "Removed from favorites", Snackbar.LENGTH_SHORT).show()
                 fav_checked = false
             } else {
                 menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid)
                 db .setFav(ext_note .id)
-                Snackbar.make(parent_view!!, "Added to favorites", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(parent_view, "Added to favorites", Snackbar.LENGTH_SHORT).show()
                 fav_checked = true
             }
         }

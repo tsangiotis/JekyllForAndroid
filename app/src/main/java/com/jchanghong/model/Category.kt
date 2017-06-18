@@ -1,20 +1,10 @@
 package com.jchanghong.model
 
+import com.jchanghong.GlobalApplication
 import java.io.Serializable
 
-class Category : Serializable {
-    var id: Long = 0
-    var name: String? = null
-    var color: String? = null
-    var icon: String? = null
-    var note_count = 0
-
-    constructor()
-
-    constructor(id: Long, name: String, color: String, icon: String) {
-        this.id = id
-        this.name = name
-        this.color = color
-        this.icon = icon
-    }
-}
+data class Category(var id: Long = 0,
+                    var name: String=GlobalApplication.db.cat_name[0],
+                    var color: String=GlobalApplication.db.cat_color[0],
+                    var icon: String=GlobalApplication.db.cat_icon[0],
+                    var note_count: Int = 0) : Serializable

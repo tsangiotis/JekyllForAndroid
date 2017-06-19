@@ -222,13 +222,13 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             return notes
         }
 
-    fun getNotesByCategoryId(cat_id: Long?): List<Note> {
+    fun getNotesByCategoryId(cat_id: Long): List<Note> {
         val notes = ArrayList<Note>()
         var cur: Cursor? = null
         val db = this.readableDatabase
         try {
-            cur = db.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_CATEGORY} = ?", arrayOf(cat_id!!.toString() + ""))
-            cur!!.moveToFirst()
+            cur = db.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_CATEGORY} = ?", arrayOf(cat_id.toString()))
+            cur?.moveToFirst()?:return notes
             if (!cur.isAfterLast) {
                 do {
                     notes.add(getNoteFromCursor(cur))
@@ -244,19 +244,19 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         return notes
     }
 
-    fun getNotesCountByCategoryId(cat_id: Long?): Int {
+    fun getNotesCountByCategoryId(cat_id: Long): Int {
         var returnValue = 0
         var cursor: Cursor? = null
         val db = this.readableDatabase
         try {
-            cursor = db.rawQuery("SELECT COUNT(${COL_N_ID}) FROM ${TABLE_NOTE} WHERE ${COL_N_CATEGORY} = ?", arrayOf(cat_id!!.toString() + ""))
-            cursor!!.moveToFirst()
+            cursor = db.rawQuery("SELECT COUNT(${COL_N_ID}) FROM ${TABLE_NOTE} WHERE ${COL_N_CATEGORY} = ?", arrayOf(cat_id.toString()))
+            cursor?.moveToFirst()?:return returnValue
             returnValue = cursor.getInt(0)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("DB ERROR", e.toString())
         } finally {
-            cursor!!.close()
+            cursor?.close()
             db.close()
         }
         return returnValue

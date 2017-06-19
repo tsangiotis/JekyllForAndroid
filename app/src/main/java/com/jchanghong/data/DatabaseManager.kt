@@ -507,7 +507,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             var cursor: Cursor? = null
             try {
                 cursor = db.rawQuery("SELECT COUNT(${COL_C_ID}) FROM ${TABLE_CATEGORY}", null)
-                cursor!!.moveToFirst()
+                cursor?.moveToFirst()?:return returnVal
                 returnVal = cursor.getInt(0)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -723,24 +723,24 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
     companion object {
 
-        private val DB_NAME = "noolis.db"
+     const   private val DB_NAME = "noolis.db"
 
-        private val TABLE_NOTE = "note"
-        private val TABLE_CATEGORY = "category"
-        private val TABLE_CATEGORY_ICON = "category_icon"
+        const   private val TABLE_NOTE = "note"
+        const     private val TABLE_CATEGORY = "category"
+        const    private val TABLE_CATEGORY_ICON = "category_icon"
 
-        private val COL_N_ID = "n_id"
-        private val COL_N_TITLE = "n_title"
-        private val COL_N_CONTENT = "n_content"
-        private val COL_N_FAV = "n_favourite"
-        private val COL_N_LAST_EDIT = "n_last_edit"
-        private val COL_N_CATEGORY = "n_category"
+        const   private val COL_N_ID = "n_id"
+        const   private val COL_N_TITLE = "n_title"
+        const    private val COL_N_CONTENT = "n_content"
+        const    private val COL_N_FAV = "n_favourite"
+        const    private val COL_N_LAST_EDIT = "n_last_edit"
+        const    private val COL_N_CATEGORY = "n_category"
 
-        private val COL_C_ID = "c_id"
-        private val COL_C_NAME = "c_name"
-        private val COL_C_COLOR = "c_color"
-        private val COL_C_ICON = "c_icon"
+        const   private val COL_C_ID = "c_id"
+           const   private val COL_C_NAME = "c_name"
+        const    private val COL_C_COLOR = "c_color"
+        const   private val COL_C_ICON = "c_icon"
 
-        private val DB_VERSION = 2
+        const    private val DB_VERSION = 2
     }
 }

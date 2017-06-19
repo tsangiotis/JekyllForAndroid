@@ -10,59 +10,59 @@ import android.support.v7.widget.SearchView
 import android.view.*
 import android.widget.LinearLayout
 import com.jchanghong.ActivityNoteEdit
+import com.jchanghong.GlobalApplication
 import com.jchanghong.R
 import com.jchanghong.adapter.ListAdapterNote
 import com.jchanghong.data.DatabaseManager
 import com.jchanghong.model.Note
 
 class FragmentFavorites : Fragment() {
-    private var recyclerView: RecyclerView? = null
-    private var mAdapter: ListAdapterNote? = null
-    private var mview: View? = null
-    private var searchView: SearchView? = null
-    private var lyt_not_found: LinearLayout? = null
-    private var db: DatabaseManager? = null
+  lateinit  private var recyclerView: RecyclerView
+  lateinit  private var mAdapter: ListAdapterNote
+   lateinit private var mview: View
+  lateinit private var searchView: SearchView
+   lateinit private var lyt_not_found: LinearLayout
+    private val db: DatabaseManager=GlobalApplication.db
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mview = inflater.inflate(R.layout.fragment_favorites, null)
 
         //connect db
-        db = DatabaseManager(activity)
 
         // activate fragment menu
         setHasOptionsMenu(true)
 
-        recyclerView = mview!!.findViewById<View>(R.id.recyclerView) as RecyclerView
-        lyt_not_found = mview!!.findViewById<View>(R.id.lyt_not_found) as LinearLayout
+        recyclerView = mview.findViewById<View>(R.id.recyclerView) as RecyclerView
+        lyt_not_found = mview.findViewById<View>(R.id.lyt_not_found) as LinearLayout
 
-        recyclerView!!.layoutManager = LinearLayoutManager(activity)
-        recyclerView!!.setHasFixedSize(true)
-        recyclerView!!.itemAnimator = DefaultItemAnimator()
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.itemAnimator = DefaultItemAnimator()
 
         // specify an adapter (see also next example)
-        displayData(db!!.allFavNote)
+        displayData(db.allFavNote)
         return mview
     }
 
     override fun onResume() {
-        displayData(db!!.allFavNote)
+        displayData(db.allFavNote)
         super.onResume()
     }
 
     private fun displayData(items: List<Note>) {
         mAdapter = ListAdapterNote(activity, items)
-        recyclerView!!.adapter = mAdapter
-        mAdapter!!.setOnItemClickListener( object :ListAdapterNote.OnItemClickListener{
+        recyclerView.adapter = mAdapter
+        mAdapter.setOnItemClickListener( object :ListAdapterNote.OnItemClickListener{
             override fun onItemClick(view: View, model: Note) {
                 val intent = Intent(activity, ActivityNoteEdit::class.java)
                 intent.putExtra(ActivityNoteEdit.EXTRA_OBJCT, model)
                 activity.startActivity(intent)
             }
         })
-        if (mAdapter!!.itemCount == 0) {
-            lyt_not_found!!.visibility = View.VISIBLE
+        if (mAdapter.itemCount == 0) {
+            lyt_not_found.visibility = View.VISIBLE
         } else {
-            lyt_not_found!!.visibility = View.GONE
+            lyt_not_found.visibility = View.GONE
         }
     }
 

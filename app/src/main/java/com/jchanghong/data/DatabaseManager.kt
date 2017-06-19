@@ -393,7 +393,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
     fun deleteCategory(rowId: Long) {
         val db = this.writableDatabase
         try {
-            db.delete(TABLE_CATEGORY, COL_C_ID + "=" + rowId, null)
+            db.delete(TABLE_CATEGORY, "$COL_C_ID=$rowId", null)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -409,13 +409,13 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             val db = this.readableDatabase
             try {
                 cur = db.rawQuery("SELECT * FROM ${TABLE_CATEGORY} ORDER BY ROWID ASC LIMIT 1 ", null)
-                cur!!.moveToFirst()
+                cur?.moveToFirst()?:return category
                 category = getCategoryByCursor(cur)
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("Db Error", e.toString())
             } finally {
-                cur!!.close()
+                cur?.close()
                 db.close()
             }
             return category

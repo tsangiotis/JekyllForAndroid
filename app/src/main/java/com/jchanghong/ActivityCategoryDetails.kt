@@ -75,7 +75,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
     }
 
     private fun setCategoryView() {
-        image.setImageResource(Tools.StringToResId(ext_category!!.icon!!, applicationContext))
+        image.setImageResource(Tools.StringToResId(ext_category!!.icon, applicationContext))
         image.setColorFilter(Color.parseColor(ext_category?.color))
         name.text = ext_category?.name
         appbar.setBackgroundColor(Color.parseColor(ext_category?.color))

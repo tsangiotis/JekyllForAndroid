@@ -381,7 +381,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         contentValues.put(COL_C_NAME, category.name)
         val db = this.writableDatabase
         try {
-            db.update(TABLE_CATEGORY, contentValues, COL_C_ID + "=" + category.id, null)
+            db.update(TABLE_CATEGORY, contentValues, "$COL_C_ID =${category.id}", null)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())

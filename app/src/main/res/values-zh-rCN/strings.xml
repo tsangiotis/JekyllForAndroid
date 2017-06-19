@@ -73,5 +73,6 @@
     <string name="deleteconfirmation">删除确认</string>
     <string name="areyousuredeletec">确定要删除?</string>
     <string name="categorydeleted">已删除</string>
+    <string name="str_nav_logingithub">github</string>
 
 </resources>

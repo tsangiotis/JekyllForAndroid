@@ -33,6 +33,10 @@
             android:icon="@drawable/ic_nav_star"
             android:title="@string/str_nav_rate"/>
         <item
+            android:id="@+id/nav_github_login"
+            android:icon="@drawable/ic_action_attachment"
+            android:title="@string/str_nav_logingithub"/>
+        <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_nav_about"
             android:title="@string/str_nav_about"/>

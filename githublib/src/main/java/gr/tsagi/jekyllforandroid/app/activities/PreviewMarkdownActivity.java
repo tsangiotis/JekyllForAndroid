@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
+//import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.fragments.MarkdownPreviewFragment;
@@ -21,11 +21,11 @@ public class PreviewMarkdownActivity extends BaseActivity {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
             // create our manager instance after the content view is set
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+//            SystemBarTintManager tintManager = new SystemBarTintManager(this);
             // enable status bar tint
-            tintManager.setStatusBarTintEnabled(true);
+//            tintManager.setStatusBarTintEnabled(true);
             // Set color
-            tintManager.setTintColor(getResources().getColor(R.color.primary));
+//            tintManager.setTintColor(getResources().getColor(R.color.primary));
         }
 
         Intent myIntent = getIntent();

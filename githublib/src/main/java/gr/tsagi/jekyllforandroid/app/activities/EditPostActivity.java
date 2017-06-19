@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -71,11 +70,11 @@ public class EditPostActivity extends BaseActivity implements LoaderManager.Load
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
             // create our manager instance after the content view is set
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+//            SystemBarTintManager tintManager = new SystemBarTintManager(this);
             // enable status bar tint
-            tintManager.setStatusBarTintEnabled(true);
+//            tintManager.setStatusBarTintEnabled(true);
             // Set color
-            tintManager.setTintColor(getResources().getColor(R.color.primary));
+//            tintManager.setTintColor(getResources().getColor(R.color.primary));
         }
 
         // Create the detail fragment and add it to the activity

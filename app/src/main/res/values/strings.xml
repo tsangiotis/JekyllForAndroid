@@ -74,5 +74,6 @@ It commits a yyyy-mm-dd-title.md file to the _posts/ directory of your Jekyll's 
     <string name="deleteconfirmation">Delete Confirmation</string>
     <string name="areyousuredeletec">Are you sure want to delete this Category?</string>
     <string name="categorydeleted">Category Deleted</string>
+    <string name="str_nav_logingithub">github</string>
 
 </resources>

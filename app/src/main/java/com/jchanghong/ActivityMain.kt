@@ -32,6 +32,7 @@ import com.jchanghong.fragment.FragmentCategory
 import com.jchanghong.fragment.FragmentFavorites
 import com.jchanghong.fragment.FragmentNote
 import com.jchanghong.utils.Tools
+import gr.tsagi.jekyllforandroid.app.activities.LoginActivity
 
 class ActivityMain : AppCompatActivity() {
 
@@ -168,6 +169,11 @@ class ActivityMain : AppCompatActivity() {
                 Tools.rateAction(this)
             }
             R.id.nav_about -> fragment = FragmentAbout()
+        }
+        if (id == R.id.nav_github_login) {
+            var intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            return
         }
         if (fragment != null && fragment is FragmentAbout) {
             val fragmentManager = supportFragmentManager

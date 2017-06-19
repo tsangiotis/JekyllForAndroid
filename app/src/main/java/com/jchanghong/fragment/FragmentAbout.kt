@@ -18,9 +18,6 @@ class FragmentAbout : Fragment() {
     }
 
     private fun prepareAds() {
-        //        AdView mAdView = (AdView) parent_view.findViewById(R.id.ad_view);
-        //        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-        // Start loading the ad in the background.
-        //        mAdView.loadAd(adRequest);
+
     }
 }

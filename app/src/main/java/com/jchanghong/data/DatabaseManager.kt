@@ -302,7 +302,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             val db = this.readableDatabase
             try {
                 cur = db.rawQuery("SELECT * FROM " + TABLE_CATEGORY, null)
-                cur!!.moveToFirst()
+                cur?.moveToFirst()?:return categories
                 if (!cur.isAfterLast) {
                     do {
                         categories.add(getCategoryByCursor(cur))
@@ -312,7 +312,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
                 e.printStackTrace()
                 Log.e("Db Error", e.toString())
             } finally {
-                cur!!.close()
+                cur?.close()
                 db.close()
             }
             return categories

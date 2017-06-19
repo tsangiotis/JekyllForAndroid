@@ -432,7 +432,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             val db = this.readableDatabase
             try {
                 cur = db.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_FAV} = ? ORDER BY ${COL_N_ID} DESC", arrayOf("1"))
-                cur?.moveToFirst()?:notes
+                cur?.moveToFirst()?:return notes
                 if (!cur.isAfterLast) {
                     do {
                         notes.add(getNoteFromCursor(cur))

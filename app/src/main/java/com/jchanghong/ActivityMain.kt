@@ -169,7 +169,16 @@ class ActivityMain : AppCompatActivity() {
             }
             R.id.nav_about -> fragment = FragmentAbout()
         }
+        if (fragment != null && fragment is FragmentAbout) {
+            val fragmentManager = supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.frame_content, fragment)
+            fragmentTransaction.commit()
+            floatingActionButton.visibility=View.INVISIBLE
+            return
+        }
         if (fragment != null) {
+            floatingActionButton.visibility=View.VISIBLE
             val fragmentManager = supportFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
             fragmentTransaction.replace(R.id.frame_content, fragment)

@@ -26,7 +26,6 @@ class FragmentNote : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mview = inflater.inflate(R.layout.fragment_note, null)
-        db = DatabaseManager(activity)
 
         // activate fragment menu
         setHasOptionsMenu(true)

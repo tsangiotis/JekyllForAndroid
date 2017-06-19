@@ -195,7 +195,6 @@ public class LoginActivity extends BaseActivity {
             editor.putString("user_repo", repo);
             editor.commit();
 
-            System.out.println("onpost-----------------");
           FetchPostsTask  fetchPostsTask = new FetchPostsTask(LoginActivity.this);
             fetchPostsTask.execute();
 

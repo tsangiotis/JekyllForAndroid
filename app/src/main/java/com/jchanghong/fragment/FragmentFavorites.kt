@@ -70,16 +70,16 @@ class FragmentFavorites : Fragment() {
         inflater.inflate(R.menu.menu_fragment_note, menu)
         val searchItem = menu.findItem(R.id.action_search)
         searchView = menu.findItem(R.id.action_search).actionView as SearchView
-        searchView!!.isIconified = false
-        searchView!!.queryHint = "Search note..."
-        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView.isIconified = false
+        searchView.queryHint = "Search note..."
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(s: String): Boolean {
                 try {
-                    mAdapter!!.filter.filter(s)
+                    mAdapter.filter.filter(s)
                 } catch (e: Exception) {
                 }
 

@@ -70,7 +70,7 @@ class ActivityMain : AppCompatActivity() {
         navigation = R.id.nav_all_note
 
         floatingActionButton .setOnClickListener {
-            var intent: Intent? = null
+            var intent: Intent
             if (navigation == R.id.nav_category) {
                 intent = Intent(applicationContext, ActivityCategoryEdit::class.java)
             } else {

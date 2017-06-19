@@ -59,7 +59,7 @@ class ListAdapterCategory// Provide a suitable constructor (depends on the kind 
         holder.counter.text = c.note_count.toString()
         holder.image.setImageResource(Tools.StringToResId(c.icon, ctx))
         (holder.image.background as GradientDrawable).setColor(Color.parseColor(c.color))
-        holder.lyt_parent.setOnClickListener { view -> mOnItemClickListener?.onItemClick(view, c, position) }
+        holder.lyt_parent.setOnClickListener { mOnItemClickListener?.onItemClick(it, c, position) }
     }
 
     fun getItem(position: Int): Category {

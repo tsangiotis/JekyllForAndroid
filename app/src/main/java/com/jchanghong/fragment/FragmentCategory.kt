@@ -23,14 +23,14 @@ class FragmentCategory : Fragment() {
    lateinit private var mAdapter: ListAdapterCategory
    lateinit  private var mview: View
    lateinit private var lyt_not_found: LinearLayout
-  lateinit  private val db: DatabaseManager=GlobalApplication.db
+    private val db: DatabaseManager=GlobalApplication.db
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mview = inflater.inflate(R.layout.fragment_category, null)
 
         //connect db
 
-        recyclerView = mview!!.findViewById<View>(R.id.recyclerView) as RecyclerView
+        recyclerView = mview.findViewById<View>(R.id.recyclerView) as RecyclerView
         lyt_not_found = mview!!.findViewById<View>(R.id.lyt_not_found) as LinearLayout
 
         recyclerView!!.layoutManager = LinearLayoutManager(activity)

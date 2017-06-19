@@ -80,7 +80,7 @@ class ActivityCategoryPick : AppCompatActivity() {
                 holder = convertView.tag as ViewHolder
             }
 
-            holder.image?.setImageResource(Tools.StringToResId(obj.icon!!, ctx))
+            holder.image?.setImageResource(Tools.StringToResId(obj.icon, ctx))
             (holder.image?.background as GradientDrawable).setColor(Color.parseColor(obj.color))
             holder.name?.text = obj.name
 

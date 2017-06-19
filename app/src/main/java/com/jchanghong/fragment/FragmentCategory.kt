@@ -16,6 +16,7 @@ import com.jchanghong.GlobalApplication
 import com.jchanghong.R
 import com.jchanghong.adapter.ListAdapterCategory
 import com.jchanghong.data.DatabaseManager
+import com.jchanghong.model.Category
 
 class FragmentCategory : Fragment() {
 
@@ -40,11 +41,13 @@ class FragmentCategory : Fragment() {
         // specify an adapter (see also next example)
         mAdapter = ListAdapterCategory(activity, db.allCategory)
         recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { view, obj, position ->
-            val i = Intent(activity, ActivityCategoryDetails::class.java)
-            i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, obj)
-            startActivity(i)
-        }
+        mAdapter.setOnItemClickListener(object :ListAdapterCategory.OnItemClickListener{
+            override fun onItemClick(view: View, obj: Category, position: Int) {
+                val i = Intent(activity, ActivityCategoryDetails::class.java)
+                i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, obj)
+                startActivity(i)
+            }
+        })
 
         if (mAdapter.itemCount == 0) {
             lyt_not_found.visibility = View.VISIBLE
@@ -59,10 +62,13 @@ class FragmentCategory : Fragment() {
         super.onResume()
         mAdapter = ListAdapterCategory(activity, db.allCategory)
         recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { view, obj, position ->
-            val i = Intent(activity, ActivityCategoryDetails::class.java)
-            i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, obj)
-            startActivity(i)
-        }
+        mAdapter.setOnItemClickListener(object :ListAdapterCategory.OnItemClickListener{
+            override fun onItemClick(view: View, obj: Category, position: Int) {
+                val i = Intent(activity, ActivityCategoryDetails::class.java)
+                i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, obj)
+                startActivity(i)
+            }
+        })
+
     }
 }

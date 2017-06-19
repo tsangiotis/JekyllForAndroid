@@ -55,15 +55,20 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
         dataService = new DataService(client);
     }
 
+    private void prin(Object o) {
+        Log.i(LOG_TAG, o.toString());
+    }
     /**
      * Take the List with the posts and parse the posts for data
      */
     private void getPostDataFromList(Repository repository, List<TreeEntry> postslist, int type) {
 
+        prin(postslist.size());
         // Get and insert the new posts information into the database
         Vector<ContentValues> contentValuesVector = new Vector<ContentValues>(postslist.size());
         for (TreeEntry post : postslist) {
 
+            prin(post.getSha()+post.getType()+post.getPath());
             if (post.getType().equals("blob")) {
 
                 String filename = post.getPath();
@@ -117,6 +122,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
 
+        prin(params.toString());
         Log.d(LOG_TAG, "Background started");
 
         // TODO: Support subdirectories
@@ -147,17 +153,17 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
             // No sync when the same sha.
             String oldSha = utility.getBaseCommitSha();
 
-            if (baseCommitSha.equals(oldSha)) {
-                Log.d(LOG_TAG, "No Sync");
-                this.cancel(true);
-                return null;
-            } else {
+//            if (baseCommitSha.equals(oldSha)) {
+//                Log.d(LOG_TAG, "No Sync");
+//                this.cancel(true);
+//                return null;
+//            } else {
                 Log.d(LOG_TAG, "Syncing...");
                 PostsDbHelper db = new PostsDbHelper(mContext);
                 db.dropTables();
                 db.close();
                 utility.setBaseCommitSha(baseCommitSha);
-            }
+//            }
 
             final String treeSha = commitService.getCommit(repository, baseCommitSha).getSha();
 
@@ -185,10 +191,10 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
                 List<TreeEntry> postslist = dataService.getTree(repository, pPos).getTree();
                 getPostDataFromList(repository, postslist, 0);
             }
-            if (!dPos.equals("")) {
-                List<TreeEntry> draftslist = dataService.getTree(repository, dPos).getTree();
-                getPostDataFromList(repository, draftslist, 1);
-            }
+//            if (!dPos.equals("")) {
+//                List<TreeEntry> draftslist = dataService.getTree(repository, dPos).getTree();
+//                getPostDataFromList(repository, draftslist, 1);
+//            }
 
         } catch (IOException e) {
             e.printStackTrace();

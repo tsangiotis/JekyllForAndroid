@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import gr.tsagi.jekyllforandroid.app.R;
+import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask;
 import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken;
 import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo;
 
@@ -194,10 +195,11 @@ public class LoginActivity extends BaseActivity {
             editor.putString("user_repo", repo);
             editor.commit();
 
-            startActivity(new Intent(LoginActivity.this,
-                    PostsListActivity.class));
+            System.out.println("onpost-----------------");
+          FetchPostsTask  fetchPostsTask = new FetchPostsTask(LoginActivity.this);
+            fetchPostsTask.execute();
 
-            finish();
+//            finish();
         }
     }
 }

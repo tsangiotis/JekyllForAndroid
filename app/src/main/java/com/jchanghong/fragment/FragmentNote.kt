@@ -31,15 +31,15 @@ class FragmentNote : Fragment() {
         // activate fragment menu
         setHasOptionsMenu(true)
 
-        recyclerView = mview!!.findViewById<View>(R.id.recyclerView) as RecyclerView
-        lyt_not_found = mview!!.findViewById<View>(R.id.lyt_not_found) as LinearLayout
+        recyclerView = mview.findViewById<View>(R.id.recyclerView) as RecyclerView
+        lyt_not_found = mview.findViewById<View>(R.id.lyt_not_found) as LinearLayout
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator = DefaultItemAnimator()
 
         // specify an adapter (see also next example)
-        displayData(db!!.allNotes)
+        displayData(db.allNotes)
         return mview
     }
 

@@ -31,25 +31,25 @@ class FragmentCategory : Fragment() {
         //connect db
 
         recyclerView = mview.findViewById<View>(R.id.recyclerView) as RecyclerView
-        lyt_not_found = mview!!.findViewById<View>(R.id.lyt_not_found) as LinearLayout
+        lyt_not_found = mview.findViewById<View>(R.id.lyt_not_found) as LinearLayout
 
-        recyclerView!!.layoutManager = LinearLayoutManager(activity)
-        recyclerView!!.setHasFixedSize(true)
-        recyclerView!!.itemAnimator = DefaultItemAnimator()
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.itemAnimator = DefaultItemAnimator()
 
         // specify an adapter (see also next example)
-        mAdapter = ListAdapterCategory(activity, db!!.allCategory)
-        recyclerView!!.adapter = mAdapter
-        mAdapter!!.setOnItemClickListener { view, obj, position ->
+        mAdapter = ListAdapterCategory(activity, db.allCategory)
+        recyclerView.adapter = mAdapter
+        mAdapter.setOnItemClickListener { view, obj, position ->
             val i = Intent(activity, ActivityCategoryDetails::class.java)
             i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, obj)
             startActivity(i)
         }
 
-        if (mAdapter!!.itemCount == 0) {
-            lyt_not_found!!.visibility = View.VISIBLE
+        if (mAdapter.itemCount == 0) {
+            lyt_not_found.visibility = View.VISIBLE
         } else {
-            lyt_not_found!!.visibility = View.GONE
+            lyt_not_found.visibility = View.GONE
         }
 
         return mview
@@ -57,9 +57,9 @@ class FragmentCategory : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mAdapter = ListAdapterCategory(activity, db!!.allCategory)
-        recyclerView!!.adapter = mAdapter
-        mAdapter!!.setOnItemClickListener { view, obj, position ->
+        mAdapter = ListAdapterCategory(activity, db.allCategory)
+        recyclerView.adapter = mAdapter
+        mAdapter.setOnItemClickListener { view, obj, position ->
             val i = Intent(activity, ActivityCategoryDetails::class.java)
             i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, obj)
             startActivity(i)

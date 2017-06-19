@@ -179,7 +179,7 @@ class ActivityNoteEdit : AppCompatActivity() {
             ext_note ?.tittle = tittle .text.toString()
             ext_note ?.content = content .text.toString()
             ext_note ?.lastEdit = System.currentTimeMillis()
-            ext_note ?.category = cur_category
+            ext_note ?.category = cur_category!!
 
             if (is_new) {
                 notif_text = getString(R.string.notesaved)
@@ -227,14 +227,14 @@ class ActivityNoteEdit : AppCompatActivity() {
                 val n = Note()
                 n.tittle = tittle .text.toString() + ""
                 n.content = content .text.toString() + ""
-                n.category = cur_category
+                n.category = cur_category!!
                 n.favourite = 0
                 n.lastEdit = System.currentTimeMillis()
                 db .insertNote(n)
             } else {
                 ext_note?.tittle = tittle .text.toString() + ""
                 ext_note?.content = content .text.toString() + ""
-                ext_note?.category = cur_category
+                ext_note?.category = cur_category!!
                 //no need to set fav here, fav already save to DB when clicked
                 ext_note?.lastEdit = System.currentTimeMillis()
                 db .updateNote(ext_note!!)

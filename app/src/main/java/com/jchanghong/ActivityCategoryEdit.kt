@@ -76,8 +76,8 @@ class ActivityCategoryEdit : AppCompatActivity() {
                         finish()
                     } else {
                         ext_cat.name = txtTittle.text.toString()
-                        ext_cat.icon = ai.selectedCategoryIcon?.icon
-                        ext_cat.color = ai.selectedCategoryIcon?.color
+                        ext_cat.icon = ai.selectedCategoryIcon!!.icon
+                        ext_cat.color = ai.selectedCategoryIcon!!.color
                         db.updateCategory(ext_cat)
                         finish()
                         Toast.makeText(applicationContext, getString(R.string.category_updated), Toast.LENGTH_SHORT).show()
@@ -85,8 +85,8 @@ class ActivityCategoryEdit : AppCompatActivity() {
                 } else {
                     val category = Category()
                     category.name = txtTittle.text.toString()
-                    category.color = ai.selectedCategoryIcon?.color
-                    category.icon = ai.selectedCategoryIcon?.icon
+                    category.color = ai.selectedCategoryIcon!!.color
+                    category.icon = ai.selectedCategoryIcon!!.icon
                     db.insertCategory(category)
                     finish()
                     Toast.makeText(applicationContext, getString(R.string.categorysaved), Toast.LENGTH_SHORT).show()

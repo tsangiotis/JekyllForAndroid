@@ -1,5 +1,6 @@
 package gr.tsagi.jekyllforandroid.app.utils;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -36,6 +37,23 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
     DataService dataService;
 
     Utility utility;
+
+    private ProgressDialog pDialog;
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        pDialog = new ProgressDialog(mContext);
+        pDialog.setMessage(" Github syn ...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(true);
+        pDialog.show();
+    }
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        pDialog.dismiss();
+    }
 
     public FetchPostsTask(Context context) {
 
@@ -121,10 +139,7 @@ public class FetchPostsTask extends AsyncTask<String, Void, Void> {
 
     @Override
     protected Void doInBackground(String... params) {
-
-        prin(params.toString());
         Log.d(LOG_TAG, "Background started");
-
         // TODO: Support subdirectories
         final String user = utility.getUser();
         final String repo = utility.getRepo();

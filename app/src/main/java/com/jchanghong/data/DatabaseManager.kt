@@ -488,13 +488,13 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         var count = 0
         val db = this.readableDatabase
         try {
-            cursor = db.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_ID} = ?", arrayOf(id.toString() + ""))
-            count = cursor!!.count
+            cursor = db.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_ID} = ?", arrayOf(id.toString()))
+            count = cursor?.count?:0
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
         } finally {
-            cursor!!.close()
+            cursor?.close()
             db.close()
         }
         return count > 0

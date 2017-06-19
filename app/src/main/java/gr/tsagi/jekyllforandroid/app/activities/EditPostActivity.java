@@ -82,7 +82,7 @@ public class EditPostActivity extends BaseActivity implements LoaderManager.Load
         mPostId = getIntent().getStringExtra(POST_ID);
         mPostStatus = getIntent().getIntExtra(POST_STATUS, -1);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         utility = new Utility(this);
 

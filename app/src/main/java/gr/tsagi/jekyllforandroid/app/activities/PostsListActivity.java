@@ -9,10 +9,10 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
-
-//import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
 
@@ -33,6 +31,8 @@ import gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment;
 import gr.tsagi.jekyllforandroid.app.fragments.PrefsFragment;
 import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask;
 import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem;
+
+//import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
  * Created by tsagi on 9/9/13.
@@ -133,7 +133,7 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
+//        mDrawerToggle.syncState();
     }
 
     @Override
@@ -194,33 +194,33 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
                 navDrawerItems);
         mDrawerList.setAdapter(adapter);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        AppBarLayout toolbar = (AppBarLayout) findViewById(R.id.toolbar);
 
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                toolbar, R.string.drawer_open,
-                R.string.drawer_close) {
-
-            /** Called when a drawer has settled in a completely closed state.*/
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(mTitle);
-                supportInvalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle(mDrawerTitle);
-                supportInvalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
-            }
-        };
+//        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+//                toolbar, R.string.drawer_open,
+//                R.string.drawer_close) {
+//
+//            /** Called when a drawer has settled in a completely closed state.*/
+//            public void onDrawerClosed(View view) {
+//                super.onDrawerClosed(view);
+//                getSupportActionBar().setTitle(mTitle);
+//                supportInvalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
+//            }
+//
+//            /** Called when a drawer has settled in a completely open state. */
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                getSupportActionBar().setTitle(mDrawerTitle);
+//                supportInvalidateOptionsMenu(); // creates call onPrepareOptionsMenu()
+//            }
+//        };
 
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // just styling option add shadow the right edge of the drawer
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
@@ -317,7 +317,7 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getSupportActionBar().setTitle(mTitle);
+//        getSupportActionBar().setTitle(mTitle);
     }
 
     /**

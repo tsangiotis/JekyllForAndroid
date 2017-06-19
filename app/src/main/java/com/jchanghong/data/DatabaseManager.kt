@@ -67,7 +67,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
                 " TEXT, "+ COL_N_CONTENT + " TEXT, "+ COL_N_FAV + " INTEGER, "+
                 COL_N_LAST_EDIT + " NUMERIC, "+ COL_N_CATEGORY +
                 " INTEGER, "+" FOREIGN KEY(" + COL_N_CATEGORY +
-                ") REFERENCES " + TABLE_NOTE + "(" + COL_C_ID + ")"+")"
+                ") REFERENCES " + TABLE_CATEGORY + "(" + COL_C_ID + ")"+")"
         try {
             db.execSQL(CREATE_TABLE)
         } catch (e: Exception) {
@@ -141,7 +141,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         values.put(COL_N_CONTENT, note.content)
         values.put(COL_N_FAV, note.favourite)
         values.put(COL_N_LAST_EDIT, note.lastEdit)
-        values.put(COL_N_CATEGORY, note.category!!.id)
+        values.put(COL_N_CATEGORY, note.category.id)
         val db = this.writableDatabase
         try {
             db.insert(TABLE_NOTE, null, values)
@@ -156,7 +156,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
     fun deleteNote(rowId: Long) {
         val db = this.writableDatabase
         try {
-            db.delete(TABLE_NOTE, COL_N_ID + "=" + rowId, null)
+            db.delete(TABLE_NOTE, "$COL_N_ID =  $rowId", null)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -170,10 +170,10 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         contentValues.put(COL_N_TITLE, note.tittle)
         contentValues.put(COL_N_CONTENT, note.content)
         contentValues.put(COL_N_LAST_EDIT, note.lastEdit)
-        contentValues.put(COL_N_CATEGORY, note.category!!.id)
+        contentValues.put(COL_N_CATEGORY, note.category.id)
         val db = this.writableDatabase
         try {
-            db.update(TABLE_NOTE, contentValues, COL_N_ID + "=" + note.id, null)
+            db.update(TABLE_NOTE, contentValues, "$COL_N_ID = ${note.id}", null)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -182,7 +182,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         }
     }
 
-    operator fun get(id: Long?): Note {
+    operator fun get(id: Long): Note {
         val db = this.readableDatabase
         var note = Note()
         var cur: Cursor? = null

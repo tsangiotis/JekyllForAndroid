@@ -283,13 +283,13 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val db = this.readableDatabase
         try {
             cur = db.rawQuery("SELECT * FROM ${TABLE_CATEGORY} WHERE ${COL_C_ID} = ?", arrayOf(id.toString() + ""))
-            cur!!.moveToFirst()
+            cur?.moveToFirst()?:category
             category = getCategoryByCursor(cur)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
         } finally {
-            cur!!.close()
+            cur?.close()
             db.close()
         }
         return category

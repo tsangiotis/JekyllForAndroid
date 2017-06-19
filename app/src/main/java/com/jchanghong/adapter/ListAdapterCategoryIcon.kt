@@ -34,7 +34,7 @@ class ListAdapterCategoryIcon(private val context: Context, private val category
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val icon = categoryIconList[position]
-        holder.vIcon.setImageResource(Tools.StringToResId(icon.icon!!, context))
+        holder.vIcon.setImageResource(Tools.StringToResId(icon.icon, context))
         (holder.vIcon.background as GradientDrawable).setColor(Color.parseColor(icon.color))
         holder.radioButton.isChecked = icon.isChecked
         holder.radioButton.tag = position

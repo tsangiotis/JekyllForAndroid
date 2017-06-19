@@ -335,7 +335,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             val db = this.readableDatabase
             try {
                 cur = db.rawQuery("SELECT * FROM " + TABLE_CATEGORY_ICON, null)
-                cur!!.moveToFirst()
+                cur?.moveToFirst()?:return categoryIcon
                 if (!cur.isAfterLast) {
                     do {
                         categoryIcons.add(getCategoryIconByCursor(cur))

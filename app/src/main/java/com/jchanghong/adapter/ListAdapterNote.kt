@@ -13,6 +13,7 @@ import com.jchanghong.model.Note
 import com.jchanghong.utils.Tools
 import java.util.*
 
+
 class ListAdapterNote(private val context: Context, items: List<Note>) : RecyclerView.Adapter<ListAdapterNote.ViewHolder>(), Filterable {
 
     private var original_items = ArrayList<Note>()

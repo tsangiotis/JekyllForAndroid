@@ -43,8 +43,8 @@ class SharedPref(private val context: Context) {
 
     companion object {
 
-        val FIRST_LAUNCH_KEY = "com.jchanghong.data.FIRST_LAUNCH_KEY"
-        val USER_NAME_KEY = "com.jchanghong.data.USER_NAME_KEY"
-        val NAME_EDIT_KEY = "com.jchanghong.data.NAME_EDIT_KEY"
+    const    val FIRST_LAUNCH_KEY = "com.jchanghong.data.FIRST_LAUNCH_KEY"
+    const    val USER_NAME_KEY = "com.jchanghong.data.USER_NAME_KEY"
+     const   val NAME_EDIT_KEY = "com.jchanghong.data.NAME_EDIT_KEY"
     }
 }

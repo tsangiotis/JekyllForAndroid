@@ -56,8 +56,8 @@ class ListAdapterCategory// Provide a suitable constructor (depends on the kind 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val c = items[position]
         holder.name.text = c.name
-        holder.counter.text = c.note_count.toString() + ""
-        holder.image.setImageResource(Tools.StringToResId(c.icon!!, ctx))
+        holder.counter.text = c.note_count.toString()
+        holder.image.setImageResource(Tools.StringToResId(c.icon, ctx))
         (holder.image.background as GradientDrawable).setColor(Color.parseColor(c.color))
         holder.lyt_parent.setOnClickListener { view -> mOnItemClickListener?.onItemClick(view, c, position) }
     }

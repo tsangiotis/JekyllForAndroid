@@ -185,10 +185,10 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
     operator fun get(id: Long): Note {
         val db = this.readableDatabase
         var note = Note()
-        var cur: Cursor? = null
+        var cur: Cursor?
         try {
-            cur = db.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_ID} = ?", arrayOf(id!!.toString() + ""))
-            cur!!.moveToFirst()
+            cur = db.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_ID} = ?", arrayOf(id.toString()))
+            cur?.moveToFirst()?:return note
             note = getNoteFromCursor(cur)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -206,7 +206,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             var cur: Cursor? = null
             try {
                 cur = db.rawQuery("SELECT * FROM ${TABLE_NOTE} ORDER BY ${COL_N_ID} DESC", null)
-                cur!!.moveToFirst()
+                cur?.moveToFirst()?:return notes
                 if (!cur.isAfterLast) {
                     do {
                         notes.add(getNoteFromCursor(cur))
@@ -216,7 +216,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
                 e.printStackTrace()
                 Log.e("DB ERROR", e.toString())
             } finally {
-                cur!!.close()
+                cur?.close()
                 db.close()
             }
             return notes

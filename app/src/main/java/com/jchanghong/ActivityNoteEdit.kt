@@ -100,13 +100,13 @@ class ActivityNoteEdit : AppCompatActivity() {
     }
 
     private fun setCategoryView(category: Category) {
-        cat_icon .setImageResource(Tools.StringToResId(category.icon!!, applicationContext))
+        cat_icon .setImageResource(Tools.StringToResId(category.icon, applicationContext))
         cat_icon .setColorFilter(Color.parseColor(category.color))
         cat_drop .setColorFilter(Color.parseColor(category.color))
         cat_text .text = category.name
         cat_text .setTextColor(Color.parseColor(category.color))
         appbar .setBackgroundColor(Color.parseColor(category.color))
-        Tools.systemBarLolipopCustom(this@ActivityNoteEdit, category.color!!)
+        Tools.systemBarLolipopCustom(this@ActivityNoteEdit, category.color)
     }
 
 

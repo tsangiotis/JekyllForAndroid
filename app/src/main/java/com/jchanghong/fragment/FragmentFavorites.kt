@@ -87,14 +87,14 @@ class FragmentFavorites : Fragment() {
             }
         })
         // Detect SearchView icon clicks
-        searchView!!.setOnSearchClickListener { setItemsVisibility(menu, searchItem, false) }
+        searchView.setOnSearchClickListener { setItemsVisibility(menu, searchItem, false) }
 
         // Detect SearchView close
-        searchView!!.setOnCloseListener {
+        searchView.setOnCloseListener {
             setItemsVisibility(menu, searchItem, true)
             false
         }
-        searchView!!.onActionViewCollapsed()
+        searchView.onActionViewCollapsed()
         super.onCreateOptionsMenu(menu, inflater)
     }
 

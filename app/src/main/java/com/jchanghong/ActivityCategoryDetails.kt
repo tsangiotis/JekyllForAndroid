@@ -65,7 +65,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
         recyclerView.itemAnimator = DefaultItemAnimator()
 
 
-        displayData(db.getNotesByCategoryId(ext_category?.id))
+        displayData(db.getNotesByCategoryId(ext_category?.id?:0))
     }
 
     private fun iniComponent() {
@@ -119,7 +119,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
                 i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, ext_category)
                 startActivity(i)
             }
-            R.id.action_delete_cat -> if (db.getNotesByCategoryId(ext_category?.id).isEmpty()) {
+            R.id.action_delete_cat -> if (db.getNotesByCategoryId(ext_category?.id?:0).isEmpty()) {
                 //                    db.deleteCategory(ext_category.getId());
                 //                    Toast.makeText(getApplicationContext(),"Category deleted", Toast.LENGTH_SHORT).show();
                 deleteConfirmation()
@@ -148,9 +148,9 @@ class ActivityCategoryDetails : AppCompatActivity() {
         image.setColorFilter(Color.parseColor(ext_category?.color))
         name.text = ext_category?.name
         appbar.setBackgroundColor(Color.parseColor(ext_category?.color))
-        Tools.systemBarLolipopCustom(this@ActivityCategoryDetails, ext_category!!.color!!)
+        Tools.systemBarLolipopCustom(this@ActivityCategoryDetails, ext_category?.color?:GlobalApplication.db.cat_color[0])
 
-        displayData(db.getNotesByCategoryId(ext_category?.id))
+        displayData(db.getNotesByCategoryId(ext_category?.id?:0))
     }
 
     private fun deleteConfirmation() {

@@ -52,8 +52,8 @@ class ListAdapterNote(private val context: Context, items: List<Note>) : Recycle
         holder.title.text = n.tittle
         holder.time.text = Tools.stringToDate(n.lastEdit)
         holder.content.text = n.content
-        holder.image.setImageResource(Tools.StringToResId(n.category!!.icon!!, context))
-        (holder.image.background as GradientDrawable).setColor(Color.parseColor(n.category!!.color))
+        holder.image.setImageResource(Tools.StringToResId(n.category.icon, context))
+        (holder.image.background as GradientDrawable).setColor(Color.parseColor(n.category.color))
 
         holder.lyt_parent.setOnClickListener { v -> onItemClickListener!!.onItemClick(v, n) }
     }
@@ -82,7 +82,7 @@ class ListAdapterNote(private val context: Context, items: List<Note>) : Recycle
             for (i in list.indices) {
                 val str_title = list[i].tittle
                 val str_content = list[i].content
-                if (str_title!!.toLowerCase().contains(query) || str_content!!.toLowerCase().contains(query)) {
+                if (str_title.toLowerCase().contains(query) || str_content.toLowerCase().contains(query)) {
                     result_list.add(list[i])
                 }
             }

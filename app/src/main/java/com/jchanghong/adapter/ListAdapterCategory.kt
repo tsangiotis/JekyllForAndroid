@@ -25,8 +25,8 @@ class ListAdapterCategory// Provide a suitable constructor (depends on the kind 
         fun onItemClick(view: View, obj: Category, position: Int)
     }
 
-    fun setOnItemClickListener(mItemClickListener: (Any, Any:Category, Any) -> Unit) {
-        this.mOnItemClickListener = mItemClickListener as? OnItemClickListener
+    fun setOnItemClickListener(mItemClickListener: OnItemClickListener) {
+        this.mOnItemClickListener = mItemClickListener
     }
 
     init {

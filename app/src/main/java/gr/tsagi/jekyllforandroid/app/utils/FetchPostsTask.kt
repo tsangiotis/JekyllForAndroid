@@ -27,7 +27,6 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
     internal var repositoryService: RepositoryService
     internal var commitService: CommitService
     internal var dataService: DataService
-
      internal var utility: Utility = Utility(mContext!!)
 
     init {
@@ -50,11 +49,10 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
 
     override fun onPreExecute() {
         super.onPreExecute()
-        logview?.text="began to syn........."
+        logview?.text="began to syn github data......"
     }
     override fun onProgressUpdate(vararg values: String?) {
         values.forEach { logview?.text=it }
-//       logview?.text=values[0]
     }
     /**
      * Take the List with the posts and parse the posts for data
@@ -87,7 +85,7 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
                 }
                 val blobBytes = postBlob?.content
 
-                publishProgress("load....$id")
+                publishProgress("loading $id...")
                 ParsePostData(mContext!!).getDataFromContent(id,
                         blobBytes?:"null", type)
             } else {
@@ -100,6 +98,10 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
             }
         }
 
+    }
+    override fun onPostExecute(result: Void?) {
+        super.onPostExecute(result)
+        logview?.text="load data complete!!!"
     }
     override fun doInBackground(vararg params: Void): Void? {
         Log.d(LOG_TAG, "Background started")
@@ -132,10 +134,12 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
             val oldSha = utility.baseCommitSha
                         if (baseCommitSha == oldSha) {
                             Log.d(LOG_TAG, "No Sync---------")
+                            publishProgress("No need to syn!")
                             this.cancel(true)
                             return null
                         } else {
             Log.d(LOG_TAG, "Syncing...")
+                            publishProgress("syning...")
             utility.baseCommitSha = baseCommitSha
                         }
             val treeSha = commitService.getCommit(repository, baseCommitSha).sha

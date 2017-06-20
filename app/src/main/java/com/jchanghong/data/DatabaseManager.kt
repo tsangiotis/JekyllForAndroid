@@ -7,9 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.jchanghong.R
-import com.jchanghong.model.Category
-import com.jchanghong.model.CategoryIcon
-import com.jchanghong.model.Note
+import com.jchanghong.model.*
 import com.jchanghong.utils.Tools
 import java.util.*
 
@@ -22,9 +20,6 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
      val cat_icon: Array<String>
      val cat_icon_data: Array<String>
      val cat_color_data: Array<String>
-    val cachenotes= mutableListOf<Note>()
-    val cachecategory= mutableListOf<Category>()
-
     init {
 
             cat_id = context.resources.getIntArray(R.array.category_id)
@@ -147,9 +142,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val db = this.writableDatabase
         try {
          note.id= db.insert(TABLE_NOTE, null, values)
-            if (cachenotes.size > 0) {
-                cachenotes.add(note)
-            }
+          NoteCache.add(note)
         } catch (e: Exception) {
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()
@@ -164,14 +157,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val db = this.writableDatabase
         try {
             db.delete(TABLE_NOTE, "$COL_N_ID =  $rowId", null)
-            var stemp: Note? = null
-            for (a in cachenotes) {
-                if (a.id == rowId) {
-                    break
-                }
-            }
-            cachenotes.remove(stemp)
-
+            NoteCache.remove(rowId)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -189,7 +175,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val db = this.writableDatabase
         try {
             db.update(TABLE_NOTE, contentValues, "$COL_N_ID = ${note.id}", null)
-//            cachenotes.
+            NoteCache.remove(note.id)
+            NoteCache.add(note)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -199,6 +186,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
     }
 
     operator fun get(id: Long): Note {
+        var r=NoteCache.find { it.id == id }
+        if (r!==null)return r
         val db = this.readableDatabase
         var note = Note()
         var cur: Cursor?
@@ -217,6 +206,9 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
     val allNotes: List<Note>
         get() {
+            if (NoteCache.size > 0) {
+                return NoteCache
+            }
             val notes = ArrayList<Note>()
             val db = this.readableDatabase
             var cur: Cursor? = null
@@ -235,6 +227,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
                 cur?.close()
                 db.close()
             }
+            NoteCache.addAll(notes)
             return notes
         }
 
@@ -294,6 +287,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
      */
 
     fun getCategoryById(id: Long): Category {
+        var r=CategoryCache.find { it.id==id }
+        if (r!==null)return r
         var category = Category()
         var cur: Cursor? = null
         val db = this.readableDatabase
@@ -313,6 +308,9 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
     val allCategory: List<Category>
         get() {
+            if (CategoryCache.size > 0) {
+                return CategoryCache
+            }
             val categories = ArrayList<Category>()
             var cur: Cursor? = null
             val db = this.readableDatabase
@@ -331,6 +329,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
                 cur?.close()
                 db.close()
             }
+            CategoryCache.addAll(categories)
             return categories
         }
 
@@ -381,7 +380,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         values.put(COL_C_ICON, category.icon)
         val db = this.writableDatabase
         try {
-            db.insert(TABLE_CATEGORY, null, values) // Inserting Row
+         category.id= db.insert(TABLE_CATEGORY, null, values) // Inserting Row
+            CategoryCache.add(category)
         } catch (e: Exception) {
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()
@@ -398,6 +398,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val db = this.writableDatabase
         try {
             db.update(TABLE_CATEGORY, contentValues, "$COL_C_ID =${category.id}", null)
+            CategoryCache.remove(category.id)
+            CategoryCache.add(category)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -410,6 +412,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val db = this.writableDatabase
         try {
             db.delete(TABLE_CATEGORY, "$COL_C_ID=$rowId", null)
+            CategoryCache.remove(rowId)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -420,6 +423,10 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
     val firstCategory: Category
         get() {
+            val r = CategoryCache.firstOrNull()
+            if (r != null) {
+                return r
+            }
             var category = Category()
             var cur: Cursor? = null
             val db = this.readableDatabase
@@ -761,12 +768,13 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
     }
 
     fun insertNoteorupdate(note: Note) {
-        var stemp = allNotes.filter { it.tittle == note.tittle }.firstOrNull()
+        var stemp = allNotes.find { it.tittle == note.tittle }
         if (stemp === null) {
             insertNote(note)
         }
         else{
-            updateNote(stemp)
+            note.id=stemp.id
+                updateNote(note)
         }
 
 

@@ -1,12 +1,10 @@
 package gr.tsagi.jekyllforandroid.app.utils
 
 import android.app.ProgressDialog
-import android.content.ContentValues
 import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
-import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper
 import org.eclipse.egit.github.core.Blob
 import org.eclipse.egit.github.core.Repository
 import org.eclipse.egit.github.core.TreeEntry
@@ -97,13 +95,8 @@ class FetchPostsTask(private val mContext: Context) : AsyncTask<String, Void, Vo
                 }
                 val blobBytes = postBlob?.content
 
-                val postValues = ParsePostData(mContext).getDataFromContent(id,
+                ParsePostData(mContext).getDataFromContent(id,
                         blobBytes?:"null", type)
-                if (postValues.size() > 0) {
-                    Log.d(LOG_TAG, "Values for: " + id)
-                    contentValuesVector.add(postValues)
-                }
-
             } else {
                 try {
                     val subdir = dataService.getTree(repository, post.sha).tree
@@ -111,12 +104,10 @@ class FetchPostsTask(private val mContext: Context) : AsyncTask<String, Void, Vo
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-
             }
         }
 
     }
-    val contentValuesVector = mutableListOf<ContentValues>()
     override fun doInBackground(vararg params: String): Void? {
         Log.d(LOG_TAG, "Background started")
         // TODO: Support subdirectories

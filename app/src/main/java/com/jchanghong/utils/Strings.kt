@@ -23,3 +23,11 @@ fun String.hasYamHead():Boolean  {
     }
     return yamcoun>=2
 }
+
+fun String.removeyam(s: String): String {
+    if (!this.hasYamHead()) {
+        return this
+    }
+
+    return ""
+}

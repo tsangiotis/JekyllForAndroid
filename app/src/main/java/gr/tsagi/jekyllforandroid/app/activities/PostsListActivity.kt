@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
@@ -54,7 +53,7 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setActionBarIcon(R.drawable.ic_ab_drawer)
+//        setActionBarIcon(R.drawable.ic_ab_drawer)
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             // create our manager instance after the content view is set
@@ -102,7 +101,7 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
     }
 
-    protected override val layoutResource: Int
+     override val layoutResource: Int
         get() = R.layout.activity_posts_list
 
     private fun updateList() {
@@ -172,7 +171,7 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
                 navDrawerItems)
         mDrawerList!!.adapter = adapter
 
-        val toolbar = findViewById(R.id.toolbar) as AppBarLayout
+//        val toolbar = findViewById(R.id.toolbar) as AppBarLayout
 
         // Set the list's click listener
 //        mDrawerList!!.setOnItemClickListener(DrawerItemClickListener())

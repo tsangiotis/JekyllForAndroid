@@ -72,7 +72,7 @@ class EditPostActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
     }
 
-    protected override val layoutResource: Int
+     override val layoutResource: Int
         get() = R.layout.activity_edit_post
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

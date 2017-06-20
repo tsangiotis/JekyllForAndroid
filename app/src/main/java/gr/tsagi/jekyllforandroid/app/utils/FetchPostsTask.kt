@@ -29,21 +29,24 @@ class FetchPostsTask(private val mContext: Context) : AsyncTask<String, Void, Vo
 
      internal var utility: Utility = Utility(mContext)
 
-   lateinit private var pDialog: ProgressDialog
+    private var pDialog: ProgressDialog?=null
 
     override fun onPreExecute() {
         super.onPreExecute()
         pDialog = ProgressDialog(mContext)
-        pDialog.setMessage(" Github syn ...")
-        pDialog.isIndeterminate = false
-        pDialog.setCancelable(true)
-        pDialog.show()
+        pDialog!!.setMessage(" Github syn ...")
+        pDialog!!.isIndeterminate = false
+        pDialog!!.setCancelable(true)
+        pDialog!!.show()
     }
 
     override fun onPostExecute(aVoid: Void) {
         super.onPostExecute(aVoid)
-        Toast.makeText(mContext, "syn success!!!", Toast.LENGTH_SHORT).show()
-        pDialog.dismiss()
+        if (mContext != null) {
+            Toast.makeText(mContext, "syn success!!!", Toast.LENGTH_SHORT).show()
+        }
+        pDialog?.dismiss()
+        prin("onpostexecutr------------success")
     }
 
     init {

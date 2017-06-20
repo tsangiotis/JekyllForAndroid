@@ -293,8 +293,11 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         var cur: Cursor? = null
         val db = this.readableDatabase
         try {
-            cur = db.rawQuery("SELECT * FROM ${TABLE_CATEGORY} WHERE ${COL_C_ID} = ?", arrayOf(id.toString() + ""))
-            cur?.moveToFirst()?:category
+            cur = db.rawQuery("SELECT * FROM ${TABLE_CATEGORY} WHERE ${COL_C_ID} = ?", arrayOf(id.toString()))
+       var b=    cur?.moveToFirst()?:return category
+            if (!b) {
+                return category
+            }
             category = getCategoryByCursor(cur)
         } catch (e: Exception) {
             e.printStackTrace()

@@ -12,8 +12,11 @@ import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry
 
 
 /**
- * Created by tsagi on 8/8/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 8/8/14
+\* Time: 19:48
+\*/
 class PostsProvider : ContentProvider() {
     private var mOpenHelper: PostsDbHelper? = null
 
@@ -70,11 +73,11 @@ class PostsProvider : ContentProvider() {
         when (sUriMatcher.match(uri)) {
         // "posts/*"
             POST_STATUS -> {
-                retCursor = sPostsByStatus(uri, projection, sortOrder)
+                retCursor = sPostsByStatus(uri, projection!!, sortOrder!!)
             }
         // "posts/*/*"
             POST_ID -> {
-                retCursor = getPostWithCategoryAndTags(uri, projection, sortOrder)
+                retCursor = getPostWithCategoryAndTags(uri, projection!!, sortOrder!!)
             }//                dumpCursor(retCursor);
         // "post"
             POST -> {
@@ -158,7 +161,9 @@ class PostsProvider : ContentProvider() {
                 //                return TagEntry.CONTENT_TYPE;
             CATEGORY,
                 //                return CategoryEntry.CONTENT_TYPE;
-            else -> throw UnsupportedOperationException("Unknown uri: " + uri)
+            else -> {
+                throw UnsupportedOperationException("Unknown uri: " + uri)
+            }
         }
     }
 
@@ -251,7 +256,7 @@ class PostsProvider : ContentProvider() {
                 try {
                     for (value in values) {
                         val _id = db.insert(PostEntry.TABLE_NAME, null, value)
-                        if (_id != -1) {
+                        if (_id != -1L) {
                             returnCount++
                         }
                     }

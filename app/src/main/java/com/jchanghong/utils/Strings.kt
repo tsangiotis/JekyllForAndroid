@@ -24,10 +24,11 @@ fun String.hasYamHead():Boolean  {
     return yamcoun>=2
 }
 
-fun String.removeyam(s: String): String {
+fun String.removeyam():String{
     if (!this.hasYamHead()) {
         return this
     }
-
-    return ""
+    var index1 = this.indexOf("---")
+    index1 = this.indexOf("---", index1 + 1)
+    return this.substring(index1+5)
 }

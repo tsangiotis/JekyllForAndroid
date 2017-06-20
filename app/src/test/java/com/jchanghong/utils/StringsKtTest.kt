@@ -28,4 +28,10 @@ dsdsd
         assertEquals(false,test2.hasYamHead())
     }
 
+    @Test
+    fun tes3() {
+        println(test1.removeyam())
+        println(test2.removeyam())
+    }
+
 }

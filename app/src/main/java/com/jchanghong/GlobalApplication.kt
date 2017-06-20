@@ -15,6 +15,8 @@ class GlobalApplication : Application() {
     override fun onCreate() {
         // init db
         db = DatabaseManager(this)
+        db.allNotes
+        db.allCategory
         sharedPref = SharedPref(applicationContext)
 
         //first launch

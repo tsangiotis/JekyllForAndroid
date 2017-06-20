@@ -99,6 +99,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             values.put(COL_C_ICON, cat_icon[i])
             Log.e("ICON : ", i.toString() + " | " + cat_icon[i])
             db.insert(TABLE_CATEGORY, null, values) // Inserting Row
+            var ca = Category(id = cat_id[i].toLong(), name = cat_name[i], color = cat_color[i], icon = cat_icon[i])
+            CategoryCache.add(ca)
         }
         db.close()
     }
@@ -179,8 +181,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val db = this.writableDatabase
         try {
             db.update(TABLE_NOTE, contentValues, "$COL_N_ID = ${note.id}", null)
-            NoteCache.remove(note.id)
-            NoteCache.add(note)
+            NoteCache.updatenote(note.id,note)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -210,7 +211,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
     val allNotes: List<Note>
         get() {
-            if (NoteCache.size > 0) {
+            if (NoteCache.size > 3) {
                 return NoteCache
             }
             val notes = ArrayList<Note>()

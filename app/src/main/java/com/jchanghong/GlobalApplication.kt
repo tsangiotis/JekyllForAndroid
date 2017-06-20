@@ -1,22 +1,23 @@
 package com.jchanghong
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
+import com.jchanghong.data.Constant
 import com.jchanghong.data.DatabaseManager
 import com.jchanghong.data.SharedPref
 import com.jchanghong.model.Note
 
 class GlobalApplication : Application() {
     companion object{
-      lateinit  var db: DatabaseManager
+//      lateinit  var db: DatabaseManager
         lateinit   var sharedPref: SharedPref
     }
 
-
-
     override fun onCreate() {
+        Constant.mcontext=this
         // init db
-        db = DatabaseManager(this)
+//        db = DatabaseManager(this)
         sharedPref = SharedPref(applicationContext)
 
         //first launch

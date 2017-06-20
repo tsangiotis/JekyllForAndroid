@@ -22,6 +22,7 @@ import com.jchanghong.model.Category
 import com.jchanghong.model.Note
 import com.jchanghong.utils.Tools
 import com.jchanghong.utils.hasYamHead
+import gr.tsagi.jekyllforandroid.app.activities.PreviewMarkdownActivity
 import gr.tsagi.jekyllforandroid.app.utils.GithubPush
 import org.yaml.snakeyaml.Yaml
 import java.text.SimpleDateFormat
@@ -157,8 +158,21 @@ class ActivityNoteEdit : AppCompatActivity() {
             android.R.id.home -> onBackPressed()
             R.id.action_delete -> deleteConfirmation()
             R.id.action_fav -> actionFavorite()
+            R.id.action_preview-> preview()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun preview() {
+//        val content = mContent.getText().toString().trim({ it <= ' ' })
+//        val repo = utility.getRepo()
+
+//        if (content != "") {
+            val myIntent = Intent(this, PreviewMarkdownActivity::class.java)
+            myIntent.putExtra(PreviewMarkdownActivity.POST_CONTENT,ext_note?.content?:"null")
+            startActivity(myIntent)
+//        } else
+//            Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show()
     }
 
     private fun actionFavorite() {

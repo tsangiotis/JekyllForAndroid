@@ -15,5 +15,11 @@
         android:orderInCategory="10"
         android:title="Delete"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_preview"
+        android:icon="@drawable/ic_fa_eye"
+        android:orderInCategory="10"
+        android:title="Delete"
+        app:showAsAction="always" />
 
 </menu>

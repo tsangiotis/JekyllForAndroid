@@ -5,17 +5,15 @@
                 tools:context="gr.tsagi.jekyllforandroid.app.activities.LoginActivity"
                 android:fitsSystemWindows="true"
                 android:clipToPadding="false">
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
 
     <TextView
         android:id="@+id/log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:text="TextView"
         android:layout_above="@+id/fab"
-        android:layout_alignStart="@+id/fab" />
+         />
     <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"

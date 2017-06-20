@@ -137,17 +137,18 @@ class FetchPostsTask(private val mContext: Context) : AsyncTask<String, Void, Vo
 
             // No sync when the same sha.
             val oldSha = utility.baseCommitSha
-                        if (baseCommitSha.equals(oldSha)) {
-                            Log.d(LOG_TAG, "No Sync")
-                            this.cancel(true)
-                            return null
-                        } else {
+//                        if (baseCommitSha.equals(oldSha)) {
+//                            Log.d(LOG_TAG, "No Sync")
+//                            this.cancel(true)
+//                            pDialog.dismiss()
+//                            return null
+//                        } else {
 //            Log.d(LOG_TAG, "Syncing...")
 //            val db = PostsDbHelper(mContext)
 //            db.dropTables()
 //            db.close()
             utility.baseCommitSha = baseCommitSha
-                        }
+//                        }
 
             val treeSha = commitService.getCommit(repository, baseCommitSha).sha
 

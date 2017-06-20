@@ -37,7 +37,7 @@ class FetchPostsTask(c: Context?, logview: TextView?) : AsyncTask<String, Void, 
     internal var commitService: CommitService
     internal var dataService: DataService
 
-     internal var utility: Utility = Utility(mContext)
+     internal var utility: Utility = Utility(mContext!!)
 
 //    private var pDialog: ProgressDialog?=null
 //

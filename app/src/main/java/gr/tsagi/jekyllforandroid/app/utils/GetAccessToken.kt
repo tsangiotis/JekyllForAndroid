@@ -1,8 +1,6 @@
 package gr.tsagi.jekyllforandroid.app.utils
 
 import android.util.Log
-import org.apache.http.HttpEntity
-import org.apache.http.HttpResponse
 import org.apache.http.NameValuePair
 import org.apache.http.client.ClientProtocolException
 import org.apache.http.client.entity.UrlEncodedFormEntity
@@ -11,9 +9,8 @@ import org.apache.http.impl.client.DefaultHttpClient
 import org.apache.http.message.BasicNameValuePair
 import org.json.JSONException
 import org.json.JSONObject
-
 import java.io.*
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Created by tsagi on 7/7/14.
@@ -23,8 +20,8 @@ class GetAccessToken {
     internal var jsondel = ""
     internal var params: MutableList<NameValuePair> = ArrayList()
     internal var mapn: Map<String, String>? = null
-    internal var httpClient: DefaultHttpClient
-    internal var httpPost: HttpPost
+    lateinit internal var httpClient: DefaultHttpClient
+    lateinit internal var httpPost: HttpPost
     fun gettoken(address: String, token: String, client_id: String, client_secret: String, redirect_uri: String, grant_type: String): JSONObject {
         // Making HTTP request
         try {
@@ -53,9 +50,10 @@ class GetAccessToken {
             val reader = BufferedReader(InputStreamReader(
                     `is`!!, "iso-8859-1"), 8)
             val sb = StringBuilder()
-            var line: String? = null
-            while ((line = reader.readLine()) != null) {
+        var line:String?=   reader.readLine()
+            while (line != null) {
                 sb.append(line!! + "n")
+                line=reader.readLine()
             }
             `is`!!.close()
             json = sb.toString()
@@ -76,7 +74,7 @@ class GetAccessToken {
         }
 
         // Return JSON String
-        return jObj
+        return jObj!!
     }
 
     companion object {

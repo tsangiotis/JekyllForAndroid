@@ -18,7 +18,7 @@ import java.io.IOException
  * Created by tsagi on 1/30/14.
  */
 
-class FetchPostsTask(private val mContext: Context) : AsyncTask<String, Void, Void>() {
+class FetchPostsTask(private val mContext: Context?) : AsyncTask<String, Void, Void>() {
 
     private val LOG_TAG = FetchPostsTask::class.java.simpleName
 
@@ -34,10 +34,10 @@ class FetchPostsTask(private val mContext: Context) : AsyncTask<String, Void, Vo
     override fun onPreExecute() {
         super.onPreExecute()
         pDialog = ProgressDialog(mContext)
-        pDialog!!.setMessage(" Github syn ...")
-        pDialog!!.isIndeterminate = false
-        pDialog!!.setCancelable(true)
-        pDialog!!.show()
+        pDialog?.setMessage(" Github syn ...")
+        pDialog?.isIndeterminate = false
+        pDialog?.setCancelable(true)
+        pDialog?.show()
     }
 
     override fun onPostExecute(aVoid: Void) {
@@ -98,7 +98,7 @@ class FetchPostsTask(private val mContext: Context) : AsyncTask<String, Void, Vo
                 }
                 val blobBytes = postBlob?.content
 
-                ParsePostData(mContext).getDataFromContent(id,
+                ParsePostData(mContext!!).getDataFromContent(id,
                         blobBytes?:"null", type)
             } else {
                 try {

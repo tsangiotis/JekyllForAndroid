@@ -62,4 +62,5 @@ dependencies {
 //    implementation group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '4.8.0.201706111038-r'
 
     implementation 'com.commonsware.cwac:anddown:0.3.0'
+    compile 'com.github.tiagohm.MarkdownView:library:0.16.0'
 }

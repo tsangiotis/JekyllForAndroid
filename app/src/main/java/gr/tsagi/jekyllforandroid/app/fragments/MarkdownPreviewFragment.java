@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import br.tiagohm.markdownview.MarkdownView;
+import br.tiagohm.markdownview.css.InternalStyleSheet;
 import br.tiagohm.markdownview.css.styles.Github;
 import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.activities.PreviewMarkdownActivity;
@@ -44,8 +45,17 @@ public class MarkdownPreviewFragment extends Fragment {
                 .inflate(R.layout.fragment_markdown_preview, container, false);
         MarkdownView mMarkdownView;
         mMarkdownView = rootView.findViewById(R.id.markdown_preview_view);
-        mMarkdownView.addStyleSheet(new Github());
         mMarkdownView.loadMarkdown(content);
+        InternalStyleSheet css = new Github();
+//        css.addFontFace("MyFont", "condensed", "italic", "bold", "url('myfont.ttf')");
+//        css.addMedia("screen and (min-width: 1281px)");
+        css.addRule("h1", "color: black");
+        css.endMedia();
+        css.addRule("h1", "color: green");
+        css.addRule("h2", "color: blue");
+        css.addRule("h3", "color: green");
+        css.addRule("h4", "color: blue");
+        mMarkdownView.addStyleSheet(css);
 //        mMarkdownView.loadMarkdownFromAsset("markdown1.md");
 //        mMarkdownView.loadMarkdownFromFile(new File());
 //        mMarkdownView.loadMarkdownFromUrl("url");

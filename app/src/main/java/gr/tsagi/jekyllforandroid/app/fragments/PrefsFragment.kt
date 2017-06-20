@@ -8,8 +8,11 @@ import android.preference.PreferenceFragment
 import gr.tsagi.jekyllforandroid.app.R
 
 /**
- * Created by tsagi on 9/9/13.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 9/9/13
+\* Time: 19:51
+\*/
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 class PrefsFragment : PreferenceFragment() {
 

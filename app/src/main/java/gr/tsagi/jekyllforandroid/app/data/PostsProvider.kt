@@ -4,7 +4,6 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
 import android.util.Log
@@ -157,9 +156,9 @@ class PostsProvider : ContentProvider() {
         when (match) {
             POST_ID -> return PostEntry.CONTENT_TYPE
             POST -> return PostEntry.CONTENT_TYPE
-            TAG,
-                //                return TagEntry.CONTENT_TYPE;
-            CATEGORY,
+//            TAG,
+//                                return TagEntry.CONTENT_TYPE;
+//            CATEGORY,
                 //                return CategoryEntry.CONTENT_TYPE;
             else -> {
                 throw UnsupportedOperationException("Unknown uri: " + uri)

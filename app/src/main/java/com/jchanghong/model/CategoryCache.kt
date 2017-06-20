@@ -14,4 +14,14 @@ object CategoryCache : LinkedList<Category>() {
         var i=find { it.id==id }
         remove(i)
     }
+
+    fun updateme(id: Long, cat: Category) {
+        var me=find { it.id == id }
+        if (me != null) {
+            me.name = cat.name
+            me.color = cat.color
+            me.note_count = cat.note_count
+            me.icon = cat.icon
+        }
+    }
 }

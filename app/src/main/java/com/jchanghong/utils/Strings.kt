@@ -1,5 +1,7 @@
 package com.jchanghong.utils
 
+import java.util.*
+
 
 /**
 \* Created with IntelliJ IDEA.
@@ -8,5 +10,16 @@ package com.jchanghong.utils
 \* Time: 16:41
 \*/
 fun String.hasYamHead():Boolean  {
-    return true
+    var yamcoun: Int = 0
+    try {
+        var scan = Scanner(this)
+        while (true) {
+            var line = scan.nextLine()
+            if (line == "---") {
+                yamcoun++
+            }
+        }
+    } catch(e: Exception) {
+    }
+    return yamcoun>=2
 }

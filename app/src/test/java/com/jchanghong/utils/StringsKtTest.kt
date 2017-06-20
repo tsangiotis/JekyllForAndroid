@@ -11,9 +11,21 @@ import org.junit.Test
  * \
  */
 class StringsKtTest {
+    var test1="""
+---
+
+dddddd
+dsdsd
+
+---
+
+dsdsd
+   """
+   var test2="dsfdfsdfsd\n  dsds \nfaf"
     @Test
     fun hasYamHead() {
-        assertEquals(true,"".hasYamHead())
+        assertEquals(true,test1.hasYamHead())
+        assertEquals(false,test2.hasYamHead())
     }
 
 }

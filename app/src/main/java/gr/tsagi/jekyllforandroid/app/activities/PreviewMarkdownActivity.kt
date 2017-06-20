@@ -1,8 +1,6 @@
 package gr.tsagi.jekyllforandroid.app.activities
 
-//import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import gr.tsagi.jekyllforandroid.app.R
@@ -13,14 +11,14 @@ open class PreviewMarkdownActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // create our manager instance after the content view is set
-            //            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            // enable status bar tint
-            //            tintManager.setStatusBarTintEnabled(true);
-            // Set color
-            //            tintManager.setTintColor(getResources().getColor(R.color.primary));
-        }
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            // create our manager instance after the content view is set
+//            //            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+//            // enable status bar tint
+//            //            tintManager.setStatusBarTintEnabled(true);
+//            // Set color
+//            //            tintManager.setTintColor(getResources().getColor(R.color.primary));
+//        }
 
         val myIntent = intent
         val content = myIntent.getStringExtra(POST_CONTENT)

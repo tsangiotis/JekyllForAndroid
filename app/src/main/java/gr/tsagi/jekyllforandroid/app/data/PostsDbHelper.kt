@@ -3,17 +3,21 @@ package gr.tsagi.jekyllforandroid.app.data
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.provider.BaseColumns
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry
 
 /**
- * Created by tsagi on 8/8/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 8/8/14
+\* Time: 19:48
+\*/
 class PostsDbHelper(context: Context) : SQLiteOpenHelper(context, PostsDbHelper.DATABASE_NAME, null, PostsDbHelper.DATABASE_VERSION) {
 
     override fun onCreate(sqLiteDatabase: SQLiteDatabase) {
         // Create a table to hold posts. A post consists of the title, the date and the post type
         val SQL_CREATE_POSTS_TABLE = "CREATE TABLE " + PostEntry.TABLE_NAME + " (" +
-                PostEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 PostEntry.COLUMN_POST_ID + " TEXT NOT NULL, " +
                 PostEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
                 PostEntry.COLUMN_DATETEXT + " TEXT, " +

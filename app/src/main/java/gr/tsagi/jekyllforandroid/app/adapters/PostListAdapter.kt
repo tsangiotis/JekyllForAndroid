@@ -13,16 +13,15 @@ import gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment
 import gr.tsagi.jekyllforandroid.app.utils.Utility
 
 /**
- * Created by tsagi on 8/9/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 8/9/14
+\* Time: 19:47
+\*/
 
-/**
- * [PostListAdapter] exposes a list of weather forecasts
- * from a [Cursor] to a [android.widget.ListView].
- */
 class PostListAdapter(context: Context, c: Cursor, flags: Int) : CursorAdapter(context, c, flags) {
 
-    internal var utility: Utility
+    lateinit internal var utility: Utility
 
     /**
      * Cache of the children views for a forecast list item.

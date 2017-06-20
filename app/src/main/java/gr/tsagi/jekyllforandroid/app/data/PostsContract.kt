@@ -4,14 +4,16 @@ import android.content.ContentUris
 import android.net.Uri
 import android.provider.BaseColumns
 import android.util.Log
-
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
 /**
- * Created by tsagi on 8/8/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 8/8/14
+\* Time: 19:47
+\*/
 object PostsContract {
 
     private val LOG_TAG = PostsContract::class.java.simpleName

@@ -22,7 +22,13 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
      val cat_icon: Array<String>
      val cat_icon_data: Array<String>
      val cat_color_data: Array<String>
+    val cachenotes= mutableListOf<Note>()
+    val cachecategory= mutableListOf<Category>()
 
+   private fun clearCache(): {
+        cachenotes.clear()
+        cachecategory.clear()
+    }
     init {
 
             cat_id = context.resources.getIntArray(R.array.category_id)
@@ -38,6 +44,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         createTableNote(db)
         createTableCategory(db)
         createTableCategoryIcon(db)
+        clearCache()
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -58,6 +65,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             insertCategoryVersion3(db, redefineCategoryVersion3(categories))
             insertNoteVerion3(db, notes)
         }
+        clearCache()
 
     }
 
@@ -74,6 +82,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()
         }
+        clearCache()
 
     }
 
@@ -88,6 +97,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()
         }
+        clearCache()
 
     }
 
@@ -95,7 +105,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val db = this.writableDatabase
         for (i in cat_id.indices) {
             val values = ContentValues()
-            //values.put(COL_C_ID, cat_id[i]);
+            values.put(COL_C_ID, cat_id[i])
             values.put(COL_C_NAME, cat_name[i])
             values.put(COL_C_COLOR, cat_color[i])
             values.put(COL_C_ICON, cat_icon[i])

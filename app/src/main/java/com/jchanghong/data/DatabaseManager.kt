@@ -25,10 +25,6 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
     val cachenotes= mutableListOf<Note>()
     val cachecategory= mutableListOf<Category>()
 
-   private fun clearCache(): {
-        cachenotes.clear()
-        cachecategory.clear()
-    }
     init {
 
             cat_id = context.resources.getIntArray(R.array.category_id)
@@ -146,6 +142,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
      * All Note transaction
      */
     fun insertNote(note: Note) {
+        clearCache()
         val values = ContentValues()
         values.put(COL_N_TITLE, note.tittle)
         values.put(COL_N_CONTENT, note.content)
@@ -161,6 +158,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         } finally {
             db.close()
         }
+
     }
 
     fun deleteNote(rowId: Long) {

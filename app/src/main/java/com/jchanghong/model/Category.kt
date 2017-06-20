@@ -20,7 +20,7 @@ data class Category(var id: Long = 0,
              false
         }
         else{
-            other.id==id&&other.name==name
+            other.name==name
         }
 
 }

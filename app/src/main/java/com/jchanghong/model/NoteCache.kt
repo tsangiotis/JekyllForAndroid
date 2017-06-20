@@ -12,4 +12,5 @@ object NoteCache : ArrayList<Note>() {
         var i=find { it.id==lo }
         remove(i)
     }
+    fun getnote(title: String): Note? =find { it.tittle==title }
 }

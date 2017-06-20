@@ -2,11 +2,12 @@ package com.jchanghong.model
 
 import com.jchanghong.GlobalApplication
 import java.io.Serializable
+import java.util.*
 
 data class Note(var id: Long = 0,
                 var tittle: String="",
                 var content: String="",
-                var lastEdit: Long = 0,
+                var lastEdit: Long = Date().time,
                 var favourite: Int = 0,
                 var category: Category=GlobalApplication.db.firstCategory) : Serializable {
     fun clear() {
@@ -20,8 +21,8 @@ data class Note(var id: Long = 0,
         if (other !is Note) {
             return false
         }
-        else{
-            return other.id==id&&other.tittle==tittle
+        else {
+            return other.tittle==tittle&& other.content==content
         }
     }
 }

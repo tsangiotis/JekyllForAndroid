@@ -195,6 +195,7 @@ class ActivityNoteEdit : AppCompatActivity() {
             } else {
                 notif_text = getString(R.string.noteupdate)
                 db .updateNote(ext_note!!)
+                pushPost(ext_note!!)
             }
 
             Snackbar.make(parent_view, notif_text, Snackbar.LENGTH_SHORT).setCallback(object : Snackbar.Callback() {
@@ -225,7 +226,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         val output = "---\n" + yaml.dump(data) + "---\n"
         val pusher = GithubPush(this)
         try {
-            pusher.pushContent(note.tittle, date, output + content)
+            pusher.pushContent(note.tittle, date, output + note.content)
 
         } catch (e: ExecutionException) {
             e.printStackTrace()
@@ -277,6 +278,7 @@ class ActivityNoteEdit : AppCompatActivity() {
                 //no need to set fav here, fav already save to DB when clicked
                 ext_note?.lastEdit = System.currentTimeMillis()
                 db .updateNote(ext_note!!)
+                pushPost(ext_note!!)
                 ext_note?.clear()
             }
             Snackbar.make(parent_view, getString(R.string.notesaved), Snackbar.LENGTH_SHORT).show()

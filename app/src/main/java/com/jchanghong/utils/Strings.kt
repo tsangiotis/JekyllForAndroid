@@ -32,3 +32,12 @@ fun String.removeyam():String{
     index1 = this.indexOf("---", index1 + 1)
     return this.substring(index1+5)
 }
+
+fun String.getyam(): String {
+    if (!this.hasYamHead()) {
+        return ""
+    }
+    var index1 = this.indexOf("---")
+   var index2 = this.indexOf("---", index1 + 1)
+    return this.substring(index1+4,index2)
+}

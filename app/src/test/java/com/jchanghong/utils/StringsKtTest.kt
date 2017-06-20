@@ -32,6 +32,7 @@ dsdsd
     fun tes3() {
         println(test1.removeyam())
         println(test2.removeyam())
+        println(test1.getyam())
     }
 
 }

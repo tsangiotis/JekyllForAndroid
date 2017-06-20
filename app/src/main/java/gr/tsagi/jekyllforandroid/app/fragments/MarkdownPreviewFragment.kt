@@ -5,10 +5,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import br.tiagohm.markdownview.MarkdownView
-import br.tiagohm.markdownview.css.InternalStyleSheet
 import br.tiagohm.markdownview.css.styles.Github
+import com.jchanghong.utils.removeyam
 import gr.tsagi.jekyllforandroid.app.R
 import gr.tsagi.jekyllforandroid.app.activities.PreviewMarkdownActivity
 import gr.tsagi.jekyllforandroid.app.utils.Utility
@@ -40,7 +39,7 @@ class MarkdownPreviewFragment : Fragment() {
                 .inflate(R.layout.fragment_markdown_preview, container, false)
         val mMarkdownView: MarkdownView
         mMarkdownView = rootView.findViewById<MarkdownView>(R.id.markdown_preview_view)
-        mMarkdownView.loadMarkdown(content)
+        mMarkdownView.loadMarkdown(content.removeyam())
         val css = Github()
         //        css.addFontFace("MyFont", "condensed", "italic", "bold", "url('myfont.ttf')");
         //        css.addMedia("screen and (min-width: 1281px)");

@@ -58,7 +58,7 @@ public class GithubPush {
         repo = settings.getString("user_repo", "");
     }
 
-    public void pushContent(String title, String date, String content) throws
+    public void pushContent(String title, String date, String content,String category) throws
             ExecutionException, InterruptedException {
         // set path
         String path = date + "-" + title.toLowerCase().replace(' ', '-')

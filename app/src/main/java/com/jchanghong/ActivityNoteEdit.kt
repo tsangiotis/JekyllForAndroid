@@ -215,7 +215,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         val date = SimpleDateFormat("yyyy-MM-dd").format(Date(note.lastEdit))
         val pusher = GithubPush(this)
         if (note.content.hasYamHead()) {
-            pusher.pushContent(note.tittle, date, note.content)
+            pusher.pushContent(note.tittle, date, note.content,note.category.name)
         }
         val yaml = Yaml()
         val customYaml = prefs.getString("yaml_values", "")
@@ -230,7 +230,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         val output = "---\n" + yaml.dump(data) + "---\n"
 
         try {
-            pusher.pushContent(note.tittle, date, output + note.content)
+            pusher.pushContent(note.tittle, date, output + note.content,note.category.name)
 
         } catch (e: ExecutionException) {
             e.printStackTrace()

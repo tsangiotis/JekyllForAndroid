@@ -278,7 +278,7 @@ public class EditPostActivity extends BaseActivity implements LoaderManager.Load
         GithubPush pusher = new GithubPush(this);
 
         try {
-            pusher.pushContent(title, date, output + content);
+            pusher.pushContent(title, date, output + content,"");
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

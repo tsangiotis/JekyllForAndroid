@@ -40,7 +40,6 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         createTableNote(db)
         createTableCategory(db)
         createTableCategoryIcon(db)
-        clearCache()
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -61,7 +60,6 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             insertCategoryVersion3(db, redefineCategoryVersion3(categories))
             insertNoteVerion3(db, notes)
         }
-        clearCache()
 
     }
 
@@ -78,7 +76,6 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()
         }
-        clearCache()
 
     }
 
@@ -93,7 +90,6 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()
         }
-        clearCache()
 
     }
 
@@ -142,7 +138,6 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
      * All Note transaction
      */
     fun insertNote(note: Note) {
-        clearCache()
         val values = ContentValues()
         values.put(COL_N_TITLE, note.tittle)
         values.put(COL_N_CONTENT, note.content)
@@ -151,7 +146,10 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         values.put(COL_N_CATEGORY, note.category.id)
         val db = this.writableDatabase
         try {
-            db.insert(TABLE_NOTE, null, values)
+         note.id= db.insert(TABLE_NOTE, null, values)
+            if (cachenotes.size > 0) {
+                cachenotes.add(note)
+            }
         } catch (e: Exception) {
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()
@@ -161,10 +159,19 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
     }
 
+//    @RequiresApi(Build.VERSION_CODES.N)
     fun deleteNote(rowId: Long) {
         val db = this.writableDatabase
         try {
             db.delete(TABLE_NOTE, "$COL_N_ID =  $rowId", null)
+            var stemp: Note? = null
+            for (a in cachenotes) {
+                if (a.id == rowId) {
+                    break
+                }
+            }
+            cachenotes.remove(stemp)
+
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -182,6 +189,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val db = this.writableDatabase
         try {
             db.update(TABLE_NOTE, contentValues, "$COL_N_ID = ${note.id}", null)
+//            cachenotes.
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())

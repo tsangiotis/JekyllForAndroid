@@ -21,6 +21,7 @@ import com.jchanghong.data.DatabaseManager
 import com.jchanghong.model.Category
 import com.jchanghong.model.Note
 import com.jchanghong.utils.Tools
+import com.jchanghong.utils.hasYamHead
 import gr.tsagi.jekyllforandroid.app.utils.GithubPush
 import org.yaml.snakeyaml.Yaml
 import java.text.SimpleDateFormat
@@ -212,7 +213,10 @@ class ActivityNoteEdit : AppCompatActivity() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val data = HashMap<String, Any>()
         val date = SimpleDateFormat("yyyy-MM-dd").format(Date(note.lastEdit))
-
+        val pusher = GithubPush(this)
+        if (note.content.hasYamHead()) {
+            pusher.pushContent(note.tittle, date, note.content)
+        }
         val yaml = Yaml()
         val customYaml = prefs.getString("yaml_values", "")
         Log.d("yaml", customYaml)
@@ -224,7 +228,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         if (map != null)
             data.putAll(map)
         val output = "---\n" + yaml.dump(data) + "---\n"
-        val pusher = GithubPush(this)
+
         try {
             pusher.pushContent(note.tittle, date, output + note.content)
 

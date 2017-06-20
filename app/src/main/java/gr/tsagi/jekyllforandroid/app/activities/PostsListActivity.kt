@@ -1,5 +1,6 @@
 package gr.tsagi.jekyllforandroid.app.activities
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Fragment
 import android.content.Context
@@ -39,10 +40,10 @@ import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem
  */
 class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
-    internal var mUsername: String
-    internal var mToken: String
-    internal var mRepo: String
-    internal var settings: SharedPreferences
+    lateinit internal var mUsername: String
+    lateinit internal var mToken: String
+  lateinit  internal var mRepo: String
+  lateinit  internal var settings: SharedPreferences
 
     internal var fetchPostsTask: FetchPostsTask? = null
 
@@ -53,7 +54,7 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
     private var mDrawerTitle: CharSequence? = null
     private var mTitle: CharSequence? = null
 
-    internal var create: ImageButton
+    lateinit internal var create: ImageButton
 
     private var mDrawerList: ListView? = null
 
@@ -149,6 +150,7 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
         return super.onPrepareOptionsMenu(menu)
     }
 
+    @SuppressLint("ResourceType")
     private fun DrawerSetup() {
         mNavTitles = resources.getStringArray(R.array.nav_array)
         mDrawerLayout = findViewById(R.id.drawer_layout) as DrawerLayout

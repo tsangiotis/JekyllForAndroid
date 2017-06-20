@@ -1,17 +1,14 @@
 package gr.tsagi.jekyllforandroid.app.activities
 
-import android.content.Intent
-import android.os.Build
-import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.view.MenuItem
-
 //import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import android.os.Build
+import android.os.Bundle
+import android.view.MenuItem
 import gr.tsagi.jekyllforandroid.app.R
 import gr.tsagi.jekyllforandroid.app.fragments.MarkdownPreviewFragment
 
-class PreviewMarkdownActivity : BaseActivity() {
+open class PreviewMarkdownActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +39,7 @@ class PreviewMarkdownActivity : BaseActivity() {
 
     }
 
-    protected override val layoutResource: Int
+    override val layoutResource: Int
         get() = R.layout.activity_markdown_preview
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

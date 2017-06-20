@@ -17,20 +17,11 @@ import java.io.IOException
  * Created by tsagi on 1/30/14.
  */
 
-class FetchPostsTask(c: Context?, logview: TextView?) : AsyncTask<String, Void, Void>() {
+class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Void>() {
 
+    val mContext=c
+    val logview=log
     private val LOG_TAG = FetchPostsTask::class.java.simpleName
-    companion object {
-        var log: TextView? = null
-        var mContext:Context?=null
-        fun logi(text:String) {
-            log?.setText(text)
-        }
-    }
-    init {
-        log=logview
-        mContext=c
-    }
 
     // Create the needed services
     internal var repositoryService: RepositoryService
@@ -38,19 +29,6 @@ class FetchPostsTask(c: Context?, logview: TextView?) : AsyncTask<String, Void, 
     internal var dataService: DataService
 
      internal var utility: Utility = Utility(mContext!!)
-
-//    private var pDialog: ProgressDialog?=null
-//
-//    override fun onPreExecute() {
-//        super.onPreExecute()
-//
-//    log?.text="began to syn data......."
-//    }
-//
-//    override fun onPostExecute(aVoid: Void) {
-//
-//        log?.text="data syn success!!!"
-//    }
 
     init {
 
@@ -70,6 +48,14 @@ class FetchPostsTask(c: Context?, logview: TextView?) : AsyncTask<String, Void, 
         Log.i(LOG_TAG, o.toString())
     }
 
+    override fun onPreExecute() {
+        super.onPreExecute()
+        logview?.text="began to syn........."
+    }
+    override fun onProgressUpdate(vararg values: String?) {
+        values.forEach { logview?.text=it }
+//       logview?.text=values[0]
+    }
     /**
      * Take the List with the posts and parse the posts for data
      * post目录
@@ -101,6 +87,7 @@ class FetchPostsTask(c: Context?, logview: TextView?) : AsyncTask<String, Void, 
                 }
                 val blobBytes = postBlob?.content
 
+                publishProgress("load....$id")
                 ParsePostData(mContext!!).getDataFromContent(id,
                         blobBytes?:"null", type)
             } else {
@@ -114,7 +101,7 @@ class FetchPostsTask(c: Context?, logview: TextView?) : AsyncTask<String, Void, 
         }
 
     }
-    override fun doInBackground(vararg params: String): Void? {
+    override fun doInBackground(vararg params: Void): Void? {
         Log.d(LOG_TAG, "Background started")
         // TODO: Support subdirectories
         val user = utility.user

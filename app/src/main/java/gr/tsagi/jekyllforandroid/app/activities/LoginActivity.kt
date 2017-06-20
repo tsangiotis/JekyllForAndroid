@@ -18,22 +18,16 @@ import android.webkit.WebViewClient
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-
 import com.jchanghong.R
-
-import org.eclipse.egit.github.core.User
+import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask
+import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken
+import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.UserService
 import org.json.JSONException
 import org.json.JSONObject
-
 import java.io.IOException
 
-import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask
-import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken
-import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo
-
-//import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 class LoginActivity : BaseActivity() {
     //Change the Scope as you need
@@ -44,6 +38,7 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         logview = findViewById(R.id.log) as TextView
+        logview.text="login......."
         settings = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE)
 
@@ -63,8 +58,8 @@ class LoginActivity : BaseActivity() {
                     internal var authComplete = false
                     internal var resultIntent = Intent()
 
-                    override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
-                        super.onPageStarted(view, url, favicon)
+                    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+//                        super.onPageStarted(view, url, favicon)
                     }
 
                     lateinit internal var authCode: String
@@ -170,7 +165,7 @@ class LoginActivity : BaseActivity() {
         }
 
 
-        override fun onPostExecute(aVoid: Void) {
+        override fun onPostExecute(aVoid: Void?) {
             Log.d("LoginUser", settings.getString("user_status", ""))
             val uRepo = JekyllRepo()
             val repo = uRepo.getName(user)
@@ -178,13 +173,12 @@ class LoginActivity : BaseActivity() {
             editor.putString("user_login", user)
             editor.putString("user_repo", repo)
             editor.commit()
-
             val fetchPostsTask = FetchPostsTask(this@LoginActivity, logview)
             fetchPostsTask.execute()
-
             //            finish();
         }
     }
+
 
     companion object {
         private val CLIENT_ID = "1569f7710e0b37bb066c"

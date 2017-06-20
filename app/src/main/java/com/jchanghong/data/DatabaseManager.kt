@@ -743,4 +743,16 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
         const    private val DB_VERSION = 2
     }
+
+    fun insertNoteorupdate(note: Note) {
+        var stemp = allNotes.filter { it.tittle == note.tittle }.firstOrNull()
+        if (stemp === null) {
+            insertNote(note)
+        }
+        else{
+            updateNote(stemp)
+        }
+
+
+    }
 }

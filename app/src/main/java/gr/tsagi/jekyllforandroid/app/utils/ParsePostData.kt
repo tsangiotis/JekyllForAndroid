@@ -1,12 +1,10 @@
 package gr.tsagi.jekyllforandroid.app.utils
 
-import android.content.ContentValues
 import android.content.Context
 import android.util.Base64
 import com.jchanghong.GlobalApplication
 import com.jchanghong.model.Category
 import com.jchanghong.model.Note
-import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry
 import org.yaml.snakeyaml.Yaml
 import java.io.*
 
@@ -24,27 +22,31 @@ class ParsePostData(private val mContext: Context) {
     internal val JK_TAGS = "tags"
 
 
-    fun getDataFromContent(id: String, contentBytes: String, type: Int): ContentValues {
+    fun getDataFromContent(id: String, contentBytes: String, type: Int): Note {
 
         // Get and insert the new posts information into the database
-        var postContent: String? = null
 
+
+        val note=Note()
         // Blobs return with Base64 encoding so we have to UTF-8 them.
         val bytes = Base64.decode(contentBytes, Base64.DEFAULT)
+        var postContent: String? =
         try {
-            postContent = String(bytes, charset("UTF-8"))
+            String(bytes, charset("UTF-8"))
         } catch (e: UnsupportedEncodingException) {
             e.printStackTrace()
+            null
         }
+        note.content=postContent?:""
 
         val stringBuilder = StringBuilder()
 
-        val `is`: InputStream
+        val inputStream: InputStream
         val r: BufferedReader
 
-        `is` = ByteArrayInputStream(postContent!!.toByteArray())
+        inputStream = ByteArrayInputStream(postContent?.toByteArray())
         // read it with BufferedReader
-        r = BufferedReader(InputStreamReader(`is`))
+        r = BufferedReader(InputStreamReader(inputStream))
         var line: String?
 
         var yaml_dash = 0
@@ -70,7 +72,7 @@ class ParsePostData(private val mContext: Context) {
                             stringBuilder.append(line)
                 }
             }
-            `is`.close()
+            inputStream.close()
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -90,6 +92,7 @@ class ParsePostData(private val mContext: Context) {
 
         title = map[JK_TITLE].toString()
 
+        note.tittle=title
         if (map.containsKey(JK_TAGS)) {
             tags = map[JK_TAGS].toString().replace("[", "").replace("]", "")
         } else {
@@ -101,12 +104,7 @@ class ParsePostData(private val mContext: Context) {
             category = null
         }
         val categorymode = getornew(tags, category)
-
-        var anote = Note()
-        anote.category=categorymode
-        anote.tittle=title
-        anote.content=postContent
-        manager.insertNote(anote)
+        note.category=categorymode
 
         //        addTags(tags, id);
         //        addCategory(category, id);
@@ -117,49 +115,11 @@ class ParsePostData(private val mContext: Context) {
             val i = id.indexOf('-', 1 + id.indexOf('-', 1 + id.indexOf('-')))
             date = java.lang.Long.parseLong(id.substring(0, i).replace("-", ""))
         }
-        anote.lastEdit=date
-
-        System.out.println(anote)
+        note.lastEdit=date
+        manager.insertNoteorupdate(note)
+        System.out.println(note)
         // First, check if the post exists in the db
-        val cursorId = mContext.contentResolver.query(
-                PostEntry.CONTENT_URI,
-                arrayOf(PostEntry.COLUMN_POST_ID),
-                PostEntry.COLUMN_POST_ID + " = ?",
-                arrayOf(id), null)
-
-        val cursorContent = mContext.contentResolver.query(
-                PostEntry.CONTENT_URI,
-                arrayOf(PostEntry.COLUMN_CONTENT),
-                PostEntry.COLUMN_CONTENT + " = ?",
-                arrayOf(content), null)
-
-        val postValues = ContentValues()
-
-        if (cursorId!!.moveToFirst()) {
-            cursorId.close()
-            if (!cursorContent!!.moveToFirst()) {
-                cursorContent.close()
-                val updateValues = ContentValues()
-                updateValues.put(PostEntry.COLUMN_CONTENT, postContent)
-                if (updateValues.size() > 0) {
-                    mContext.contentResolver.update(PostEntry.CONTENT_URI, updateValues,
-                            PostEntry.COLUMN_POST_ID + " = \"" + id + "\"", null)
-                }
-
-            }
-        } else {
-            cursorId.close()
-            cursorContent!!.close()
-
-            postValues.put(PostEntry.COLUMN_TITLE, title)
-            postValues.put(PostEntry.COLUMN_DATETEXT, date)
-            postValues.put(PostEntry.COLUMN_DRAFT, type)
-            postValues.put(PostEntry.COLUMN_CONTENT, postContent)
-            postValues.put(PostEntry.COLUMN_POST_ID, id)
-        }
-
-        return postValues
-
+        return note
     }
 
     private val manager = GlobalApplication.db

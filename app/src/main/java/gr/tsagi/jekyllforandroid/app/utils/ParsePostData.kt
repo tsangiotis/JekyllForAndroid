@@ -117,7 +117,6 @@ class ParsePostData(private val mContext: Context) {
         }
         note.lastEdit=date
         manager.insertNoteorupdate(note)
-        System.out.println(" insert note:${note.tittle}")
         // First, check if the post exists in the db
         return note
     }

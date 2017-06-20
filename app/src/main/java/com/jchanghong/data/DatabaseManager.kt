@@ -14,6 +14,7 @@ import java.util.*
 
 class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
+    val LOG=DatabaseManager::class.java.name
      val cat_id: IntArray
      val cat_name: Array<String>
      val cat_color: Array<String>
@@ -133,6 +134,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
      * All Note transaction
      */
     fun insertNote(note: Note) {
+        Log.i(LOG,"insertnote ${note.tittle}")
         val values = ContentValues()
         values.put(COL_N_TITLE, note.tittle)
         values.put(COL_N_CONTENT, note.content)
@@ -154,6 +156,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
 //    @RequiresApi(Build.VERSION_CODES.N)
     fun deleteNote(rowId: Long) {
+    Log.i(LOG,"delete note ${rowId}")
         val db = this.writableDatabase
         try {
             db.delete(TABLE_NOTE, "$COL_N_ID =  $rowId", null)
@@ -167,6 +170,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
     }
 
     fun updateNote(note: Note) {
+        Log.i(LOG,"update note:${note.tittle}")
         val contentValues = ContentValues()
         contentValues.put(COL_N_TITLE, note.tittle)
         contentValues.put(COL_N_CONTENT, note.content)
@@ -377,6 +381,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
     }
 
     fun insertCategory(category: Category) {
+        Log.i(LOG,"insert cate ${category.name}")
         val values = ContentValues()
         values.put(COL_C_NAME, category.name)
         values.put(COL_C_COLOR, category.color)
@@ -394,6 +399,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
     }
 
     fun updateCategory(category: Category) {
+        Log.i(LOG,"update ca:$category")
         val contentValues = ContentValues()
         contentValues.put(COL_C_ICON, category.icon)
         contentValues.put(COL_C_COLOR, category.color)
@@ -412,6 +418,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
     }
 
     fun deleteCategory(rowId: Long) {
+        Log.i(LOG,"delete ca $rowId")
         val db = this.writableDatabase
         try {
             db.delete(TABLE_CATEGORY, "$COL_C_ID=$rowId", null)

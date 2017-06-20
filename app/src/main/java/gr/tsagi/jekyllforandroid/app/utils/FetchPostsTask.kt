@@ -1,6 +1,5 @@
 package gr.tsagi.jekyllforandroid.app.utils
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
@@ -29,24 +28,24 @@ class FetchPostsTask(private val mContext: Context?) : AsyncTask<String, Void, V
 
      internal var utility: Utility = Utility(mContext)
 
-    private var pDialog: ProgressDialog?=null
-
-    override fun onPreExecute() {
-        super.onPreExecute()
-        pDialog = ProgressDialog(mContext)
-        pDialog?.setMessage(" Github syn ...")
-        pDialog?.isIndeterminate = false
-        pDialog?.setCancelable(true)
-        pDialog?.show()
-    }
-
+//    private var pDialog: ProgressDialog?=null
+//
+//    override fun onPreExecute() {
+//        super.onPreExecute()
+//        pDialog = ProgressDialog(mContext)
+//        pDialog?.setMessage(" Github syn ...")
+//        pDialog?.isIndeterminate = false
+//        pDialog?.setCancelable(true)
+//        pDialog?.show()
+//    }
+//
     override fun onPostExecute(aVoid: Void) {
-        super.onPostExecute(aVoid)
-        if (mContext != null) {
+//        prin("onpostexecutr------------"+mContext+pDialog)
+//        super.onPostExecute(aVoid)
+//        if (mContext != null) {
             Toast.makeText(mContext, "syn success!!!", Toast.LENGTH_SHORT).show()
-        }
-        pDialog?.dismiss()
-        prin("onpostexecutr------------success")
+//        }
+//        pDialog?.dismiss()
     }
 
     init {
@@ -76,7 +75,7 @@ class FetchPostsTask(private val mContext: Context?) : AsyncTask<String, Void, V
         prin(postslist.size)
         // Get and insert the new posts information into the database
         for (post in postslist) {
-            prin(" type is: ${post.type}  path: {$post.path}")
+//            prin(" type is: ${post.type}  path: {$post.path}")
             if (post.type == "blob") {
 
                 val filename = post.path
@@ -164,7 +163,7 @@ class FetchPostsTask(private val mContext: Context?) : AsyncTask<String, Void, V
 
             for (aList in list) {
 
-                Log.d(LOG_TAG, aList.path)
+//                Log.d(LOG_TAG, aList.path)
                 if (aList.path == "_posts") {
                     Log.d(LOG_TAG, "Found posts!")
                     pPos = aList.sha

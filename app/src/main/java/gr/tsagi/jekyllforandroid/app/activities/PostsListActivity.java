@@ -125,8 +125,8 @@ public class PostsListActivity extends BaseActivity implements PostsListFragment
     }
 
     private void updateList() {
-        fetchPostsTask = new FetchPostsTask(this);
-        fetchPostsTask.execute();
+//        fetchPostsTask = new FetchPostsTask(this, logview);
+//        fetchPostsTask.execute();
     }
 
     @Override

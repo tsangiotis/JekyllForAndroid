@@ -9,12 +9,20 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
-
+    <TextView
+        android:id="@+id/log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="TextView" />
     <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/logo_web"/>
+            android:src="@drawable/logo_web"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ImageButton
         android:layout_width="56dp"
@@ -25,9 +33,9 @@
         android:layout_centerHorizontal="true"
         android:tint="@android:color/white"
         android:id="@+id/fab"
-        android:elevation="2dp"
         android:background="@drawable/ripple"
-        android:stateListAnimator="@anim/fab_anim"
         />
+
+
 
 </RelativeLayout>

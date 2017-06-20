@@ -16,9 +16,10 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.jchanghong.R;
 
 import org.eclipse.egit.github.core.User;
 import org.eclipse.egit.github.core.client.GitHubClient;
@@ -28,10 +29,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import gr.tsagi.jekyllforandroid.app.R;
 import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask;
 import gr.tsagi.jekyllforandroid.app.utils.GetAccessToken;
 import gr.tsagi.jekyllforandroid.app.utils.JekyllRepo;
+
+//import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class LoginActivity extends BaseActivity {
     private static String CLIENT_ID = "1569f7710e0b37bb066c";
@@ -47,12 +49,11 @@ public class LoginActivity extends BaseActivity {
     WebView web;
     ImageButton auth;
     SharedPreferences settings;
-
+    TextView logview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+     logview  = (TextView) findViewById(R.id.log);
         settings = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE);
 
@@ -196,7 +197,7 @@ public class LoginActivity extends BaseActivity {
             editor.putString("user_repo", repo);
             editor.commit();
 
-          FetchPostsTask  fetchPostsTask = new FetchPostsTask(LoginActivity.this);
+          FetchPostsTask  fetchPostsTask = new FetchPostsTask(LoginActivity.this,logview);
             fetchPostsTask.execute();
 
 //            finish();

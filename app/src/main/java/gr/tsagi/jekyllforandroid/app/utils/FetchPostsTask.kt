@@ -3,7 +3,7 @@ package gr.tsagi.jekyllforandroid.app.utils
 import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
-import android.widget.Toast
+import android.widget.TextView
 import org.eclipse.egit.github.core.Blob
 import org.eclipse.egit.github.core.Repository
 import org.eclipse.egit.github.core.TreeEntry
@@ -17,9 +17,20 @@ import java.io.IOException
  * Created by tsagi on 1/30/14.
  */
 
-class FetchPostsTask(private val mContext: Context?) : AsyncTask<String, Void, Void>() {
+class FetchPostsTask(c: Context?, logview: TextView?) : AsyncTask<String, Void, Void>() {
 
     private val LOG_TAG = FetchPostsTask::class.java.simpleName
+    companion object {
+        var log: TextView? = null
+        var mContext:Context?=null
+        fun logi(text:String) {
+            log?.setText(text)
+        }
+    }
+    init {
+        log=logview
+        mContext=c
+    }
 
     // Create the needed services
     internal var repositoryService: RepositoryService
@@ -32,21 +43,14 @@ class FetchPostsTask(private val mContext: Context?) : AsyncTask<String, Void, V
 //
 //    override fun onPreExecute() {
 //        super.onPreExecute()
-//        pDialog = ProgressDialog(mContext)
-//        pDialog?.setMessage(" Github syn ...")
-//        pDialog?.isIndeterminate = false
-//        pDialog?.setCancelable(true)
-//        pDialog?.show()
+//
+//    log?.text="began to syn data......."
 //    }
 //
-    override fun onPostExecute(aVoid: Void) {
-//        prin("onpostexecutr------------"+mContext+pDialog)
-//        super.onPostExecute(aVoid)
-//        if (mContext != null) {
-            Toast.makeText(mContext, "syn success!!!", Toast.LENGTH_SHORT).show()
-//        }
-//        pDialog?.dismiss()
-    }
+//    override fun onPostExecute(aVoid: Void) {
+//
+//        log?.text="data syn success!!!"
+//    }
 
     init {
 

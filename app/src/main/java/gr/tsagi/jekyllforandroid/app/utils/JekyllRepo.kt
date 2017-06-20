@@ -54,7 +54,7 @@ class JekyllRepo {
                     break
                 }
             }
-            return name
+            return name!!
         }
 
     }

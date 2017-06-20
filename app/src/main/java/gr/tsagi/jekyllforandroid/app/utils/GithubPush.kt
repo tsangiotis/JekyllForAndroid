@@ -15,10 +15,13 @@ import java.util.*
 import java.util.concurrent.ExecutionException
 
 /**
- * Created by tsagi on 1/30/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 1/30/14
+\* Time: 19:54
+\*/
 
-class GithubPush(internal var mActivity: Activity) {
+class GithubPush(mActivity: Activity) {
 
     private val user: String
     private val token: String

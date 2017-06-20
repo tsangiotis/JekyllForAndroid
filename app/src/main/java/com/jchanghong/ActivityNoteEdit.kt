@@ -4,12 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,6 +21,11 @@ import com.jchanghong.data.DatabaseManager
 import com.jchanghong.model.Category
 import com.jchanghong.model.Note
 import com.jchanghong.utils.Tools
+import gr.tsagi.jekyllforandroid.app.utils.GithubPush
+import org.yaml.snakeyaml.Yaml
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.ExecutionException
 
 class ActivityNoteEdit : AppCompatActivity() {
 
@@ -184,6 +191,7 @@ class ActivityNoteEdit : AppCompatActivity() {
             if (is_new) {
                 notif_text = getString(R.string.notesaved)
                 db .insertNote(ext_note!!)
+                pushPost(ext_note!!)
             } else {
                 notif_text = getString(R.string.noteupdate)
                 db .updateNote(ext_note!!)
@@ -197,6 +205,36 @@ class ActivityNoteEdit : AppCompatActivity() {
             }).show()
         }
     }
+
+    fun pushPost(note: Note) {
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val data = HashMap<String, Any>()
+        val date = SimpleDateFormat("yyyy-MM-dd").format(Date(note.lastEdit))
+
+        val yaml = Yaml()
+        val customYaml = prefs.getString("yaml_values", "")
+        Log.d("yaml", customYaml)
+        val map = yaml.load(customYaml) as? HashMap<String, Any>
+        data.put("tags", note.category.name)
+        data.put("category", note.category.name)
+        data.put("title", note.tittle)
+        data.put("layout", "post")
+        if (map != null)
+            data.putAll(map)
+        val output = "---\n" + yaml.dump(data) + "---\n"
+        val pusher = GithubPush(this)
+        try {
+            pusher.pushContent(note.tittle, date, output + content)
+
+        } catch (e: ExecutionException) {
+            e.printStackTrace()
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+
+    }
+
 
     override fun onBackPressed() {
         if (ext_note != null) {
@@ -231,6 +269,7 @@ class ActivityNoteEdit : AppCompatActivity() {
                 n.favourite = 0
                 n.lastEdit = System.currentTimeMillis()
                 db .insertNote(n)
+                pushPost(n)
             } else {
                 ext_note?.tittle = tittle .text.toString() + ""
                 ext_note?.content = content .text.toString() + ""

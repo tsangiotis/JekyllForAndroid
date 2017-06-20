@@ -52,6 +52,7 @@ public class GithubPush {
         SharedPreferences sharedPref = PreferenceManager
                 .getDefaultSharedPreferences(mActivity);
         dir = sharedPref.getString("posts_subdir", "");
+        Log.i("changhong", user+dir);
         if(!dir.equals(""))
             dir = dir +"/";
         repo = settings.getString("user_repo", "");
@@ -99,7 +100,7 @@ public class GithubPush {
                 DataService dataService = new DataService(client);
 
                 // get some sha's from current state in git
-                Log.d("repository", user + " " + repo);
+                Log.d("changhong", user + " " + repo);
                 Repository repository =  repositoryService
                         .getRepository(user, repo);
                 String baseCommitSha = repositoryService
@@ -143,14 +144,12 @@ public class GithubPush {
                 CommitUser author = new CommitUser();
                 author.setName(user.getName());
 //                String email = userService.getEmails().get(0).toString();
-//                Log.v("my---", email);
+//                Log.v("changhong", email);
                 author.setEmail(user.getEmail());
                 Calendar now = Calendar.getInstance();
                 author.setDate(now.getTime());
                 commit.setAuthor(author);
-//                commit.setCommitte
-//                r(author);
-
+                commit.setCommitter(author);
                 List<Commit> listOfCommits = new ArrayList<Commit>();
                 listOfCommits.add(new Commit().setSha(baseCommitSha));
                 commit.setParents(listOfCommits);
@@ -181,7 +180,7 @@ public class GithubPush {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            mActivity.finish();
+//            mActivity.finish();
         }
     }
 }

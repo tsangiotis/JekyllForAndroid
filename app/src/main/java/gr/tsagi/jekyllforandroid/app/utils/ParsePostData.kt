@@ -15,14 +15,11 @@ import java.io.*
 class ParsePostData(private val mContext: Context) {
 
     private val LOG_TAG = ParsePostData::class.java.simpleName
-
-
     internal val JK_TITLE = "title"
     internal val JK_CATEGORY = "category"
     internal val JK_TAGS = "tags"
 
-
-    fun getDataFromContent(id: String, contentBytes: String, type: Int): Note {
+    fun getNoteFrombyte(id: String, contentBytes: String, type: Int): Note {
 
         // Get and insert the new posts information into the database
 

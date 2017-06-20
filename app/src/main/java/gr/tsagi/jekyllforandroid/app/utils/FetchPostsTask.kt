@@ -56,7 +56,7 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
     }
     /**
      * Take the List with the posts and parse the posts for data
-     * post目录
+     *postslist: post目录
      * 可能有子目录
      */
     private fun getPostDataFromList(repository: Repository, postslist: List<TreeEntry>, type: Int) {
@@ -86,7 +86,7 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
                 val blobBytes = postBlob?.content
 
                 publishProgress("loading $id...")
-                ParsePostData(mContext!!).getDataFromContent(id,
+                ParsePostData(mContext!!).getNoteFrombyte(id,
                         blobBytes?:"null", type)
             } else {
                 try {

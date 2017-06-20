@@ -3,7 +3,7 @@ package gr.tsagi.jekyllforandroid.app.activities;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -13,7 +13,7 @@ import gr.tsagi.jekyllforandroid.app.R;
  * Created by tsagi on 10/20/14.
  */
 
-public abstract class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private AppBarLayout toolbar;
 

@@ -185,6 +185,7 @@ public class LoginActivity extends BaseActivity {
             return null;
         }
 
+
         @Override
         protected void onPostExecute(Void aVoid) {
             Log.d("LoginUser", settings.getString("user_status", ""));

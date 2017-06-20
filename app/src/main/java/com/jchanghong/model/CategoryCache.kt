@@ -8,7 +8,7 @@ package com.jchanghong.model
 \* Time: 12:48
 \*/
 object CategoryCache : ArrayList<Category>() {
-    fun remove(id: Long): {
+    fun remove(id: Long){
         var i=find { it.id==id }
         remove(i)
     }

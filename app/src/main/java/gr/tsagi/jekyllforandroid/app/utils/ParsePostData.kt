@@ -117,7 +117,7 @@ class ParsePostData(private val mContext: Context) {
         }
         note.lastEdit=date
         manager.insertNoteorupdate(note)
-        System.out.println(note)
+        System.out.println(" insert note:${note.tittle}")
         // First, check if the post exists in the db
         return note
     }
@@ -136,10 +136,8 @@ class ParsePostData(private val mContext: Context) {
         }
         if (tags != null) {
            var c=Category(name = tags.trim().split(" ")[0])
-            System.out.println(c)
             if (c.exit()) {
                 return c
-
             }
             else{
                 c.create()

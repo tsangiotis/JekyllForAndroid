@@ -8,7 +8,7 @@ package com.jchanghong.model
 \* Time: 12:44
 \*/
 object NoteCache : ArrayList<Note>() {
-    fun remove(lo: Long): {
+    fun remove(lo: Long){
         var i=find { it.id==lo }
         remove(i)
     }

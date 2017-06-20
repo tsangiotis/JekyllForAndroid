@@ -33,6 +33,7 @@ dsdsd
         println(test1.removeyam())
         println(test2.removeyam())
         println(test1.getyam())
+        println("2012-333-4-dddd.md".date_id_toTitle())
     }
 
 }

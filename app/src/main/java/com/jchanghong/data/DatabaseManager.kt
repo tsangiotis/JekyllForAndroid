@@ -783,10 +783,10 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             insertNote(note)
         }
         else{
-            note.id=stemp.id
+            if (stemp.content != note.content) {
+                note.id=stemp.id
                 updateNote(note)
+            }
         }
-
-
     }
 }

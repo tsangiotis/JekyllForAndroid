@@ -1,92 +1,102 @@
 package gr.tsagi.jekyllforandroid.app.utils
 
-import android.content.Context
 import android.util.Base64
 import com.jchanghong.GlobalApplication
 import com.jchanghong.model.Category
 import com.jchanghong.model.Note
+import com.jchanghong.utils.date_id_toTitle
+import com.jchanghong.utils.getyam
+import com.jchanghong.utils.path2Catogery
+import com.jchanghong.utils.removeyam
 import org.yaml.snakeyaml.Yaml
-import java.io.*
+import java.io.UnsupportedEncodingException
 
 
 /**
  * Created by tsagi on 8/15/14.
  */
-class ParsePostData(private val mContext: Context) {
+class ParsePostData {
 
     private val LOG_TAG = ParsePostData::class.java.simpleName
     internal val JK_TITLE = "title"
     internal val JK_CATEGORY = "category"
     internal val JK_TAGS = "tags"
 
-    fun getNoteFrombyte(id: String, contentBytes: String, type: Int): Note {
+    fun getNoteFrombyte(id: String,path:String, contentBytes: String, type: Int): Note {
 
         // Get and insert the new posts information into the database
-
-
         val note=Note()
         // Blobs return with Base64 encoding so we have to UTF-8 them.
         val bytes = Base64.decode(contentBytes, Base64.DEFAULT)
-        var postContent: String? =
+        var postContent: String=
         try {
             String(bytes, charset("UTF-8"))
         } catch (e: UnsupportedEncodingException) {
             e.printStackTrace()
-            null
+            ""
         }
-        note.content=postContent?:""
+        note.content=postContent.removeyam()
 
-        val stringBuilder = StringBuilder()
-
-        val inputStream: InputStream
-        val r: BufferedReader
-
-        inputStream = ByteArrayInputStream(postContent?.toByteArray())
-        // read it with BufferedReader
-        r = BufferedReader(InputStreamReader(inputStream))
-        var line: String?
-
-        var yaml_dash = 0
-        var yamlStr = ""
-        try {
-            while (true) {
-                line = r.readLine()
-                if (line == null) {
-                    break
-                }
-                if (line == "---") {
-                    yaml_dash++
-                }
-                if (yaml_dash < 2) {
-                    if (line != "---")
-                        yamlStr = yamlStr + line + "\n"
-                }
-                if (yaml_dash >= 2) {
-                    if (line != "---")
-                        if (line == "")
-                            stringBuilder.append("\n")
-                        else
-                            stringBuilder.append(line)
-                }
-            }
-            inputStream.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
-
-        val content = stringBuilder.toString()
-
+//        val stringBuilder = StringBuilder()
+//
+//        val inputStream: InputStream
+//        val r: BufferedReader
+//
+//        inputStream = ByteArrayInputStream(postContent?.toByteArray())
+//        // read it with BufferedReader
+//        r = BufferedReader(InputStreamReader(inputStream))
+//        var line: String?
+//
+//        var yaml_dash = 0
+//        var yamlStr = ""
+//        try {
+//            while (true) {
+//                line = r.readLine()
+//                if (line == null) {
+//                    break
+//                }
+//                if (line == "---") {
+//                    yaml_dash++
+//                }
+//                if (yaml_dash < 2) {
+//                    if (line != "---")
+//                        yamlStr = yamlStr + line + "\n"
+//                }
+//                if (yaml_dash >= 2) {
+//                    if (line != "---")
+//                        if (line == "")
+//                            stringBuilder.append("\n")
+//                        else
+//                            stringBuilder.append(line)
+//                }
+//            }
+//            inputStream.close()
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
+//
+//
+//        val content = stringBuilder.toString()
+//
 
         val yaml = Yaml()
-
-        val map: Map<*, *>
-        map = yaml.load(yamlStr) as Map<*, *>
-
+        val map: Map<*, *>?
+        map = yaml.load(postContent.getyam()) as? Map<*, *>
         var title = id
         var tags: String? = null
         var category: String? = null
 
+        if (map == null) {
+            note.tittle=id.date_id_toTitle()
+            var date: Long = 0
+            if (type == 0) {
+                val i = id.indexOf('-', 1 + id.indexOf('-', 1 + id.indexOf('-')))
+                date = java.lang.Long.parseLong(id.substring(0, i).replace("-", ""))
+            }
+            note.lastEdit=date
+            note.category=getornew(tags,path.path2Catogery())
+            return note
+        }
         title = map[JK_TITLE].toString()
 
         note.tittle=title
@@ -103,9 +113,6 @@ class ParsePostData(private val mContext: Context) {
         val categorymode = getornew(tags, category)
         note.category=categorymode
 
-        //        addTags(tags, id);
-        //        addCategory(category, id);
-
         var date: Long = 0
 
         if (type == 0) {
@@ -113,7 +120,6 @@ class ParsePostData(private val mContext: Context) {
             date = java.lang.Long.parseLong(id.substring(0, i).replace("-", ""))
         }
         note.lastEdit=date
-        manager.insertNoteorupdate(note)
         // First, check if the post exists in the db
         return note
     }

@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.TextView
+import com.jchanghong.GlobalApplication
+import com.jchanghong.model.Note
 import org.eclipse.egit.github.core.Blob
 import org.eclipse.egit.github.core.Repository
 import org.eclipse.egit.github.core.TreeEntry
@@ -22,7 +24,7 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
     val mContext=c
     val logview=log
     private val LOG_TAG = FetchPostsTask::class.java.simpleName
-
+    val parsePostData = ParsePostData()
     // Create the needed services
     internal var repositoryService: RepositoryService
     internal var commitService: CommitService
@@ -48,12 +50,14 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
     }
 
     override fun onPreExecute() {
+        allnotes.clear()
         super.onPreExecute()
         logview?.text="began to syn github data......"
     }
     override fun onProgressUpdate(vararg values: String?) {
         values.forEach { logview?.text=it }
     }
+    var allnotes= mutableListOf<Note>()
     /**
      * Take the List with the posts and parse the posts for data
      *postslist: post目录
@@ -84,10 +88,9 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
                     null
                 }
                 val blobBytes = postBlob?.content
-
                 publishProgress("loading $id...")
-                ParsePostData(mContext!!).getNoteFrombyte(id,
-                        blobBytes?:"null", type)
+            allnotes.add(  parsePostData.getNoteFrombyte(id,filename!!,
+                        blobBytes?:"null", type))
             } else {
                 try {
                     val subdir = dataService.getTree(repository, post.sha).tree
@@ -176,7 +179,16 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
+        updatelocalDB()
         return null
+    }
+
+    private fun updatelocalDB() {
+        publishProgress("update local database......")
+        val manager = GlobalApplication.db
+        for (a in allnotes) {
+            manager.insertNoteorupdate(a)
+        }
+        publishProgress("update local database success")
     }
 }

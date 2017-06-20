@@ -138,9 +138,9 @@ class ActivityNoteEdit : AppCompatActivity() {
         return true
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == OPEN_DIALOG_CATEGORY_CODE && resultCode == Activity.RESULT_OK) {
-            cur_category = data.getSerializableExtra(ActivityCategoryPick.EXTRA_OBJ) as Category
+            cur_category = data?.getSerializableExtra(ActivityCategoryPick.EXTRA_OBJ) as? Category
             setCategoryView(cur_category?:db.firstCategory)
             if (Constant.iszhong) {
 
@@ -153,8 +153,8 @@ class ActivityNoteEdit : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.action_delete -> deleteConfirmation()
             R.id.action_fav -> actionFavorite()

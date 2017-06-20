@@ -1,7 +1,5 @@
 package com.jchanghong.model
 
-import java.util.*
-
 
 /**
 \* Created with IntelliJ IDEA.
@@ -9,7 +7,7 @@ import java.util.*
 \* Date: 2017/6/20 0020
 \* Time: 12:44
 \*/
-object NoteCache : LinkedList<Note>() {
+object NoteCache : ArrayList<Note>() {
     fun remove(lo: Long){
         var i=find { it.id==lo }
         remove(i)

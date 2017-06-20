@@ -128,7 +128,6 @@ class ParsePostData(private val mContext: Context) {
             val c = Category(name = category)
             if (c.exit()) {
                 return c
-
             }
             else{
                 c.create()
@@ -137,6 +136,7 @@ class ParsePostData(private val mContext: Context) {
         }
         if (tags != null) {
            var c=Category(name = tags.trim().split(" ")[0])
+            System.out.println(c)
             if (c.exit()) {
                 return c
 

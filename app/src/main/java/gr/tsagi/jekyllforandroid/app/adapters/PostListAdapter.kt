@@ -19,7 +19,7 @@ import gr.tsagi.jekyllforandroid.app.utils.Utility
 \* Time: 19:47
 \*/
 
-class PostListAdapter(context: Context, c: Cursor, flags: Int) : CursorAdapter(context, c, flags) {
+class PostListAdapter(context: Context, c: Cursor?, flags: Int) : CursorAdapter(context, c, flags) {
 
     lateinit internal var utility: Utility
 

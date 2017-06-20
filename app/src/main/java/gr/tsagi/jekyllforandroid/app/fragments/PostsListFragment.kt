@@ -10,18 +10,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.BaseColumns
 import android.support.v7.app.ActionBarActivity
 import android.support.v7.view.ActionMode
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Toast
-
 import gr.tsagi.jekyllforandroid.app.R
 import gr.tsagi.jekyllforandroid.app.activities.PostsListActivity
 import gr.tsagi.jekyllforandroid.app.adapters.PostListAdapter
@@ -29,8 +24,11 @@ import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry
 
 
 /**
- * Created by tsagi on 7/5/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 7/5/14
+\* Time: 19:49
+\*/
 class PostsListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     private var mPostListAdapter: PostListAdapter? = null
@@ -71,12 +69,12 @@ class PostsListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             val i = item.itemId
             if (i == R.id.action_edit) {
                 (activity as Callback)
-                        .onItemEditSelected(postid, content, pstatus)
+                        .onItemEditSelected(postid!!, content!!, pstatus)
                 mode.finish() // Action picked, so close the CAB
                 return true
             } else if (i == R.id.action_delete) {
                 (activity as Callback)
-                        .onItemDeleteSelected(postid, content, pstatus)
+                        .onItemDeleteSelected(postid!!, content!!, pstatus)
                 mode.finish() // Action picked, so close the CAB
                 return true
             } else {
@@ -287,7 +285,7 @@ class PostsListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 // On the one hand, that's annoying.  On the other, you can search the weather table
                 // using the location set by the user, which is only in the Location table.
                 // So the convenience is worth it.
-                PostEntry.TABLE_NAME + "." + PostEntry._ID, PostEntry.COLUMN_POST_ID, PostEntry.COLUMN_TITLE, PostEntry.COLUMN_DATETEXT, PostEntry.COLUMN_CONTENT, PostEntry.COLUMN_DRAFT)
+                PostEntry.TABLE_NAME + "." + BaseColumns._ID, PostEntry.COLUMN_POST_ID, PostEntry.COLUMN_TITLE, PostEntry.COLUMN_DATETEXT, PostEntry.COLUMN_CONTENT, PostEntry.COLUMN_DRAFT)
 
 
         // These indices are tied to POSTS_COLUMNS. If POSTS_COLUMNS changes, these must change.

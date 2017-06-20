@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
 
-import gr.tsagi.jekyllforandroid.app.R
-
 /**
  * Created by tsagi on 10/20/14.
  */
@@ -23,7 +21,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         if (layoutResource != 0) {
             setContentView(layoutResource)
-            toolbar = findViewById(R.id.toolbar) as AppBarLayout
+//            toolbar = findViewById(R.id.toolbar) as AppBarLayout
             Log.d(LOG_TAG, "To be created")
             if (toolbar != null) {
                 Log.d(LOG_TAG, "Created")

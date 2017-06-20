@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Fragment
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.TypedArray
 import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
@@ -16,14 +14,9 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.Toast
-
-import java.util.ArrayList
-
 import gr.tsagi.jekyllforandroid.app.R
 import gr.tsagi.jekyllforandroid.app.adapters.NavDrawerListAdapter
 import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper
@@ -32,6 +25,7 @@ import gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment
 import gr.tsagi.jekyllforandroid.app.fragments.PrefsFragment
 import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask
 import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem
+import java.util.*
 
 //import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -181,7 +175,7 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
         val toolbar = findViewById(R.id.toolbar) as AppBarLayout
 
         // Set the list's click listener
-        mDrawerList!!.setOnItemClickListener(DrawerItemClickListener())
+//        mDrawerList!!.setOnItemClickListener(DrawerItemClickListener())
         //        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
         //                toolbar, R.string.drawer_open,
         //                R.string.drawer_close) {
@@ -238,12 +232,12 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
     }
 
-    private inner class DrawerItemClickListener : ListView.OnItemClickListener {
-        override fun onItemClick(parent: AdapterView<*>, view: View,
-                                 position: Int, id: Long) {
-            selectItem(position)
-        }
-    }
+//    private inner class DrawerItemClickListener : ListView.OnItemClickListener {
+//        override fun onItemClick(parent: AdapterView<*>, view: View,
+//                                 position: Int, id: Long) {
+//            selectItem(position)
+//        }
+//    }
 
     /**
      * Swaps fragments in the main content view

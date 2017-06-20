@@ -30,7 +30,7 @@ fun String.removeyam():String{
     }
     var index1 = this.indexOf("---")
     index1 = this.indexOf("---", index1 + 1)
-    return this.substring(index1+5)
+    return this.substring(index1+3)
 }
 
 fun String.getyam(): String {

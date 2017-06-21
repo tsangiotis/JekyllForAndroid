@@ -14,7 +14,6 @@ data class Category(var id: Long = 0,
     fun create() {
         GlobalApplication.db.insertCategory(this)
     }
-
     override fun equals(other: Any?) =
         if (other !is Category) {
              false

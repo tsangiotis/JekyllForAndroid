@@ -502,9 +502,8 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         contentValues.put(COL_N_FAV, 1)
         val DatabaseManager = this.writableDatabase
         try {
-            DatabaseManager.update(TABLE_NOTE, contentValues, COL_N_ID + "=" + id, null)
-//            var note=NoteCache.find { it.id == id }
-//            note?.favourite=1
+            DatabaseManager.update(TABLE_NOTE, contentValues, "$COL_N_ID = $id", null)
+            log("set fav for: $id")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -520,8 +519,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             val DatabaseManager = this.writableDatabase
             try {
                 DatabaseManager.update(TABLE_NOTE, contentValues, COL_N_ID + "=" + id, null)
-//                var note=NoteCache.find { it.id == id }
-//                note?.favourite=0
+                log("remove fav for id:$id")
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("Db Error", e.toString())
@@ -536,15 +534,11 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
      * Support method
      */
     private fun isFavoriteExist(id: Long): Boolean {
-//        var no= NoteCache.find { it.id==id }
-//        if (no != null) {
-//            return true
-//        }
         var cursor: Cursor? = null
         var count = 0
         val DatabaseManager = this.readableDatabase
         try {
-            cursor = DatabaseManager.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_ID} = ?", arrayOf(id.toString()))
+            cursor = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE WHERE $COL_N_ID = ?", arrayOf(id.toString()))
             count = cursor?.count?:0
         } catch (e: Exception) {
             e.printStackTrace()

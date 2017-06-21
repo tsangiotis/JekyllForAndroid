@@ -471,19 +471,11 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
      */
     val allFavNote: List<Note>
         get() {
-//            if (NoteCache.size > 0) {
-//                var re=ArrayList<Note>()
-//                for (i in NoteCache.filter { it.favourite == 1 })
-//                {
-//                    re.add(i)
-//                }
-//                    return re
-//            }
             val notes = ArrayList<Note>()
             var cur: Cursor? = null
             val DatabaseManager = this.readableDatabase
             try {
-                cur = DatabaseManager.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_FAV} = ? ORDER BY ${COL_N_ID} DESC", arrayOf("1"))
+                cur = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE WHERE $COL_N_FAV = ? ORDER BY $COL_N_LAST_EDIT DESC", arrayOf("1"))
 
                 if (cur?.moveToFirst() == true) {
                     if (!cur.isAfterLast) {

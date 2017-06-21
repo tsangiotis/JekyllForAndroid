@@ -18,7 +18,7 @@ import com.jchanghong.utils.Tools
 
 object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, null, DB_VERSION) {
     private val context: Context=GlobalApplication.mcontext
-    val LOG=DatabaseManager::class.java.name
+    val LOG=DatabaseManager::class.java.name+"jiangchanghong"
      val cat_id: IntArray
      val cat_name: Array<String>
      val cat_color: Array<String>
@@ -37,9 +37,9 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
     }
     override fun onCreate(DatabaseManager: SQLiteDatabase) {
-        createTableNote(DatabaseManager)
-        createTableCategory(DatabaseManager)
         createTableCategoryIcon(DatabaseManager)
+        createTableCategory(DatabaseManager)
+        createTableNote(DatabaseManager)
     }
 
     override fun onUpgrade(DatabaseManager: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -95,6 +95,9 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
     }
 
+    fun log(s: String)  {
+        Log.d(LOG,s)
+    }
     fun defineCategory() {
         val DatabaseManager = this.writableDatabase
         for (i in cat_id.indices) {
@@ -103,10 +106,8 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             values.put(COL_C_NAME, cat_name[i])
             values.put(COL_C_COLOR, cat_color[i])
             values.put(COL_C_ICON, cat_icon[i])
-            Log.e("ICON : ", i.toString() + " | " + cat_icon[i])
-         val id=  DatabaseManager.insert(TABLE_CATEGORY, null, values) // Inserting Row
-//            var ca = Category(id = id, name = cat_name[i], color = cat_color[i], icon = cat_icon[i])
-//            CategoryCache.add(ca)
+          DatabaseManager.insert(TABLE_CATEGORY, null, values) // Inserting Row
+            log("insert cat:${cat_name[i]}")
         }
         DatabaseManager.close()
     }

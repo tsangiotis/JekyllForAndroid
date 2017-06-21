@@ -54,10 +54,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         setContentView(R.layout.activity_edit_note)
         parent_view = findViewById(android.R.id.content)
 
-        // init DatabaseManager
-
         initToolbar()
-
         // get extra object
         ext_note = intent.getSerializableExtra(EXTRA_OBJCT) as? Note
         iniComponent()
@@ -89,14 +86,14 @@ class ActivityNoteEdit : AppCompatActivity() {
 
         if (is_new) {
             time .text = ""
-            cur_category = DatabaseManager .firstCategory
+            cur_category = DatabaseManager .defaultCAT
         } else {
             time .text = getString(R.string.time_edited) + Tools.stringToDate(ext_note?.lastEdit?:1)
             tittle .setText(ext_note ?.tittle?:"")
             content .setText(ext_note ?.content?.removeyam()?:"null")
             cur_category = ext_note ?.category
         }
-        setCategoryView(cur_category?:DatabaseManager.firstCategory)
+        setCategoryView(cur_category?:DatabaseManager.defaultCAT)
 
         (findViewById(R.id.lyt_category) as LinearLayout).setOnClickListener {
             val i = Intent(applicationContext, ActivityCategoryPick::class.java)
@@ -162,15 +159,9 @@ class ActivityNoteEdit : AppCompatActivity() {
     }
 
     private fun preview() {
-//        val content = mContent.getText().toString().trim({ it <= ' ' })
-//        val repo = utility.getRepo()
-
-//        if (content != "") {
             val myIntent = Intent(this, PreviewMarkdownActivity::class.java)
             myIntent.putExtra(PreviewMarkdownActivity.POST_CONTENT,ext_note?.content?.removeyam())
             startActivity(myIntent)
-//        } else
-//            Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show()
     }
 
     private fun actionFavorite() {

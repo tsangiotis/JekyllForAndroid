@@ -17,7 +17,7 @@ import com.jchanghong.utils.Tools
 
 
 object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, null, DB_VERSION) {
-    private val context: Context=GlobalApplication.mcontext
+    private val context: Context=GlobalApplication.mcontext!!
     val LOG=DatabaseManager::class.java.name+"jiangchanghong"
      val cat_id: IntArray
      val cat_name: Array<String>

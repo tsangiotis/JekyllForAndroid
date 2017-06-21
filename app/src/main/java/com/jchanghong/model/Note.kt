@@ -1,6 +1,6 @@
 package com.jchanghong.model
 
-import com.jchanghong.GlobalApplication
+import com.jchanghong.data.DatabaseManager
 import java.io.Serializable
 import java.util.*
 
@@ -9,7 +9,7 @@ data class Note(var id: Long = 0,
                 var content: String="",
                 var lastEdit: Long = Date().time,
                 var favourite: Int = 0,
-                var category: Category=GlobalApplication.db.firstCategory) : Serializable {
+                var category: Category=DatabaseManager.defaultCAT) : Serializable {
     fun clear() {
         this.id = 0
         this.tittle = ""
@@ -24,5 +24,10 @@ data class Note(var id: Long = 0,
         else {
             return other.tittle==tittle&& other.content==content
         }
+    }
+
+
+    override fun hashCode(): Int {
+        return tittle.hashCode()+content.hashCode()
     }
 }

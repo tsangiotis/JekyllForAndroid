@@ -1,18 +1,18 @@
 package com.jchanghong.model
 
-import com.jchanghong.GlobalApplication
+import com.jchanghong.data.DatabaseManager
 import java.io.Serializable
 
 data class Category(var id: Long = 0,
-                    var name: String=GlobalApplication.db.cat_name[0],
-                    var color: String=GlobalApplication.db.cat_color[0],
-                    var icon: String=GlobalApplication.db.cat_icon[0],
+                    var name: String= DatabaseManager.cat_name[0],
+                    var color: String=DatabaseManager.cat_color[0],
+                    var icon: String=DatabaseManager.cat_icon[0],
                     var note_count: Int = 0) : Serializable
 {
     fun exit():Boolean =
-        GlobalApplication.db.allCategory.firstOrNull { it.name==name }!=null
+        DatabaseManager.allCategory.firstOrNull { it.name==name }!=null
     fun create() {
-        GlobalApplication.db.insertCategory(this)
+        DatabaseManager.insertCategory(this)
     }
     override fun equals(other: Any?) =
         if (other !is Category) {
@@ -21,5 +21,9 @@ data class Category(var id: Long = 0,
         else{
             other.name==name
         }
+
+    override fun hashCode(): Int {
+        return name.hashCode()
+    }
 
 }

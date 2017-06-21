@@ -45,8 +45,7 @@ class ActivityMain : AppCompatActivity() {
  lateinit   private var parent_view: View 
   lateinit  private var user_name: TextView 
 
-  lateinit  private var db: DatabaseManager 
-  lateinit  private var sharedPref: SharedPref 
+  lateinit  private var sharedPref: SharedPref
 
     private var navigation = 0
 
@@ -58,7 +57,6 @@ class ActivityMain : AppCompatActivity() {
         floatingActionButton = findViewById(R.id.fab) as FloatingActionButton
 
         sharedPref = SharedPref(this)
-        db = GlobalApplication.db // init db
 
         prepareAds()
         initToolbar()
@@ -138,8 +136,8 @@ class ActivityMain : AppCompatActivity() {
     }
 
     private fun updateDrawerCounter() {
-        setMenuAdvCounter(R.id.nav_all_note, db .allNotes.size)
-        setMenuAdvCounter(R.id.nav_fav, db .allFavNote.size)
+        setMenuAdvCounter(R.id.nav_all_note, DatabaseManager .allNotes.size)
+        setMenuAdvCounter(R.id.nav_fav, DatabaseManager .allFavNote.size)
     }
 
     //set counter in drawer
@@ -211,7 +209,7 @@ class ActivityMain : AppCompatActivity() {
             Snackbar.make(parent_view, R.string.press_again_exit_app, Snackbar.LENGTH_SHORT).show()
             exitTime = System.currentTimeMillis()
         } else {
-            db .close()
+            DatabaseManager .close()
             finish()
         }
     }

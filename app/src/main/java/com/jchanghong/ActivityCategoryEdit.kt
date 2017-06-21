@@ -33,7 +33,6 @@ class ActivityCategoryEdit : AppCompatActivity() {
    lateinit private var txtTittle: EditText
     private var radioIcon: RadioButton?=null
 
-   lateinit private var db: DatabaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +42,7 @@ class ActivityCategoryEdit : AppCompatActivity() {
         //init component
         initComponent()
 
-        // init db
-        db = GlobalApplication.db
+        // init DatabaseManager
 
         hideKeyboard()
 
@@ -57,7 +55,7 @@ class ActivityCategoryEdit : AppCompatActivity() {
         //grid layout
         val lLayout = GridLayoutManager(applicationContext, 2)
         recyclerView.layoutManager = lLayout
-        val icons = db.categoryIcon
+        val icons = DatabaseManager.categoryIcon
         val ai = ListAdapterCategoryIcon(applicationContext, icons)
         recyclerView.adapter = ai
 
@@ -78,7 +76,7 @@ class ActivityCategoryEdit : AppCompatActivity() {
                         ext_cat!!.name = txtTittle.text.toString()
                         ext_cat!!.icon = ai.selectedCategoryIcon!!.icon
                         ext_cat!!.color = ai.selectedCategoryIcon!!.color
-                        db.updateCategory(ext_cat!!)
+                        DatabaseManager.updateCategory(ext_cat!!)
                         finish()
                         Toast.makeText(applicationContext, getString(R.string.category_updated), Toast.LENGTH_SHORT).show()
                     }
@@ -87,7 +85,7 @@ class ActivityCategoryEdit : AppCompatActivity() {
                     category.name = txtTittle.text.toString()
                     category.color = ai.selectedCategoryIcon!!.color
                     category.icon = ai.selectedCategoryIcon!!.icon
-                    db.insertCategory(category)
+                    DatabaseManager.insertCategory(category)
                     finish()
                     Toast.makeText(applicationContext, getString(R.string.categorysaved), Toast.LENGTH_SHORT).show()
                 }
@@ -125,10 +123,10 @@ class ActivityCategoryEdit : AppCompatActivity() {
         //
         //            if(is_new){
         //                notif_text = "Note Saved";
-        //                db.insertNote(ext_note);
+        //                DatabaseManager.insertNote(ext_note);
         //            }else{
         //                notif_text = "Note Updated";
-        //                db.updateNote(ext_note);
+        //                DatabaseManager.updateNote(ext_note);
         //            }
         //
         //            Snackbar.make(parent_view, notif_text, Snackbar.LENGTH_SHORT).setCallback(new Snackbar.Callback() {

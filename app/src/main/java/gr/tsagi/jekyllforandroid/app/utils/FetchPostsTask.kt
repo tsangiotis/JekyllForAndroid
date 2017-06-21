@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.TextView
-import com.jchanghong.GlobalApplication
+import com.jchanghong.data.DatabaseManager
 import com.jchanghong.model.Note
 import org.eclipse.egit.github.core.Blob
 import org.eclipse.egit.github.core.Repository
@@ -71,8 +71,8 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
             if (post.type == "blob") {
 
                 val filename = post.path
-                println(post.url+"------------")
-                println(post.path+"------------")
+//                println(post.url+"------------")
+//                println(post.path+"------------")
                 val filenameParts = filename.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 val id = filenameParts[0]
 
@@ -187,9 +187,8 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
 
     private fun updatelocalDB() {
         publishProgress("update local database......")
-        val manager = GlobalApplication.db
         for (a in allnotes) {
-            manager.insertNoteorupdate(a)
+            DatabaseManager.insertNoteorupdate(a)
         }
         publishProgress("update local database success")
     }

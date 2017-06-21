@@ -40,14 +40,11 @@ class ActivityCategoryDetails : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
    lateinit var mAdapter: ListAdapterNote
     lateinit  private var lyt_not_found: LinearLayout
-    lateinit  private var db: DatabaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_details)
 
-        // init db
-        db = GlobalApplication.db
 
         // get extra object
         ext_category = intent.getSerializableExtra(EXTRA_OBJCT) as Category
@@ -65,7 +62,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
         recyclerView.itemAnimator = DefaultItemAnimator()
 
 
-        displayData(db.getNotesByCategoryId(ext_category?.id?:0))
+        displayData(DatabaseManager.getNotesByCategoryId(ext_category?.id?:0))
     }
 
     private fun iniComponent() {
@@ -119,8 +116,8 @@ class ActivityCategoryDetails : AppCompatActivity() {
                 i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, ext_category)
                 startActivity(i)
             }
-            R.id.action_delete_cat -> if (db.getNotesByCategoryId(ext_category?.id?:0).isEmpty()) {
-                //                    db.deleteCategory(ext_category.getId());
+            R.id.action_delete_cat -> if (DatabaseManager.getNotesByCategoryId(ext_category?.id?:0).isEmpty()) {
+                //                    DatabaseManager.deleteCategory(ext_category.getId());
                 //                    Toast.makeText(getApplicationContext(),"Category deleted", Toast.LENGTH_SHORT).show();
                 deleteConfirmation()
                 //                    finish();
@@ -139,7 +136,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        ext_category = db.getCategoryById(ext_category?.id?:1)
+        ext_category = DatabaseManager.getCategoryById(ext_category?.id?:1)
         recyclerView.layoutManager = LinearLayoutManager(this@ActivityCategoryDetails)
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator = DefaultItemAnimator()
@@ -148,9 +145,9 @@ class ActivityCategoryDetails : AppCompatActivity() {
         image.setColorFilter(Color.parseColor(ext_category?.color))
         name.text = ext_category?.name
         appbar.setBackgroundColor(Color.parseColor(ext_category?.color))
-        Tools.systemBarLolipopCustom(this@ActivityCategoryDetails, ext_category?.color?:GlobalApplication.db.cat_color[0])
+        Tools.systemBarLolipopCustom(this@ActivityCategoryDetails, ext_category?.color?:DatabaseManager.cat_color[0])
 
-        displayData(db.getNotesByCategoryId(ext_category?.id?:0))
+        displayData(DatabaseManager.getNotesByCategoryId(ext_category?.id?:0))
     }
 
     private fun deleteConfirmation() {
@@ -159,7 +156,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
         builder.setMessage(getString(R.string.areyousuredeletec))
         builder.setPositiveButton("Yes") { dialogInterface, i ->
             if (ext_category != null) {
-                db.deleteCategory(ext_category?.id?:1)
+                DatabaseManager.deleteCategory(ext_category?.id?:1)
             }
             Toast.makeText(applicationContext, getString(R.string.categorydeleted), Toast.LENGTH_SHORT).show()
             finish()

@@ -10,7 +10,6 @@ import android.support.v7.widget.SearchView
 import android.view.*
 import android.widget.LinearLayout
 import com.jchanghong.ActivityNoteEdit
-import com.jchanghong.GlobalApplication
 import com.jchanghong.R
 import com.jchanghong.adapter.ListAdapterNote
 import com.jchanghong.data.DatabaseManager
@@ -22,7 +21,6 @@ class FragmentNote : Fragment() {
    lateinit private var mview: View
    lateinit private var searchView: SearchView
   lateinit  private var lyt_not_found: LinearLayout
-    private val db: DatabaseManager=GlobalApplication.db
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mview = inflater.inflate(R.layout.fragment_note, null)
@@ -38,13 +36,13 @@ class FragmentNote : Fragment() {
         recyclerView.itemAnimator = DefaultItemAnimator()
 
         // specify an adapter (see also next example)
-        displayData(db.allNotes)
+        displayData(DatabaseManager.allNotes)
         return mview
     }
 
     override fun onResume() {
         // specify an adapter (see also next example)
-        displayData(db!!.allNotes)
+        displayData(DatabaseManager.allNotes)
         super.onResume()
     }
 

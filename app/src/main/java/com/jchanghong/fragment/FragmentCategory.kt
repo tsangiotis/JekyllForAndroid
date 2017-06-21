@@ -10,9 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-
 import com.jchanghong.ActivityCategoryDetails
-import com.jchanghong.GlobalApplication
 import com.jchanghong.R
 import com.jchanghong.adapter.ListAdapterCategory
 import com.jchanghong.data.DatabaseManager
@@ -24,12 +22,11 @@ class FragmentCategory : Fragment() {
    lateinit private var mAdapter: ListAdapterCategory
    lateinit  private var mview: View
    lateinit private var lyt_not_found: LinearLayout
-    private val db: DatabaseManager=GlobalApplication.db
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mview = inflater.inflate(R.layout.fragment_category, null)
 
-        //connect db
+        //connect DatabaseManager
 
         recyclerView = mview.findViewById<View>(R.id.recyclerView) as RecyclerView
         lyt_not_found = mview.findViewById<View>(R.id.lyt_not_found) as LinearLayout
@@ -39,7 +36,7 @@ class FragmentCategory : Fragment() {
         recyclerView.itemAnimator = DefaultItemAnimator()
 
         // specify an adapter (see also next example)
-        mAdapter = ListAdapterCategory(activity, db.allCategory)
+        mAdapter = ListAdapterCategory(activity, DatabaseManager.allCategory)
         recyclerView.adapter = mAdapter
         mAdapter.setOnItemClickListener(object :ListAdapterCategory.OnItemClickListener{
             override fun onItemClick(view: View, obj: Category, position: Int) {
@@ -60,7 +57,7 @@ class FragmentCategory : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mAdapter = ListAdapterCategory(activity, db.allCategory)
+        mAdapter = ListAdapterCategory(activity, DatabaseManager.allCategory)
         recyclerView.adapter = mAdapter
         mAdapter.setOnItemClickListener(object :ListAdapterCategory.OnItemClickListener{
             override fun onItemClick(view: View, obj: Category, position: Int) {

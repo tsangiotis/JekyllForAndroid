@@ -48,15 +48,13 @@ class ActivityNoteEdit : AppCompatActivity() {
 
     private var ext_note: Note? = null
     private var cur_category: Category? = null
-  lateinit  private var db: DatabaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_note)
         parent_view = findViewById(android.R.id.content)
 
-        // init db
-        db = GlobalApplication.db
+        // init DatabaseManager
 
         initToolbar()
 
@@ -91,14 +89,14 @@ class ActivityNoteEdit : AppCompatActivity() {
 
         if (is_new) {
             time .text = ""
-            cur_category = db .firstCategory
+            cur_category = DatabaseManager .firstCategory
         } else {
             time .text = getString(R.string.time_edited) + Tools.stringToDate(ext_note?.lastEdit?:1)
             tittle .setText(ext_note ?.tittle?:"")
             content .setText(ext_note ?.content?.removeyam()?:"null")
             cur_category = ext_note ?.category
         }
-        setCategoryView(cur_category?:db.firstCategory)
+        setCategoryView(cur_category?:DatabaseManager.firstCategory)
 
         (findViewById(R.id.lyt_category) as LinearLayout).setOnClickListener {
             val i = Intent(applicationContext, ActivityCategoryPick::class.java)
@@ -141,7 +139,7 @@ class ActivityNoteEdit : AppCompatActivity() {
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == OPEN_DIALOG_CATEGORY_CODE && resultCode == Activity.RESULT_OK) {
             cur_category = data?.getSerializableExtra(ActivityCategoryPick.EXTRA_OBJ) as? Category
-            setCategoryView(cur_category?:db.firstCategory)
+            setCategoryView(cur_category?:DatabaseManager.firstCategory)
             if (Constant.iszhong) {
 
                 Snackbar.make(parent_view, "选择了分类 : " + cur_category?.name, Snackbar.LENGTH_SHORT).show()
@@ -179,12 +177,12 @@ class ActivityNoteEdit : AppCompatActivity() {
         if (!is_new) {
             if (fav_checked) {
                 menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline,theme)
-                db .removeFav(ext_note?.id?:1)
+                DatabaseManager .removeFav(ext_note?.id?:1)
                 Snackbar.make(parent_view, getString(R.string.Removedfromfavorites), Snackbar.LENGTH_SHORT).show()
                 fav_checked = false
             } else {
                 menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid,theme)
-                db .setFav(ext_note?.id?:1)
+                DatabaseManager .setFav(ext_note?.id?:1)
                 Snackbar.make(parent_view, getString(R.string.Addedtofavorites), Snackbar.LENGTH_SHORT).show()
                 fav_checked = true
             }
@@ -205,11 +203,11 @@ class ActivityNoteEdit : AppCompatActivity() {
 
             if (is_new) {
                 notif_text = getString(R.string.notesaved)
-                db .insertNote(ext_note!!)
+                DatabaseManager .insertNote(ext_note!!)
                 pushPost(ext_note!!)
             } else {
                 notif_text = getString(R.string.noteupdate)
-                db .updateNote(ext_note!!)
+                DatabaseManager .updateNote(ext_note!!)
                 pushPost(ext_note!!)
             }
 
@@ -288,7 +286,7 @@ class ActivityNoteEdit : AppCompatActivity() {
                 n.category = cur_category!!
                 n.favourite = 0
                 n.lastEdit = System.currentTimeMillis()
-                db .insertNote(n)
+                DatabaseManager .insertNote(n)
                 pushPost(n)
             } else {
                 ext_note?.tittle = tittle .text.toString() + ""
@@ -296,7 +294,7 @@ class ActivityNoteEdit : AppCompatActivity() {
                 ext_note?.category = cur_category!!
                 //no need to set fav here, fav already save to DB when clicked
                 ext_note?.lastEdit = System.currentTimeMillis()
-                db .updateNote(ext_note!!)
+                DatabaseManager .updateNote(ext_note!!)
                 pushPost(ext_note!!)
                 ext_note?.clear()
             }
@@ -313,7 +311,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         builder.setMessage(getString(R.string.areyouwantdelete))
         builder.setPositiveButton(getString(R.string.yes)) { dialogInterface, i ->
             if (ext_note != null) {//modify
-                db .deleteNote(ext_note?.id?:1)
+                DatabaseManager .deleteNote(ext_note?.id?:1)
             }
             Toast.makeText(applicationContext, getString(R.string.notedeleted), Toast.LENGTH_SHORT).show()
             finish()

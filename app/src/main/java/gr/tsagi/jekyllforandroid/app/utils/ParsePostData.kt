@@ -1,7 +1,7 @@
 package gr.tsagi.jekyllforandroid.app.utils
 
 import android.util.Base64
-import com.jchanghong.GlobalApplication
+import com.jchanghong.data.DatabaseManager
 import com.jchanghong.model.Category
 import com.jchanghong.model.Note
 import com.jchanghong.utils.date_id_toTitle
@@ -123,7 +123,6 @@ class ParsePostData {
         return note
     }
 
-    private val manager = GlobalApplication.db
     private fun getornew(tags: String?, category: String?): Category {
         if (category != null) {
             val c = Category(name = category)
@@ -145,7 +144,7 @@ class ParsePostData {
                 return c
             }
         }
-        return manager.firstCategory
+        return DatabaseManager.firstCategory
 
     }
 

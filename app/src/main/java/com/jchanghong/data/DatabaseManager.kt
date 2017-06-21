@@ -132,7 +132,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             val values = ContentValues()
             values.put(COL_C_ICON, cat_icon_data[i])
             values.put(COL_C_COLOR, cat_color_data[i])
-            Log.e("ICON DATA: ", i.toString() + " | " + cat_icon_data[i])
             DatabaseManager.insert(TABLE_CATEGORY_ICON, null, values) // Inserting Row
         }
         DatabaseManager.close()
@@ -143,7 +142,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
      * All Note transaction
      */
     fun insertNote(note: Note) {
-        Log.i(LOG,"insertnote ${note.tittle}")
         val values = ContentValues()
         values.put(COL_N_TITLE, note.tittle)
         values.put(COL_N_CONTENT, note.content)
@@ -153,7 +151,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         val DatabaseManager = this.writableDatabase
         try {
          note.id= DatabaseManager.insert(TABLE_NOTE, null, values)
-//          NoteCache.add(note)
+            log("insertnote ${note.tittle}")
         } catch (e: Exception) {
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()

@@ -11,6 +11,7 @@ import android.widget.*
 import com.jchanghong.R
 import com.jchanghong.model.Note
 import com.jchanghong.utils.Tools
+import com.jchanghong.utils.removeyam
 import java.util.*
 
 
@@ -51,7 +52,7 @@ class ListAdapterNote(private val context: Context, items: List<Note>) : Recycle
         val n = filtered_items[position]
         holder.title.text = n.tittle
         holder.time.text = Tools.stringToDate(n.lastEdit)
-        holder.content.text = n.content
+        holder.content.text = n.content.removeyam()
         holder.image.setImageResource(Tools.StringToResId(n.category.icon, context))
         (holder.image.background as GradientDrawable).setColor(Color.parseColor(n.category.color))
 

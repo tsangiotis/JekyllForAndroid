@@ -163,11 +163,10 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
 //    @RequiresApi(Build.VERSION_CODES.N)
     fun deleteNote(rowId: Long) {
-    Log.i(LOG,"delete note ${rowId}")
         val DatabaseManager = this.writableDatabase
         try {
             DatabaseManager.delete(TABLE_NOTE, "$COL_N_ID =  $rowId", null)
-//            NoteCache.remove(rowId)
+            log("delete note: ${rowId}")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -177,7 +176,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     fun updateNote(note: Note) {
-        Log.i(LOG,"update note:${note.tittle}")
         val contentValues = ContentValues()
         contentValues.put(COL_N_TITLE, note.tittle)
         contentValues.put(COL_N_CONTENT, note.content)
@@ -186,7 +184,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         val DatabaseManager = this.writableDatabase
         try {
             DatabaseManager.update(TABLE_NOTE, contentValues, "$COL_N_ID = ${note.id}", null)
-//            NoteCache.updatenote(note.id,note)
+            Log.i(LOG,"update note:${note.tittle}")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())

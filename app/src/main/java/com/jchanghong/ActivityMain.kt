@@ -33,6 +33,7 @@ import com.jchanghong.fragment.FragmentFavorites
 import com.jchanghong.fragment.FragmentNote
 import com.jchanghong.utils.Tools
 import gr.tsagi.jekyllforandroid.app.activities.LoginActivity
+import gr.tsagi.jekyllforandroid.app.utils.Utility
 
 class ActivityMain : AppCompatActivity() {
 
@@ -118,6 +119,11 @@ class ActivityMain : AppCompatActivity() {
             dialogEditUserName()
         } else {
             user_name.text = sharedPref.userName
+        }
+        var u = Utility(this)
+        if (u.user.isNotEmpty()) {
+            user_name.text = u.user
+
         }
     }
 

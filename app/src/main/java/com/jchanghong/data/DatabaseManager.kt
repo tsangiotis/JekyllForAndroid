@@ -785,12 +785,13 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
     const internal val DB_VERSION = 1
 
-    fun isnoteexits(title: String, content: String): Boolean {
+    fun isnoteexits(note: Note,title: String, parent: String): Boolean {
         var cursor: Cursor? = null
         val DatabaseManager = this.readableDatabase
         try {
-            cursor = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE WHERE $COL_N_TITLE = ? AND $COL_N_CONTENT = ?", arrayOf(title, content))
+            cursor = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE WHERE $COL_N_TITLE = ? AND $COL_N_pPATH = ?", arrayOf(title, parent))
             if (cursor?.moveToFirst() == true) {
+                note.id= getNoteFromCursor(cursor).id
                 log("$title exits!")
                 return true
             }
@@ -805,7 +806,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     fun insertNoteorupdate(note: Note) {
-        if (isnoteexits(note.tittle, note.content)) {
+        if (isnoteexits(note,note.tittle, note.parentPath )) {
             updateNote(note)
         } else {
             insertNote(note)

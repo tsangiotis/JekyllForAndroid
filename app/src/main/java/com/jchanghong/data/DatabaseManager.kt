@@ -446,10 +446,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
     val firstCategory: Category
         get() {
-//            val r = CategoryCache.firstOrNull()
-//            if (r != null) {
-//                return r
-//            }
             var category = Category()
             var cur: Cursor? = null
             val DatabaseManager = this.readableDatabase
@@ -459,16 +455,14 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
                     category = getCategoryByCursor(cur)
                     return category
                 }
-             return category
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("Db Error", e.toString())
-                return category
             } finally {
                 cur?.close()
                 DatabaseManager.close()
             }
-            return category
+            return defaultCAT
         }
 
 

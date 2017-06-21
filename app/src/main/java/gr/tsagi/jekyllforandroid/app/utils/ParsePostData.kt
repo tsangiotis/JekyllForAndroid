@@ -1,6 +1,7 @@
 package gr.tsagi.jekyllforandroid.app.utils
 
 import android.util.Base64
+import android.util.Log
 import com.jchanghong.data.DatabaseManager
 import com.jchanghong.model.Category
 import com.jchanghong.model.Note
@@ -125,27 +126,31 @@ class ParsePostData {
 
     private fun getornew(tags: String?, category: String?): Category {
         if (category != null) {
-            val c = Category(name = category)
-            if (c.exit()) {
+            var c = DatabaseManager.getCategoryByName(category)
+
+            if (c!=null) {
                 return c
             }
             else{
-                c.create()
+                c=Category(name = category)
+                DatabaseManager.insertCategory(c)
                 return c
             }
         }
         if (tags != null) {
-           var c=Category(name = tags.trim().split(" ")[0])
-            if (c.exit()) {
+           var c1=Category(name = tags.trim().split(" ")[0])
+            val c = DatabaseManager.getCategoryByName(c1.name)
+
+            if (c!=null) {
                 return c
             }
             else{
-                c.create()
-                return c
+                DatabaseManager.insertCategory(c1)
+                return c1
             }
         }
-        return DatabaseManager.firstCategory
-
+        Log.d("jiangchanghong","no cat find ,use default")
+        return DatabaseManager.defaultCAT
     }
 
 }

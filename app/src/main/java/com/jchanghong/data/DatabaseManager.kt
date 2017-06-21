@@ -813,16 +813,31 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
         const    internal val DB_VERSION = 2
 
+    fun isnoteexits(title: String, content: String): Boolean {
+        var cursor: Cursor? = null
+        val DatabaseManager = this.readableDatabase
+        try {
+            cursor = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE WHERE $COL_N_TITLE = ? AND $COL_N_CONTENT = ?", arrayOf(title,content))
+            if (cursor?.moveToFirst() == true) {
+                log("$title exits!")
+                return true
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e("Db Error", e.toString())
+        } finally {
+            cursor?.close()
+            DatabaseManager.close()
+        }
+        log("$title not exits!")
+        return false
+    }
     fun insertNoteorupdate(note: Note) {
-        var stemp = allNotes.find { it.tittle == note.tittle }
-        if (stemp === null) {
-            insertNote(note)
+        if (isnoteexits(note.tittle,note.content)) {
+           updateNote(note)
         }
         else{
-            if (stemp.content != note.content) {
-                note.id=stemp.id
-                updateNote(note)
-            }
+            insertNote(note)
         }
     }
 }

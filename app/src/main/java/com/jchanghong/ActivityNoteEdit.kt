@@ -4,14 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -21,7 +19,9 @@ import com.jchanghong.data.DatabaseManager
 import com.jchanghong.model.Category
 import com.jchanghong.model.Note
 import com.jchanghong.utils.Tools
+import com.jchanghong.utils.getyam
 import com.jchanghong.utils.hasYamHead
+import com.jchanghong.utils.removeyam
 import gr.tsagi.jekyllforandroid.app.activities.PreviewMarkdownActivity
 import gr.tsagi.jekyllforandroid.app.utils.GithubPush
 import org.yaml.snakeyaml.Yaml
@@ -95,7 +95,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         } else {
             time .text = getString(R.string.time_edited) + Tools.stringToDate(ext_note?.lastEdit?:1)
             tittle .setText(ext_note ?.tittle?:"")
-            content .setText(ext_note ?.content?:"")
+            content .setText(ext_note ?.content?.removeyam()?:"null")
             cur_category = ext_note ?.category
         }
         setCategoryView(cur_category?:db.firstCategory)
@@ -169,7 +169,7 @@ class ActivityNoteEdit : AppCompatActivity() {
 
 //        if (content != "") {
             val myIntent = Intent(this, PreviewMarkdownActivity::class.java)
-            myIntent.putExtra(PreviewMarkdownActivity.POST_CONTENT,ext_note?.content?:"null")
+            myIntent.putExtra(PreviewMarkdownActivity.POST_CONTENT,ext_note?.content?.removeyam())
             startActivity(myIntent)
 //        } else
 //            Toast.makeText(this, "Nothing to preview", Toast.LENGTH_SHORT).show()
@@ -224,27 +224,28 @@ class ActivityNoteEdit : AppCompatActivity() {
 
     fun pushPost(note: Note) {
 
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val data = HashMap<String, Any>()
         val date = SimpleDateFormat("yyyy-MM-dd").format(Date(note.lastEdit))
         val pusher = GithubPush(this)
         if (note.content.hasYamHead()) {
             pusher.pushContent(note.tittle, date, note.content,note.category.name)
         }
         val yaml = Yaml()
-        val customYaml = prefs.getString("yaml_values", "")
-        Log.d("yaml", customYaml)
-        val map = yaml.load(customYaml) as? HashMap<String, Any>
-        data.put("tags", note.category.name)
-        data.put("category", note.category.name)
-        data.put("title", note.tittle)
-        data.put("layout", "post")
-        if (map != null)
-            data.putAll(map)
-        val output = "---\n" + yaml.dump(data) + "---\n"
+//        val customYaml = prefs.getString("yaml_values", "")
+//        Log.d("yaml", customYaml)
+        var map = yaml.load(note.content.getyam()) as? HashMap<String, Any>
+        if (map==null)
+        {
+            map = HashMap<String, Any>()
+            map.put("tags", note.category.name)
+        }
+//        map.put("tags", note.category.name)
+        map.put("category", note.category.name)
+        map.put("title", note.tittle)
+        map.put("layout", "post")
+        val output = "---\n" + yaml.dump(map) + "---\n"
 
         try {
-            pusher.pushContent(note.tittle, date, output + note.content,note.category.name)
+            pusher.pushContent(note.tittle, date, output + note.content.removeyam(),note.category.name)
 
         } catch (e: ExecutionException) {
             e.printStackTrace()

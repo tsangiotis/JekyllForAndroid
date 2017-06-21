@@ -7,7 +7,6 @@ import com.jchanghong.model.Note
 import com.jchanghong.utils.date_id_toTitle
 import com.jchanghong.utils.getyam
 import com.jchanghong.utils.path2Catogery
-import com.jchanghong.utils.removeyam
 import org.yaml.snakeyaml.Yaml
 import java.io.UnsupportedEncodingException
 
@@ -35,7 +34,7 @@ class ParsePostData {
             e.printStackTrace()
             ""
         }
-        note.content=postContent.removeyam()
+        note.content=postContent
 
 //        val stringBuilder = StringBuilder()
 //
@@ -82,9 +81,9 @@ class ParsePostData {
         val yaml = Yaml()
         val map: Map<*, *>?
         map = yaml.load(postContent.getyam()) as? Map<*, *>
-        var title = id
+        var title=""
         var tags: String? = null
-        var category: String? = null
+        var category: String?
 
         if (map == null) {
             note.tittle=id.date_id_toTitle()
@@ -94,7 +93,7 @@ class ParsePostData {
                 date = java.lang.Long.parseLong(id.substring(0, i).replace("-", ""))
             }
             note.lastEdit=date
-            note.category=getornew(tags,path.path2Catogery())
+            note.category=getornew(null,path.path2Catogery())
             return note
         }
         title = map[JK_TITLE].toString()

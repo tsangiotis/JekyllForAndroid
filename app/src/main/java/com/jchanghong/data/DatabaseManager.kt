@@ -9,7 +9,6 @@ import android.util.Log
 import com.jchanghong.R
 import com.jchanghong.model.*
 import com.jchanghong.utils.Tools
-import java.util.*
 
 
 class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
@@ -238,6 +237,14 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
     fun getNotesByCategoryId(cat_id: Long): List<Note> {
         val notes = ArrayList<Note>()
+        if (NoteCache.size > 0 && CategoryCache.size > 0) {
+            var categorys=CategoryCache.find { it.id==cat_id }
+            if (categorys == null) {
+                categorys=firstCategory
+            }
+            NoteCache.filter { it.category==categorys }.forEach { notes.add(it) }
+            return notes
+        }
         var cur: Cursor? = null
         val db = this.readableDatabase
         try {
@@ -259,6 +266,10 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
     }
 
     fun getNotesCountByCategoryId(cat_id: Long): Int {
+        val size = getNotesByCategoryId(cat_id).size
+        if (size > 0) {
+            return size
+        }
         var returnValue = 0
         var cursor: Cursor? = null
         val db = this.readableDatabase
@@ -460,6 +471,14 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
      */
     val allFavNote: List<Note>
         get() {
+            if (NoteCache.size > 0) {
+                var re=ArrayList<Note>()
+                for (i in NoteCache.filter { it.favourite == 1 })
+                {
+                    re.add(i)
+                }
+                    return re
+            }
             val notes = ArrayList<Note>()
             var cur: Cursor? = null
             val db = this.readableDatabase
@@ -488,6 +507,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val db = this.writableDatabase
         try {
             db.update(TABLE_NOTE, contentValues, COL_N_ID + "=" + id, null)
+            var note=NoteCache.find { it.id == id }
+            note?.favourite=1
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -503,6 +524,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             val db = this.writableDatabase
             try {
                 db.update(TABLE_NOTE, contentValues, COL_N_ID + "=" + id, null)
+                var note=NoteCache.find { it.id == id }
+                note?.favourite=0
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("Db Error", e.toString())
@@ -517,6 +540,10 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
      * Support method
      */
     private fun isFavoriteExist(id: Long): Boolean {
+        var no= NoteCache.find { it.id==id }
+        if (no != null) {
+            return true
+        }
         var cursor: Cursor? = null
         var count = 0
         val db = this.readableDatabase
@@ -535,6 +562,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
     val categorySize: Int
         get() {
+            if (allCategory.size>0)
+            return allCategory.size
             var returnVal = 0
             val db = this.readableDatabase
             var cursor: Cursor? = null

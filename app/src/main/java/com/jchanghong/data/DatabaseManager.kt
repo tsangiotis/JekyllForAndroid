@@ -469,6 +469,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("Db Error", e.toString())
+                return category
             } finally {
                 cur?.close()
                 db.close()

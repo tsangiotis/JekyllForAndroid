@@ -40,7 +40,7 @@ install it on your smartphone from the link at the end of the README.
 
 ##特征：
 
-
+ ![dd](https://github.com/tsangiotis/JekyllForAndroid/blob/master/imagesAndApp/device-2017-06-21-193931.png)
 * 一次GitHub登录
 *  创建一个帖子
 *  标题

@@ -325,7 +325,26 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             cur?.close()
             DatabaseManager.close()
         }
-        return category
+        return null
+    }
+    fun getCategoryByName(name: String): Category? {
+        var category:Category?
+        var cur: Cursor? = null
+        val DatabaseManager = this.readableDatabase
+        try {
+            cur = DatabaseManager.rawQuery("SELECT * FROM $TABLE_CATEGORY WHERE $COL_C_NAME = ?", arrayOf(name))
+            if (cur?.moveToFirst() == true) {
+                category = getCategoryByCursor(cur)
+                return category
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e("Db Error", e.toString())
+        } finally {
+            cur?.close()
+            DatabaseManager.close()
+        }
+        return null
     }
 
     val allCategory: List<Category>

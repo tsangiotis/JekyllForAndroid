@@ -27,11 +27,10 @@ class PostListAdapter(context: Context, c: Cursor?, flags: Int) : CursorAdapter(
      * Cache of the children views for a forecast list item.
      */
     class ViewHolder(view: View) {
-        val titleView: TextView
+        val titleView: TextView = view.findViewById<View>(R.id.ptitle) as TextView
         val dateView: TextView
 
         init {
-            titleView = view.findViewById<View>(R.id.ptitle) as TextView
             dateView = view.findViewById<View>(R.id.pdate) as TextView
         }
     }

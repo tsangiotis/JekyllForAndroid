@@ -1,5 +1,6 @@
 package com.jchanghong.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -62,14 +63,8 @@ object Tools {
 
     fun stringToDate(`val`: Long): String {
         val date = Date(`val`)
+        @SuppressLint("SimpleDateFormat")
         val df2 = SimpleDateFormat("MMM, dd yyyy")
-        val dateText = df2.format(date)
-        return dateText
-    }
-
-    fun longToTime(`val`: Long?): String {
-        val date = Date(`val`!!)
-        val df2 = SimpleDateFormat("hh:ss aa")
         val dateText = df2.format(date)
         return dateText
     }
@@ -77,6 +72,7 @@ object Tools {
     val nowDate: String
         get() {
             val date = Date(System.currentTimeMillis())
+            @SuppressLint("SimpleDateFormat")
             val df2 = SimpleDateFormat("MMMM, dd yyyy")
             val dateText = df2.format(date)
             return dateText

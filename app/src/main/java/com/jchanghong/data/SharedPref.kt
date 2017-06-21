@@ -16,12 +16,6 @@ class SharedPref(private val context: Context) {
             editor.commit()
         }
 
-    fun clearUserName(name: String) {
-        val editor = sharedPreferences.edit()
-        editor.remove(USER_NAME_KEY)
-        editor.commit()
-    }
-
     var userName: String
         get() = sharedPreferences.getString(USER_NAME_KEY, res.getString(R.string.str_user_name))
         set(name) {
@@ -43,8 +37,8 @@ class SharedPref(private val context: Context) {
 
     companion object {
 
-    const    val FIRST_LAUNCH_KEY = "com.jchanghong.data.FIRST_LAUNCH_KEY"
-    const    val USER_NAME_KEY = "com.jchanghong.data.USER_NAME_KEY"
-     const   val NAME_EDIT_KEY = "com.jchanghong.data.NAME_EDIT_KEY"
+        const val FIRST_LAUNCH_KEY = "com.jchanghong.data.FIRST_LAUNCH_KEY"
+        const val USER_NAME_KEY = "com.jchanghong.data.USER_NAME_KEY"
+        const val NAME_EDIT_KEY = "com.jchanghong.data.NAME_EDIT_KEY"
     }
 }

@@ -1,5 +1,6 @@
 package com.jchanghong.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -8,9 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RadioButton
-
 import com.jchanghong.R
 import com.jchanghong.model.CategoryIcon
 import com.jchanghong.utils.Tools
@@ -22,7 +21,6 @@ import com.jchanghong.utils.Tools
  * \* Time: 10:00
  * \ */
 class ListAdapterCategoryIcon(private val context: Context, private val categoryIconList: List<CategoryIcon>) : RecyclerView.Adapter<ListAdapterCategoryIcon.ViewHolder>() {
-    private val checked: BooleanArray = BooleanArray(categoryIconList.size)
     var selectedCategoryIcon: CategoryIcon? = null
         private set
     private var clickedPos = 0
@@ -79,7 +77,6 @@ class ListAdapterCategoryIcon(private val context: Context, private val category
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         var vIcon: ImageView = v.findViewById<View>(R.id.image_icon) as ImageView
         var radioButton: RadioButton = v.findViewById<View>(R.id.radioSelected) as RadioButton
-        private var lyt_parent: LinearLayout = v.findViewById<View>(R.id.lyt_parent) as LinearLayout
 
 
     }
@@ -94,6 +91,7 @@ class ListAdapterCategoryIcon(private val context: Context, private val category
     }
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         private var lastChecked: RadioButton? = null
         private var lastCheckedPos = 0
     }

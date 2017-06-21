@@ -1,5 +1,6 @@
 package com.jchanghong.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -16,12 +17,13 @@ import com.jchanghong.data.DatabaseManager
 import com.jchanghong.model.Note
 
 class FragmentFavorites : Fragment() {
-  lateinit  private var recyclerView: RecyclerView
-  lateinit  private var mAdapter: ListAdapterNote
-   lateinit private var mview: View
-  lateinit private var searchView: SearchView
-   lateinit private var lyt_not_found: LinearLayout
+    lateinit private var recyclerView: RecyclerView
+    lateinit private var mAdapter: ListAdapterNote
+    lateinit private var mview: View
+    lateinit private var searchView: SearchView
+    lateinit private var lyt_not_found: LinearLayout
 
+    @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mview = inflater.inflate(R.layout.fragment_favorites, null)
 
@@ -50,7 +52,7 @@ class FragmentFavorites : Fragment() {
     private fun displayData(items: List<Note>) {
         mAdapter = ListAdapterNote(activity, items)
         recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener( object :ListAdapterNote.OnItemClickListener{
+        mAdapter.setOnItemClickListener(object : ListAdapterNote.OnItemClickListener {
             override fun onItemClick(view: View, model: Note) {
                 val intent = Intent(activity, ActivityNoteEdit::class.java)
                 intent.putExtra(ActivityNoteEdit.EXTRA_OBJCT, model)

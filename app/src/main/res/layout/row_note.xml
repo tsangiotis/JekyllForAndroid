@@ -8,6 +8,7 @@
     <LinearLayout
         android:id="@+id/lyt_parent"
         android:clickable="true"
+        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -27,7 +28,8 @@
                 android:background="@drawable/round_shape"
                 android:padding="@dimen/spacing_middle"
                 android:src="@drawable/ic_cat_general"
-                android:tint="@android:color/white" />
+                android:tint="@android:color/white"
+                android:contentDescription="TODO" />
 
             <LinearLayout
                 android:layout_width="match_parent"

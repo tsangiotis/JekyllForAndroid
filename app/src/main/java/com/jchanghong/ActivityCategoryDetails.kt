@@ -28,18 +28,18 @@ import com.jchanghong.utils.Tools
 
 class ActivityCategoryDetails : AppCompatActivity() {
 
-  lateinit  private var toolbar: Toolbar
-    lateinit  private var actionBar: ActionBar
-    lateinit   private var menu: Menu
+    lateinit private var toolbar: Toolbar
+    lateinit private var actionBar: ActionBar
+    lateinit private var menu: Menu
 
-    lateinit  private var image: ImageView
-    lateinit  private var name: TextView
+    lateinit private var image: ImageView
+    lateinit private var name: TextView
     lateinit private var appbar: AppBarLayout
-      private var ext_category: Category?=null
+    private var ext_category: Category? = null
 
     lateinit var recyclerView: RecyclerView
-   lateinit var mAdapter: ListAdapterNote
-    lateinit  private var lyt_not_found: LinearLayout
+    lateinit var mAdapter: ListAdapterNote
+    lateinit private var lyt_not_found: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +62,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
         recyclerView.itemAnimator = DefaultItemAnimator()
 
 
-        displayData(DatabaseManager.getNotesByCategoryId(ext_category?.id?:0))
+        displayData(DatabaseManager.getNotesByCategoryId(ext_category?.id ?: 0))
     }
 
     private fun iniComponent() {
@@ -91,14 +91,14 @@ class ActivityCategoryDetails : AppCompatActivity() {
     private fun displayData(items: List<Note>) {
         mAdapter = ListAdapterNote(applicationContext, items)
         recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener (
-            object : ListAdapterNote.OnItemClickListener {
-                override fun onItemClick(view: View, model: Note) {
-                    val intent = Intent(applicationContext, ActivityNoteEdit::class.java)
-                    intent.putExtra(ActivityNoteEdit.EXTRA_OBJCT, model)
-                    startActivity(intent)
+        mAdapter.setOnItemClickListener(
+                object : ListAdapterNote.OnItemClickListener {
+                    override fun onItemClick(view: View, model: Note) {
+                        val intent = Intent(applicationContext, ActivityNoteEdit::class.java)
+                        intent.putExtra(ActivityNoteEdit.EXTRA_OBJCT, model)
+                        startActivity(intent)
+                    }
                 }
-            }
         )
 
         if (mAdapter.itemCount == 0) {
@@ -116,7 +116,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
                 i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, ext_category)
                 startActivity(i)
             }
-            R.id.action_delete_cat -> if (DatabaseManager.getNotesByCategoryId(ext_category?.id?:0).isEmpty()) {
+            R.id.action_delete_cat -> if (DatabaseManager.getNotesByCategoryId(ext_category?.id ?: 0).isEmpty()) {
                 //                    DatabaseManager.deleteCategory(ext_category.getId());
                 //                    Toast.makeText(getApplicationContext(),"Category deleted", Toast.LENGTH_SHORT).show();
                 deleteConfirmation()
@@ -136,7 +136,7 @@ class ActivityCategoryDetails : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        ext_category = DatabaseManager.getCategoryById(ext_category?.id?:1)
+        ext_category = DatabaseManager.getCategoryById(ext_category?.id ?: 1)
         recyclerView.layoutManager = LinearLayoutManager(this@ActivityCategoryDetails)
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator = DefaultItemAnimator()
@@ -145,18 +145,18 @@ class ActivityCategoryDetails : AppCompatActivity() {
         image.setColorFilter(Color.parseColor(ext_category?.color))
         name.text = ext_category?.name
         appbar.setBackgroundColor(Color.parseColor(ext_category?.color))
-        Tools.systemBarLolipopCustom(this@ActivityCategoryDetails, ext_category?.color?:DatabaseManager.cat_color[0])
+        Tools.systemBarLolipopCustom(this@ActivityCategoryDetails, ext_category?.color ?: DatabaseManager.cat_color[0])
 
-        displayData(DatabaseManager.getNotesByCategoryId(ext_category?.id?:0))
+        displayData(DatabaseManager.getNotesByCategoryId(ext_category?.id ?: 0))
     }
 
     private fun deleteConfirmation() {
         val builder = AlertDialog.Builder(this@ActivityCategoryDetails)
         builder.setTitle(getString(R.string.deleteconfirmation))
         builder.setMessage(getString(R.string.areyousuredeletec))
-        builder.setPositiveButton("Yes") { dialogInterface, i ->
+        builder.setPositiveButton("Yes") { _, _ ->
             if (ext_category != null) {
-                DatabaseManager.deleteCategory(ext_category?.id?:1)
+                DatabaseManager.deleteCategory(ext_category?.id ?: 1)
             }
             Toast.makeText(applicationContext, getString(R.string.categorydeleted), Toast.LENGTH_SHORT).show()
             finish()

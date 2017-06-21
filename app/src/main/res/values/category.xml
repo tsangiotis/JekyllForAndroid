@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <integer-array name="category_id">
         <item>1</item>
@@ -14,7 +14,7 @@
         <item>10</item>
     </integer-array>
 
-    <string-array name="category_name">
+    <string-array name="category_name" tools:ignore="MissingTranslation">
         <item>General</item>
         <item>Personal</item>
         <item>Work</item>
@@ -27,7 +27,7 @@
         <item>Baloon</item>
     </string-array>
 
-    <string-array name="category_color">
+    <string-array name="category_color" tools:ignore="MissingTranslation">
         <item>#F44336</item>
         <item>#E91E63</item>
         <item>#9C27B0</item>
@@ -40,7 +40,7 @@
         <item>#4CAF50</item>
     </string-array>
 
-    <string-array name="category_icon">
+    <string-array name="category_icon" tools:ignore="MissingTranslation">
         <item>ic_cat_general</item>
         <item>ic_cat_personal</item>
         <item>ic_cat_work</item>

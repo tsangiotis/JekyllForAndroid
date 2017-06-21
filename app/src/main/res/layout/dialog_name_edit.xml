@@ -34,7 +34,8 @@
                 android:layout_height="50dp"
                 android:padding="@dimen/spacing_middle"
                 android:src="@drawable/ic_close"
-                android:tint="@color/grey_hard" />
+                android:tint="@color/grey_hard"
+                android:contentDescription="TODO" />
         </com.balysv.materialripple.MaterialRippleLayout>
     </LinearLayout>
 

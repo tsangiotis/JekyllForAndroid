@@ -1,6 +1,5 @@
 package com.jchanghong
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -26,12 +25,11 @@ import com.jchanghong.model.Category
  * \ */
 class ActivityCategoryEdit : AppCompatActivity() {
 
-   lateinit private var parent_view: View
-    private val is_new = true
-    private var ext_cat: Category?=null
-   lateinit private var btnSave: Button
-   lateinit private var txtTittle: EditText
-    private var radioIcon: RadioButton?=null
+    lateinit private var parent_view: View
+    private var ext_cat: Category? = null
+    lateinit private var btnSave: Button
+    lateinit private var txtTittle: EditText
+    private var radioIcon: RadioButton? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +68,7 @@ class ActivityCategoryEdit : AppCompatActivity() {
                 Toast.makeText(applicationContext, getString(R.string.categorynamecanno_empty), Toast.LENGTH_SHORT).show()
             } else {
                 if (ext_cat != null) {
-                    if (ext_cat!!.name == txtTittle.text.toString() && ext_cat!!.icon == ai?.selectedCategoryIcon?.icon) {
+                    if (ext_cat!!.name == txtTittle.text.toString() && ext_cat!!.icon == ai.selectedCategoryIcon?.icon) {
                         finish()
                     } else {
                         ext_cat!!.name = txtTittle.text.toString()
@@ -109,41 +107,9 @@ class ActivityCategoryEdit : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun actionSave() {
-        //        hideKeyboard();
-        //        if (category_name.getText().toString().equals("")) {
-        //            Snackbar.make(parent_view, "Category name can't be empty", Snackbar.LENGTH_SHORT).show();
-        //        } else {
-        //            if(is_new) ext_note =  new Note();
-        //            String notif_text;
-        //
-        //            ext_note.setTittle(category_name.getText().toString());
-        //            ext_note.setLastEdit(System.currentTimeMillis());
-        //            ext_note.setCategory(cur_category);
-        //
-        //            if(is_new){
-        //                notif_text = "Note Saved";
-        //                DatabaseManager.insertNote(ext_note);
-        //            }else{
-        //                notif_text = "Note Updated";
-        //                DatabaseManager.updateNote(ext_note);
-        //            }
-        //
-        //            Snackbar.make(parent_view, notif_text, Snackbar.LENGTH_SHORT).setCallback(new Snackbar.Callback() {
-        //                @Override
-        //                public void onDismissed(Snackbar snackbar, int event) {
-        //                    super.onDismissed(snackbar, event);
-        //                    finish();
-        //                }
-        //            }).show();
-        //        }
-    }
-
     override fun onBackPressed() {
         finish()
     }
-
-    private fun backConfirmation() {}
 
     private fun hideKeyboard() {
         val view = this.currentFocus
@@ -155,11 +121,6 @@ class ActivityCategoryEdit : AppCompatActivity() {
 
     companion object {
         val EXTRA_OBJCT = "com.jchanghong.EXTRA_OBJECT_CATEGORY"
-        val OPEN_DIALOG_CATEGORY_CODE = 1
 
-        fun hideSoftKeyboard(activity: Activity) {
-            val inputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(activity.currentFocus.windowToken, 0)
-        }
     }
 }

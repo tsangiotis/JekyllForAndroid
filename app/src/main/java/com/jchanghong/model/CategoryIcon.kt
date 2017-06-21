@@ -9,6 +9,6 @@ import java.io.Serializable
  * \* Date: 14/06/2016
  * \* Time: 10:00
  * \ */
-data class CategoryIcon(var icon: String= DatabaseManager.cat_icon_data[0],
-                        var color: String=DatabaseManager.cat_color_data[0],
+data class CategoryIcon(var icon: String = DatabaseManager.cat_icon_data[0],
+                        var color: String = DatabaseManager.cat_color_data[0],
                         var isChecked: Boolean = false) : Serializable

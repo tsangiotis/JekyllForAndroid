@@ -6,7 +6,6 @@ import android.app.Fragment
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
@@ -22,23 +21,23 @@ import gr.tsagi.jekyllforandroid.app.data.PostsDbHelper
 import gr.tsagi.jekyllforandroid.app.fragments.MarkdownPreviewFragment
 import gr.tsagi.jekyllforandroid.app.fragments.PostsListFragment
 import gr.tsagi.jekyllforandroid.app.fragments.PrefsFragment
-import gr.tsagi.jekyllforandroid.app.utils.FetchPostsTask
 import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem
 import java.util.*
 
 //import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
- * Created by tsagi on 9/9/13.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 9/9/13
+\* Time: 15:14
+\*/
 class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
     lateinit internal var mUsername: String
     lateinit internal var mToken: String
-  lateinit  internal var mRepo: String
-  lateinit  internal var settings: SharedPreferences
-
-    internal var fetchPostsTask: FetchPostsTask? = null
+    lateinit internal var mRepo: String
+    lateinit internal var settings: SharedPreferences
 
     private var mNavTitles: Array<String>? = null
 
@@ -51,18 +50,10 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
     private var mDrawerList: ListView? = null
 
+    @SuppressLint("ObsoleteSdkInt")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setActionBarIcon(R.drawable.ic_ab_drawer)
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // create our manager instance after the content view is set
-            //            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            // enable status bar tint
-            //            tintManager.setStatusBarTintEnabled(true);
-            // Set color
-            //            tintManager.setTintColor(getResources().getColor(R.color.primary));
-        }
 
         restorePreferences()
         DrawerSetup()
@@ -101,7 +92,7 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
     }
 
-     override val layoutResource: Int
+    override val layoutResource: Int
         get() = R.layout.activity_posts_list
 
     private fun updateList() {
@@ -153,10 +144,8 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
         val navMenuIcons = resources
                 .obtainTypedArray(R.array.nav_drawer_icons_dark)
-        val navDrawerItems: ArrayList<NavDrawerItem>
+        val navDrawerItems: ArrayList<NavDrawerItem> = ArrayList<NavDrawerItem>()
         val adapter: NavDrawerListAdapter
-
-        navDrawerItems = ArrayList<NavDrawerItem>()
 
         navDrawerItems.add(NavDrawerItem(mNavTitles!![0],
                 navMenuIcons.getResourceId(0, -1)))
@@ -278,7 +267,7 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList!!.setItemChecked(position, true)
-        setTitle(mNavTitles!![position])
+        title = mNavTitles!![position]
         mDrawerLayout!!.closeDrawer(mDrawerList)
 
     }
@@ -370,8 +359,6 @@ class PostsListActivity : BaseActivity(), PostsListFragment.Callback {
     }
 
     companion object {
-
-        private val LOG_TAG = PostsListActivity::class.java.simpleName
 
         var mTwoPane: Boolean = false
 

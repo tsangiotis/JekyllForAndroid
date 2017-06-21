@@ -18,7 +18,7 @@ import com.jchanghong.utils.Tools
 
 class ActivityCategoryPick : AppCompatActivity() {
 
-   lateinit private var adapterListCategory: AdapterListCategory
+    lateinit private var adapterListCategory: AdapterListCategory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class ActivityCategoryPick : AppCompatActivity() {
         adapterListCategory = AdapterListCategory(this, DatabaseManager.allCategory)
         val listView = findViewById(R.id.paired_devices) as ListView
         listView.adapter = adapterListCategory
-        listView.onItemClickListener = AdapterView.OnItemClickListener { av, v, i, l -> sendIntentResult(adapterListCategory.getItem(i) as Category) }
+        listView.onItemClickListener = AdapterView.OnItemClickListener({ _, _, i, _ -> sendIntentResult(adapterListCategory.getItem(i) as Category) })
     }
 
     private fun initToolbar() {

@@ -1,5 +1,6 @@
 package gr.tsagi.jekyllforandroid.app.data
 
+import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.net.Uri
 import android.provider.BaseColumns
@@ -26,7 +27,7 @@ object PostsContract {
 
     // Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
     // the content provider.
-    val BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY)
+    val BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY)!!
 
     // Possible paths (appended to base content URI for possible URI's)
     // For instance, content://com.example.android.sunshine.app/weather/ is a valid path for
@@ -50,6 +51,7 @@ object PostsContract {
     fun getDbDateString(date: Date): String {
         // Because the API returns a unix timestamp (measured in seconds),
         // it must be converted to milliseconds in order to be converted to valid date.
+        @SuppressLint("SimpleDateFormat")
         val sdf = SimpleDateFormat(DATE_FORMAT)
         return sdf.format(date)
     }
@@ -61,6 +63,7 @@ object PostsContract {
      * @return the Date object
      */
     fun getDateFromDb(dateText: String): Date {
+        @SuppressLint("SimpleDateFormat")
         val dbDateFormat = SimpleDateFormat(DATE_FORMAT)
         try {
             return dbDateFormat.parse(dateText)
@@ -75,12 +78,10 @@ object PostsContract {
     class PostEntry : BaseColumns {
         companion object {
 
-            val CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_POSTS).build()
+            val CONTENT_URI: Uri = BASE_CONTENT_URI.buildUpon().appendPath(PATH_POSTS).build()
 
             val CONTENT_TYPE =
                     "vnd.android.cursor.dir/$CONTENT_AUTHORITY/$PATH_POSTS"
-            val CONTENT_ITEM_TYPE =
-                    "vnd.android.cursor.item/$CONTENT_AUTHORITY/$PATH_POSTS"
 
             // Table name
             val TABLE_NAME = "posts"

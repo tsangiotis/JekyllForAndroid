@@ -1,5 +1,6 @@
 package com.jchanghong
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
@@ -31,17 +32,17 @@ import java.util.concurrent.ExecutionException
 
 class ActivityNoteEdit : AppCompatActivity() {
 
-  lateinit  private var toolbar: Toolbar
-  lateinit  private var actionBar: ActionBar
-  lateinit  private var parent_view: View
-   lateinit private var tittle: EditText
-  lateinit  private var content: EditText
-  lateinit  private var time: TextView
-  lateinit  private var cat_icon: ImageView
-  lateinit  private var cat_drop: ImageView
-  lateinit  private var cat_text: TextView
-  lateinit  private var appbar: AppBarLayout
-   lateinit private var menu: Menu
+    lateinit private var toolbar: Toolbar
+    lateinit private var actionBar: ActionBar
+    lateinit private var parent_view: View
+    lateinit private var tittle: EditText
+    lateinit private var content: EditText
+    lateinit private var time: TextView
+    lateinit private var cat_icon: ImageView
+    lateinit private var cat_drop: ImageView
+    lateinit private var cat_text: TextView
+    lateinit private var appbar: AppBarLayout
+    lateinit private var menu: Menu
 
     private var fav_checked = false
     private var is_new = true
@@ -66,9 +67,9 @@ class ActivityNoteEdit : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         actionBar = supportActionBar!!
-        actionBar .setDisplayHomeAsUpEnabled(true)
-        actionBar .setHomeButtonEnabled(true)
-        actionBar .title = ""
+        actionBar.setDisplayHomeAsUpEnabled(true)
+        actionBar.setHomeButtonEnabled(true)
+        actionBar.title = ""
     }
 
 
@@ -85,15 +86,15 @@ class ActivityNoteEdit : AppCompatActivity() {
         is_new = ext_note == null
 
         if (is_new) {
-            time .text = ""
-            cur_category = DatabaseManager .defaultCAT
+            time.text = ""
+            cur_category = DatabaseManager.defaultCAT
         } else {
-            time .text = getString(R.string.time_edited) + Tools.stringToDate(ext_note?.lastEdit?:1)
-            tittle .setText(ext_note ?.tittle?:"")
-            content .setText(ext_note ?.content?.removeyam()?:"null")
-            cur_category = ext_note ?.category
+            time.text = getString(R.string.time_edited) + Tools.stringToDate(ext_note?.lastEdit ?: 1)
+            tittle.setText(ext_note?.tittle ?: "")
+            content.setText(ext_note?.content?.removeyam() ?: "null")
+            cur_category = ext_note?.category
         }
-        setCategoryView(cur_category?:DatabaseManager.defaultCAT)
+        setCategoryView(cur_category ?: DatabaseManager.defaultCAT)
 
         (findViewById(R.id.lyt_category) as LinearLayout).setOnClickListener {
             val i = Intent(applicationContext, ActivityCategoryPick::class.java)
@@ -104,12 +105,12 @@ class ActivityNoteEdit : AppCompatActivity() {
     }
 
     private fun setCategoryView(category: Category) {
-        cat_icon .setImageResource(Tools.StringToResId(category.icon, applicationContext))
-        cat_icon .setColorFilter(Color.parseColor(category.color))
-        cat_drop .setColorFilter(Color.parseColor(category.color))
-        cat_text .text = category.name
-        cat_text .setTextColor(Color.parseColor(category.color))
-        appbar .setBackgroundColor(Color.parseColor(category.color))
+        cat_icon.setImageResource(Tools.StringToResId(category.icon, applicationContext))
+        cat_icon.setColorFilter(Color.parseColor(category.color))
+        cat_drop.setColorFilter(Color.parseColor(category.color))
+        cat_text.text = category.name
+        cat_text.setTextColor(Color.parseColor(category.color))
+        appbar.setBackgroundColor(Color.parseColor(category.color))
         Tools.systemBarLolipopCustom(this@ActivityNoteEdit, category.color)
     }
 
@@ -119,12 +120,12 @@ class ActivityNoteEdit : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_activity_manage_note, menu)
         //set fav icon
         if (!is_new) {
-            if (ext_note ?.favourite == 1) {
+            if (ext_note?.favourite == 1) {
                 fav_checked = true
-                menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid,theme)
+                menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid, theme)
             } else {
                 fav_checked = false
-                menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline,theme)
+                menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline, theme)
             }
         } else {
             menu.getItem(0).isVisible = false
@@ -136,12 +137,11 @@ class ActivityNoteEdit : AppCompatActivity() {
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == OPEN_DIALOG_CATEGORY_CODE && resultCode == Activity.RESULT_OK) {
             cur_category = data?.getSerializableExtra(ActivityCategoryPick.EXTRA_OBJ) as? Category
-            setCategoryView(cur_category?:DatabaseManager.firstCategory)
+            setCategoryView(cur_category ?: DatabaseManager.firstCategory)
             if (Constant.iszhong) {
 
                 Snackbar.make(parent_view, "选择了分类 : " + cur_category?.name, Snackbar.LENGTH_SHORT).show()
-            }
-            else{
+            } else {
 
                 Snackbar.make(parent_view, "Category Selected : " + cur_category?.name, Snackbar.LENGTH_SHORT).show()
             }
@@ -153,27 +153,27 @@ class ActivityNoteEdit : AppCompatActivity() {
             android.R.id.home -> onBackPressed()
             R.id.action_delete -> deleteConfirmation()
             R.id.action_fav -> actionFavorite()
-            R.id.action_preview-> preview()
+            R.id.action_preview -> preview()
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun preview() {
-            val myIntent = Intent(this, PreviewMarkdownActivity::class.java)
-            myIntent.putExtra(PreviewMarkdownActivity.POST_CONTENT,ext_note?.content?.removeyam())
-            startActivity(myIntent)
+        val myIntent = Intent(this, PreviewMarkdownActivity::class.java)
+        myIntent.putExtra(PreviewMarkdownActivity.POST_CONTENT, ext_note?.content?.removeyam())
+        startActivity(myIntent)
     }
 
     private fun actionFavorite() {
         if (!is_new) {
             if (fav_checked) {
-                menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline,theme)
-                DatabaseManager .removeFav(ext_note?.id?:1)
+                menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_outline, theme)
+                DatabaseManager.removeFav(ext_note?.id ?: 1)
                 Snackbar.make(parent_view, getString(R.string.Removedfromfavorites), Snackbar.LENGTH_SHORT).show()
                 fav_checked = false
             } else {
-                menu .getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid,theme)
-                DatabaseManager .setFav(ext_note?.id?:1)
+                menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_favorites_solid, theme)
+                DatabaseManager.setFav(ext_note?.id ?: 1)
                 Snackbar.make(parent_view, getString(R.string.Addedtofavorites), Snackbar.LENGTH_SHORT).show()
                 fav_checked = true
             }
@@ -181,24 +181,24 @@ class ActivityNoteEdit : AppCompatActivity() {
     }
 
     private fun actionSave() {
-        if (tittle .text.toString() == "" || content .text.toString() == "") {
+        if (tittle.text.toString() == "" || content.text.toString() == "") {
             Snackbar.make(parent_view, getString(R.string.Contentcannotbeempty), Snackbar.LENGTH_SHORT).show()
         } else {
             if (is_new) ext_note = Note()
             val notif_text: String
 
-            ext_note ?.tittle = tittle .text.toString()
-            ext_note ?.content = content .text.toString()
-            ext_note ?.lastEdit = System.currentTimeMillis()
-            ext_note ?.category = cur_category!!
+            ext_note?.tittle = tittle.text.toString()
+            ext_note?.content = content.text.toString()
+            ext_note?.lastEdit = System.currentTimeMillis()
+            ext_note?.category = cur_category!!
 
             if (is_new) {
                 notif_text = getString(R.string.notesaved)
-                DatabaseManager .insertNote(ext_note!!)
+                DatabaseManager.insertNote(ext_note!!)
                 pushPost(ext_note!!)
             } else {
                 notif_text = getString(R.string.noteupdate)
-                DatabaseManager .updateNote(ext_note!!)
+                DatabaseManager.updateNote(ext_note!!)
                 pushPost(ext_note!!)
             }
 
@@ -212,18 +212,17 @@ class ActivityNoteEdit : AppCompatActivity() {
     }
 
     fun pushPost(note: Note) {
-
+        @SuppressLint("SimpleDateFormat")
         val date = SimpleDateFormat("yyyy-MM-dd").format(Date(note.lastEdit))
         val pusher = GithubPush(this)
         if (note.content.hasYamHead()) {
-            pusher.pushContent(note.tittle, date, note.content,note.category.name)
+            pusher.pushContent(note.tittle, date, note.content, note.category.name)
         }
         val yaml = Yaml()
 //        val customYaml = prefs.getString("yaml_values", "")
 //        Log.d("yaml", customYaml)
         var map = yaml.load(note.content.getyam()) as? HashMap<String, Any>
-        if (map==null)
-        {
+        if (map == null) {
             map = HashMap<String, Any>()
             map.put("tags", note.category.name)
         }
@@ -234,7 +233,7 @@ class ActivityNoteEdit : AppCompatActivity() {
         val output = "---\n" + yaml.dump(map) + "---\n"
 
         try {
-            pusher.pushContent(note.tittle, date, output + note.content.removeyam(),note.category.name)
+            pusher.pushContent(note.tittle, date, output + note.content.removeyam(), note.category.name)
 
         } catch (e: ExecutionException) {
             e.printStackTrace()
@@ -247,15 +246,15 @@ class ActivityNoteEdit : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (ext_note != null) {
-            if (tittle .text.toString() != ext_note!!.tittle ||
-                    content .text.toString() != ext_note!!.content.removeyam() ||
+            if (tittle.text.toString() != ext_note!!.tittle ||
+                    content.text.toString() != ext_note!!.content.removeyam() ||
                     cur_category?.id != ext_note!!.category.id) {
                 backConfirmation()
             } else {
                 finish()
             }
         } else {
-            if (tittle .text.toString() == "" && content .text.toString() == "") {
+            if (tittle.text.toString() == "" && content.text.toString() == "") {
                 //do nothing
                 finish()
             } else {
@@ -268,31 +267,31 @@ class ActivityNoteEdit : AppCompatActivity() {
         val builder = AlertDialog.Builder(this@ActivityNoteEdit)
         builder.setTitle(getString(R.string.SaveConfirmation))
         builder.setMessage(getString(R.string.doyouwanttosave))
-        builder.setPositiveButton(getString(R.string.yes)) { dialogInterface, i ->
+        builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
             if (ext_note == null) {
                 //save new note
                 val n = Note()
-                n.tittle = tittle .text.toString() + ""
-                n.content = content .text.toString() + ""
+                n.tittle = tittle.text.toString() + ""
+                n.content = content.text.toString() + ""
                 n.category = cur_category!!
                 n.favourite = 0
                 n.lastEdit = System.currentTimeMillis()
-                DatabaseManager .insertNote(n)
+                DatabaseManager.insertNote(n)
                 pushPost(n)
             } else {
-                ext_note?.tittle = tittle .text.toString() + ""
-                ext_note?.content = content .text.toString() + ""
+                ext_note?.tittle = tittle.text.toString() + ""
+                ext_note?.content = content.text.toString() + ""
                 ext_note?.category = cur_category!!
                 //no need to set fav here, fav already save to DB when clicked
                 ext_note?.lastEdit = System.currentTimeMillis()
-                DatabaseManager .updateNote(ext_note!!)
+                DatabaseManager.updateNote(ext_note!!)
                 pushPost(ext_note!!)
                 ext_note?.clear()
             }
             Snackbar.make(parent_view, getString(R.string.notesaved), Snackbar.LENGTH_SHORT).show()
             finish()
         }
-        builder.setNegativeButton("No") { dialogInterface, i -> finish() }
+        builder.setNegativeButton("No") { _, _ -> finish() }
         builder.show()
     }
 
@@ -300,9 +299,9 @@ class ActivityNoteEdit : AppCompatActivity() {
         val builder = AlertDialog.Builder(this@ActivityNoteEdit)
         builder.setTitle(getString(R.string.SaveConfirmation1))
         builder.setMessage(getString(R.string.areyouwantdelete))
-        builder.setPositiveButton(getString(R.string.yes)) { dialogInterface, i ->
+        builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
             if (ext_note != null) {//modify
-                DatabaseManager .deleteNote(ext_note?.id?:1)
+                DatabaseManager.deleteNote(ext_note?.id ?: 1)
             }
             Toast.makeText(applicationContext, getString(R.string.notedeleted), Toast.LENGTH_SHORT).show()
             finish()

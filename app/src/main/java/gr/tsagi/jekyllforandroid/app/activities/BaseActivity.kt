@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 
 /**
- * Created by tsagi on 10/20/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 10/20/14
+\* Time: 15:14
+\*/
 
 abstract class BaseActivity : AppCompatActivity() {
 

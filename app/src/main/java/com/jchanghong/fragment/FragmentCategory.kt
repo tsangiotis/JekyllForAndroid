@@ -1,5 +1,6 @@
 package com.jchanghong.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -18,11 +19,12 @@ import com.jchanghong.model.Category
 
 class FragmentCategory : Fragment() {
 
-  lateinit  private var recyclerView: RecyclerView
-   lateinit private var mAdapter: ListAdapterCategory
-   lateinit  private var mview: View
-   lateinit private var lyt_not_found: LinearLayout
+    lateinit private var recyclerView: RecyclerView
+    lateinit private var mAdapter: ListAdapterCategory
+    lateinit private var mview: View
+    lateinit private var lyt_not_found: LinearLayout
 
+    @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mview = inflater.inflate(R.layout.fragment_category, null)
 
@@ -38,7 +40,7 @@ class FragmentCategory : Fragment() {
         // specify an adapter (see also next example)
         mAdapter = ListAdapterCategory(activity, DatabaseManager.allCategory)
         recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener(object :ListAdapterCategory.OnItemClickListener{
+        mAdapter.setOnItemClickListener(object : ListAdapterCategory.OnItemClickListener {
             override fun onItemClick(view: View, obj: Category, position: Int) {
                 val i = Intent(activity, ActivityCategoryDetails::class.java)
                 i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, obj)
@@ -59,7 +61,7 @@ class FragmentCategory : Fragment() {
         super.onResume()
         mAdapter = ListAdapterCategory(activity, DatabaseManager.allCategory)
         recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener(object :ListAdapterCategory.OnItemClickListener{
+        mAdapter.setOnItemClickListener(object : ListAdapterCategory.OnItemClickListener {
             override fun onItemClick(view: View, obj: Category, position: Int) {
                 val i = Intent(activity, ActivityCategoryDetails::class.java)
                 i.putExtra(ActivityCategoryDetails.EXTRA_OBJCT, obj)

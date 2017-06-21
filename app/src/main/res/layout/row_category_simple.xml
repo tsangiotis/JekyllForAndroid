@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:focusable="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -27,7 +28,8 @@
                 android:padding="@dimen/spacing_medium"
                 android:tint="@android:color/white"
                 android:background="@drawable/round_shape"
-                android:src="@drawable/ic_cat_general" />
+                android:src="@drawable/ic_cat_general"
+                android:contentDescription="TODO" />
 
 
             <TextView

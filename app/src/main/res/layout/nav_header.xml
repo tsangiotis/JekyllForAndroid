@@ -24,7 +24,8 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginBottom="@dimen/spacing_medium"
-            android:src="@drawable/logo_round"/>
+            android:src="@drawable/logo_round"
+            android:contentDescription="TODO" />
 
         <com.balysv.materialripple.MaterialRippleLayout
             style="@style/RippleStyleBlack"
@@ -35,6 +36,7 @@
             <LinearLayout
                 android:id="@+id/lyt_edit_name"
                 android:clickable="true"
+                android:focusable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

@@ -1,21 +1,20 @@
 package gr.tsagi.jekyllforandroid.app.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Build
-import android.preference.PreferenceManager
-
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-
 import gr.tsagi.jekyllforandroid.app.R
 import gr.tsagi.jekyllforandroid.app.data.PostsContract
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
- * Created by tsagi on 8/9/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 8/9/14
+\* Time: 15:14
+\*/
 class Utility(private val mContext: Context) {
 
     /**
@@ -44,20 +43,6 @@ class Utility(private val mContext: Context) {
             val prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
                     Context.MODE_PRIVATE)
             return prefs.getString("user_status", "")
-        }
-
-    /**
-     * Gets the subdirectory of the posts if the user has set that in settings.
-
-     * @return subdirectory
-     */
-    val subdir: String?
-        get() {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
-            val dir = prefs.getString("posts_subdir", "")
-            if (dir != "")
-                return dir!! + "/"
-            return null
         }
 
     /**
@@ -91,6 +76,8 @@ class Utility(private val mContext: Context) {
                     Context.MODE_PRIVATE)
             return prefs.getString("base_commit", "")
         }
+        @SuppressLint("ObsoleteSdkInt")
+
         set(baseCommitSha) {
             val prefs = mContext.getSharedPreferences("gr.tsagi.jekyllforandroid",
                     Context.MODE_PRIVATE)
@@ -134,50 +121,11 @@ class Utility(private val mContext: Context) {
                     today,
                     getFormattedMonthDay(dateStr)))
         } else {
+            @SuppressLint("SimpleDateFormat")
             val shortenedDateFormat = SimpleDateFormat("MMMM dd, yyyy")
 
             return shortenedDateFormat.format(inputDate)
         }
-    }
-
-    /**
-     * Given a day, returns just the name to use for that day.
-     * E.g "today", "tomorrow", "wednesday".
-
-     * @param dateStr The db formatted date string, expected to be of the form specified
-     * *                in Utility.DATE_FORMAT
-     * *
-     * @return
-     */
-    fun getDayName(dateStr: String): String {
-        val dbDateFormat = SimpleDateFormat(Utility.DATE_FORMAT)
-        try {
-            val inputDate = dbDateFormat.parse(dateStr)
-            val todayDate = Date()
-            // If the date is today, return the localized version of "Today" instead of the actual
-            // day name.
-            if (PostsContract.getDbDateString(todayDate) == dateStr) {
-                return mContext.getString(R.string.today)
-            } else {
-                // If the date is set for tomorrow, the format is "Tomorrow".
-                val cal = Calendar.getInstance()
-                cal.time = todayDate
-                cal.add(Calendar.DATE, 1)
-                val tomorrowDate = cal.time
-                if (PostsContract.getDbDateString(tomorrowDate) == dateStr) {
-                    return mContext.getString(R.string.tomorrow)
-                } else {
-                    // Otherwise, the format is just the day of the week (e.g "Wednesday".
-                    val dayFormat = SimpleDateFormat("EEEE")
-                    return dayFormat.format(inputDate)
-                }
-            }
-        } catch (e: ParseException) {
-            e.printStackTrace()
-            // It couldn't process the date correctly.
-            return ""
-        }
-
     }
 
     companion object {
@@ -194,9 +142,11 @@ class Utility(private val mContext: Context) {
          * @return The day in the form of a string formatted "December 6"
          */
         fun getFormattedMonthDay(dateStr: String): String? {
+            @SuppressLint("SimpleDateFormat")
             val dbDateFormat = SimpleDateFormat(Utility.DATE_FORMAT)
             try {
                 val inputDate = dbDateFormat.parse(dateStr)
+                @SuppressLint("SimpleDateFormat")
                 val monthDayFormat = SimpleDateFormat("MMMM dd")
                 val monthDayString = monthDayFormat.format(inputDate)
                 return monthDayString

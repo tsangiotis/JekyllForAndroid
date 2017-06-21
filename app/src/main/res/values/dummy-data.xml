@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     //sample data 1
-    <string name="dummy_title_1">Lorem ipsum</string>
-    <string name="dummy_content_1">
+    <string name="dummy_title_1" tools:ignore="MissingTranslation">Lorem ipsum</string>
+    <string name="dummy_content_1" tools:ignore="MissingTranslation">
         Lorem ipsum dolor sit amet, harum tincidunt ut vis, cu sonet graece qui, sed at aliquam graecis definitionem. Vix ex placerat perpetua, cum id nemore veritus epicuri, porro mandamus has te. Duo in liberavisse signiferumque. Est liber luptatum pertinacia cu, decore maiorum oporteat pri at, ex mea solum conclusionemque. Vis tollit vidisse apeirian no.
         \n\nSolet facilis accusamus pro cu, fabulas oporteat per at, nec ex suas fugit patrioque. Ad summo scripserit cum, semper scribentur persequeris ea usu, viderer debitis nam ad. Per consulatu instructior ne, abhorreant efficiendi his an. Decore ignota est ne.
     </string>
 
     <string name="dummy_title_2" translatable="false">Suspendisse</string>
-    <string name="dummy_content_2">
+    <string name="dummy_content_2" tools:ignore="MissingTranslation">
         - fabulas oporteat\n
         - nec ex suas\n
         - Ad summo\n
@@ -19,8 +19,8 @@
         - Decore ignota"
     </string>
 
-    <string name="dummy_title_3">Praesent tempus</string>
-    <string name="dummy_content_3">
+    <string name="dummy_title_3" tools:ignore="MissingTranslation">Praesent tempus</string>
+    <string name="dummy_content_3" tools:ignore="MissingTranslation">
         Mauris eget augue feugiat dolor blandit euismod ac vel ante. Etiam pellentesque finibus nulla, quis pulvinar purus porta at. Vestibulum congue semper laoreet. Integer vitae nulla eget nisl dignissim molestie.
     </string>
 

@@ -9,8 +9,11 @@ import java.io.IOException
 import java.util.concurrent.ExecutionException
 
 /**
- * Created by tsagi on 1/29/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 1/29/14
+\* Time: 15:14
+\*/
 
 class JekyllRepo {
 

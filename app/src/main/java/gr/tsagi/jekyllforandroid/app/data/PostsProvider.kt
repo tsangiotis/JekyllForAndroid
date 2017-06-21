@@ -6,7 +6,6 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
-import android.util.Log
 import gr.tsagi.jekyllforandroid.app.data.PostsContract.PostEntry
 
 
@@ -23,9 +22,8 @@ class PostsProvider : ContentProvider() {
         val id = PostEntry.getIdFromUri(uri)
 
         val selectionArgs: Array<String>
-        val selection: String
+        val selection: String = sPostSelection
 
-        selection = sPostSelection
         selectionArgs = arrayOf(id)
 
         return sParametersQueryBuilder.query(mOpenHelper!!.readableDatabase,
@@ -45,9 +43,8 @@ class PostsProvider : ContentProvider() {
             status = "1"
 
         val selectionArgs: Array<String>
-        val selection: String
+        val selection: String = sPostStatusSelection
 
-        selection = sPostStatusSelection
         selectionArgs = arrayOf(status)
 
         return mOpenHelper!!.readableDatabase.query(
@@ -117,38 +114,6 @@ class PostsProvider : ContentProvider() {
         return retCursor
     }
 
-    private fun dumpCursor(myCursor: Cursor?) {
-        if (myCursor == null) {
-            Log.w(LOG_TAG, "Null cursor")
-        } else {
-            try {
-                if (myCursor.moveToFirst()) {
-                    val columns = myCursor.columnNames
-                    val sbHeader = StringBuilder()
-                    for (columnName in columns) {
-                        sbHeader.append(columnName).append(", ")
-                    }
-                    Log.i(LOG_TAG, sbHeader.toString())
-                    do {
-                        val sbRow = StringBuilder()
-                        for (columnName in columns) {
-                            sbRow.append(myCursor.getString(myCursor.getColumnIndex(columnName))).append(", ")
-                        }
-                        Log.i(LOG_TAG, sbRow.toString())
-                    } while (myCursor.moveToNext())
-                } else {
-                    Log.w(LOG_TAG, "Empty cursor")
-                }
-            } catch (ex: Exception) {
-                Log.e(LOG_TAG, ex.toString())
-            } finally {
-                if (!myCursor.isClosed) {
-                    myCursor.moveToFirst()
-                }
-            }
-        }
-    }
-
     override fun getType(uri: Uri): String? {
         // Use the Uri Matcher to determine what kind of URI this is.
         val match = sUriMatcher.match(uri)
@@ -159,7 +124,7 @@ class PostsProvider : ContentProvider() {
 //            TAG,
 //                                return TagEntry.CONTENT_TYPE;
 //            CATEGORY,
-                //                return CategoryEntry.CONTENT_TYPE;
+        //                return CategoryEntry.CONTENT_TYPE;
             else -> {
                 throw UnsupportedOperationException("Unknown uri: " + uri)
             }
@@ -253,12 +218,11 @@ class PostsProvider : ContentProvider() {
                 db.beginTransaction()
                 returnCount = 0
                 try {
-                    for (value in values) {
-                        val _id = db.insert(PostEntry.TABLE_NAME, null, value)
-                        if (_id != -1L) {
-                            returnCount++
-                        }
-                    }
+                    values
+                            .asSequence()
+                            .map { db.insert(PostEntry.TABLE_NAME, null, it) }
+                            .filter { it != -1L }
+                            .forEach { returnCount++ }
                     db.setTransactionSuccessful()
                 } finally {
                     db.endTransaction()
@@ -317,15 +281,13 @@ class PostsProvider : ContentProvider() {
         private val CATEGORY = 200
         private val CATEGORY_PER_POST = 201
         private val TAG = 300
-        private val TAG_PER_POST = 301
 
-        private val sParametersQueryBuilder: SQLiteQueryBuilder
+        private val sParametersQueryBuilder: SQLiteQueryBuilder = SQLiteQueryBuilder()
 
         // TODO: select tags.tagname as tagname from posts cross join tags where posts
         // .id=5;
 
         init {
-            sParametersQueryBuilder = SQLiteQueryBuilder()
             sParametersQueryBuilder.tables = PostEntry.TABLE_NAME
         }
 

@@ -1,5 +1,6 @@
 package gr.tsagi.jekyllforandroid.app.fragments
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Fragment
 import android.app.LoaderManager
@@ -234,6 +235,7 @@ class PostsListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         )
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     @TargetApi(Build.VERSION_CODES.FROYO)
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor) {
         mPostListAdapter!!.swapCursor(data)
@@ -270,8 +272,6 @@ class PostsListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     companion object {
 
-        private val LOG_TAG = PostsListFragment::class.java.simpleName
-
         private val SELECTED_KEY = "selected_position"
 
         private val LIST_LOADER = 0
@@ -288,8 +288,6 @@ class PostsListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 PostEntry.TABLE_NAME + "." + BaseColumns._ID, PostEntry.COLUMN_POST_ID, PostEntry.COLUMN_TITLE, PostEntry.COLUMN_DATETEXT, PostEntry.COLUMN_CONTENT, PostEntry.COLUMN_DRAFT)
 
 
-        // These indices are tied to POSTS_COLUMNS. If POSTS_COLUMNS changes, these must change.
-        val COL_ID = 0
         val COL_POST_ID = 1
         val COL_POST_TITLE = 2
         val COL_POST_DATE = 3

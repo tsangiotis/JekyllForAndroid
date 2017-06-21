@@ -21,9 +21,9 @@
         android:tint="@android:color/white"
         android:background="@drawable/round_shape"
         android:src="@drawable/ic_cat_general"
-        android:layout_toRightOf="@+id/radioSelected"
         android:clickable="true"
-        />
+        android:focusable="true"
+        android:contentDescription="TODO" />
 
 
 </LinearLayout>

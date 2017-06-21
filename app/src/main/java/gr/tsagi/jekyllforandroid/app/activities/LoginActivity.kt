@@ -1,5 +1,6 @@
 package gr.tsagi.jekyllforandroid.app.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -31,14 +32,14 @@ import java.io.IOException
 
 class LoginActivity : BaseActivity() {
     //Change the Scope as you need
-   lateinit internal var web: WebView
-  lateinit  internal var auth: ImageButton
-   lateinit internal var settings: SharedPreferences
+    lateinit internal var web: WebView
+    lateinit internal var auth: ImageButton
+    lateinit internal var settings: SharedPreferences
     lateinit internal var logview: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         logview = findViewById(R.id.log) as TextView
-        logview.text="login......."
+        logview.text = "login......."
         settings = getSharedPreferences(
                 "gr.tsagi.jekyllforandroid", Context.MODE_PRIVATE)
 
@@ -96,7 +97,7 @@ class LoginActivity : BaseActivity() {
         })
     }
 
-    protected override val layoutResource: Int
+    override val layoutResource: Int
         get() = R.layout.activity_login
 
     private inner class TokenGet : AsyncTask<String, String, JSONObject>() {
@@ -119,6 +120,7 @@ class LoginActivity : BaseActivity() {
                     GRANT_TYPE)
         }
 
+        @SuppressLint("ObsoleteSdkInt")
         override fun onPostExecute(json: JSONObject?) {
             pDialog!!.dismiss()
             if (json != null) {

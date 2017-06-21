@@ -13,13 +13,15 @@ import java.io.*
 import java.util.*
 
 /**
- * Created by tsagi on 7/7/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 7/7/14
+\* Time: 15:14
+\*/
 
 class GetAccessToken {
     internal var jsondel = ""
     internal var params: MutableList<NameValuePair> = ArrayList()
-    internal var mapn: Map<String, String>? = null
     lateinit internal var httpClient: DefaultHttpClient
     lateinit internal var httpPost: HttpPost
     fun gettoken(address: String, token: String, client_id: String, client_secret: String, redirect_uri: String, grant_type: String): JSONObject {
@@ -50,10 +52,10 @@ class GetAccessToken {
             val reader = BufferedReader(InputStreamReader(
                     `is`!!, "iso-8859-1"), 8)
             val sb = StringBuilder()
-        var line:String?=   reader.readLine()
+            var line: String? = reader.readLine()
             while (line != null) {
-                sb.append(line!! + "n")
-                line=reader.readLine()
+                sb.append(line + "n")
+                line = reader.readLine()
             }
             `is`!!.close()
             json = sb.toString()

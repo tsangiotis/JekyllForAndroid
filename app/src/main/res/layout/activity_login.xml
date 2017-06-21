@@ -21,7 +21,8 @@
             android:src="@drawable/logo_web"
         android:layout_below="@+id/toolbar"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:contentDescription="TODO" />
 
     <ImageButton
         android:layout_width="56dp"
@@ -33,7 +34,7 @@
         android:tint="@android:color/white"
         android:id="@+id/fab"
         android:background="@drawable/ripple"
-        />
+        android:contentDescription="TODO" />
 
 
 

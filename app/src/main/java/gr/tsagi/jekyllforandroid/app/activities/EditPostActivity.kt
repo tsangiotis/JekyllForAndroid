@@ -1,6 +1,7 @@
 package gr.tsagi.jekyllforandroid.app.activities
 
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.LoaderManager
 import android.content.CursorLoader
@@ -8,7 +9,6 @@ import android.content.Intent
 import android.content.Loader
 import android.database.Cursor
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.NavUtils
@@ -39,19 +39,11 @@ class EditPostActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
     lateinit internal var publish: ImageButton
 
-   lateinit internal var utility: Utility
+    lateinit internal var utility: Utility
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // create our manager instance after the content view is set
-            //            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            // enable status bar tint
-            //            tintManager.setStatusBarTintEnabled(true);
-            // Set color
-            //            tintManager.setTintColor(getResources().getColor(R.color.primary));
-        }
 
         // Create the detail fragment and add it to the activity
         // using a fragment transaction.
@@ -72,7 +64,7 @@ class EditPostActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
     }
 
-     override val layoutResource: Int
+    override val layoutResource: Int
         get() = R.layout.activity_edit_post
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -168,8 +160,8 @@ class EditPostActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
             val builder = AlertDialog.Builder(this)
             builder.setMessage(R.string.dialog_confirm_draft)
             // Add the buttons
-            builder.setPositiveButton(R.string.ok) { dialog, id -> pushDraft(title, tags, category, content) }
-            builder.setNegativeButton(R.string.cancel) { dialog, id ->
+            builder.setPositiveButton(R.string.ok) { _, _ -> pushDraft(title, tags, category, content) }
+            builder.setNegativeButton(R.string.cancel) { _, _ ->
                 // User cancelled the dialog
             }
 
@@ -216,6 +208,7 @@ class EditPostActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val data = HashMap<String, Any>()
+        @SuppressLint("SimpleDateFormat")
         val date = SimpleDateFormat("yyyy-MM-dd").format(Date())
 
         val yaml = Yaml()
@@ -257,8 +250,8 @@ class EditPostActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
             val builder = AlertDialog.Builder(this)
             builder.setMessage(R.string.dialog_confirm_update)
             // Add the buttons
-            builder.setPositiveButton(R.string.ok) { dialog, id -> pushPost(title, tags, category, content) }
-            builder.setNegativeButton(R.string.cancel) { dialog, id ->
+            builder.setPositiveButton(R.string.ok) { _, _ -> pushPost(title, tags, category, content) }
+            builder.setNegativeButton(R.string.cancel) { _, _ ->
                 // User cancelled the dialog
             }
 
@@ -272,7 +265,7 @@ class EditPostActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
     fun previewMarkdown() {
 
         val content = mContent!!.text.toString().trim { it <= ' ' }
-        val repo = utility.repo
+//        val repo = utility.repo
 
         if (content != "") {
             val myIntent = Intent(this, PreviewMarkdownActivity::class.java)

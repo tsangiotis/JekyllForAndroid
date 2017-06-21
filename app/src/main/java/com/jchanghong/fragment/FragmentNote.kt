@@ -1,5 +1,6 @@
 package com.jchanghong.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -18,10 +19,11 @@ import com.jchanghong.model.Note
 class FragmentNote : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var mAdapter: ListAdapterNote
-   lateinit private var mview: View
-   lateinit private var searchView: SearchView
-  lateinit  private var lyt_not_found: LinearLayout
+    lateinit private var mview: View
+    lateinit private var searchView: SearchView
+    lateinit private var lyt_not_found: LinearLayout
 
+    @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mview = inflater.inflate(R.layout.fragment_note, null)
 
@@ -49,7 +51,7 @@ class FragmentNote : Fragment() {
     private fun displayData(items: List<Note>) {
         mAdapter = ListAdapterNote(activity, items)
         recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener(object :ListAdapterNote.OnItemClickListener{
+        mAdapter.setOnItemClickListener(object : ListAdapterNote.OnItemClickListener {
             override fun onItemClick(view: View, model: Note) {
                 val intent = Intent(activity, ActivityNoteEdit::class.java)
                 intent.putExtra(ActivityNoteEdit.EXTRA_OBJCT, model)
@@ -58,9 +60,9 @@ class FragmentNote : Fragment() {
 
         })
         if (mAdapter.itemCount == 0) {
-            lyt_not_found!!.visibility = View.VISIBLE
+            lyt_not_found.visibility = View.VISIBLE
         } else {
-            lyt_not_found!!.visibility = View.GONE
+            lyt_not_found.visibility = View.GONE
         }
     }
 
@@ -68,9 +70,9 @@ class FragmentNote : Fragment() {
         inflater.inflate(R.menu.menu_fragment_note, menu)
         val searchItem = menu.findItem(R.id.action_search)
         searchView = menu.findItem(R.id.action_search).actionView as SearchView
-        searchView!!.isIconified = false
-        searchView!!.queryHint = "Search note..."
-        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView.isIconified = false
+        searchView.queryHint = "Search note..."
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String): Boolean {
                 return false
             }
@@ -85,14 +87,14 @@ class FragmentNote : Fragment() {
             }
         })
         // Detect SearchView icon clicks
-        searchView!!.setOnSearchClickListener { setItemsVisibility(menu, searchItem, false) }
+        searchView.setOnSearchClickListener { setItemsVisibility(menu, searchItem, false) }
 
         // Detect SearchView close
-        searchView!!.setOnCloseListener {
+        searchView.setOnCloseListener {
             setItemsVisibility(menu, searchItem, true)
             false
         }
-        searchView!!.onActionViewCollapsed()
+        searchView.onActionViewCollapsed()
         super.onCreateOptionsMenu(menu, inflater)
     }
 

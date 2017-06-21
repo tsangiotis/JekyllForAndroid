@@ -1,5 +1,6 @@
 package gr.tsagi.jekyllforandroid.app.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
@@ -16,20 +17,25 @@ import org.eclipse.egit.github.core.service.RepositoryService
 import java.io.IOException
 
 /**
- * Created by tsagi on 1/30/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 1/30/14
+\* Time: 15:14
+\*/
 
-class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Void>() {
+class FetchPostsTask(c: Context?, log: TextView?) : AsyncTask<Void, String, Void>() {
 
-    val mContext=c
-    val logview=log
+    @SuppressLint("StaticFieldLeak")
+    val mContext = c
+    @SuppressLint("StaticFieldLeak")
+    val logview = log
     private val LOG_TAG = FetchPostsTask::class.java.simpleName
     val parsePostData = ParsePostData()
     // Create the needed services
     internal var repositoryService: RepositoryService
     internal var commitService: CommitService
     internal var dataService: DataService
-     internal var utility: Utility = Utility(mContext!!)
+    internal var utility: Utility = Utility(mContext!!)
 
     init {
 
@@ -52,12 +58,14 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
     override fun onPreExecute() {
         allnotes.clear()
         super.onPreExecute()
-        logview?.text="began to syn github data......"
+        logview?.text = "began to syn github data......"
     }
+
     override fun onProgressUpdate(vararg values: String?) {
-        values.forEach { logview?.text=it }
+        values.forEach { logview?.text = it }
     }
-    var allnotes= mutableListOf<Note>()
+
+    var allnotes = mutableListOf<Note>()
     /**
      * Take the List with the posts and parse the posts for data
      *postslist: post目录
@@ -82,17 +90,17 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
                 }
 
                 val postSha = post.sha
-                var postBlob: Blob?=
-                try {
-                     dataService.getBlob(repository, postSha).setEncoding(Blob.ENCODING_UTF8)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    null
-                }
+                val postBlob: Blob? =
+                        try {
+                            dataService.getBlob(repository, postSha).setEncoding(Blob.ENCODING_UTF8)
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                            null
+                        }
                 val blobBytes = postBlob?.content
                 publishProgress("loading $id...")
-            allnotes.add(  parsePostData.getNoteFrombyte(id,filename!!,
-                        blobBytes?:"null", type))
+                allnotes.add(parsePostData.getNoteFrombyte(id, filename!!,
+                        blobBytes ?: "null", type))
             } else {
                 try {
                     val subdir = dataService.getTree(repository, post.sha).tree
@@ -104,10 +112,12 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
         }
 
     }
+
     override fun onPostExecute(result: Void?) {
         super.onPostExecute(result)
-        logview?.text="load data complete!!!"
+        logview?.text = "load data complete!!!"
     }
+
     override fun doInBackground(vararg params: Void): Void? {
         Log.d(LOG_TAG, "Background started")
         // TODO: Support subdirectories
@@ -137,16 +147,16 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
 
             // No sync when the same sha.
             val oldSha = utility.baseCommitSha
-                        if (baseCommitSha == oldSha) {
-                            Log.d(LOG_TAG, "No Sync---------")
-                            publishProgress("No need to syn!")
-                            this.cancel(true)
-                            return null
-                        } else {
-            Log.d(LOG_TAG, "Syncing...")
-                            publishProgress("syning...")
-            utility.baseCommitSha = baseCommitSha
-                        }
+            if (baseCommitSha == oldSha) {
+                Log.d(LOG_TAG, "No Sync---------")
+                publishProgress("No need to syn!")
+                this.cancel(true)
+                return null
+            } else {
+                Log.d(LOG_TAG, "Syncing...")
+                publishProgress("syning...")
+                utility.baseCommitSha = baseCommitSha
+            }
             val treeSha = commitService.getCommit(repository, baseCommitSha).sha
 
             // TODO: Refactor naming here.

@@ -49,7 +49,7 @@ class GithubPush(mActivity: Activity) {
         var path = date + "-" + title.toLowerCase().replace(' ', '-')
                 .replace(",", "").replace("!", "").replace(".", "") + ".md"
 //        path = "_posts/" + dir + path
-        path="_posts/$category/$path"
+        path = "_posts/$category/$path"
         val commitMessage = "Update/New Post from Jekyll for Android"
         PushFile().execute(content, path, commitMessage)
 

@@ -62,10 +62,6 @@ class ListAdapterCategory// Provide a suitable constructor (depends on the kind 
         holder.lyt_parent.setOnClickListener { mOnItemClickListener?.onItemClick(it, c, position) }
     }
 
-    fun getItem(position: Int): Category {
-        return items[position]
-    }
-
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount(): Int {
         return items.size

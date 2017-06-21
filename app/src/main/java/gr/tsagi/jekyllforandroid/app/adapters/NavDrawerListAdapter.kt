@@ -1,5 +1,6 @@
 package gr.tsagi.jekyllforandroid.app.adapters
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,15 +9,16 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-
-import java.util.ArrayList
-
 import gr.tsagi.jekyllforandroid.app.R
 import gr.tsagi.jekyllforandroid.app.utils.NavDrawerItem
+import java.util.*
 
 /**
- * Created by tsagi on 7/9/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 7/9/14
+\* Time: 15:14
+\*/
 
 class NavDrawerListAdapter(private val context: Context, private val navDrawerItems: ArrayList<NavDrawerItem>) : BaseAdapter() {
 
@@ -32,6 +34,7 @@ class NavDrawerListAdapter(private val context: Context, private val navDrawerIt
         return position.toLong()
     }
 
+    @SuppressLint("InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         if (convertView == null) {

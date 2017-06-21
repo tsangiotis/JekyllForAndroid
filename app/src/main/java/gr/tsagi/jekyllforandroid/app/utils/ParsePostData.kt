@@ -13,29 +13,31 @@ import java.io.UnsupportedEncodingException
 
 
 /**
- * Created by tsagi on 8/15/14.
- */
+\* Created with IntelliJ IDEA.
+\* User: jchanghong
+\* Date: 8/15/14
+\* Time: 15:14
+\*/
 class ParsePostData {
 
-    private val LOG_TAG = ParsePostData::class.java.simpleName
     internal val JK_TITLE = "title"
     internal val JK_CATEGORY = "category"
     internal val JK_TAGS = "tags"
 
-    fun getNoteFrombyte(id: String,path:String, contentBytes: String, type: Int): Note {
+    fun getNoteFrombyte(id: String, path: String, contentBytes: String, type: Int): Note {
 
         // Get and insert the new posts information into the database
-        val note=Note()
+        val note = Note()
         // Blobs return with Base64 encoding so we have to UTF-8 them.
         val bytes = Base64.decode(contentBytes, Base64.DEFAULT)
-        var postContent: String=
-        try {
-            String(bytes, charset("UTF-8"))
-        } catch (e: UnsupportedEncodingException) {
-            e.printStackTrace()
-            ""
-        }
-        note.content=postContent
+        val postContent: String =
+                try {
+                    String(bytes, charset("UTF-8"))
+                } catch (e: UnsupportedEncodingException) {
+                    e.printStackTrace()
+                    ""
+                }
+        note.content = postContent
 
 //        val stringBuilder = StringBuilder()
 //
@@ -82,24 +84,24 @@ class ParsePostData {
         val yaml = Yaml()
         val map: Map<*, *>?
         map = yaml.load(postContent.getyam()) as? Map<*, *>
-        var title=""
+        var title:String
         var tags: String? = null
-        var category: String?
+        val category: String?
 
         if (map == null) {
-            note.tittle=id.date_id_toTitle()
+            note.tittle = id.date_id_toTitle()
             var date: Long = 0
             if (type == 0) {
                 val i = id.indexOf('-', 1 + id.indexOf('-', 1 + id.indexOf('-')))
                 date = java.lang.Long.parseLong(id.substring(0, i).replace("-", ""))
             }
-            note.lastEdit=date
-            note.category=getornew(null,path.path2Catogery())
+            note.lastEdit = date
+            note.category = getornew(null, path.path2Catogery())
             return note
         }
         title = map[JK_TITLE].toString()
 
-        note.tittle=title
+        note.tittle = title
         if (map.containsKey(JK_TAGS)) {
             tags = map[JK_TAGS].toString().replace("[", "").replace("]", "")
         } else {
@@ -111,7 +113,7 @@ class ParsePostData {
             category = null
         }
         val categorymode = getornew(tags, category)
-        note.category=categorymode
+        note.category = categorymode
 
         var date: Long = 0
 
@@ -119,7 +121,7 @@ class ParsePostData {
             val i = id.indexOf('-', 1 + id.indexOf('-', 1 + id.indexOf('-')))
             date = java.lang.Long.parseLong(id.substring(0, i).replace("-", ""))
         }
-        note.lastEdit=date
+        note.lastEdit = date
         // First, check if the post exists in the db
         return note
     }
@@ -128,28 +130,26 @@ class ParsePostData {
         if (category != null) {
             var c = DatabaseManager.getCategoryByName(category)
 
-            if (c!=null) {
+            if (c != null) {
                 return c
-            }
-            else{
-                c=Category(name = category)
+            } else {
+                c = Category(name = category)
                 DatabaseManager.insertCategory(c)
                 return c
             }
         }
         if (tags != null) {
-           var c1=Category(name = tags.trim().split(" ")[0])
+            val c1 = Category(name = tags.trim().split(" ")[0])
             val c = DatabaseManager.getCategoryByName(c1.name)
 
-            if (c!=null) {
+            if (c != null) {
                 return c
-            }
-            else{
+            } else {
                 DatabaseManager.insertCategory(c1)
                 return c1
             }
         }
-        Log.d("jiangchanghong","no cat find ,use default")
+        Log.d("jiangchanghong", "no cat find ,use default")
         return DatabaseManager.defaultCAT
     }
 

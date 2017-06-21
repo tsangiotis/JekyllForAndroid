@@ -13,7 +13,8 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/ic_no_item"
-        android:tint="@color/grey_medium" />
+        android:tint="@color/grey_medium"
+        android:contentDescription="TODO" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -1,5 +1,6 @@
 package com.jchanghong.data
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -16,26 +17,30 @@ import com.jchanghong.model.Note
 import com.jchanghong.utils.Tools
 
 
+@SuppressLint("StaticFieldLeak")
 object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, null, DB_VERSION) {
-    private val context: Context=GlobalApplication.mcontext!!
-    val LOG=DatabaseManager::class.java.name+"jiangchanghong"
-     val cat_id: IntArray
-     val cat_name: Array<String>
-     val cat_color: Array<String>
-     val cat_icon: Array<String>
-     val cat_icon_data: Array<String>
-     val cat_color_data: Array<String>
-    val defaultCAT:Category
+    @SuppressLint("StaticFieldLeak")
+    private val context: Context = GlobalApplication.mcontext!!
+    val LOG = DatabaseManager::class.java.name + "jiangchanghong"
+    val cat_id: IntArray
+    val cat_name: Array<String>
+    val cat_color: Array<String>
+    val cat_icon: Array<String>
+    val cat_icon_data: Array<String>
+    val cat_color_data: Array<String>
+    val defaultCAT: Category
+
     init {
-            cat_id = context.resources.getIntArray(R.array.category_id)
-            cat_name = context.resources.getStringArray(R.array.category_name)
-            cat_color = context.resources.getStringArray(R.array.category_color)
-            cat_icon = context.resources.getStringArray(R.array.category_icon)
-            cat_icon_data = context.resources.getStringArray(R.array.category_icon_data)
-            cat_color_data = context.resources.getStringArray(R.array.category_color_data)
-         defaultCAT=Category()
+        cat_id = context.resources.getIntArray(R.array.category_id)
+        cat_name = context.resources.getStringArray(R.array.category_name)
+        cat_color = context.resources.getStringArray(R.array.category_color)
+        cat_icon = context.resources.getStringArray(R.array.category_icon)
+        cat_icon_data = context.resources.getStringArray(R.array.category_icon_data)
+        cat_color_data = context.resources.getStringArray(R.array.category_color_data)
+        defaultCAT = Category()
 
     }
+
     override fun onCreate(DatabaseManager: SQLiteDatabase) {
         createTableCategoryIcon(DatabaseManager)
         createTableCategory(DatabaseManager)
@@ -66,12 +71,12 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     private fun createTableNote(DatabaseManager: SQLiteDatabase) {
-        val CREATE_TABLE = "CREATE TABLE ${TABLE_NOTE} ("+
-        COL_N_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+ COL_N_TITLE +
-                " TEXT, "+ COL_N_CONTENT + " TEXT, "+ COL_N_FAV + " INTEGER, "+
-                COL_N_LAST_EDIT + " NUMERIC, "+ COL_N_CATEGORY +
-                " INTEGER, "+" FOREIGN KEY(" + COL_N_CATEGORY +
-                ") REFERENCES " + TABLE_CATEGORY + "(" + COL_C_ID + ")"+")"
+        val CREATE_TABLE = "CREATE TABLE $TABLE_NOTE (" +
+                COL_N_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_N_TITLE +
+                " TEXT, " + COL_N_CONTENT + " TEXT, " + COL_N_FAV + " INTEGER, " +
+                COL_N_LAST_EDIT + " NUMERIC, " + COL_N_CATEGORY +
+                " INTEGER, " + " FOREIGN KEY(" + COL_N_CATEGORY +
+                ") REFERENCES " + TABLE_CATEGORY + "(" + COL_C_ID + ")" + ")"
         try {
             DatabaseManager.execSQL(CREATE_TABLE)
         } catch (e: Exception) {
@@ -82,10 +87,10 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     private fun createTableCategory(DatabaseManager: SQLiteDatabase) {
-        val CREATE_TABLE = "CREATE TABLE ${TABLE_CATEGORY} ("+
-                COL_C_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                COL_C_NAME + " TEXT, "+ COL_C_COLOR +
-                " TEXT, "+ COL_C_ICON + " TEXT "+" )"
+        val CREATE_TABLE = "CREATE TABLE $TABLE_CATEGORY (" +
+                COL_C_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_C_NAME + " TEXT, " + COL_C_COLOR +
+                " TEXT, " + COL_C_ICON + " TEXT " + " )"
         try {
             DatabaseManager.execSQL(CREATE_TABLE)
         } catch (e: Exception) {
@@ -95,9 +100,10 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
     }
 
-    fun log(s: String)  {
-        Log.d(LOG,s)
+    fun log(s: String) {
+        Log.d(LOG, s)
     }
+
     fun defineCategory() {
         val DatabaseManager = this.writableDatabase
         for (i in cat_id.indices) {
@@ -106,17 +112,16 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             values.put(COL_C_NAME, cat_name[i])
             values.put(COL_C_COLOR, cat_color[i])
             values.put(COL_C_ICON, cat_icon[i])
-          DatabaseManager.insert(TABLE_CATEGORY, null, values) // Inserting Row
+            DatabaseManager.insert(TABLE_CATEGORY, null, values) // Inserting Row
             log("insert cat:${cat_name[i]}")
         }
-        DatabaseManager.close()
     }
 
     private fun createTableCategoryIcon(DatabaseManager: SQLiteDatabase) {
-        val CREATE_TABLE = "CREATE TABLE ${TABLE_CATEGORY_ICON} ("+
-                COL_C_ID + " INTEGER PRIMARY KEY , "+
-                COL_C_ICON + " TEXT, "+
-                COL_C_COLOR + " TEXT "+" )"
+        val CREATE_TABLE = "CREATE TABLE $TABLE_CATEGORY_ICON (" +
+                COL_C_ID + " INTEGER PRIMARY KEY , " +
+                COL_C_ICON + " TEXT, " +
+                COL_C_COLOR + " TEXT " + " )"
         try {
             DatabaseManager.execSQL(CREATE_TABLE)
         } catch (e: Exception) {
@@ -134,7 +139,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             values.put(COL_C_COLOR, cat_color_data[i])
             DatabaseManager.insert(TABLE_CATEGORY_ICON, null, values) // Inserting Row
         }
-        DatabaseManager.close()
     }
 
 
@@ -150,28 +154,26 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         values.put(COL_N_CATEGORY, note.category.id)
         val DatabaseManager = this.writableDatabase
         try {
-         note.id= DatabaseManager.insert(TABLE_NOTE, null, values)
+            note.id = DatabaseManager.insert(TABLE_NOTE, null, values)
             log("insertnote ${note.tittle}")
         } catch (e: Exception) {
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()
         } finally {
-            DatabaseManager.close()
         }
 
     }
 
-//    @RequiresApi(Build.VERSION_CODES.N)
+    //    @RequiresApi(Build.VERSION_CODES.N)
     fun deleteNote(rowId: Long) {
         val DatabaseManager = this.writableDatabase
         try {
             DatabaseManager.delete(TABLE_NOTE, "$COL_N_ID =  $rowId", null)
-            log("delete note: ${rowId}")
+            log("delete note: $rowId")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
         } finally {
-            DatabaseManager.close()
         }
     }
 
@@ -184,26 +186,24 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         val DatabaseManager = this.writableDatabase
         try {
             DatabaseManager.update(TABLE_NOTE, contentValues, "$COL_N_ID = ${note.id}", null)
-            Log.i(LOG,"update note:${note.tittle}")
+            Log.i(LOG, "update note:${note.tittle}")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
         } finally {
-            DatabaseManager.close()
         }
     }
 
     operator fun get(id: Long): Note? {
         val DatabaseManager = this.readableDatabase
-        var note:Note
-        var cur: Cursor?
+        val note: Note
+        val cur: Cursor?
         try {
-            cur = DatabaseManager.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_ID} = ?", arrayOf(id.toString()))
+            cur = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE WHERE $COL_N_ID = ?", arrayOf(id.toString()))
             if (cur?.moveToFirst() == true) {
 
                 note = getNoteFromCursor(cur)
-            }
-            else{
+            } else {
                 return null
             }
         } catch (e: Exception) {
@@ -211,7 +211,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             Log.e("Db Error", e.toString())
             return null
         } finally {
-            DatabaseManager.close()
         }
         return note
     }
@@ -222,22 +221,20 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             val DatabaseManager = this.readableDatabase
             var cur: Cursor? = null
             try {
-                cur = DatabaseManager.rawQuery("SELECT * FROM ${TABLE_NOTE} ORDER BY ${COL_N_ID} DESC", null)
-                if (cur?.moveToFirst()==true) {
+                cur = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE ORDER BY $COL_N_ID DESC", null)
+                if (cur?.moveToFirst() == true) {
                     if (!cur.isAfterLast) {
                         do {
                             notes.add(getNoteFromCursor(cur))
                         } while (cur.moveToNext())
                     }
                 }
-            return notes
+                return notes
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("DB ERROR", e.toString())
-                return notes
             } finally {
                 cur?.close()
-                DatabaseManager.close()
             }
 //            NoteCache.addAll(notes)
             return notes
@@ -248,15 +245,14 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         var cur: Cursor? = null
         val DatabaseManager = this.readableDatabase
         try {
-            cur = DatabaseManager.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_CATEGORY} = ?", arrayOf(cat_id.toString()))
-            if (cur?.moveToFirst()==true) {
+            cur = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE WHERE $COL_N_CATEGORY = ?", arrayOf(cat_id.toString()))
+            if (cur?.moveToFirst() == true) {
                 if (!cur.isAfterLast) {
                     do {
                         notes.add(getNoteFromCursor(cur))
                     } while (cur.moveToNext())
                 }
-            }
-            else{
+            } else {
                 return notes
             }
 
@@ -266,7 +262,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             return notes
         } finally {
             cur!!.close()
-            DatabaseManager.close()
         }
         return notes
     }
@@ -277,8 +272,8 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         val DatabaseManager = this.readableDatabase
         try {
             cursor = DatabaseManager.rawQuery("SELECT COUNT($COL_N_ID) FROM $TABLE_NOTE WHERE $COL_N_CATEGORY = ?", arrayOf(cat_id.toString()))
-            if (cursor?.moveToFirst()==true) {
-                returnValue=cursor.getInt(0)
+            if (cursor?.moveToFirst() == true) {
+                returnValue = cursor.getInt(0)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -286,19 +281,18 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             return returnValue
         } finally {
             cursor?.close()
-            DatabaseManager.close()
         }
         return returnValue
     }
 
     private fun getNoteFromCursor(cur: Cursor): Note {
         val n = Note()
-        n.id=(cur.getLong(0))
-        n.tittle=(cur.getString(1))
-        n.content=(cur.getString(2))
-        n.favourite=(cur.getInt(3))
-        n.lastEdit=(cur.getLong(4))
-        n.category=getCategoryById(cur.getLong(5))?: defaultCAT
+        n.id = (cur.getLong(0))
+        n.tittle = (cur.getString(1))
+        n.content = (cur.getString(2))
+        n.favourite = (cur.getInt(3))
+        n.lastEdit = (cur.getLong(4))
+        n.category = getCategoryById(cur.getLong(5)) ?: defaultCAT
         return n
     }
 
@@ -307,28 +301,26 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
      */
 
     fun getCategoryById(id: Long): Category? {
-        var category:Category?
+        val category: Category?
         var cur: Cursor? = null
         val DatabaseManager = this.readableDatabase
         try {
-            cur = DatabaseManager.rawQuery("SELECT * FROM ${TABLE_CATEGORY} WHERE ${COL_C_ID} = ?", arrayOf(id.toString()))
+            cur = DatabaseManager.rawQuery("SELECT * FROM $TABLE_CATEGORY WHERE $COL_C_ID = ?", arrayOf(id.toString()))
             if (cur?.moveToFirst() == true) {
                 category = getCategoryByCursor(cur)
                 return category
             }
-        return null
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
-            return null
         } finally {
             cur?.close()
-            DatabaseManager.close()
         }
         return null
     }
+
     fun getCategoryByName(name: String): Category? {
-        var category:Category?
+        val category: Category?
         var cur: Cursor? = null
         val DatabaseManager = this.readableDatabase
         try {
@@ -342,7 +334,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             Log.e("Db Error", e.toString())
         } finally {
             cur?.close()
-            DatabaseManager.close()
         }
         return null
     }
@@ -367,18 +358,17 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
                 Log.e("Db Error", e.toString())
             } finally {
                 cur?.close()
-                DatabaseManager.close()
             }
             return categories
         }
 
     private fun getCategoryByCursor(cur: Cursor): Category {
         val c = Category()
-        c.id=(cur.getLong(0))
-        c.name=(cur.getString(1))
-        c.color=(cur.getString(2))
-        c.icon=(cur.getString(3))
-        c.note_count=(getNotesCountByCategoryId(c.id))
+        c.id = (cur.getLong(0))
+        c.name = (cur.getString(1))
+        c.color = (cur.getString(2))
+        c.icon = (cur.getString(3))
+        c.note_count = (getNotesCountByCategoryId(c.id))
         return c
     }
 
@@ -396,14 +386,13 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
                         } while (cur.moveToNext())
                     }
                 }
-                return categoryIcon
+                return categoryIcons
 
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("Db Error", e.toString())
             } finally {
                 cur!!.close()
-                DatabaseManager.close()
             }
             return categoryIcons
         }
@@ -422,14 +411,13 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         values.put(COL_C_ICON, category.icon)
         val DatabaseManager = this.writableDatabase
         try {
-         category.id= DatabaseManager.insert(TABLE_CATEGORY, null, values) // Inserting Row
-            Log.i(LOG,"insert cate ${category.name}")
+            category.id = DatabaseManager.insert(TABLE_CATEGORY, null, values) // Inserting Row
+            Log.i(LOG, "insert cate ${category.name}")
 //            CategoryCache.add(category)
         } catch (e: Exception) {
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()
         } finally {
-            DatabaseManager.close()
         }
     }
 
@@ -441,12 +429,11 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         val DatabaseManager = this.writableDatabase
         try {
             DatabaseManager.update(TABLE_CATEGORY, contentValues, "$COL_C_ID =${category.id}", null)
-            Log.i(LOG,"update ca:$category")
+            Log.i(LOG, "update ca:$category")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
         } finally {
-            DatabaseManager.close()
         }
     }
 
@@ -454,22 +441,22 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         val DatabaseManager = this.writableDatabase
         try {
             DatabaseManager.delete(TABLE_CATEGORY, "$COL_C_ID=$rowId", null)
-            Log.i(LOG,"delete ca $rowId")
+            Log.i(LOG, "delete ca $rowId")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
         } finally {
-            DatabaseManager.close()
+
         }
     }
 
     val firstCategory: Category
         get() {
-            var category = Category()
+            var category:Category
             var cur: Cursor? = null
             val DatabaseManager = this.readableDatabase
             try {
-                cur = DatabaseManager.rawQuery("SELECT * FROM ${TABLE_CATEGORY} ORDER BY ROWID ASC LIMIT 1 ", null)
+                cur = DatabaseManager.rawQuery("SELECT * FROM $TABLE_CATEGORY ORDER BY ROWID ASC LIMIT 1 ", null)
                 if (cur?.moveToFirst() == true) {
                     category = getCategoryByCursor(cur)
                     return category
@@ -479,7 +466,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
                 Log.e("Db Error", e.toString())
             } finally {
                 cur?.close()
-                DatabaseManager.close()
+
             }
             return defaultCAT
         }
@@ -503,14 +490,12 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
                         } while (cur.moveToNext())
                     }
                 }
-               return notes
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("DB ERROR", e.toString())
-                return notes
             } finally {
                 cur!!.close()
-                DatabaseManager.close()
+
             }
             return notes
         }
@@ -527,7 +512,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             e.printStackTrace()
             Log.e("Db Error", e.toString())
         } finally {
-            DatabaseManager.close()
+
         }
     }
 
@@ -543,7 +528,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
                 e.printStackTrace()
                 Log.e("Db Error", e.toString())
             } finally {
-                DatabaseManager.close()
+
             }
         }
     }
@@ -565,30 +550,10 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             Log.e("Db Error", e.toString())
         } finally {
             cursor?.close()
-            DatabaseManager.close()
+
         }
         return false
     }
-
-    val categorySize: Int
-        get() {
-            var returnVal = 0
-            val DatabaseManager = this.readableDatabase
-            var cursor: Cursor? = null
-            try {
-                cursor = DatabaseManager.rawQuery("SELECT COUNT(${COL_C_ID}) FROM ${TABLE_CATEGORY}", null)
-                if (cursor?.moveToFirst() == true) {
-                    returnVal = cursor.getInt(0)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("Db Error", e.toString())
-            } finally {
-                cursor!!.close()
-                DatabaseManager.close()
-            }
-            return returnVal
-        }
 
     /**
      * This is only for update 3.0
@@ -616,11 +581,11 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
     private fun getCategoryByCursorVersion3(DatabaseManager: SQLiteDatabase, cur: Cursor): Category {
         val c = Category()
-        c.id=(cur.getLong(0))
-        c.name=(cur.getString(1))
-        c.color=(cur.getString(2))
-        c.icon=(cur.getString(3))
-        c.note_count=(getNotesCountByCategoryIdVersion3(DatabaseManager, c.id))
+        c.id = (cur.getLong(0))
+        c.name = (cur.getString(1))
+        c.color = (cur.getString(2))
+        c.icon = (cur.getString(3))
+        c.note_count = (getNotesCountByCategoryIdVersion3(DatabaseManager, c.id))
         return c
     }
 
@@ -628,7 +593,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         var returnValue = 0
         var cursor: Cursor? = null
         try {
-            cursor = DatabaseManager.rawQuery("SELECT COUNT(${COL_N_ID}) FROM ${TABLE_NOTE} WHERE ${COL_N_CATEGORY} = ?", arrayOf(cat_id!!.toString() + ""))
+            cursor = DatabaseManager.rawQuery("SELECT COUNT($COL_N_ID) FROM $TABLE_NOTE WHERE $COL_N_CATEGORY = ?", arrayOf(cat_id!!.toString() + ""))
             cursor!!.moveToFirst()
             returnValue = cursor.getInt(0)
         } catch (e: Exception) {
@@ -644,7 +609,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         val notes = ArrayList<Note>()
         var cur: Cursor? = null
         try {
-            cur = DatabaseManager.rawQuery("SELECT * FROM ${TABLE_NOTE} ORDER BY ${COL_N_ID} DESC", null)
+            cur = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE ORDER BY $COL_N_ID DESC", null)
             cur!!.moveToFirst()
             if (!cur.isAfterLast) {
                 do {
@@ -662,12 +627,12 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
     private fun getNoteFromCursorVersion3(DatabaseManager: SQLiteDatabase, cur: Cursor): Note {
         val n = Note()
-        n.id=(cur.getLong(0))
-        n.tittle=(cur.getString(1))
-        n.content=(cur.getString(2))
-        n.favourite=(cur.getInt(3))
-        n.lastEdit=(cur.getLong(4))
-        n.category=(Category(cur.getLong(5), "", "", ""))
+        n.id = (cur.getLong(0))
+        n.tittle = (cur.getString(1))
+        n.content = (cur.getString(2))
+        n.favourite = (cur.getInt(3))
+        n.lastEdit = (cur.getLong(4))
+        n.category = (Category(cur.getLong(5), "", "", ""))
         return n
     }
 
@@ -689,13 +654,13 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         var ic = ""
         for (category in categories) {
             for (i in cat_icon_data.indices) {
-                ic = Tools.StringToResId(cat_icon_data[i], context!!).toString()
+                ic = Tools.StringToResId(cat_icon_data[i], context).toString()
                 if (ic == category.icon) {
                     defaultIcon = cat_icon_data[i]
                     break
                 }
             }
-            category.icon=(defaultIcon)
+            category.icon = (defaultIcon)
         }
         return categories
     }
@@ -703,12 +668,12 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     fun insertCategoryVersion3(DatabaseManager: SQLiteDatabase, categories: List<Category>) {
         var values: ContentValues
         try {
-            for (category in categories) {
+            for ((id, name, color, icon) in categories) {
                 values = ContentValues()
-                values.put(COL_C_ID, category.id)
-                values.put(COL_C_NAME, category.name)
-                values.put(COL_C_COLOR, category.color)
-                values.put(COL_C_ICON, category.icon)
+                values.put(COL_C_ID, id)
+                values.put(COL_C_NAME, name)
+                values.put(COL_C_COLOR, color)
+                values.put(COL_C_ICON, icon)
                 DatabaseManager.insert(TABLE_CATEGORY, null, values) // Inserting Row
             }
         } catch (e: Exception) {
@@ -721,14 +686,14 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     fun insertNoteVerion3(DatabaseManager: SQLiteDatabase, notes: List<Note>) {
         var values: ContentValues? = null
         try {
-            for (note in notes) {
+            for ((id, tittle, content, lastEdit, favourite, category) in notes) {
                 values = ContentValues()
-                values.put(COL_N_ID, note.id)
-                values.put(COL_N_TITLE, note.tittle)
-                values.put(COL_N_CONTENT, note.content)
-                values.put(COL_N_FAV, note.favourite)
-                values.put(COL_N_LAST_EDIT, note.lastEdit)
-                values.put(COL_N_CATEGORY, note.category!!.id)
+                values.put(COL_N_ID, id)
+                values.put(COL_N_TITLE, tittle)
+                values.put(COL_N_CONTENT, content)
+                values.put(COL_N_FAV, favourite)
+                values.put(COL_N_LAST_EDIT, lastEdit)
+                values.put(COL_N_CATEGORY, category.id)
                 DatabaseManager.insert(TABLE_NOTE, null, values)
             }
         } catch (e: Exception) {
@@ -739,9 +704,9 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     private fun createTableCategoryIconVersion3(DatabaseManager: SQLiteDatabase) {
-        val CREATE_TABLE = "CREATE TABLE ${TABLE_CATEGORY_ICON} ("+
-                COL_C_ID + " INTEGER PRIMARY KEY , "+
-                COL_C_ICON + " TEXT, "+ COL_C_COLOR + " TEXT "+" )"
+        val CREATE_TABLE = "CREATE TABLE $TABLE_CATEGORY_ICON (" +
+                COL_C_ID + " INTEGER PRIMARY KEY , " +
+                COL_C_ICON + " TEXT, " + COL_C_COLOR + " TEXT " + " )"
         try {
             DatabaseManager.execSQL(CREATE_TABLE)
         } catch (e: Exception) {
@@ -752,9 +717,9 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     private fun createTableCategoryVersion3(DatabaseManager: SQLiteDatabase) {
-        val CREATE_TABLE = "CREATE TABLE ${TABLE_CATEGORY} ("+
-                COL_C_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                COL_C_NAME + " TEXT, "+ COL_C_COLOR + " TEXT, "+ COL_C_ICON + " TEXT "+" )"
+        val CREATE_TABLE = "CREATE TABLE $TABLE_CATEGORY (" +
+                COL_C_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_C_NAME + " TEXT, " + COL_C_COLOR + " TEXT, " + COL_C_ICON + " TEXT " + " )"
         try {
             DatabaseManager.execSQL(CREATE_TABLE)
         } catch (e: Exception) {
@@ -765,8 +730,8 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     private fun createTableNoteVersion3(DatabaseManager: SQLiteDatabase) {
-        val CREATE_TABLE = "CREATE TABLE ${TABLE_NOTE} ("+
-                COL_N_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+ COL_N_TITLE + " TEXT, "+ COL_N_CONTENT + " TEXT, "+ COL_N_FAV + " INTEGER, "+ COL_N_LAST_EDIT + " NUMERIC, "+ COL_N_CATEGORY + " INTEGER, "+" FOREIGN KEY(" + COL_N_CATEGORY + ") REFERENCES " + TABLE_NOTE + "(" + COL_C_ID + ")"+")"
+        val CREATE_TABLE = "CREATE TABLE $TABLE_NOTE (" +
+                COL_N_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_N_TITLE + " TEXT, " + COL_N_CONTENT + " TEXT, " + COL_N_FAV + " INTEGER, " + COL_N_LAST_EDIT + " NUMERIC, " + COL_N_CATEGORY + " INTEGER, " + " FOREIGN KEY(" + COL_N_CATEGORY + ") REFERENCES " + TABLE_NOTE + "(" + COL_C_ID + ")" + ")"
         try {
             DatabaseManager.execSQL(CREATE_TABLE)
         } catch (e: Exception) {
@@ -793,31 +758,31 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
 
-     const   internal val DB_NAME = "noolis.DatabaseManager"
+    const internal val DB_NAME = "noolis.DatabaseManager"
 
-        const   internal val TABLE_NOTE = "note"
-        const     internal val TABLE_CATEGORY = "category"
-        const    internal val TABLE_CATEGORY_ICON = "category_icon"
+    const internal val TABLE_NOTE = "note"
+    const internal val TABLE_CATEGORY = "category"
+    const internal val TABLE_CATEGORY_ICON = "category_icon"
 
-        const   internal val COL_N_ID = "n_id"
-        const   internal val COL_N_TITLE = "n_title"
-        const    internal val COL_N_CONTENT = "n_content"
-        const    internal val COL_N_FAV = "n_favourite"
-        const    internal val COL_N_LAST_EDIT = "n_last_edit"
-        const    internal val COL_N_CATEGORY = "n_category"
+    const internal val COL_N_ID = "n_id"
+    const internal val COL_N_TITLE = "n_title"
+    const internal val COL_N_CONTENT = "n_content"
+    const internal val COL_N_FAV = "n_favourite"
+    const internal val COL_N_LAST_EDIT = "n_last_edit"
+    const internal val COL_N_CATEGORY = "n_category"
 
-        const   internal val COL_C_ID = "c_id"
-           const   internal val COL_C_NAME = "c_name"
-        const    internal val COL_C_COLOR = "c_color"
-        const   internal val COL_C_ICON = "c_icon"
+    const internal val COL_C_ID = "c_id"
+    const internal val COL_C_NAME = "c_name"
+    const internal val COL_C_COLOR = "c_color"
+    const internal val COL_C_ICON = "c_icon"
 
-        const    internal val DB_VERSION = 2
+    const internal val DB_VERSION = 2
 
     fun isnoteexits(title: String, content: String): Boolean {
         var cursor: Cursor? = null
         val DatabaseManager = this.readableDatabase
         try {
-            cursor = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE WHERE $COL_N_TITLE = ? AND $COL_N_CONTENT = ?", arrayOf(title,content))
+            cursor = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE WHERE $COL_N_TITLE = ? AND $COL_N_CONTENT = ?", arrayOf(title, content))
             if (cursor?.moveToFirst() == true) {
                 log("$title exits!")
                 return true
@@ -827,16 +792,15 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             Log.e("Db Error", e.toString())
         } finally {
             cursor?.close()
-            DatabaseManager.close()
         }
         log("$title not exits!")
         return false
     }
+
     fun insertNoteorupdate(note: Note) {
-        if (isnoteexits(note.tittle,note.content)) {
-           updateNote(note)
-        }
-        else{
+        if (isnoteexits(note.tittle, note.content)) {
+            updateNote(note)
+        } else {
             insertNote(note)
         }
     }

@@ -78,10 +78,5 @@ class MarkdownPreviewFragment : Fragment() {
         return rootView
     }
 
-    companion object {
-
-        private val LOG_TAG = MarkdownPreviewFragment::class.java.simpleName
-    }
-
 
 }

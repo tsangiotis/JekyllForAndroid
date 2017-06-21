@@ -1,79 +1,79 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">jekyll</string>
 
     <string name="app_name_ver" translatable="false">jekyll 2.3</string>
 
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
-    <string name="about_text">
+    <string name="drawer_open" tools:ignore="MissingTranslation">Open</string>
+    <string name="drawer_close" tools:ignore="MissingTranslation">Close</string>
+    <string name="about_text" tools:ignore="MissingTranslation">
         jekyll is Iconic Note Android Application. Categorize by attractive icon and color make save note more fun and easy .A very simple client to post on a Jekyll blog from your phone.
 
-It commits a yyyy-mm-dd-title.md file to the _posts/ directory of your Jekyll's blog.
+It commits a yyyy-mm-dd-title.md file to the _posts/ directory of your Jekyll\'s blog.
     </string>
 
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_pick_category">Select Category</string>
+    <string name="title_activity_main" tools:ignore="MissingTranslation">MainActivity</string>
+    <string name="title_activity_pick_category" tools:ignore="MissingTranslation">Select Category</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" tools:ignore="MissingTranslation">Open navigation drawer</string>
+    <string name="navigation_drawer_close" tools:ignore="MissingTranslation">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
 
-    <string name="str_nav_inbox">Inbox</string>
-    <string name="str_nav_outbox">Outbox</string>
-    <string name="str_nav_people">Peoples</string>
-    <string name="str_nav_trash">Trash</string>
+    <string name="str_nav_inbox" tools:ignore="MissingTranslation">Inbox</string>
+    <string name="str_nav_outbox" tools:ignore="MissingTranslation">Outbox</string>
+    <string name="str_nav_people" tools:ignore="MissingTranslation">Peoples</string>
+    <string name="str_nav_trash" tools:ignore="MissingTranslation">Trash</string>
 
-    <string name="str_nav_setting">Settings</string>
-    <string name="str_nav_help">Help &amp; Feedback</string>
+    <string name="str_nav_setting" tools:ignore="MissingTranslation">Settings</string>
+    <string name="str_nav_help" tools:ignore="MissingTranslation">Help &amp; Feedback</string>
     <!--exit notification-->
-    <string name="press_again_exit_app">Press again to exit</string>
+    <string name="press_again_exit_app" tools:ignore="MissingTranslation">Press again to exit</string>
 
     <!--drawer here -->
-    <string name="str_nav_all_note">All Note</string>
-    <string name="str_nav_fav">Favourite</string>
-    <string name="str_nav_cat">Category</string>
-    <string name="str_nav_rate">Rate</string>
-    <string name="str_nav_about">About</string>
+    <string name="str_nav_all_note" tools:ignore="MissingTranslation">All Note</string>
+    <string name="str_nav_fav" tools:ignore="MissingTranslation">Favourite</string>
+    <string name="str_nav_cat" tools:ignore="MissingTranslation">Category</string>
+    <string name="str_nav_rate" tools:ignore="MissingTranslation">Rate</string>
+    <string name="str_nav_about" tools:ignore="MissingTranslation">About</string>
 
-    <string name="str_user_name">Sample Name</string>
-    <string name="str_drawer_edit">Edit Your Name</string>
+    <string name="str_user_name" tools:ignore="MissingTranslation">Sample Name</string>
+    <string name="str_drawer_edit" tools:ignore="MissingTranslation">Edit Your Name</string>
 
     <!--Replace with your own interstitial ad unit id. -->
-    <string name="interstitial_ad_unit_id">ca-app-pub-3239677920600357/3800624160</string>
+    <string name="interstitial_ad_unit_id" tools:ignore="MissingTranslation">ca-app-pub-3239677920600357/3800624160</string>
 
     <!-- This is an ad unit ID for a test ad. Replace with your own banner ad unit id. -->
-    <string name="banner_ad_unit_id">ca-app-pub-3239677920600357/2323890961</string>
-    <string name="set_your_name">Set Your Name</string>
-    <string name="setname_save">Save</string>
-    <string name="hint_name">Name</string>
-    <string name="hint_note_title">Title</string>
-    <string name="hint_note_c">Note</string>
-    <string name="note_save">save</string>
-    <string name="category_name">Name</string>
-    <string name="time_edited">Edited :</string>
-    <string name="Removedfromfavorites">Removed from favorites</string>
-    <string name="Addedtofavorites">Added to favorites</string>
-    <string name="Contentcannotbeempty">Tittle or Content can\'t be empty</string>
-    <string name="notesaved">Note Saved</string>
-    <string name="noteupdate">Note Updated</string>
-    <string name="SaveConfirmation">Save Confirmation</string>
-    <string name="doyouwanttosave">Do you want to save?</string>
-    <string name="yes">Yes</string>
-    <string name="SaveConfirmation1">Delete Confirmation</string>
-    <string name="areyouwantdelete">Are you sure want to delete this Note?</string>
-    <string name="notedeleted">Note Deleted</string>
-    <string name="no">No</string>
-    <string name="ratethisapp">Rate This App</string>
-    <string name="name_changed">Name successfully changed</string>
-    <string name="namecannotempty">Name cannot empty</string>
-    <string name="categorynamecanno_empty">Category Name or Icon can\'t be empty</string>
-    <string name="category_updated">Category updated</string>
-    <string name="categorysaved">Category saved</string>
-    <string name="Categoryisnotempty">Category is not empty</string>
-    <string name="deleteconfirmation">Delete Confirmation</string>
-    <string name="areyousuredeletec">Are you sure want to delete this Category?</string>
-    <string name="categorydeleted">Category Deleted</string>
-    <string name="str_nav_logingithub">github</string>
+    <string name="banner_ad_unit_id" tools:ignore="MissingTranslation">ca-app-pub-3239677920600357/2323890961</string>
+    <string name="set_your_name" tools:ignore="MissingTranslation">Set Your Name</string>
+    <string name="setname_save" tools:ignore="MissingTranslation">Save</string>
+    <string name="hint_name" tools:ignore="MissingTranslation">Name</string>
+    <string name="hint_note_title" tools:ignore="MissingTranslation">Title</string>
+    <string name="hint_note_c" tools:ignore="MissingTranslation">Note</string>
+    <string name="note_save" tools:ignore="MissingTranslation">save</string>
+    <string name="category_name" tools:ignore="MissingTranslation">Name</string>
+    <string name="time_edited" tools:ignore="MissingTranslation">Edited :</string>
+    <string name="Removedfromfavorites" tools:ignore="MissingTranslation">Removed from favorites</string>
+    <string name="Addedtofavorites" tools:ignore="MissingTranslation">Added to favorites</string>
+    <string name="Contentcannotbeempty" tools:ignore="MissingTranslation">Tittle or Content can\'t be empty</string>
+    <string name="notesaved" tools:ignore="MissingTranslation">Note Saved</string>
+    <string name="noteupdate" tools:ignore="MissingTranslation">Note Updated</string>
+    <string name="SaveConfirmation" tools:ignore="MissingTranslation">Save Confirmation</string>
+    <string name="doyouwanttosave" tools:ignore="MissingTranslation">Do you want to save?</string>
+    <string name="yes" tools:ignore="MissingTranslation">Yes</string>
+    <string name="SaveConfirmation1" tools:ignore="MissingTranslation">Delete Confirmation</string>
+    <string name="areyouwantdelete" tools:ignore="MissingTranslation">Are you sure want to delete this Note?</string>
+    <string name="notedeleted" tools:ignore="MissingTranslation">Note Deleted</string>
+    <string name="no" tools:ignore="MissingTranslation">No</string>
+    <string name="ratethisapp" tools:ignore="MissingTranslation">Rate This App</string>
+    <string name="name_changed" tools:ignore="MissingTranslation">Name successfully changed</string>
+    <string name="namecannotempty" tools:ignore="MissingTranslation">Name cannot empty</string>
+    <string name="categorynamecanno_empty" tools:ignore="MissingTranslation">Category Name or Icon can\'t be empty</string>
+    <string name="category_updated" tools:ignore="MissingTranslation">Category updated</string>
+    <string name="categorysaved" tools:ignore="MissingTranslation">Category saved</string>
+    <string name="Categoryisnotempty" tools:ignore="MissingTranslation">Category is not empty</string>
+    <string name="deleteconfirmation" tools:ignore="MissingTranslation">Delete Confirmation</string>
+    <string name="areyousuredeletec" tools:ignore="MissingTranslation">Are you sure want to delete this Category?</string>
+    <string name="categorydeleted" tools:ignore="MissingTranslation">Category Deleted</string>
+    <string name="str_nav_logingithub" tools:ignore="MissingTranslation">github</string>
 
 </resources>

@@ -56,6 +56,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             defineCategoryIconVersion3(db)
             insertCategoryVersion3(db, redefineCategoryVersion3(categories))
             insertNoteVerion3(db, notes)
+            NoteCache.clear()
+            CategoryCache.clear()
         }
 
     }
@@ -69,6 +71,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
                 ") REFERENCES " + TABLE_CATEGORY + "(" + COL_C_ID + ")"+")"
         try {
             db.execSQL(CREATE_TABLE)
+            NoteCache.clear()
         } catch (e: Exception) {
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()
@@ -83,6 +86,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
                 " TEXT, "+ COL_C_ICON + " TEXT "+" )"
         try {
             db.execSQL(CREATE_TABLE)
+            CategoryCache.clear()
         } catch (e: Exception) {
             Log.e("DB ERROR", e.toString())
             e.printStackTrace()
@@ -99,8 +103,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             values.put(COL_C_COLOR, cat_color[i])
             values.put(COL_C_ICON, cat_icon[i])
             Log.e("ICON : ", i.toString() + " | " + cat_icon[i])
-            db.insert(TABLE_CATEGORY, null, values) // Inserting Row
-            var ca = Category(id = cat_id[i].toLong(), name = cat_name[i], color = cat_color[i], icon = cat_icon[i])
+         val id=  db.insert(TABLE_CATEGORY, null, values) // Inserting Row
+            var ca = Category(id = id, name = cat_name[i], color = cat_color[i], icon = cat_icon[i])
             CategoryCache.add(ca)
         }
         db.close()
@@ -191,7 +195,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         }
     }
 
-    operator fun get(id: Long): Note {
+    operator fun get(id: Long): Note? {
         var r=NoteCache.find { it.id == id }
         if (r!==null)return r
         val db = this.readableDatabase
@@ -199,11 +203,12 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         var cur: Cursor?
         try {
             cur = db.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_ID} = ?", arrayOf(id.toString()))
-            cur?.moveToFirst()?:return note
+            cur?.moveToFirst()?:return null
             note = getNoteFromCursor(cur)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
+            return null
         } finally {
             db.close()
         }
@@ -212,7 +217,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
     val allNotes: List<Note>
         get() {
-            if (NoteCache.size > 3) {
+            if (NoteCache.size > 0) {
                 return NoteCache
             }
             val notes = ArrayList<Note>()
@@ -229,6 +234,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("DB ERROR", e.toString())
+                return notes
             } finally {
                 cur?.close()
                 db.close()
@@ -241,10 +247,10 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val notes = ArrayList<Note>()
         if (NoteCache.size > 0 && CategoryCache.size > 0) {
             var categorys=CategoryCache.find { it.id==cat_id }
-            if (categorys == null) {
-                categorys=firstCategory
-            }
-            NoteCache.filter { it.category==categorys }.forEach { notes.add(it) }
+//            if (categorys == null) {
+//                categorys=firstCategory
+//            }
+            NoteCache.filter { it.category.name==categorys?.name }.forEach { notes.add(it) }
             return notes
         }
         var cur: Cursor? = null
@@ -260,6 +266,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("DB ERROR", e.toString())
+            return notes
         } finally {
             cur!!.close()
             db.close()
@@ -282,6 +289,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("DB ERROR", e.toString())
+            return returnValue
         } finally {
             cursor?.close()
             db.close()
@@ -304,7 +312,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
      * All Category transaction
      */
 
-    fun getCategoryById(id: Long): Category {
+    fun getCategoryById(id: Long): Category? {
         var r=CategoryCache.find { it.id==id }
         if (r!==null)return r
         var category = Category()
@@ -312,14 +320,14 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         val db = this.readableDatabase
         try {
             cur = db.rawQuery("SELECT * FROM ${TABLE_CATEGORY} WHERE ${COL_C_ID} = ?", arrayOf(id.toString()))
-       var b=    cur?.moveToFirst()?:return category
-            if (!b) {
-                return category
-            }
+         cur?.moveToFirst()?:return null
             category = getCategoryByCursor(cur)
+            category.id=id
+            CategoryCache.add(category)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
+            return null
         } finally {
             cur?.close()
             db.close()
@@ -346,6 +354,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("Db Error", e.toString())
+                return categories
             } finally {
                 cur?.close()
                 db.close()

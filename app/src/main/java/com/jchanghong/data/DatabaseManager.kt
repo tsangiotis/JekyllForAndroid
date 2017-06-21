@@ -304,7 +304,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         n.content=(cur.getString(2))
         n.favourite=(cur.getInt(3))
         n.lastEdit=(cur.getLong(4))
-        n.category=(getCategoryById(cur.getLong(5)))
+        n.category=(getCategoryById(cur.getLong(5))?:firstCategory)
         return n
     }
 
@@ -505,6 +505,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("DB ERROR", e.toString())
+                return notes
             } finally {
                 cur!!.close()
                 db.close()

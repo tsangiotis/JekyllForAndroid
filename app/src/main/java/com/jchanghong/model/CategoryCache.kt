@@ -20,6 +20,7 @@ object CategoryCache : ArrayList<Category>() {
             me.color = cat.color
             me.note_count = cat.note_count
             me.icon = cat.icon
+            me.icon=cat.icon
         }
     }
 }

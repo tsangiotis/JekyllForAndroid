@@ -397,7 +397,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     fun insertCategory(category: Category) {
-        Log.i(LOG,"insert cate ${category.name}")
         val values = ContentValues()
         values.put(COL_C_NAME, category.name)
         values.put(COL_C_COLOR, category.color)
@@ -405,6 +404,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         val DatabaseManager = this.writableDatabase
         try {
          category.id= DatabaseManager.insert(TABLE_CATEGORY, null, values) // Inserting Row
+            Log.i(LOG,"insert cate ${category.name}")
 //            CategoryCache.add(category)
         } catch (e: Exception) {
             Log.e("DB ERROR", e.toString())
@@ -415,7 +415,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     fun updateCategory(category: Category) {
-        Log.i(LOG,"update ca:$category")
         val contentValues = ContentValues()
         contentValues.put(COL_C_ICON, category.icon)
         contentValues.put(COL_C_COLOR, category.color)
@@ -423,7 +422,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         val DatabaseManager = this.writableDatabase
         try {
             DatabaseManager.update(TABLE_CATEGORY, contentValues, "$COL_C_ID =${category.id}", null)
-//            CategoryCache.updateme(category.id,category)
+            Log.i(LOG,"update ca:$category")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -433,11 +432,10 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     fun deleteCategory(rowId: Long) {
-        Log.i(LOG,"delete ca $rowId")
         val DatabaseManager = this.writableDatabase
         try {
             DatabaseManager.delete(TABLE_CATEGORY, "$COL_C_ID=$rowId", null)
-//            CategoryCache.remove(rowId)
+            Log.i(LOG,"delete ca $rowId")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())

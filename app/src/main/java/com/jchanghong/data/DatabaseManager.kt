@@ -194,15 +194,18 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     operator fun get(id: Long): Note? {
-//        var r=NoteCache.find { it.id == id }
-//        if (r!==null)return r
         val DatabaseManager = this.readableDatabase
         var note:Note
         var cur: Cursor?
         try {
             cur = DatabaseManager.rawQuery("SELECT * FROM ${TABLE_NOTE} WHERE ${COL_N_ID} = ?", arrayOf(id.toString()))
-            cur?.moveToFirst()?:return null
-            note = getNoteFromCursor(cur)
+            if (cur?.moveToFirst() == true) {
+
+                note = getNoteFromCursor(cur)
+            }
+            else{
+                return null
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -215,9 +218,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
     val allNotes: List<Note>
         get() {
-//            if (NoteCache.size > 0) {
-//                return NoteCache
-//            }
             val notes = ArrayList<Note>()
             val DatabaseManager = this.readableDatabase
             var cur: Cursor? = null
@@ -245,14 +245,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
     fun getNotesByCategoryId(cat_id: Long): List<Note> {
         val notes = ArrayList<Note>()
-//        if (NoteCache.size > 0 && CategoryCache.size > 0) {
-//            var categorys=CategoryCache.find { it.id==cat_id }
-//            if (categorys == null) {
-//                categorys=firstCategory
-//            }
-//            NoteCache.filter { it.category.name==categorys?.name }.forEach { notes.add(it) }
-//            return notes
-//        }
         var cur: Cursor? = null
         val DatabaseManager = this.readableDatabase
         try {
@@ -280,17 +272,14 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     }
 
     fun getNotesCountByCategoryId(cat_id: Long): Int {
-//        val size = getNotesByCategoryId(cat_id).size
-//        if (size > -1) {
-//            return size
-//        }
         var returnValue = 0
         var cursor: Cursor? = null
         val DatabaseManager = this.readableDatabase
         try {
-            cursor = DatabaseManager.rawQuery("SELECT COUNT(${COL_N_ID}) FROM ${TABLE_NOTE} WHERE ${COL_N_CATEGORY} = ?", arrayOf(cat_id.toString()))
-            cursor?.moveToFirst()?:return returnValue
-            returnValue = cursor.getInt(0)
+            cursor = DatabaseManager.rawQuery("SELECT COUNT($COL_N_ID) FROM $TABLE_NOTE WHERE $COL_N_CATEGORY = ?", arrayOf(cat_id.toString()))
+            if (cursor?.moveToFirst()==true) {
+                returnValue=cursor.getInt(0)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("DB ERROR", e.toString())
@@ -309,7 +298,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         n.content=(cur.getString(2))
         n.favourite=(cur.getInt(3))
         n.lastEdit=(cur.getLong(4))
-        n.category=getCategoryById(cur.getLong(5))?:firstCategory
+        n.category=getCategoryById(cur.getLong(5))?: defaultCAT
         return n
     }
 
@@ -318,9 +307,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
      */
 
     fun getCategoryById(id: Long): Category? {
-//        var r=CategoryCache.find { it.id==id }
-//        if (r!==null)return r
-        var category:Category
+        var category:Category?
         var cur: Cursor? = null
         val DatabaseManager = this.readableDatabase
         try {
@@ -330,7 +317,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
                 return category
             }
         return null
-//            CategoryCache.add(category)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -344,9 +330,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
 
     val allCategory: List<Category>
         get() {
-//            if (CategoryCache.size > 0) {
-//                return CategoryCache
-//            }
             val categories = ArrayList<Category>()
             var cur: Cursor? = null
             val DatabaseManager = this.readableDatabase
@@ -358,18 +341,15 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
                             categories.add(getCategoryByCursor(cur))
                         } while (cur.moveToNext())
                     }
-                    return categories
                 }
                 return categories
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("Db Error", e.toString())
-                return categories
             } finally {
                 cur?.close()
                 DatabaseManager.close()
             }
-//            CategoryCache.addAll(categories)
             return categories
         }
 

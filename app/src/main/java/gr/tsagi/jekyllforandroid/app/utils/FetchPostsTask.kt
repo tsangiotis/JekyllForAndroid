@@ -71,6 +71,8 @@ class FetchPostsTask( c: Context?, log: TextView?) : AsyncTask<Void, String, Voi
             if (post.type == "blob") {
 
                 val filename = post.path
+                println(post.url+"------------")
+                println(post.path+"------------")
                 val filenameParts = filename.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 val id = filenameParts[0]
 

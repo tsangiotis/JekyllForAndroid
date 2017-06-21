@@ -267,7 +267,7 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
 
     fun getNotesCountByCategoryId(cat_id: Long): Int {
         val size = getNotesByCategoryId(cat_id).size
-        if (size > 0) {
+        if (size > -1) {
             return size
         }
         var returnValue = 0

@@ -535,11 +535,12 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
      */
     private fun isFavoriteExist(id: Long): Boolean {
         var cursor: Cursor? = null
-        var count = 0
         val DatabaseManager = this.readableDatabase
         try {
             cursor = DatabaseManager.rawQuery("SELECT * FROM $TABLE_NOTE WHERE $COL_N_ID = ?", arrayOf(id.toString()))
-            count = cursor?.count?:0
+            if (cursor?.moveToFirst() == true) {
+                return true
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Db Error", e.toString())
@@ -547,13 +548,11 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
             cursor?.close()
             DatabaseManager.close()
         }
-        return count > 0
+        return false
     }
 
     val categorySize: Int
         get() {
-            if (allCategory.size>0)
-            return allCategory.size
             var returnVal = 0
             val DatabaseManager = this.readableDatabase
             var cursor: Cursor? = null
@@ -561,7 +560,6 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
                 cursor = DatabaseManager.rawQuery("SELECT COUNT(${COL_C_ID}) FROM ${TABLE_CATEGORY}", null)
                 if (cursor?.moveToFirst() == true) {
                     returnVal = cursor.getInt(0)
-
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

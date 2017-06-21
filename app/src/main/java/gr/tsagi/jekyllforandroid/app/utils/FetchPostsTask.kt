@@ -70,8 +70,11 @@ class FetchPostsTask(c: Context?, log: TextView?) : AsyncTask<Void, String, Void
      * Take the List with the posts and parse the posts for data
      *postslist: post目录
      * 可能有子目录
+     * currentparent当前列表的父目录。
+     * 也就是分类。
+     * 比如blog。project
      */
-    private fun getPostDataFromList(repository: Repository, postslist: List<TreeEntry>, type: Int) {
+    private fun getPostDataFromList(repository: Repository, postslist: List<TreeEntry>, type: Int,currentparent:String?) {
         prin(postslist.size)
         // Get and insert the new posts information into the database
         for (post in postslist) {
@@ -100,11 +103,11 @@ class FetchPostsTask(c: Context?, log: TextView?) : AsyncTask<Void, String, Void
                 val blobBytes = postBlob?.content
                 publishProgress("loading $id...")
                 allnotes.add(parsePostData.getNoteFrombyte(id, filename!!,
-                        blobBytes ?: "null", type))
+                        blobBytes ?: "null", type,currentparent?:""))
             } else {
                 try {
                     val subdir = dataService.getTree(repository, post.sha).tree
-                    getPostDataFromList(repository, subdir, type)
+                    getPostDataFromList(repository, subdir, type,post.path)
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
@@ -181,7 +184,7 @@ class FetchPostsTask(c: Context?, log: TextView?) : AsyncTask<Void, String, Void
 
             if (pPos != "") {
                 val postslist = dataService.getTree(repository, pPos).tree
-                getPostDataFromList(repository, postslist, 0)
+                getPostDataFromList(repository, postslist, 0,null)
             }
             //            if (!dPos.equals("")) {
             //                List<TreeEntry> draftslist = dataService.getTree(repository, dPos).getTree();

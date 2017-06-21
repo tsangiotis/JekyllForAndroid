@@ -24,10 +24,12 @@ class ParsePostData {
     internal val JK_CATEGORY = "category"
     internal val JK_TAGS = "tags"
 
-    fun getNoteFrombyte(id: String, path: String, contentBytes: String, type: Int): Note {
+    fun getNoteFrombyte(id: String, path: String, contentBytes: String, type: Int, currentparent: String): Note {
 
+//        Log.d("jiangchanghong",currentparent+"")
         // Get and insert the new posts information into the database
         val note = Note()
+        note.parentPath=currentparent
         // Blobs return with Base64 encoding so we have to UTF-8 them.
         val bytes = Base64.decode(contentBytes, Base64.DEFAULT)
         val postContent: String =
@@ -38,49 +40,6 @@ class ParsePostData {
                     ""
                 }
         note.content = postContent
-
-//        val stringBuilder = StringBuilder()
-//
-//        val inputStream: InputStream
-//        val r: BufferedReader
-//
-//        inputStream = ByteArrayInputStream(postContent?.toByteArray())
-//        // read it with BufferedReader
-//        r = BufferedReader(InputStreamReader(inputStream))
-//        var line: String?
-//
-//        var yaml_dash = 0
-//        var yamlStr = ""
-//        try {
-//            while (true) {
-//                line = r.readLine()
-//                if (line == null) {
-//                    break
-//                }
-//                if (line == "---") {
-//                    yaml_dash++
-//                }
-//                if (yaml_dash < 2) {
-//                    if (line != "---")
-//                        yamlStr = yamlStr + line + "\n"
-//                }
-//                if (yaml_dash >= 2) {
-//                    if (line != "---")
-//                        if (line == "")
-//                            stringBuilder.append("\n")
-//                        else
-//                            stringBuilder.append(line)
-//                }
-//            }
-//            inputStream.close()
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//        }
-//
-//
-//        val content = stringBuilder.toString()
-//
-
         val yaml = Yaml()
         val map: Map<*, *>?
         map = yaml.load(postContent.getyam()) as? Map<*, *>

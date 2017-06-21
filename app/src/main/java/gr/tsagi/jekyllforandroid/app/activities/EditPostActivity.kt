@@ -227,7 +227,7 @@ class EditPostActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
         val pusher = GithubPush(this)
 
         try {
-            pusher.pushContent(title, date, output + content, "")
+            pusher.pushContent(title, date, output + content, "","")
         } catch (e: ExecutionException) {
             e.printStackTrace()
         } catch (e: InterruptedException) {

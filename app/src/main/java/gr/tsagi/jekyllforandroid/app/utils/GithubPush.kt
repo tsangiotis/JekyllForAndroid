@@ -44,12 +44,17 @@ class GithubPush(mActivity: Activity) {
     }
 
     @Throws(ExecutionException::class, InterruptedException::class)
-    fun pushContent(title: String, date: String, content: String, category: String) {
+    fun pushContent(title: String, date: String, content: String, category: String,parent:String?) {
         // set path
         var path = date + "-" + title.toLowerCase().replace(' ', '-')
                 .replace(",", "").replace("!", "").replace(".", "") + ".md"
 //        path = "_posts/" + dir + path
-        path = "_posts/$category/$path"
+        if (parent == "") {
+            path = "_posts/$category/$path"
+        }
+        else{
+            path = "_posts/$parent/$path"
+        }
         val commitMessage = "Update/New Post from Jekyll for Android"
         PushFile().execute(content, path, commitMessage)
 

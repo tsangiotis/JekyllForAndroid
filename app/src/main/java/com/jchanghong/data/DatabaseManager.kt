@@ -74,7 +74,9 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         val CREATE_TABLE = "CREATE TABLE $TABLE_NOTE (" +
                 COL_N_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_N_TITLE +
                 " TEXT, " + COL_N_CONTENT + " TEXT, " + COL_N_FAV + " INTEGER, " +
-                COL_N_LAST_EDIT + " NUMERIC, " + COL_N_CATEGORY +
+                COL_N_LAST_EDIT + " NUMERIC, " +
+                COL_N_pPATH+"  TEXT, "+
+                COL_N_CATEGORY +
                 " INTEGER, " + " FOREIGN KEY(" + COL_N_CATEGORY +
                 ") REFERENCES " + TABLE_CATEGORY + "(" + COL_C_ID + ")" + ")"
         try {
@@ -151,6 +153,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         values.put(COL_N_CONTENT, note.content)
         values.put(COL_N_FAV, note.favourite)
         values.put(COL_N_LAST_EDIT, note.lastEdit)
+        values.put(COL_N_pPATH,note.parentPath)
         values.put(COL_N_CATEGORY, note.category.id)
         val DatabaseManager = this.writableDatabase
         try {
@@ -182,6 +185,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         contentValues.put(COL_N_TITLE, note.tittle)
         contentValues.put(COL_N_CONTENT, note.content)
         contentValues.put(COL_N_LAST_EDIT, note.lastEdit)
+        contentValues.put(COL_N_pPATH,note.parentPath)
         contentValues.put(COL_N_CATEGORY, note.category.id)
         val DatabaseManager = this.writableDatabase
         try {
@@ -292,7 +296,8 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
         n.content = (cur.getString(2))
         n.favourite = (cur.getInt(3))
         n.lastEdit = (cur.getLong(4))
-        n.category = getCategoryById(cur.getLong(5)) ?: defaultCAT
+        n.parentPath=cur.getString(5)
+        n.category = getCategoryById(cur.getLong(6)) ?: defaultCAT
         return n
     }
 
@@ -494,7 +499,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
                 e.printStackTrace()
                 Log.e("DB ERROR", e.toString())
             } finally {
-                cur!!.close()
+                cur?.close()
 
             }
             return notes
@@ -686,13 +691,14 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     fun insertNoteVerion3(DatabaseManager: SQLiteDatabase, notes: List<Note>) {
         var values: ContentValues? = null
         try {
-            for ((id, tittle, content, lastEdit, favourite, category) in notes) {
+            for ((id, tittle, content, lastEdit, favourite,path, category) in notes) {
                 values = ContentValues()
                 values.put(COL_N_ID, id)
                 values.put(COL_N_TITLE, tittle)
                 values.put(COL_N_CONTENT, content)
                 values.put(COL_N_FAV, favourite)
                 values.put(COL_N_LAST_EDIT, lastEdit)
+                values.put(COL_N_pPATH,path )
                 values.put(COL_N_CATEGORY, category.id)
                 DatabaseManager.insert(TABLE_NOTE, null, values)
             }
@@ -769,6 +775,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     const internal val COL_N_CONTENT = "n_content"
     const internal val COL_N_FAV = "n_favourite"
     const internal val COL_N_LAST_EDIT = "n_last_edit"
+    const internal val COL_N_pPATH = "n_server_path"
     const internal val COL_N_CATEGORY = "n_category"
 
     const internal val COL_C_ID = "c_id"
@@ -776,7 +783,7 @@ object DatabaseManager : SQLiteOpenHelper(GlobalApplication.mcontext, DB_NAME, n
     const internal val COL_C_COLOR = "c_color"
     const internal val COL_C_ICON = "c_icon"
 
-    const internal val DB_VERSION = 2
+    const internal val DB_VERSION = 1
 
     fun isnoteexits(title: String, content: String): Boolean {
         var cursor: Cursor? = null

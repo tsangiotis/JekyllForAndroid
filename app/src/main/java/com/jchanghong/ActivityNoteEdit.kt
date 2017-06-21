@@ -247,9 +247,9 @@ class ActivityNoteEdit : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (ext_note != null) {
-            if (tittle .text.toString() != ext_note?.tittle ||
-                    content .text.toString() != ext_note?.content ||
-                    cur_category?.id != ext_note?.category?.id?:1) {
+            if (tittle .text.toString() != ext_note!!.tittle ||
+                    content .text.toString() != ext_note!!.content.removeyam() ||
+                    cur_category?.id != ext_note!!.category.id) {
                 backConfirmation()
             } else {
                 finish()

@@ -1,10 +1,12 @@
 # Jekyll for Android 
 
 
-# Jekyll博客安卓app
+# Jekyll博客安卓客户端
+## 在手机上随时随地发随笔博客
 
- [apk](https://github.com/tsangiotis/JekyllForAndroid/tree/master/imagesAndApp/release/app.apk)
- [apk](https://github.com/tsangiotis/JekyllForAndroid/blob/master/imagesAndApp/images.md)
+* [点击下载安卓apk文件](https://github.com/tsangiotis/JekyllForAndroid/tree/master/imagesAndApp/release/app.apk)
+* [查看所有截图](https://github.com/tsangiotis/JekyllForAndroid/blob/master/imagesAndApp/images.md)
+* [app对应的jekyll博客网页端demo](http://jchanghong.com/)
 
 ###### android app Written in kotlin language
 

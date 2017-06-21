@@ -35,6 +35,8 @@ class DatabaseManager(private val context: Context) : SQLiteOpenHelper(context, 
         createTableNote(db)
         createTableCategory(db)
         createTableCategoryIcon(db)
+        NoteCache.clear()
+        CategoryCache.clear()
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

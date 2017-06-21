@@ -15,6 +15,7 @@
 ---
 
 ###### android app Written in kotlin language
+######  English is behind
 
 # 部分截图
 * app截图
@@ -38,8 +39,11 @@
 # To compile
 
 Download [ADT Bundle](http://developer.android.com/sdk/index.html) and Import the Project.
+下载android studio 导入工程
 
-==========
+ ------
+
+
 
 # about
 

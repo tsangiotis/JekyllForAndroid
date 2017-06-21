@@ -14,8 +14,9 @@
 
 ---
 
-###### android app Written in kotlin language
-######  English is behind
+ *android app Written in kotlin language*
+
+ *English is behind*
 
 # 部分截图
 * app截图

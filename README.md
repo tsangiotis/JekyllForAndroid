@@ -16,7 +16,9 @@
 ---
 
  `android app Written in kotlin language`
- `欢迎star，fork，pr`
+ 
+ `welcome star，fork，pr`
+ 
  `English is behind`
 
 # 部分截图

@@ -8,13 +8,13 @@
  同时以友好的用户界面显示。
 
  
----
+
 
 * [点击下载安卓apk文件(Download apk file)](https://github.com/tsangiotis/JekyllForAndroid/tree/master/imagesAndApp/release/app.apk)
 * [查看所有截图(View all screenshots)](https://github.com/tsangiotis/JekyllForAndroid/blob/master/imagesAndApp/images.md)
 * [app对应的jekyll博客网页端demo(my jekyll blog demo)](http://jchanghong.com/)
 
----
+
 
  `android app Written in kotlin language`
  
@@ -22,7 +22,7 @@
  
  `English is behind`
  
- ---
+ 
  
  # 为什么我们需要jekyll博客？
  
@@ -32,7 +32,7 @@
 * 为什么不用国内博客网站？想想以前百度空间的命吧和各种网盘的命吧。。。
  
  
- ---
+ 
  
 
 # 部分截图
@@ -42,7 +42,7 @@
 * web截图
   ![dd](https://github.com/tsangiotis/JekyllForAndroid/blob/master/imagesAndApp/QQ%E6%88%AA%E5%9B%BE20170621195213.png)
 
----
+
 
 # 功能
 * GitHub登录

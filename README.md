@@ -7,14 +7,14 @@
  简单点说，它向Jekyll博客的`_posts /`目录或者子目录提交了一个`yyyy-mm-dd-title.md`这样的文件。
  同时以友好的用户界面显示。
 
- 
+ ---
 
 
 * [点击下载安卓apk文件(Download apk file)](https://github.com/tsangiotis/JekyllForAndroid/tree/master/imagesAndApp/release/app.apk)
 * [查看所有截图(View all screenshots)](https://github.com/tsangiotis/JekyllForAndroid/blob/master/imagesAndApp/images.md)
 * [app对应的jekyll博客网页端demo(my jekyll blog demo)](http://jchanghong.com/)
 
-
+---
 
  `android app Written in kotlin language`
  

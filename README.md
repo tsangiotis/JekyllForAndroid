@@ -2,11 +2,16 @@
 
 # Jekyll博客安卓客户端
 
- 用Github Pages和Jekyll搭建一个免费的，无限流量的Blog，在手机上随时随地发布blog和随笔。
+ 用Github Pages和Jekyll搭建一个免费的，无限流量的Blog，并且在手机上可以随时随地发布blog和随笔。
  不用关心jekyll的各种yam格式。你只用关心你的blog内容。
  简单点说，它向Jekyll博客的`_posts /`目录或者子目录提交了一个`yyyy-mm-dd-title.md`这样的文件。
  同时以友好的用户界面显示。
+# 为什么我们需要jekyll博客？
 
+ * jekyll博客可以方便在放在github上面，不用自己买vps。更安全有木有？
+ * 当你想迁移到自己的服务器的时候，jekyll很方便，因为都是用markdown文档写的嘛。
+ * 为什么不用国内博客网站？想想以前百度空间的命吧。。。
+ 
 ---
 
 * [点击下载安卓apk文件(Download apk file)](https://github.com/tsangiotis/JekyllForAndroid/tree/master/imagesAndApp/release/app.apk)
